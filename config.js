@@ -1,5 +1,5 @@
 window.HARI_CONFIG = {
-  apiBase: "", // e.g. https://your-backend.onrender.com
-  supabaseUrl: "", // https://YOUR_PROJECT.supabase.co
-  supabaseAnonKey: "" // Supabase publishable key (public)
+  apiBase: "https://harigroup.onrender.com", 
+  supabaseUrl: "https://tqescomeqgjzxryihrfp.supabase.co",
+  supabaseAnonKey: "sb_publishable_tKgCz2tMNpn3pMtJOAIPBQ_PrHJMywe"
 };
