@@ -81,3 +81,66 @@ async def orders(_=Depends(authorized)):
 async def watchlists(_=Depends(authorized)):
     result = await chem('watchlist/load')
     return {scope: [{'name': w.get('name'), 'id': w.get('id')} for w in entries] for scope, entries in result.items() if isinstance(entries, list)} if isinstance(result, dict) else {}
+
+# V2: public PubChem resolution. Never transmit ChemInventory tokens to PubChem.
+import re
+from fastapi import Body
+from pydantic import BaseModel
+CAS_RE = re.compile(r'^\d{2,7}-\d{2}-\d$')
+PUBCHEM = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug'
+
+class StructureQuery(BaseModel):
+    smiles: str = Field(min_length=1, max_length=350)
+
+async def pubchem_cid(identifier: str, namespace: str = 'name'):
+    try:
+        async with httpx.AsyncClient(timeout=18, follow_redirects=False) as client:
+            # POST avoids encoding problems for SMILES with #, /, +, etc.
+            r = await client.post(f'{PUBCHEM}/compound/{namespace}/cids/JSON', data={namespace: identifier})
+            if r.status_code in (400, 404): return None
+            r.raise_for_status()
+            ids = r.json().get('IdentifierList', {}).get('CID', [])
+            return ids[0] if ids else None
+    except (httpx.HTTPError, ValueError, KeyError):
+        return None
+
+@app.get('/api/structure/resolve')
+async def resolve_structure(cas: str = '', name: str = '', _=Depends(authorized)):
+    identifier = cas.strip() if cas.strip() else name.strip()
+    if not identifier or len(identifier) > 180:
+        raise HTTPException(400, 'Provide a chemical name or CAS number')
+    cid = await pubchem_cid(identifier)
+    return {'cid': cid, 'image_url': f'{PUBCHEM}/compound/cid/{cid}/PNG?image_size=300x300' if cid else None,
+            'source': 'PubChem' if cid else None}
+
+@app.post('/api/structure/search')
+async def structure_search(body: StructureQuery, _=Depends(authorized)):
+    smiles = body.smiles.strip()
+    cid = await pubchem_cid(smiles, 'smiles')
+    if not cid:
+        return {'cid': None, 'containers': [], 'candidates': [], 'message': 'Structure could not be resolved by PubChem.'}
+    try:
+        async with httpx.AsyncClient(timeout=18) as client:
+            r = await client.get(f'{PUBCHEM}/compound/cid/{cid}/synonyms/JSON')
+            r.raise_for_status()
+            synonyms = r.json().get('InformationList', {}).get('Information', [{}])[0].get('Synonym', [])
+    except (httpx.HTTPError, ValueError, KeyError, IndexError):
+        synonyms = []
+    # PubChem synonyms are uncurated; candidate CAS values are not proof of identity.
+    candidates = list(dict.fromkeys(s for s in synonyms if CAS_RE.fullmatch(s)))[:8]
+    details = await chem('general/getdetails')
+    inventory = details.get('user', {}).get('inventory') if isinstance(details, dict) else None
+    if not isinstance(inventory, int): raise HTTPException(502, 'Inventory ID unavailable')
+    found = []
+    for cas in candidates:
+        result = await chem('search/execute', {'inventory': inventory, 'type': 'cas', 'contents': cas})
+        for c in result.get('containers', []) if isinstance(result, dict) else []:
+            # Filter returned results to exact CAS (avoid substring matches).
+            if str(c.get('cas', '')).strip() != cas: continue
+            found.append({'name': c.get('name'), 'cas': c.get('cas'), 'size': c.get('size'),
+                          'unit': c.get('unit'), 'location': c.get('locationtext'),
+                          'barcode': c.get('barcode'), 'supplier': c.get('supplier')})
+    unique = list({(str(c['cas']), str(c['barcode']), str(c['location'])): c for c in found}.values())
+    return {'cid': cid, 'containers': unique, 'candidates': candidates,
+            'image_url': f'{PUBCHEM}/compound/cid/{cid}/PNG?image_size=300x300',
+            'message': 'Identifier-based exact candidate search; not substructure or similarity search.'}
