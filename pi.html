@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hari Group, Department of Organic Chemistry, IISc Bangalore">
+  <title>PI Profile | Hari Group</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="pi">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">PI Profile</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-amber-400"></i>
+</button>
+</nav>
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='pi.html'">PI (Dr. D. P. Hari)</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-bold text-white bg-navy-800 mt-2" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-pi">
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Principal Investigator</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">DP Hari</h1>
+</div>
+</section>
+<section class="py-16 bg-slate-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-3">
+<div class="relative bg-gradient-to-t from-slate-900 from-20% via-transparent via-60% to-transparent rounded-sm overflow-hidden shadow-sm border border-slate-200 text-white">
+<img class="w-full h-auto object-cover" src="https://i0.wp.com/theharigroup.in/wp-content/uploads/2023/04/Web-pic-3-1-removebg-preview.png?w=1080&amp;ssl=1"/>
+<div class="p-6 space-y-2">
+<h2 class="text-2xl font-bold">Durga Prasad Hari</h2>
+<p class="text-amber-400 font-medium text-sm">Assistant Professor</p>
+<p class="text-slate-300 text-xs"><i class="fa-solid fa-building-columns text-amber-400 mr-1"></i> Indian Institute of Science (IISc)</p>
+<div class="pt-4 border-t border-slate-500 space-y-2 text-xs text-slate-300">
+<div class="flex items-center gap-4">
+<!-- ORCID -->
+<a href="https://orcid.org/0000-0002-0734-8427" rel="noopener noreferrer" target="_blank" title="ORCID Profile">
+<img alt="ORCID" class="w-8 h-8 object-contain hover:scale-110 transition-transform" src="https://upload.wikimedia.org/wikipedia/commons/0/06/ORCID_iD.svg?utm_source=commons.wikimedia.org&amp;utm_campaign=index&amp;utm_content=original"/>
+</a>
+<!-- Google Scholar -->
+<a href="https://scholar.google.com/citations?user=L47MpAcAAAAJ&amp;hl=en" rel="noopener noreferrer" target="_blank" title="Google Scholar Profile">
+<img alt="Google Scholar" class="w-8 h-8 object-contain hover:scale-110 transition-transform" src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Scholar_logo.svg?utm_source=commons.wikimedia.org&amp;utm_campaign=index&amp;utm_content=original"/>
+</a>
+<!-- Wiley -->
+<a href="https://onlinelibrary.wiley.com/doi/10.1002/anie.202512389" rel="noopener noreferrer" target="_blank" title="Wiley Publication">
+<img alt="Wiley" class="w-8 h-8 object-contain rounded-full hover:scale-110 transition-transform" src="https://media.licdn.com/dms/image/v2/D4E0BAQFhWlONcxnPMA/company-logo_200_200/B4EZncp0m.K0AI-/0/1760343575314/wiley_in_research_logo?e=2147483647&amp;v=beta&amp;t=0yLaRQIlmgACHqudNoVM_1NiC0ujER5fHwiVy1czMUs"/>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-9 space-y-8">
+<div class="space-y-4 text-slate-800 leading-relaxed">
+<h3 class="text-[20px] font-bold text-navy-900">Biography</h3>
+<p class="text-justify text-[15px] leading-relaxed">
+                                    Durga Prasad Hari received his MSc degree from IIT Madras in 2010. He then moved to the University of Regensburg, Germany, where he pursued his Ph.D. with Prof. Burkhard König. In 2014, following his graduate education, he was a postdoctoral fellow in the laboratory of Prof. Jerome Waser at EPFL, Switzerland. In 2018, he joined the Aggarwal group at the University of Bristol as a Marie-Curie research fellow. Since March 2021, he is holding an assistant professor position at the Indian Institute of Science Bangalore.
+                                </p>
+</div>
+<div class="bg-amber-50 roundedx-xl p-6 border border-amber-200">
+<h4 class="font-bold text-navy-900 text-base mb-2"><i class="fa-solid fa-trophy text-amber-500 mr-2"></i> Honors &amp; Awards</h4>
+<ul class="space-y-2 text-xs text-slate-700">
+<li>• <strong>Dr. Srinivasa Rajagopalan Award</strong> (IISc Alumni Association) for excellence in research.</li>
+<li>• EPFL Postdoctoral Fellowship (Switzerland).</li>
+<li>• Doctoral Research Fellowship at University of Regensburg (Germany).</li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-navy-900 text-base">Academic Background</h4>
+<div class="space-y-3">
+<div class="p-4 roundedx-xl bg-slate-50 border border-slate-200">
+<div class="text-xs font-mono font-bold text-amber-600">POSTDOCTORAL RESEARCH (2015-2018)</div>
+<div class="font-bold text-navy-900">EPFL Switzerland (Prof. Jérôme Waser Group)</div>
+<div class="text-xs text-slate-600 mt-1">Hypervalent iodine chemistry &amp; cysteine bioconjugation strategies.</div>
+</div>
+<div class="p-4 roundedx-xl bg-slate-50 border border-slate-200">
+<div class="text-xs font-mono font-bold text-navy-600">DOCTORAL DEGREE (Ph.D.) (2011-2015)</div>
+<div class="font-bold text-navy-900">University of Regensburg, Germany (Prof. Burkhard König Group)</div>
+<div class="text-xs text-slate-600 mt-1">Photoredox catalysis, visible-light arylation reactions.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+<!-- Footer Content Container -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<!-- IISc Master Seal Logo -->
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-x-twitter text-xl"></i>
+</a>
+<!-- Bluesky (SVG Icon) -->
+<a class="hover:opacity-80 transition-opacity" href="https://bsky.app/" rel="noopener noreferrer" target="_blank" title="Bluesky">
+<img alt="Bluesky" class="w-5 h-5 object-contain" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg"/>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-yellow-500 transition-colors" href="https://www.linkedin.com/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin-in text-xl"></i>
+</a>
+</div>
+<div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+</div>
+</div>
+</footer>
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+</body>
+</html>

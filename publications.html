@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hari Group, Department of Organic Chemistry, IISc Bangalore">
+  <title>Publications | Hari Group</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="publications">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">PI Profile</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-amber-400"></i>
+</button>
+</nav>
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='pi.html'">PI (Dr. D. P. Hari)</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-bold text-white bg-navy-800 mt-2" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-publications">
+<section class="py-12 bg-navy-900 text-white border-b border-navy-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Publications</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Peer-Reviewed Publications</h1>
+<p class="text-slate-300 text-xs sm:text-sm mt-2 max-w-2xl">
+                                Explore our research outputs in ring strain release, photocatalysis, electrosynthesis, and carbene chemistry.
+                            </p>
+</div>
+<div class="flex items-center gap-4 bg-navy-950/80 p-3 roundedx-xl border border-slate-800 text-xs font-mono">
+<div class="text-center px-3 border-r border-slate-800">
+<div class="text-xl font-bold text-amber-400" id="stat-total-pubs">12+</div>
+<div class="text-[10px] text-slate-400">Featured Papers</div>
+</div>
+<div class="text-center px-3 border-r border-slate-800">
+<div class="text-xl font-bold text-cyan-400">JACS / Angew</div>
+<div class="text-[10px] text-slate-400">Primary Venues</div>
+</div>
+<div class="text-center px-3">
+<div class="text-xl font-bold text-emerald-400">4500+</div>
+<div class="text-[10px] text-slate-400">Total Citations</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-10 bg-slate-50 min-h-screen">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+<!-- Search & Filter Controls Card -->
+<div class="bg-white roundedx-2xl p-6 border border-slate-200 shadow-sm space-y-6">
+<!-- Search Box & View Mode -->
+<div class="grid lg:grid-cols-12 gap-4 items-center">
+<div class="lg:col-span-8 relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+<i class="fa-solid fa-magnifying-glass text-sm"></i>
+</div>
+<input class="w-full pl-11 pr-10 py-3 roundedx-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition" id="pub-search-input" oninput="handlePubSearch()" placeholder="Search publications by title, author, keyword, DOI, or abstract (e.g. Propellane, Electrosynthesis, JACS)..." type="text"/>
+<button class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-navy-900" id="clear-search-btn" onclick="clearSearch()">
+<i class="fa-solid fa-circle-xmark text-sm"></i>
+</button>
+</div>
+<div class="lg:col-span-4 flex items-center justify-between sm:justify-end gap-3 text-xs">
+<span class="text-slate-500 font-mono" id="results-count-badge">Showing 12 publications</span>
+<button class="px-3 py-2 roundedx-lg bg-navy-800 text-amber-300 font-bold hover:bg-navy-900 transition flex items-center gap-1.5" id="toggle-all-ga-btn" onclick="toggleAllGraphicalAbstracts()">
+<i class="fa-solid fa-diagram-project text-xs"></i>
+<span id="ga-btn-text">Expand All Schematics</span>
+</button>
+</div>
+</div>
+<!-- Year Categories Tabs -->
+<div class="space-y-2">
+<label class="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+<i class="fa-solid fa-calendar text-amber-500"></i> Filter by Year Category
+                            </label>
+<div class="flex flex-wrap gap-2" id="year-filter-tabs">
+<button class="year-tab-btn active-year-tab px-3.5 py-1.5 roundedx-lg text-xs font-bold transition border border-amber-400 bg-amber-400/20 text-navy-900" data-year="ALL" onclick="setYearFilter('ALL')">
+                                    All Years
+                                </button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2026" onclick="setYearFilter('2026')">
+                                    2026 <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">2</span>
+</button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2025" onclick="setYearFilter('2025')">
+                                    2025 <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">4</span>
+</button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2023" onclick="setYearFilter('2023')">
+                                    2023 <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">1</span>
+</button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2021" onclick="setYearFilter('2021')">
+                                    2021 <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">1</span>
+</button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2018" onclick="setYearFilter('2018')">
+                                    2018 <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">1</span>
+</button>
+<button class="year-tab-btn px-3.5 py-1.5 roundedx-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" data-year="2016" onclick="setYearFilter('2016')">
+                                    2016 &amp; Earlier <span class="ml-1 text-[10px] px-1.5 py-0.2 roundedx-full bg-slate-200 text-slate-800 font-mono">3</span>
+</button>
+</div>
+</div>
+<!-- Topic Category Chips -->
+<div class="space-y-2 pt-2 border-t border-slate-100">
+<label class="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+<i class="fa-solid fa-flask text-cyan-500"></i> Subject Areas
+                            </label>
+<div class="flex flex-wrap gap-2" id="subject-filter-chips">
+<button class="subject-chip-btn active-subject-chip px-3 py-1 roundedx-full text-xs font-bold transition border border-navy-800 bg-navy-800 text-white" data-subject="ALL" onclick="setSubjectFilter('ALL')">
+                                    All Subjects
+                                </button>
+<button class="subject-chip-btn px-3 py-1 roundedx-full text-xs font-medium bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 transition" data-subject="Ring-Strain Release" onclick="setSubjectFilter('Ring-Strain Release')">
+                                    Ring-Strain Release
+                                </button>
+<button class="subject-chip-btn px-3 py-1 roundedx-full text-xs font-medium bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition" data-subject="Electrosynthesis" onclick="setSubjectFilter('Electrosynthesis')">
+                                    Electrosynthesis
+                                </button>
+<button class="subject-chip-btn px-3 py-1 roundedx-full text-xs font-medium bg-sky-50 text-sky-800 hover:bg-sky-100 border border-sky-200 transition" data-subject="Photoredox Catalysis" onclick="setSubjectFilter('Photoredox Catalysis')">
+                                    Photoredox Catalysis
+                                </button>
+<button class="subject-chip-btn px-3 py-1 roundedx-full text-xs font-medium bg-purple-50 text-purple-800 hover:bg-purple-100 border border-purple-200 transition" data-subject="Diazo &amp; Carbenes" onclick="setSubjectFilter('Diazo &amp; Carbenes')">
+                                    Diazo &amp; Carbenes
+                                </button>
+<button class="subject-chip-btn px-3 py-1 roundedx-full text-xs font-medium bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200 transition" data-subject="Hypervalent Iodine" onclick="setSubjectFilter('Hypervalent Iodine')">
+                                    Hypervalent Iodine
+                                </button>
+</div>
+</div>
+<!-- Popular Keywords Quick Bar -->
+<div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+<span class="text-[11px] font-mono font-bold text-slate-400 uppercase mr-1">Top Keywords:</span>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('[1.1.1]Propellane')">[1.1.1]Propellane</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('Dowd-Beckwith')">Dowd-Beckwith</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('BCP Bioisosteres')">BCP Bioisosteres</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('Bicyclo[1.1.0]butane')">Bicyclo[1.1.0]butane</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('ElectraSyn')">ElectraSyn</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('Eosin Y')">Eosin Y</button>
+<button class="px-2 py-0.5 roundedx bg-slate-100 hover:bg-amber-100 hover:text-amber-900 text-slate-600 font-mono text-[11px] transition" onclick="applyKeywordSearch('Umpolung')">Umpolung</button>
+</div>
+</div>
+<!-- Dynamic Publications List Container -->
+<div class="space-y-6" id="publications-container">
+<!-- Populated by JavaScript -->
+</div>
+<!-- No Results Fallback State -->
+<div class="hidden text-center py-16 bg-white roundedx-2xl border border-slate-200 p-8 space-y-4" id="no-pubs-fallback">
+<div class="w-16 h-16 mx-auto roundedx-full bg-amber-50 text-amber-500 flex items-center justify-center text-2xl">
+<i class="fa-solid fa-filter-circle-xmark"></i>
+</div>
+<h3 class="text-xl font-bold text-navy-900">No matching publications found</h3>
+<p class="text-xs text-slate-500 max-w-md mx-auto">
+                            No research papers match your current search criteria or category filters. Try resetting the filters or modifying your search term.
+                        </p>
+<button class="px-5 py-2.5 roundedx-xl bg-navy-800 text-white font-bold text-xs hover:bg-navy-900 transition" onclick="resetAllFilters()">
+                            Reset All Filters
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+<!-- Footer Content Container -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<!-- IISc Master Seal Logo -->
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-x-twitter text-xl"></i>
+</a>
+<!-- Bluesky (SVG Icon) -->
+<a class="hover:opacity-80 transition-opacity" href="https://bsky.app/" rel="noopener noreferrer" target="_blank" title="Bluesky">
+<img alt="Bluesky" class="w-5 h-5 object-contain" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg"/>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-yellow-500 transition-colors" href="https://www.linkedin.com/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin-in text-xl"></i>
+</a>
+</div>
+<div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+</div>
+</div>
+</footer>
+<div id="toast" class="hidden fixed top-4 right-4 z-[110] bg-slate-900 text-white px-4 py-3 rounded-sm shadow-xl flex items-center gap-3 border border-slate-700 transition-all duration-300"><i class="fa-solid fa-circle-check text-emerald-400"></i><span id="toast-msg" class="text-xs font-semibold">Done</span></div><div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4" id="bibtex-modal">
+<div class="bg-white roundedx-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+<div class="flex items-center justify-between border-b pb-3">
+<h4 class="font-bold text-navy-900">BibTeX Citation</h4>
+<button class="text-slate-400 hover:text-navy-900" onclick="closeModal()"><i class="fa-solid fa-xmark text-lg"></i></button>
+</div>
+<textarea class="w-full bg-slate-900 text-amber-300 font-mono text-xs p-3 roundedx-xl outline-none select-all" id="bibtex-text" readonly="" rows="8"></textarea>
+<div class="flex justify-end">
+<button class="px-4 py-2 roundedx-lg bg-amber-400 text-navy-950 font-bold text-xs" onclick="copyModalText()">Copy to Clipboard</button>
+</div>
+</div>
+</div>
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+</body>
+</html>

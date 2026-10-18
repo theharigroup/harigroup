@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hari Group, Department of Organic Chemistry, IISc Bangalore">
+  <title>Hari Group | IISc Bangalore</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="home">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">PI Profile</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-amber-400"></i>
+</button>
+</nav>
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='pi.html'">PI (Dr. D. P. Hari)</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-bold text-white bg-navy-800 mt-2" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-home">
+<!-- Hero Banner -->
+<section class="relative overflow-hidden bg-navy-950 text-white py-[80px] lg:py-[200px] bg-cover bg-center" style="background-image: url('https://github.com/theharigroup/ims/raw/main/IMG_20260411_185515.jpg');">
+<div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/30 backdrop-blur-[1px]"></div>
+<canvas class="absolute inset-0 w-full h-full opacity-35 pointer-events-auto cursor-crosshair" id="hero-canvas"></canvas>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-medium text-amber-300 backdrop-blur-md">
+<i class="fa-solid fa-flask-vial text-amber-400"></i>
+<span><a class="hover: hover:text-blue-400 transition" href="https://orgchem.iisc.ac.in/" rel="noopener noreferrer" target="_blank">Department of Organic Chemistry, IISc Bangalore</a></span>
+</div>
+<h1 class="text-2xl sm:text-3xl xl:text-5xl font-extrabold tracking-tight leading-tight">
+                                Harnessing <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-200">Strain Energy</span> for Synthesis.
+                            </h1>
+<p class="text-slate-200 text-base sm:text-sm leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+                                Pioneering novel reaction paradigms through light and electrical activation. We leverage strained rings, diazo compounds, metal-carbenes, and electrosynthesis to build high-value molecules.
+                            </p>
+<div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+
+<button class="w-52 h-10 rounded-sm font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 text-navy-950 hover:from-yellow-400 hover:to-yellow-500 shadow-lg flex items-center justify-center gap-2 transition" onclick="window.location.href='research.html'">
+  <span>Explore Research</span>
+<i class="fa-solid fa-arrow-right text-xs"></i>
+</button>
+
+<button class="w-52 h-10 rounded-sm font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 text-navy-950 hover:from-yellow-400 hover:to-yellow-500 shadow-lg flex items-center justify-center gap-2 transition" onclick="window.location.href='publications.html'">
+<span>Explore Publications</span>
+<i class="fa-solid fa-arrow-right text-xs"></i>
+</button>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+<!--=========================== About Us ======================================================-->
+
+<section class="py-14 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid md:grid-cols-2 gap-12">
+
+<div class="cursor-pointer rounded-sm transition group" onclick="window.location.href='pi.html'">
+    <img src="members/groupphoto.jpg" alt="Hari Group" class="w-full h-auto object-contain rounded-sm block group-hover:scale-[1.02] transition duration-300">
+</div>
+
+<div style="margin-bottom: 18px; width: 100%; scroll-margin-top: 80px;">
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+    <h3 class="font-bold text-slate-700"
+        style="font-size: 28px; text-align: left; margin: 0; white-space: nowrap;">
+      About Us.
+    </h3>
+    <div style="display: flex; align-items: center; gap: 3px;">
+      <div style="width: 2px; height: 15px; background-color: #96ADC5;"></div>
+      <div style="height: 3px; width: 50px; background-color: #facc15;"></div>
+    </div>
+  </div>
+
+  <p class="text-[14px] text-slate-600 text-justify leading-relaxed" style="margin: 0;">
+    Led by Principal Investigator Durga Prasad Hari, The Hari Group is a dynamic and collaborative team of research associates alongside graduate, master’s, and undergraduate students. The group's research focuses on pioneering mild, sustainable reaction paradigms that provide strategic access to versatile reactive intermediates, specifically leveraging the unique reactivity of strained systems and carbene intermediates activated by light and electricity to construct valuable molecular architectures.
+  </p>
+
+<button class="w-36 h-8 rounded- mt-5 font-bold text-[14px] hover:scale-[1.02] transition duration-300 bg-yellow-500 hover:bg-yellow-400" onclick="window.location.href='publications.html'">
+<span>Meet Us</span>
+<i class="fa-solid fa-arrow-right text-xs"></i>
+</button>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+
+    <!-- News Sections -->
+    <section class="py-10 bg-slate-80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+<!-- Group News Heading -->
+<div id="news-heading"
+     style="display: flex; align-items: center; gap: 12px;
+            margin-bottom: 18px; width: 100%; scroll-margin-top: 80px;">
+  <h3 class="font-bold text-slate-700"
+      style="font-size: 28px; text-align: left; margin: 0; white-space: nowrap;">
+    Group News.
+  </h3>
+  <div style="display: flex; align-items: center; gap: 3px;">
+    <div style="width: 2px; height: 15px; background-color: #96ADC5;"></div>
+    <div style="height: 3px; width: 50px; background-color: #facc15;"></div>
+  </div>
+</div>
+
+<!-- Group News Cards -->
+<div id="postdoc-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+
+
+        <!-- Profile Card Styles -->
+        <style>
+          .email-icon {
+            color: #696969 !important;
+            transition: color 0.2s ease-in-out;
+          }
+
+          .email-icon:hover {
+            color: #ADADAD !important;
+          }
+
+          .icon-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 3px;
+          }
+
+          .icon-links a {
+            opacity: 0.5;
+            transition: opacity 0.2s ease-in-out;
+            color: inherit;
+            text-decoration: none;
+          }
+
+          .icon-links a:hover {
+            opacity: 0.7;
+          }
+        </style>
+
+        <script>
+          // ====================================================================================================================================
+          // ENTER GROUP NEWS HERE
+          // ====================================================================================================================================
+          const profiles = [
+		{
+              section: "Postdoctoral Fellows",
+              name: "Bina Das",
+              image: "news/singhaacscatal.png",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              
+            },
+            {
+              section: "Postdoctoral Fellows",
+              name: "Bina Das",
+              image: "news/logidft.png",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              
+            },
+
+          {
+              section: "Postdoctoral Fellows",
+              name: "Bina Das",
+              image: "news/singhaacscatal.png",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              
+            }
+
+            // Add more profiles below using the same format.
+          ];
+
+          // ====================================================================================================================================
+          // REUSABLE PROFILE CARD TEMPLATE
+          // Do not edit this section when adding profiles.
+          // ==========================================
+
+          function createProfileCard(person) {
+            return `
+              <div class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm">
+
+                <img
+                  class="w-90 h-90 rounded-[3px] mx-auto mb-4 border- border-amber-400 object-cover"
+                  src="${person.image}"
+                  alt="${person.name}"
+                />
+
+                <h3
+                  class="font-bold text-slate-700"
+                  style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 18px; text-align: left; width: 100%;"
+                >
+                  ${person.name}
+                </h3>
+
+                <div
+                  style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"
+                ></div>
+
+                <p
+                  class="text-[13px] font-bold text-slate-500 mt-2 text-left"
+                  style="display: flex; align-items: center; gap: 6px;"
+                >
+                  ${person.degree}
+                </p>
+
+                <p
+                  class="text-[13px] text-slate-500 mt-1 text-left"
+                  style="display: flex; align-items: center; gap: 6px;"
+                >
+                  ${person.position}
+                </p>
+
+                <div class="icon-links" style="margin-top: 10px;">
+
+                  ${person.email ? `
+                    <a
+                      href="mailto:${person.email}"
+                      aria-label="Email ${person.name}"
+                    >
+                      <i class="fa-solid fa-file-pdf"></i>
+                    </a>
+                  ` : ""}
+
+                  ${person.scholar ? `
+                    <a
+                      href="${person.scholar}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Google Scholar profile"
+                    >
+                      <i class="fa-brands fa-google-scholar"></i>
+                    </a>
+                  ` : ""}
+
+                  ${person.orcid ? `
+                    <a
+                      href="${person.orcid}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="ORCID profile"
+                    >
+                      <i class="fa-brands fa-orcid"></i>
+                    </a>
+                  ` : ""}
+
+                </div>
+
+              </div>
+            `;
+          }
+
+          // ==========================================
+          // AUTOMATICALLY DISPLAY PROFILES BY SECTION
+          // ==========================================
+
+          document.getElementById("postdoc-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Postdoctoral Fellows")
+              .map(createProfileCard)
+              .join("");
+
+          document.getElementById("graduate-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Graduate Students")
+              .map(createProfileCard)
+              .join("");
+
+          document.getElementById("master-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Master & Undergrad Students")
+              .map(createProfileCard)
+              .join("");
+        </script>
+
+      </div>
+    </section>
+  </div>
+</main>
+
+
+
+
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<!-- Footer -->
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+
+  <!-- Background Connected Hexagons -->
+  <svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 120 120">
+    <polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+    <polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+    <polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+    <polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+    <circle cx="50" cy="32.3" r="11"></circle>
+    <circle cx="80" cy="49.6" r="11"></circle>
+  </svg>
+
+  <!-- Footer Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-4">
+        <img
+          alt="IISc Logo"
+          class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105"
+          src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"
+        />
+      </div>
+
+      <div class="flex items-center gap-4 text-white-900">
+        <span class="mr-3 font-medium">Follow us on:</span>
+
+        <!-- Twitter / X -->
+        <a class="hover:text-yellow-500 transition-colors" href="https://x.com/" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+          <i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+        </a>
+
+        <!-- LinkedIn -->
+        <a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+          <i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-1">
+        <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+        <div>Design &amp; Developed by Lablens</div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+
+</body>
+</html>
