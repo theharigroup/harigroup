@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Chemical Inventory | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* Ensure the modal stays closed until a structure card is clicked. */
+#details-modal[hidden], #account-banner[hidden], #portal[hidden] { display: none !important; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="inventory">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">PI Profile</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-700 hover:text-navy-900 rounded-sm transition" id="nav-inventory" onclick="window.location.href='inventory.html'"><i class="fa-solid fa-flask mr-1"></i> Inventory</button>
+<button class="ml-2 px-4 py-2 text-sm font-bold text-white bg-navy-800 hover:bg-navy-900 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-amber-400"></i>
+</button>
+</nav>
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='pi.html'">PI (Dr. D. P. Hari)</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='team.html'">Team &amp; Alumni</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='inventory.html'">Chemical Inventory</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-bold text-white bg-navy-800 mt-2" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+</header>
+<main class="flex-grow">
+<section class="bg-navy-900 text-white py-9"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-5"><div><p class="text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Hari Group / Research tools</p><h1 class="text-3xl sm:text-4xl font-extrabold">Chemical Inventory</h1><p class="text-slate-300 text-sm mt-2">Find molecules, inspect structures, and locate laboratory containers.</p></div><div class="flex items-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3" hidden="" id="account-banner"><div class="rounded-full bg-amber-400 text-navy-900 w-11 h-11 flex items-center justify-center font-bold" id="member-avatar">HG</div><div class="min-w-0"><p class="text-xs text-slate-300">Signed in as</p><p class="font-semibold text-sm break-all" id="member"></p><button class="text-xs text-amber-300 underline mt-1" id="logout" type="button">Sign out</button></div></div></div></section>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9">
+<section class="hidden rounded border border-amber-300 bg-amber-50 p-5 mb-6" id="setup" role="alert">Set the public values in config.js and deploy your private backend.</section>
+<section class="bg-white border border-slate-200 rounded-xl shadow-sm p-7 max-w-lg" id="auth"><h2 class="text-xl font-bold mb-2">Member sign in</h2><p class="text-sm text-slate-500 mb-5">Approved Hari Group accounts only.</p><form class="space-y-4" id="login"><label class="block text-sm font-semibold">Email<input autocomplete="username" class="mt-1 w-full border border-slate-300 rounded-lg p-3" id="email" required="" type="email"/></label><label class="block text-sm font-semibold">Password<input autocomplete="current-password" class="mt-1 w-full border border-slate-300 rounded-lg p-3" id="password" required="" type="password"/></label><button class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3 rounded-lg">Sign in</button></form><p class="mt-3 text-red-700 text-sm" id="loginError" role="alert"></p></section>
+<section hidden="" id="portal">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+<section aria-labelledby="search-title" class="lg:col-span-1 bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+<h2 class="text-xl font-bold text-slate-900 mb-2" id="search-title">Search for a container</h2>
+<p class="text-xs text-slate-500 mb-5">Search by chemical name, CAS number, barcode, or SMILES.</p>
+<form class="space-y-4" id="search">
+<label class="block text-sm font-semibold text-slate-700">Chemical name<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-lg p-3 font-normal" id="search-name" placeholder="e.g. Acetone"/></label>
+<label class="block text-sm font-semibold text-slate-700">CAS number<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-lg p-3 font-normal" id="search-cas" placeholder="e.g. 67-64-1"/></label>
+<label class="block text-sm font-semibold text-slate-700">Barcode<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-lg p-3 font-normal" id="search-barcode" placeholder="Container barcode"/></label>
+<label class="block text-sm font-semibold text-slate-700">SMILES (optional)<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-lg p-3 font-mono font-normal" id="search-smiles" placeholder="e.g. CC(=O)C"/></label>
+<details class="border border-slate-200 rounded-lg p-3"><summary class="cursor-pointer text-sm font-semibold text-slate-700">SMILES matching options</summary><div class="space-y-3 mt-3"><label class="block text-xs text-slate-600">Match type<select class="block mt-1 w-full border rounded-lg p-2 text-sm" id="match-mode"><option value="identifier">Identify using PubChem</option><option value="exact">Exact (RDKit index)</option><option value="substructure">Substructure (RDKit index)</option><option value="similarity">Similarity (RDKit index)</option></select></label><label class="block text-xs text-slate-600">Similarity threshold<input class="block mt-1 w-full border rounded-lg p-2 text-sm" id="similarity-threshold" max="1" min="0.1" step="0.05" type="number" value="0.65"/></label></div></details>
+<p class="text-xs text-slate-500">Filled fields are searched separately and results are combined.</p>
+<div class="flex gap-2"><button class="flex-1 border border-slate-300 rounded-lg px-3 py-3 font-semibold text-slate-600" id="clear-search" type="button">Clear</button><button class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-lg px-3 py-3" id="search-button" type="submit"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button></div>
+</form></section>
+<section aria-labelledby="results-title" class="lg:col-span-3 min-w-0 bg-white border border-slate-200 rounded-xl shadow-sm p-5 sm:p-7">
+<div class="flex flex-wrap justify-between items-center gap-3 mb-4"><div><h2 class="text-2xl font-bold text-slate-900" id="results-title">Search results</h2><p class="text-sm text-slate-500 mt-1">Select a chemical to view its containers and storage locations.</p></div><span class="text-xs bg-slate-100 text-slate-600 px-3 py-2 rounded-full">Live ChemInventory</span></div>
+<p aria-live="polite" class="text-sm text-slate-600 mb-4" id="message" role="status">Enter a search term to find chemicals.</p>
+<div aria-live="polite" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4" id="results"></div>
+<p class="text-xs text-slate-500 mt-5">Chemical structures may be resolved through PubChem. Avoid submitting unpublished structures to external services.</p>
+</section></div>
+<div class="grid md:grid-cols-2 gap-5 mt-6"><article class="bg-white border border-slate-200 rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Orders</h3><div class="text-sm text-slate-600" id="orders"></div></article><article class="bg-white border border-slate-200 rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Watchlists</h3><div class="text-sm text-slate-600" id="watchlists"></div></article></div>
+<details class="bg-white border border-slate-200 rounded-xl p-5 mt-6"><summary class="font-semibold cursor-pointer">Administrator: import molecular structure index</summary><p class="text-sm text-slate-600 my-3">Upload CSV with cas,name,smiles. Only STRUCTURE_ADMIN_EMAILS may import. The index requires persistent storage on Render.</p><input accept=".csv,text/csv" id="index-file" type="file"/><button class="border rounded-lg px-4 py-2 ml-2" id="index-upload" type="button">Import CSV</button><p class="text-sm mt-2" id="index-status" role="status"></p></details>
+<p class="text-sm text-slate-600 mt-6">For editing stock or orders, open <a class="underline text-blue-700" href="https://app.cheminventory.net" rel="noopener noreferrer" target="_blank">ChemInventory</a>. Container size is not remaining quantity.</p></section></div>
+<div aria-labelledby="details-title" aria-modal="true" class="fixed inset-0 z-[100] bg-slate-950/70 p-3 sm:p-8 flex items-center justify-center" hidden="" id="details-modal" role="dialog"><div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center p-5 border-b"><h2 class="text-xl font-bold" id="details-title">Chemical details</h2><button aria-label="Close details" class="rounded-lg px-3 py-1 text-2xl hover:bg-slate-100" id="details-close" type="button">×</button></div><div class="p-5" id="details-content"></div></div></div>
+</main>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<!-- Footer -->
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+<div>Design &amp; Developed by Lablens</div>
+</div>
+</div>
+</div>
+</footer>
+<script src="js/navigation.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+
+<script src="inventory.js?v=4.1.0"></script>
+</body></html>
