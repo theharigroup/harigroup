@@ -77,16 +77,19 @@
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
 <section aria-labelledby="search-title" class="lg:col-span-1 bg-white border border-slate-200 rounded-sm shadow-sm p-5">
 <h2 class="text-xl font-bold text-slate-900 mb-2" id="search-title">Search for a container</h2>
-<p class="text-xs text-slate-500 mb-5">Search by chemical name, CAS number, barcode, or SMILES.</p>
+
 <form class="space-y-4" id="search">
-<label class="block text-sm font-semibold text-slate-700">Chemical name<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-name" placeholder="e.g. Acetone"/></label>
-<label class="block text-sm font-semibold text-slate-700">CAS number<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-cas" placeholder="e.g. 67-64-1"/></label>
-<label class="block text-sm font-semibold text-slate-700">Barcode<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-barcode" placeholder="Container barcode"/></label>
-<label class="block text-sm font-semibold text-slate-700">SMILES (optional)<input autocomplete="off" class="mt-2 w-full border border-slate-300 rounded-sm p-3 font-mono font-normal" id="search-smiles" placeholder="e.g. CC(=O)C"/></label>
+<label class="block text-sm font-semibold text-slate-700">Chemical name<input autocomplete="off" class="mt-1.5 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-name" placeholder="e.g. Acetone"/></label>
+<label class="block text-sm font-semibold text-slate-700">CAS number<input autocomplete="off" class="mt-1.5 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-cas" placeholder="e.g. 67-64-1"/></label>
+<label class="block text-sm font-semibold text-slate-700">Barcode<input autocomplete="off" class="mt-1.5 w-full border border-slate-300 rounded-sm p-3 font-normal" id="search-barcode" placeholder="Container barcode"/></label>
+<label class="block text-sm font-semibold text-slate-700">SMILES<input autocomplete="off" class="mt-1.5 w-full border border-slate-300 rounded-sm p-3 font-mono font-normal" id="search-smiles" placeholder="e.g. CC(=O)C"/></label>
+
 <details class="border border-slate-200 rounded-sm p-3"><summary class="cursor-pointer text-sm font-semibold text-slate-700">SMILES matching options</summary><div class="space-y-3 mt-3"><label class="block text-xs text-slate-600">Match type<select class="block mt-1 w-full border rounded-sm p-2 text-sm" id="match-mode"><option value="identifier">Identify using PubChem</option><option value="exact">Exact (RDKit index)</option><option value="substructure">Substructure (RDKit index)</option><option value="similarity">Similarity (RDKit index)</option></select></label><label class="block text-xs text-slate-600">Similarity threshold<input class="block mt-1 w-full border rounded-sm p-2 text-sm" id="similarity-threshold" max="1" min="0.1" step="0.05" type="number" value="0.65"/></label></div></details>
 <p class="text-xs text-slate-500">Filled fields are searched separately and results are combined.</p>
-<div class="flex gap-2"><button class="flex-1 border border-slate-300 rounded-sm px-3 py-3 font-semibold text-slate-600" id="clear-search" type="button">Clear</button><button class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-sm px-3 py-3" id="search-button" type="submit"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button></div>
+
+<div class="flex gap-2"><button class="flex-1 border border-slate-300 rounded-sm px-3 py-2 font-semibold text-slate-600" id="clear-search" type="button">Clear</button><button class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-sm px-3 py-2" id="search-button" type="submit"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button></div>
 </form></section>
+
 <section aria-labelledby="results-title" class="lg:col-span-3 min-w-0 bg-white border border-slate-200 rounded-sm shadow-sm p-5 sm:p-7">
 <div class="flex flex-wrap justify-between items-center gap-3 mb-4"><div><h2 class="text-2xl font-bold text-slate-900" id="results-title">Search results</h2><p class="text-sm text-slate-500 mt-1">Select a chemical to view its containers and storage locations.</p></div><span class="text-xs bg-slate-100 text-slate-600 px-3 py-2 rounded-sm">Live ChemInventory</span></div>
 <p aria-live="polite" class="text-sm text-slate-600 mb-4" id="message" role="status">Enter a search term to find chemicals.</p>
@@ -94,7 +97,9 @@
 <p class="text-xs text-slate-500 mt-5">Chemical structures may be resolved through PubChem. Avoid submitting unpublished structures to external services.</p>
 </section></div>
 <div class="grid md:grid-cols-2 gap-5 mt-6"><article class="bg-white border border-slate-200 rounded-sm p-5"><h3 class="font-bold text-lg mb-3">Orders</h3><div class="text-sm text-slate-600" id="orders"></div></article><article class="bg-white border border-slate-200 rounded-sm p-5"><h3 class="font-bold text-lg mb-3">Watchlists</h3><div class="text-sm text-slate-600" id="watchlists"></div></article></div>
-<details class="bg-white border border-slate-200 rounded-sm p-5 mt-6"><summary class="font-semibold cursor-pointer">Administrator: import molecular structure index</summary><p class="text-sm text-slate-600 my-3">Upload CSV with cas,name,smiles. Only STRUCTURE_ADMIN_EMAILS may import. The index requires persistent storage on Render.</p><input accept=".csv,text/csv" id="index-file" type="file"/><button class="border rounded-sm px-4 py-2 ml-2" id="index-upload" type="button">Import CSV</button><p class="text-sm mt-2" id="index-status" role="status"></p></details>
+
+
+
 <p class="text-sm text-slate-600 mt-6">For editing stock or orders, open <a class="underline text-blue-700" href="https://app.cheminventory.net" rel="noopener noreferrer" target="_blank">ChemInventory</a>. Container size is not remaining quantity.</p></section></div>
 <div aria-labelledby="details-title" aria-modal="true" class="fixed inset-0 z-[100] bg-slate-950/70 p-3 sm:p-8 flex items-center justify-center" hidden="" id="details-modal" role="dialog"><div class="bg-white rounded-sm shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center p-5 border-b"><h2 class="text-xl font-bold" id="details-title">Chemical details</h2><button aria-label="Close details" class="rounded-sm px-3 py-1 text-2xl hover:bg-slate-100" id="details-close" type="button">×</button></div><div class="p-5" id="details-content"></div></div></div>
 </main>
