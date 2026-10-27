@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Publications | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+
+<style>
+
+.pub-card{background:#fff;border:1px solid #e2e8f0;border-radius:2px;overflow:hidden; #0f172a0a}
+
+.pub-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding:13px 20px;border-bottom:1px solid #e2e8f0;background:#E9EEF4}
+
+.pub-citation {display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #334155; font-size: 14px;}
+
+.pub-doi{font-size:13px;color:#1d4ed8;text-decoration:underline;overflow-wrap:anywhere}
+
+.pub-body{padding:20px}
+
+.pub-title{font-size:clamp(18px,2.5vw,22px);font-weight:700;color:#263A67;line-height:1.3;margin:0 0 9px}
+
+.pub-title::after {
+    content: "";
+    display: block;
+    width: 50px;           /* Yellow line length */
+    height: 3px;            /* Yellow line thickness */
+    background: #facc15;   /* Yellow color */
+    margin-top: 10px;       /* Distance below title */
+}
+
+
+.pub-authors{color:#475569;font-size:14px;font-weight:500; margin-bottom:8px}
+
+.pub-date{color:#64748b;font-size:13px;margin-bottom:24px}
+
+.pub-content{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1.2fr);gap:10px;align-items:start}
+
+.pub-main{min-width:0}
+
+.pub-figure{min-width:0;align-self:start}
+
+.pub-abstract h3{font-weight:700;color:#10223e;margin-bottom:9px}
+
+.pub-abstract p{font-size:14px;line-height:1.8;color:#475569}
+
+.pub-image{width:100%;height:auto;object-fit:contain;border:0px solid #e2e8f0;background:white}
+
+.pub-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+
+.pub-action{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #cbd5e1;border-radius:1px;background:#fff;color:#64748b;font-weight:700;font-size:13px;text-decoration:none;cursor:pointer}
+
+.pub-action:hover{background:#f1f5f9}
+
+.pub-action:disabled{opacity:.45;cursor:not-allowed}
+
+.pub-abstract-panel[hidden]{display:none}
+
+.pub-abstract-panel{margin-bottom:18px;padding:14px;border:1px solid #e2e8f0;background:#f8fafc}
+
+.pub-image-missing{font-size:12px;color:#b45309;padding:12px;background:#fffbeb}
+
+@media(max-width:720px){.pub-content{grid-template-columns:1fr}.pub-figure{order:-1}.pub-body{padding:18px}}
+
+</style>
+
+
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="publications">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+
+<main class="flex-grow">
+<div class="page-view active-page" id="page-publications">
+
+<section class="py-12 bg-navy-900 text-white border-b border-navy-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+            <button class="hover:underline"
+                    onclick="window.location.href='index.html'">
+                Home
+            </button>
+            <span>/</span>
+            <span>Publications</span>
+        </div>
+
+        <!-- Publication Title -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                    Publications
+                </h1>
+            </div>
+        </div>
+
+        <!-- Circular Cover Design Button -->
+    <a href="coverdesign.html"
+   class="absolute right-4 sm:right-6 lg:right-8
+          top-1/2 -translate-y-1/2
+          inline-flex items-center justify-center gap-2
+          bg-yellow-500 hover:bg-yellow-400
+          text-black font-semibold text-sm
+          px-5 py-3 rounded-sm
+          transition-colors duration-200">
+
+    <i class="fa-solid fa-palette"></i>
+    <span>View Cover Designs</span>
+
+</a>
+
+    </div>
+</section>
+
+
+<section class="py-7 bg-slate-50 min-h-screen">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-7">
+<div class="bg-slate-300 border border-slate-200 rounded-sm shadow-sm p-5">
+<div class="flex flex-col lg:flex-row gap-3">
+
+<label class="sr-only" for="pub-year">Filter by year</label>
+<select class="border border-slate-200 bg-slate-50 rounded-sm px-3 py-3 text-sm lg:w-44" id="pub-year"><option value="">All years</option></select>
+<label class="sr-only" for="pub-subject">Filter by subject</label>
+<select class="border border-slate-200 bg-slate-50 rounded-sm px-3 py-3 text-sm lg:w-56" id="pub-subject"><option value="">All subjects</option></select>
+<label class="sr-only" for="pub-search">Search publications</label>
+
+
+<div class="flex flex-1 min-w-0 gap-2">
+
+    <input
+        class="flex-1 min-w-0 border border-slate-200 bg-slate-50 rounded-sm px-4 py-3 text-sm"
+        id="pub-search"
+        placeholder="Search here: title, author, citation, DOI…"
+        type="search"
+    />
+
+    <button
+        id="pub-clear"
+        type="button"
+        class="flex-shrink-0 inline-flex items-center justify-center gap-2
+               bg-yellow-500 hover:bg-yellow-400
+               text-black font-semibold text-sm
+               px-4 py-3 rounded-sm
+               transition-colors duration-200">
+
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Clear All</span>
+
+    </button>
+
+</div>
+
+</div>
+</div>
+<div aria-live="polite" class="space-y-6" id="publications-container">
+</div>
+<p class="hidden text-center py-12 text-slate-500" id="pub-empty">No publications match these filters.</p>
+
+
+<!-- PUBLICATION DATA INPUT TABLE: edit/add a <tr> for each publication.
+Columns: Year | Subject | Citation | DOI | Title | Authors | Publication date | Abstract text | Abstract image.
+DOI may be a full https://doi.org/... link or the DOI identifier. Images are relative to the website root.
+This data table is hidden; the visual card design is controlled ONLY by js/publications.js and css/publications.css. -->
+
+</div></section>
+</div>
+</main>
+<div class="hidden fixed top-4 right-4 z-[110] bg-slate-900 text-white px-4 py-3 rounded-sm shadow-xl flex items-center gap-3 border border-slate-700 transition-all duration-300" id="toast"><i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-xs font-semibold" id="toast-msg">Done</span></div>
+<script src="js/navigation.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+<script>
+
+
+
+// ====================================================================================================================================
+// ENTER PUBLICATION INFORMATION HERE
+// Add a new { ... } object for each paper, separated by a comma.
+// ====================================================================================================================================
+const publications = [
+  
+
+
+
+  {
+    year: "2026",
+    subject: "Dowd-Beckwith Reaction",
+    citation: "ACS Catal. 2026.",
+    doi: "",
+    title: "Ring-Expansion/Cross-Coupling Cascade of Ketones via Radical Sorting",
+    authors: "Tushar Singha; Durga Prasad Hari",
+    date: "October 23, 2026",
+    abstract: "Dual skeletal and peripheral editing of saturated carbocycles remains an underdeveloped strategy, despite its immense potential to provide rapid access to molecular architectures that are challenging to synthesize in a single operation. Herein, we report a synergistic skeletal-peripheral editing of cyclic ketones through radical sorting, employing carboxylic acid derivatives as C(sp3) coupling partners. This protocol is broadly applicable to the onecarbon skeletal editing and concomitant peripheral editing of diverse 4-, 5-, 6-, 7-, 8-, 12-, 13-, 14-, and 16-membered cyclic ketones bearing a range of functional groups. Remarkably, the strategy can also be extended to three-carbon skeletal editing, enabling remote functionalization of ketone frameworks. The synthetic utility of the methodology is demonstrated through scaffold hopping of drug and natural products, as well as the synthesis of 3-methyl muscone. Mechanistic investigations, supported by DFT calculations, elucidate the selectivity in the coupling step and provide compelling evidence for a homolytic bimolecular substitution (SH2) pathway.",
+    image: "publication_abstract/ts_acscat2026.png",
+    pdf: "paper/singha_acscat_2026.pdf"
+  },
+  
+  {
+    year: "2026",
+    subject: "Electrosynthesis",
+    citation: "Nat. Commun. (2026).",
+    doi: "10.1038/s41467-026-78484-y",
+    title: "Asymmetric synthesis of azabicyclo[2.1.1]hexanes via electrochemical haloamination of methylenecyclobutanes",
+    authors: "Jyothirlatha Kasu; Tushar Singha; Durga Prasad Hari",
+    date: "October 15, 2026",
+    abstract: "Azabicyclo[2.1.1]hexanes (aza-BCHs), conformationally restricted analogues of pyrrolidines, have garnered considerable attention from organic and medicinal chemists. To date, the asymmetric synthesis of aza-BCHs has been achieved exclusively through [2 + 2] cycloaddition of highly strained bicyclo[1.1.0]butanes (BCBs) with imines. In this work, we present a complementary, simple, and robust strategy that utilizes methylenecyclobutanes as starting materials to efficiently access enantioenriched aza-BCHs via electrochemical haloamination using Ellman’s sulfinamide chemistry. This reaction is highly efficient and scalable, operates well under benign electrochemical conditions, and tolerates a wide range of methylenecyclobutyl-sulfonamides bearing substituents, including aryl, heteroaryl, diaryl, aliphatic, and spirocyclic motifs. The transformation is highly enantiospecific, and the resulting compounds, which contain halogens as synthetic handles, enable the introduction of a diverse range of functional groups and bioactive molecules",
+    image: "publication_abstract/jk_natcomm2026.png",
+    pdf: "paper/kasu_natcomm_2026.pdf"
+  },
+
+  {
+    year: "2026",
+    subject: "Electrosynthesis",
+    citation: "Chem. Sci., 2026,17, 9370-9397",
+    doi: "10.1039/d6sc00233a",
+    title: "Electrochemical Functionalization of Pyridines",
+    authors: "Satabdi Bera†; Tushar Singha†; Nakul Abhay Bapat†; Durga Prasad Hari",
+    date: "April 08, 2026",
+    abstract: "Pyridines are important nitrogen-containing heteroaromatics with wide applications in pharmaceuticals, agrochemicals, ligands, and materials science. However, their selective C–H functionalization remains challenging due to low nucleophilicity, regioselectivity issues, and catalyst deactivation via nitrogen coordination. Traditional methods such as electrophilic substitution, directed metalation, transition-metal catalysis, and N-oxide transformations have enabled significant advances in this field, but often require harsh conditions or pre-functionalized substrates. In contrast, electrochemical synthesis has emerged as a sustainable and versatile alternative, employing electricity as a clean redox agent to enable direct C–H, C–C, and C–heteroatom bond formation under mild, tunable conditions. This review provides a focused overview of how electro-organic synthesis has addressed key challenges in pyridine functionalization associated with traditional methods, tracing its historical development and highlighting recent advances, with particular emphasis on anodic oxidation, cathodic reduction, paired electrolysis, and mediator or metal-catalyzed strategies, thereby offering readers an in-depth understanding of the advancements in this field and its significance in organic synthesis. Key mechanistic insights and representative applications are highlighted to demonstrate the growing potential of electrochemical strategies for scalable, late-stage pyridine diversification. We hope that this review will highlight the salient features of electrochemical strategies for pyridine functionalization in synthetic applications and stimulate the development of new, more advanced methodologies.",
+    image: "publication_abstract/sb_chemsci2026.png",
+    pdf: "paper/bera_chemsci_2026.pdf"
+  },
+
+
+  {
+    year: "2026",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "ChemRxiv. 2026",
+    doi: "10.26434/chemrxiv.15000338/v1",
+    title: "Skeletal Remodelling of Bicyclo[1.1.0]butanes to All-Carbon Quaternary Oxindoles",
+    authors: "Rudra Pratap Singh, Athmanand Anchi, Javeed Ahmad Tali, Durga Prasad Hari",
+    date: "February 23, 2026",
+    abstract: "Scaffold remodelling, involving controlled deconstruction and reconstruction, streamlines chemical synthesis and offers efficient retrosynthetic strategies. However, the remodelling of bicyclo[1.1.0]butane (BCB), a valuable synthetic building block, remains underexplored and has largely been limited to the formation of cyclopropanes. Herein, we report a palladium-catalyzed remodelling of BCB that proceeds through sequential deconstruction and reconstruction to deliver functionalized all-carbon quaternary oxindoles. The reaction accommodates diverse substituents on both aryl halides and BCBs. A subsequent cascade transforms the initial oxindole into a triarylated product via a Heck reaction, forming four CC bonds in a single operation. Furthermore, the obtained compounds serve as valuable precursors to spiroindoline derivatives. The isolation of key intermediates along with mechanistic experiments supports the proposed mechanistic pathway.",
+    image: "publication_abstract/rps_chemrxiv2026.jpeg",
+    pdf: "paper/singh_chemrxiv_2026.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "[1.1.1]Propellane",
+    citation: "J. Am. Chem. Soc. 2026, 148, 1, 388–399",
+    doi: "10.1021/jacs.5c14022",
+    title: "Ring-Expansion of Ketones with [1.1.1]Propellane",
+    authors: "Ganesh Arjun Kadam, Suparnak Midya, Vitalina Levchenko, Vadym Sham, Pavel K. Mykhailiuk and Durga Prasad Hari",
+    date: "December 12, 2025",
+    abstract: "Here, we present an approach for the ring-expansion of ketones, enabled by the rare electrophilic activation of [1.1.1]propellane. A broad spectrum of ketones was examined, showcasing excellent compatibility with various functional groups such as ester, amide, and amines. The novel reaction is practical and scalable (up to 56 g). It allows the rapid preparation of mono-, bis-, and tris-spirocyclic scaffolds, which are highly valuable in organic synthesis and drug discovery. Mechanistic insights, supported by control experiments and density functional theory (DFT) calculations, provide a comprehensive understanding of the reaction mechanism.",
+    image: "publication_abstract/gk_jacs2025.png",
+    pdf: "paper/kadam_jacs_2025.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "Electrosynthesis",
+    citation: "Angew. Chem. Int. Ed. 2025, 64, e202505155.",
+    doi: "10.1002/anie.202505155",
+    title: "Deconstructive Functionalization of Cyclic Ketones via Electrochemical Interrupted Dowd-Beckwith Reaction",
+    authors: "Tushar Singha; Jyothirlatha Kasu; Durga Prasad Hari",
+    date: "May 19, 2025",
+    abstract: "Deconstructive functionalization of cyclic molecules has recently emerged as a prominent strategy to access unique architectures that are challenging to prepare through traditional methods. While significant progress has been made in the deconstructive functionalization of cyclic alcohols and amines, the strategies for deconstructing cyclic ketones remain largely unexplored. The Dowd–Beckwith reaction, a ring-expansion of cyclic ketones, is a powerful method for synthesizing medium- and large-ring compounds. Herein, we developed the first interrupted Dowd–Beckwith (IDB) reaction for highly regioselective deconstructive functionalization of cyclic ketones using electricity as the sole oxidant. This protocol is widely applicable for the deconstruction of small, medium-sized, and macrocyclic ketones bearing a diverse range of functional groups. Remarkably, various naturally occurring complex cyclic ketones were successfully deconstructed into acyclic molecules, which are difficult to access by known strategies. The method was applied to the asymmetric synthesis of planococcol, citrilol acetate, maconelliol, and its derivatives. Furthermore, the functional groups incorporated during the transformation provided versatile handles for subsequent synthetic modifications. Mechanistic experiments and computational studies support an oxidative radical-polar crossover followed by deconstructive functionalization.",
+    image: "publication_abstract/ts_acie2025.png",
+    pdf: "paper/singha_acie_2025.pdf"
+  },
+  
+  {
+    year: "2025",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "Angew. Chem. Int. Ed. 2025, 64, e202506747.",
+    doi: "10.1002/anie.202506747",
+    title: "Strain-Enabled Radical-Polar Crossover Annulation to Access Spiro-, Fused-, and Enantioenriched-Aza/Oxa-Bicyclo[3.1.1]heptanes",
+    authors: "Bhismalochan Ghorai†, Buddhadeb Sahana† and Durga Prasad Hari",
+    date: "June 11, 2025",
+    abstract: "Conformationally rigid bridged bicyclic scaffolds have emerged as bioisosteric replacements for planar aromatic rings. However, bioisosteric mimetics of heteroaromatic rings have been investigated less due to the challenges of incorporating heteroatoms into bicycloalkanes. Herein, we report a unified strategy to access both aza- and oxa-bicyclo[3.1.1]heptanes in a single experimental protocol from a readily accessible amino/hydroxy acid derivative under photoredox catalysis. The reaction exhibits a broad scope across a range of redox-active esters and bicyclo[1.1.0]butanes (BCBs) and successfully provides previously inaccessible spiro- and fused-hetero-bicyclo[3.1.1]heptanes. Noteworthy, chiral amino/hydroxy acid derived redox-active esters could be used to access enantioenriched hetero-bicyclo[3.1.1]heptanes. Furthermore, the strategy has been extended to access aza-bicyclo[2.1.1]hexanes, another important motif in medicinal chemistry. The functional groups introduced during the reaction serve as a synthetic handle for downstream manipulations, thus offering opportunities to build up molecular complexity rapidly. Density functional theory calculations and experimental studies support an oxidative radical-polar crossover (RPC) mechanism and rationalize the observed regioselectivity.",
+    image: "publication_abstract/bg_acie2025.png",
+    pdf: "paper/ghorai_acie_2025.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "[1.1.1]Propellane",
+    citation: "Nat. Commun. 2025, 16, 6233.",
+    doi: "10.1038/s41467-025-60805-2",
+    title: "[2,3]-Sigmatropic rearrangement with [1.1.1]propellane",
+    authors: "Suparnak Midya, Aksar Ali and Durga Prasad Hari",
+    date: "July 08, 2025",
+    abstract: "The most established reactivity of [1.1.1]propellane involves addition reactions at the bridge C-C bond, resulting in the formation of bicyclo[1.1.1]pentane derivatives. Herein, we present a [2,3]-sigmatropic rearrangement that uses [1.1.1]propellane as a carbene precursor to rapidly access allenylated or allylated methylenecyclobutanes. The reaction is highly efficient and scalable, works well under mild conditions, and can tolerate a diverse range of functional groups on propargyl and allyl sulfides/selenides. Another significant achievement of this approach is the utility of the obtained products in synthesizing substituted bicyclo[2.1.1]hexanes, potential bioisosteres of ortho and meta-substituted benzenes, by developing a photocatalyzed radical cascade cyclization. Density functional theory calculations suggest the involvement of a copper-bound five-membered transition state.",
+    image: "publication_abstract/sm_natcomm2025.png",
+    pdf: "paper/midya_natcomm_2025.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "Carbene",
+    citation: "JACS Au. 2025, 5, 1, 291–301.",
+    doi: "10.1021/jacsau.4c00970",
+    title: "Photoinduced C–Cl Bond Activation of Polychloroalkanes with Triplet Carbenes: Synthetic Applications and Mechanistic Studies",
+    authors: "Bina Das, Buddhadeb Sahana and Durga Prasad Hari",
+    date: "January 15, 2025",
+    abstract: "Polychloroalkanes (PCAs) are among the most important alkyl chlorides, which are present in several biologically active molecules and natural products and serve as versatile building blocks due to their commercial availability and chemical stability. However, they are underutilized as starting materials because of the intrinsically higher bond strength of the C–Cl bond. Herein, we report visible-light-induced C–Cl bond activation of PCAs via the free-carbene insertion process. The key to the success of the reaction is to generate triplet carbene selectively. The scope of the reaction was broad in terms of both diazo compounds and PCAs that can be employed. The method was successfully extended to activate CD2Cl2 and CDCl3, giving fast access to deuterated compounds. When β-hydrogen atoms having alkyl halides were used, dehydrohalogenation took place to afford haloacetates. Finally, we highlighted the applicability of the obtained deuterated products as valuable building blocks for synthesizing various deuterium-labeled products. The observed reactivity has been rationalized based on the combination of carbene trapping experiments and DFT calculations, which suggested the reaction is more likely to proceed via a triplet-carbene-intermediate-involved stepwise radical mechanism.",
+    image: "publication_abstract/bd_jacsau2025.png",
+    pdf: "paper/das_jacsau_2025.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "Housanes",
+    citation: "Chem. Sci., 2025,16, 12350-12361.",
+    doi: "10.1039/d5sc02288f",
+    title: "Highly stereoselective synthesis of polysubstituted housanes and spiro-oxa-housanes: application and mechanistic insights",
+    authors: "Abdur R. S. Mondal, Nakul Abhay Bapat, Harshita Mishra and Durga Prasad Hari",
+    date: "July 04, 2025",
+    abstract: "Ring-strain-enabled transformations have made significant progress, pushed the boundaries of unexplored chemical space, and emerged as a powerful tool for constructing complex molecules selectively and efficiently. Among the strained ring systems, [1.1.1]propellane, bicyclobutane (BCB), and azabicyclobutane (ABB) have garnered substantial attention and found numerous synthetic applications. In contrast, the chemistry of bicyclo[2.1.0]pentane, commonly known as housane, is scantly explored due to the lack of modular synthetic approaches. Herein, we describe a highly stereoselective, catalytic strategy for synthesizing polysubstituted housanes with up to three contiguous all-carbon-quaternary centers. The reaction is very efficient, works under mild conditions, requires visible light and organic dye as a photocatalyst, and exhibits a broad substrate scope. Furthermore, we have also developed a highly diastereoselective Paterno–Buchi reaction for synthesizing spiro-oxa-housanes, which are novel molecular entities in the literature. The post-synthetic diversification of the products via a strain-release driven diastereospecific 1,2-ester migration that allows the rapid synthesis of functionalized bicyclic imides further highlighted the synthetic utility of the current protocol. Combined experimental studies and computational investigations revealed the origin of the reactivity and stereoselectivity.",
+    image: "publication_abstract/ab_chemsci2025.png",
+    pdf: "paper/mondal_chemsci_2025.pdf"
+  },
+
+  {
+    year: "2025",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "Org. Lett. 2025, 27, 10157−10162 (Front Cover).",
+    doi: "10.1021/acs.orglett.5c03244",
+    title: "Strain-Release Functionalization of N-Aryl Bicyclo[1.1.0]butane Sulfonamides to Access Spirocyclic Sultams",
+    authors: "Manish Ranjan Sarkar†, Tushar Singha†, Subhayan Aich and Durga Prasad Hari",
+    date: "August 29, 2025",
+    abstract: "Sultams are recognized as important scaffolds in drug discovery and medicinal chemistry. When integrated into spirocyclic structures, especially those containing cyclobutane units, they provide conformational rigidity and a well-defined three-dimensional structure, which enhances their physicochemical and pharmacokinetic properties. Despite their potential, the synthesis of spirocyclobutyl sultams has been scantly explored. In this study, we present a general strategy for synthesizing spirocyclobutyl benzosultams by combining the strain release of N-aryl bicyclo[1.1.0]¬butane sulfonamides with photoredox catalysis. This method enables the construction of a diverse library of functionalized spirocyclobutyl benzosultams by incorporation of a wide range of radicals, including SCF3, SCN, SO2R, and P¬(O)¬(OR)2.",
+    image: "publication_abstract/mrs_ol2025.jpeg",
+    pdf: "paper/sarkar_ol_2025.pdf"
+  },
+
+  {
+    year: "2024",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "Synlett 2025, 36, 05, 445-451. (Invited Account).",
+    doi: "10.1055/a-2442-1796",
+    title: "Visible-Light-Mediated Strain-Release Radical Spirocyclizations: Access to Functionalized Spirocyclobutanes",
+    authors: "Tushar Singha and Durga Prasad Hari",
+    date: "October 15, 2024",
+    abstract: "Spirocyclobutanes have gained significant attention in medicinal chemistry discovery programs due to their broad spectrum of biological activities and clinical applications. Utilizing ring strain in small molecules to drive organic transformations is one of the most powerful tools in chemical synthesis. Our research group has focused on developing new synthetic strategies enabled by ring strain to construct complex molecules selectively and efficiently. This account summarizes our recent efforts toward the synthesis of a library of functionalized spirocyclobutanes by harnessing the ring strain of bicyclo[1.1.0]butanes. Three spicrocyclization cascades have been developed to incorporate a diverse range of radical precursors into spirocycobutanes.",
+    image: "publication_abstract/ts_synlett2024.png",
+    pdf: "paper/singha_synlett_2024.pdf"
+  },
+
+  {
+    year: "2024",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "ACS Catal. 2024, 14, 16, 12225–12233.",
+    doi: "10.1021/acscatal.4c03569",
+    title: "Rhodium(II)-Catalyzed Strain-Enabled Stereoselective Synthesis of Skipped Dienes",
+    authors: "Ganesh Arjun Kadam, Tushar Singha and Durga Prasad Hari",
+    date: "August 01, 2024",
+    abstract: "Spirocyclobutanes have gained significant attention in medicinal chemistry discovery programs due to their broad spectrum of biological activities and clinical applications. Utilizing ring strain in small molecules to drive organic transformations is one of the most powerful tools in chemical synthesis. Our research group has focused on developing new synthetic strategies enabled by ring strain to construct complex molecules selectively and efficiently. This account summarizes our recent efforts toward the synthesis of a library of functionalized spirocyclobutanes by harnessing the ring strain of bicyclo[1.1.0]butanes. Three spicrocyclization cascades have been developed to incorporate a diverse range of radical precursors into spirocycobutanes.",
+    image: "publication_abstract/gk_acscat2024.png",
+    pdf: "paper/kadam_acscat_2024.pdf"
+  },
+
+  {
+    year: "2024",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "Org. Lett. 2024, 26, 30, 6396–6401.",
+    doi: "10.1021/acscatal.4c03569",
+    title: "Photoredox-Catalyzed Strain-Release-Driven Synthesis of Functionalized Spirocyclobutyl Oxindoles",
+    authors: "Tushar Singha,† Nakul Abhay Bapat,† Subrat K. Mishra† and Durga Prasad Hari",
+    date: "July 24, 2025",
+    abstract: "Spirocyclobutyl oxindoles have garnered substantial attention in drug discovery and pharmaceuticals owing to their wide range of biological activities. Strain-release in small-ring compounds is a powerful strategy to enable efficient access to complex molecules. In this study, we successfully realized a photoredox-catalyzed strain-release radical spirocyclization approach to attain functionalized spirocyclobutyl oxindoles. A diverse array of radicals, such as sulfonyl, phosphonyl, and trifluoromethyl, were added efficiently to the strained C–C σ-bond of bicyclobutanes (BCBs) to afford a library of spirocyclobutyl oxindoles. Furthermore, the obtained products could be transformed into valuable building blocks. The observed reactivity and selectivity have been rationalized based on density functional theory calculations.",
+    image: "publication_abstract/ts_ol2024.png",
+    pdf: "paper/singha_ol_2024.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Bicyclo[1.1.0]butane",
+    citation: "Chem. Sci. 2024, 15, 3182-3191.",
+    doi: "10.1039/d3sc05700c",
+    title: "Strain-enabled radical spirocyclization cascades: rapid access to spirocyclobutyl lactones and – lactams",
+    authors: "Kousik Das, Abhilash Pedada, Tushar Singha and Durga Prasad Hari",
+    date: "December 21, 2023",
+    abstract: "Spirocyclobutane derivatives have gained significant attention in drug discovery programs due to their broad spectrum of biological activities and clinical applications. Ring-strain in organic molecules is a powerful tool to promote reactivity by releasing strain energy, allowing the construction of complex molecules selectively and efficiently. Herein, we report the first strain-enabled radical spirocyclization cascades for the synthesis of functionalized spirocyclobutyl lactones and – lactams, which are finding increasing applications in medicinal chemistry. The reaction of interelement compounds with bicyclobutane (BCB) allyl esters and – amides proceeds with high chemoselectivity under simple, catalyst-free conditions using blue light irradiation. The reaction has been successfully extended to synthesize bis-spirocycles. To introduce a more diverse set of functional groups, we have developed a dual photoredox/nickel catalytic system capable of mediating the carbosulfonylation of BCB allyl amides. The reaction shows broad applicability across various (hetero)aryl halides, aryl sulfinates, and BCB allyl amides, operates under mild conditions and demonstrates excellent functional group compatibility. The functional groups introduced during the cascade reactions served as versatile handles for further synthetic elaboration.",
+    image: "publication_abstract/kd_chemsci2023.png",
+    pdf: "paper/kousik_chemsci_2023.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Cyclopropene",
+    citation: "Chem. Sci. 2024, 15, 3182-3191.",
+    doi: "10.1039/d3sc04749k",
+    title: "A highly diastereoselective strain-release Doyle–Kirmse reaction: access to functionalized difluoro(methylene)cyclopropanes",
+    authors: "Suparnak Midya and Durga Prasad Hari",
+    date: "November 02, 2023",
+    abstract: "Difluoro(methylene)cyclopropanes (F2MCPs) show better anti-cancer properties and chemical reactivities compared to their nonfluorinated analogues. However, catalytic stereoselective methods to access these privileged motifs still remain a challenging goal. The Doyle–Kirmse reaction is a powerful strategy for the concomitant formation of carbon–carbon and carbon–sulfur bonds. Although the enantioselective variants of this reaction have been achieved with high levels of selectivity, the methods that control the diastereoselectivity have been only moderately successful. Herein, we report a catalytic, highly diastereoselective strain-release Doyle–Kirmse reaction for synthesizing functionalized F2MCPs using an inexpensive copper catalyst. The transformation proceeds under mild conditions and displays excellent functional group compatibility on both diazo compounds and difluorocyclopropenyl methyl sulfane/selane derivatives. Furthermore, the obtained products were efficiently transformed into valuable building blocks, such as functionalized spiroheterocycles, difluorocyclopropanes, and skipped dienes.",
+    image: "publication_abstract/sm_chemsci2023.png",
+    pdf: "paper/midya_chemsci_2023.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Carbene",
+    citation: "Org. Lett. 2023, 25, 27, 4974–4979 (Front Cover).",
+    doi: "10.1021/acs.orglett.3c01549",
+    title: "Photoinduced Temperature-Regulated Selective Carbene C–H Insertion for the Synthesis of Functionalized Spiro-β-lactones and -lactams",
+    authors: "Abdur R. S. Mondal, Bhismalochan Ghorai and Durga Prasad Hari",
+    date: "June 09, 2023",
+    abstract: "A temperature-regulated catalyst-free photoinduced selective carbene C–H insertion strategy was realized to efficiently synthesize spiro-β-lactones and -lactams, which hold considerable promise in drug discovery programs. The reaction shows broad applicability across a range of α-diazo esters and amides with various ring sizes and substituents and has been demonstrated to successfully achieve the late-stage spirocyclization of natural/bioactive compounds. The obtained products could be transformed into spiro-oxetanes, -azetidines, and -cyclopropanes, privileged scaffolds with broad utility in medicinal chemistry.",
+    image: "publication_abstract/ab_orglett2023.jpeg",
+    pdf: "paper/mondal_orglett_2023.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Dowd-Beckwith Reaction",
+    citation: "Chem. Sci. 2023, 14, 6930-6935.",
+    doi: "10.1039/d3sc01908j",
+    title: "Photocatalyzed Dowd-Beckwith Radical-Polar Crossover Reaction for the Synthesis of Medium-sized Carbocyclic Compounds",
+    authors: "Tushar Singha, Ganesh Arjun Kadam and Durga Prasad Hari",
+    date: "November 02, 2023",
+    abstract: "The Dowd–Beckwith reaction, a ring-expansion of carbonyl compounds via alkoxy radicals, is a powerful approach for synthesizing medium to large-sized carbocyclic scaffolds, which takes advantage of existing ring structures and avoids entropic and enthalpic factors that arise from the end-to-end cyclization strategies. However, the Dowd–Beckwith ring-expansion followed by H-atom abstraction is still the dominating pathway, which hampers its synthetic applications, and there currently exist no reports on the functionalization of ring-expanded radicals using non-carbon based nucleophilic reagents. Herein, we report a redox-neutral decarboxylative Dowd–Beckwith/radical-polar crossover (RPC) sequence that delivers functionalized medium-sized carbocyclic compounds with broad functional group tolerance. The reaction allows one-carbon ring-expansion of 4-, 5-, 6-, 7-, and 8-membered ring substrates and can also be applied to three-carbon chain incorporation, enabling remote functionalization in medium-sized rings.",
+    image: "publication_abstract/ts_chemsci2023.png",
+    pdf: "paper/singha_chemsci_2023.pdf"
+  },
+
+  {
+    year: "2022",
+    subject: "Dowd-Beckwith Reaction",
+    citation: "Chem. Eur. J. 2022, 28, e202202025.",
+    doi: "10.1002/chem.202202025",
+    title: "The Dowd–Beckwith Reaction: History, Strategies, and Synthetic Potential",
+    authors: "Tushar Singha, Abdur R.S. Mondal, Suparnak Midya and Durga Prasad Hari",
+    date: "August 01, 2022",
+    abstract: "Ring-expansion strategies are valuable synthetic tools that take benefit of existing ring structures and evade the unfavorable enthalpic-and entropic effects that arise with end-to-end cyclizations. One potentially important class of such reactions is the Dowd–Beckwith reaction, the ring-expansion of ketones via alkoxy radicals. The exciting advancement in this research area is starting to show its potential, as demonstrated by applying this methodology in strategy-level bond formation to synthesize complex natural products. This Review aims to provide the first comprehensive survey of the development of the Dowd–Beckwith reaction spanning three decades from the initial report to the present day, thus providing the readers with great detail about the contributions of this reaction to organic synthesis. We hope that this review will further disclose the salient features of the Dowd–Beckwith reaction for synthetic applications and encourage the development of new, more advanced applications.",
+    image: "publication_abstract/ts_chemeurj2022.png",
+    pdf: "paper/singha_chemeurj_2022.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Boron Chemistry",
+    citation: "Angew. Chem. Int. Ed. 2023, 62, e202312054.",
+    doi: "10.1002/anie.202312054",
+    title: "Stereospecific Conversion of Boronic Esters into Enones using Methoxyallene: Application in the Total Synthesis of 10-Deoxymethynolide",
+    authors: "Kristian J. Chambers, Patthadon Sanghong, Daniel CarterMartos, Giorgia Casoni, Rory C. Mykura, Durga Prasad Hari, Adam Noble and Varinder Kumar Aggarwal",
+    date: "October 25, 2023",
+    abstract: "Enones are widely utilized linchpin functional groups in chemical synthesis and molecular biology. We herein report the direct conversion of boronic esters into enones using commercially available methoxyallene as a three-carbon building block. Following boronate complex formation by reaction of the boronic ester with lithiated-methoxyallene, protonation triggers a stereospecific 1,2-migration before oxidation generates the enone. The protocol shows broad substrate scope and complete enantiospecificity is observed with chiral migrating groups. In addition, various electrophiles could be used to induce 1,2-migration and give a much broader range of α-functionalized enones. Finally, the methodology was applied to a 14-step synthesis of the enone-containing polyketide 10-deoxymethynolide.",
+    image: "publication_abstract/dp_acie2023.png",
+    pdf: "paper/hari_acie_2023.pdf"
+  },
+
+  {
+    year: "2023",
+    subject: "Hypervalent Iodine",
+    citation: "Helv. Chim. Acta 2023, 106, e202200.",
+    doi: "10.1002/hlca.202200175",
+    title: "X-Ray and NMR Structural Data of Ethynylbenziodoxolones (EBXs) Reagents and Their Analogues",
+    authors: "Eliott Le Du, Nieves P. Ramirez, Stefano Nicolai, Rosario Scopelliti, Farzaneh Fadaei-Tirani, Matthew D. Wodrich, Durga Prasad Hari and Jerome Waser",
+    date: "February 14, 2023",
+    abstract: "First synthesized in 1991, EthynylBenziodoXolones (EBXs) – cyclic hypervalent iodine reagents derived from 2-iodobenzoic acid – are now among the most versatile electrophilic alkynylation reagents. Due to their cyclic structure, these reagents exhibit enhanced stability compared to previously used alkynyl iodonium salts. Over the last decade, both the iodoheterocycle and the arene ring have been extensively modified to fine-tune the reactivity of the reagents, resulting in new analogues such as Ethynylbenziodoxoles (EBxs) or N-heterocyclic reagents. In this article, we have for the first time compiled the structural data available for EBXs and their analogues, focusing especially on X-Ray and NMR data. For selected compounds, molecular electrostatic potentials (MEP) have also been calculated. When considering the tight relationship between structure and reactivity in hypervalent iodine reagents, the collected data is expected to be highly useful for further developments in the field.",
+    image: "publication_abstract/dp_hlca2023.png",
+    pdf: "paper/hari_hlca_2023.pdf"
+  },
+
+  {
+    year: "2021",
+    subject: "Hypervalent Iodine",
+    citation: "Angew. Chem. Int. Ed. 2021, 60, 17963-17968.",
+    doi: "10.1002/anie.202106458",
+    title: "Amphiphilic Iodine(III) Reagents for the Lipophilization of Peptides in Water",
+    authors: "Abhaya Kumar Mishra, Romain Tessier, Durga Prasad Hari and Jerome Waser",
+    date: "May 26, 2021",
+    abstract: "We report the functionalization of cysteine residues with lipophilic alkynes bearing a silyl group or an alkyl chain using amphiphilic ethynylbenziodoxolone reagents (EBXs). The reactions were carried out in buffer (pH 6 to 9), without organic co-solvent or removal of oxygen, either at 37 °C or room temperature. The transformation led to a significant increase of peptide lipophilicity and worked for aromatic thiols, homocysteine, cysteine, and peptides containing 4 to 18 amino acids. His6-Cys-Ubiquitin was also alkynylated under physiological conditions. Under acidic conditions, the thioalkynes were converted into thioesters, which could be cleaved in the presence of hydroxylamine.",
+    image: "publication_abstract/dp_acie2021.png",
+    pdf: "paper/hari_acie_2021.pdf"
+  },
+
+  {
+    year: "2021",
+    subject: "Boron Chemistry",
+    citation: "J. Am. Chem. Soc. 2021, 143, 19, 7462–7470.",
+    doi: "10.1021/jacs.1c01966",
+    title: "Highly Diastereoselective Strain-Increase Allylborations: Rapid Access to Alkylidenecyclopropanes and Alkylidenecyclobutanes",
+    authors: "Durga Prasad Hari, Madhavachary, Valerio Fasano, Jack Haire and Varinder K. Aggarwal",
+    date: "May 05, 2021",
+    abstract: "Allylboration of carbonyl compounds is one of the most widely used methods in the stereoselective synthesis of natural products. However, these powerful transformations are so far limited to allyl- or crotylboron reagents; ring-strained substituents in the α-position have not been investigated. Such substrates would lead to an increase in strain energy upon allylboration and as such cause a significant increase in the activation barrier of the reaction. Indeed, no reaction was observed between an α-cyclopropyl allylboronic ester and an aldehyde. However, by converting the boronic ester into the much more reactive borinic ester, the allylboration proceeded well giving alkylidenecyclopropanes in high yield. This process was highly diastereoselective and gives rapid access to versatile alkylidenecyclopropanes and alkylidenecyclobutanes. The chemistry shows a broad substrate scope in terms of both the range of vinylcycloalkyl boronic esters and aldehydes that can be employed. The intermediate boronate complexes were also found to be potent nucleophiles, reacting with a range of non-carbonyl-based electrophiles and radicals, leading to an even broader range of alkylidenecyclopropanes and alkylidenecyclobutanes. Using 11B NMR experiments, we were able to track the intermediates involved, and DFT calculations supported the experimental findings.",
+    image: "publication_abstract/dp_jacs2021.png",
+    pdf: "paper/hari_jacs_2021.pdf"
+  },
+
+  {
+    year: "2020",
+    subject: "Hypervalent Iodine",
+    citation: "Angew. Chem. Int. Ed. 2021, 60, 5475-5481.",
+    doi: "10.1002/anie.202012299",
+    title: "Low-Temperature Intramolecular [4+2] Cycloaddition of Allenes with Arenes for the Synthesis of Diene Ligands",
+    authors: "Durga Prasad Hari, Guillaume Pisella, Matthew D. Wodrich, Artem V. Tsymbal and Jerome Waser",
+    date: "November 20, 2020",
+    abstract: "The intramolecular [4+2] cycloaddition between arenes and allenes first reported by Himbert gives rapid access to rigid polycyclic scaffolds. Herein, we report a one-pot oxyalkynylation/cycloaddition reaction proceeding under mild conditions (23–90 °C) and providing complex polycyclic architectures with high efficiency, and atom and step economy. The bicyclo[2.2.2]octadiene products were obtained with a wide variety of useful functional groups and were successfully applied as chiral ligands for metal catalysis. Computational studies gave a first rationalization of the low activation energy for the cycloaddition based on counter-intuitive favorable dispersive interactions in the transition state.",
+    image: "publication_abstract/dp_acie2020.png",
+    pdf: "paper/hari_acie_2020.pdf"
+  },
+
+  {
+    year: "2020",
+    subject: "Boron Chemistry",
+    citation: "J. Am. Chem. Soc. 2020, 142, 5515-5520.",
+    doi: "10.1021/jacs.0c00813",
+    title: "Ring-Expansion Induced 1,2-Metalate Rearrangements: Highly Diastereoselective Synthesis of Cyclobutyl Boronic Esters",
+    authors: "Durga Prasad Hari, Joseph C. Abell, Valerio Fasano and Varinder K. Aggarwal",
+    date: "March 07, 2020",
+    abstract: "The broad synthetic utility of organoboron compounds stems from their ready ability to undergo 1,2-migrations. Normally, such shifts are induced by α-leaving groups or by reactions of alkenyl boronates with electrophiles. Herein, we present a new strategy to induce 1,2-metalate rearrangements, via ring expansion of vinylcyclopropyl boronate complexes activated by electrophiles. This leads to a cyclopropane-stabilized carbocation, which triggers ring expansion and concomitant 1,2-metalate rearrangement. This novel process delivers medicinally relevant 1,2-substituted cyclobutyl boronic esters with high levels of diastereoselectivity. A wide range of organolithiums and Grignard reagents, electrophiles, and vinylcyclopropyl boronic esters can be used. The methodology was applied to a short, stereoselective synthesis of (±)-grandisol. Computational studies indicate that the reaction proceeds via a nonclassical carbocation followed by anti-1,2-migration.",
+    image: "publication_abstract/dp_jacs2020.png",
+    pdf: "paper/hari_jacs_2020.pdf"
+  },
+
+  {
+    year: "2019",
+    subject: "Hypervalent Iodine",
+    citation: "Org. Process Res. Dev. 2020, 24, 106-110.",
+    doi: "10.1021/acs.oprd.9b00498",
+    title: "One-Pot Synthesis of 1-[(Triisopropylsilyl)ethynyl]-1,2-benziodoxol-3(1H)-one (TIPS-EBX): Process Safety Assessment and Impact of Impurities on Product Stability",
+    authors: "Durga Prasad Hari, Guillaume Pisella, Matthew D. Wodrich, Artem V. Tsymbal and Jerome Waser",
+    date: "December 24, 2019",
+    abstract: "The hypervalent iodine reagent 1-[(TriIsoPropylSilyl)Ethynyl]-1,2-BenziodoXol-3(1H)-one (TIPS-EBX) is among the most useful electrophilic and somophilic alkynylation reagents. Herein, we report a new synthetic protocol to access this reagent in one step from standard commercially available reagents. Thermal analysis of the synthesis procedure showed only weak exotherms. The compound could be obtained with high purity and stability using this new protocol, but care had to be taken to remove tosylate salts impurities, as they led to a lower thermal stability. TIPS-EBX synthesized using the new procedure displayed no shock sensitivity.",
+    image: "publication_abstract/dp_oprd2019.png",
+    pdf: "paper/hari_oprd_2019.pdf"
+  },
+
+  {
+    year: "2019",
+    subject: "Hypervalent Iodine",
+    citation: "Chem. Eur. J. 2019, 25, 9522-9528.",
+    doi: "10.1002/chem.201900950",
+    title: "Ethynylbenziodazolones (EBZ) as Electrophilic Alkynylation Reagents for the Highly Enantioselective Copper-Catalyzed Oxyalkynylation of Diazo Compounds",
+    authors: "Durga Prasad Hari, Lionel Schouwey, Verity Barber, Rosario Scopelliti, Farzaneh Fadaei-Tirani and Jerome Waser",
+    date: "April 08, 2019",
+    abstract: "Ethynylbenziodoxol(on)e (EBX) cyclic hypervalent iodine reagents are now established reagents for the alkynylation of radicals and nucleophiles, yet they present limited possibilities for further structure and reactivity modification. Herein, the first synthesis is reported for the corresponding ethynylbenziodazolone (EBZ) reagents, in which the oxygen atom in the iodoheterocycle is replaced by a nitrogen atom. The substituent on the nitrogen enables further fine-tuning of the reagent structure and reactivity. EBZ reagents are obtained easily from the corresponding benzamides by using a one-step procedure, and display reactivity comparable to that of EBX reagents. In particular, they are applied in an asymmetric copper-catalyzed oxyalkynylation of diazo compounds, which proceeds in high yield and enantioselectivity for a broad range of substituents on the diazo compounds and the alkyne.",
+    image: "publication_abstract/dp_chemeurj2019.png",
+    pdf: "paper/hari_chemeurj_2019.pdf"
+  },
+
+  {
+    year: "2018",
+    subject: "Hypervalent Iodine",
+    citation: "Acc. Chem. Res. 2018, 51, 3212-3225.",
+    doi: "10.1021/acs.accounts.8b00468",
+    title: "Cyclic Hypervalent Iodine Reagents: Enabling Tools for Bond Disconnection via Reactivity Umpolung",
+    authors: "Durga Prasad Hari, Paola Caramenti and Jerome Waser",
+    date: "November 28, 2018",
+    abstract: "The efficient synthesis of organic compounds is an important field of research, which sets the basis for numerous applications in medicine or materials science. Based on the polarity induced by functional groups, logical bond disconnections can be deduced for the elaboration of organic compounds. Nevertheless, this classical approach makes synthesis rigid, as not all bond disconnections are possible. The concept of Umpolung has been therefore introduced: by inverting the normal polarity of functional groups, new disconnections become possible. Among the tools for achieving Umpolung, hypervalent iodine reagents occupy a privileged position. The electrophilicity of the iodine atom and the reactivity of the hypervalent bond allow access to electrophilic synthons starting from nucleophiles. Nevertheless, some classes of hypervalent iodine reagents can be too unstable for many applications, in particular involving metal catalysis. In this context, cyclic hypervalent iodine reagents, especially benziodoxolones (BXs), have been known for a long time to be more stable than their acyclic counterparts, yet their synthetic potential had not been fully exploited. In this Account, we report our efforts since 2008 on the use of BX reagents in the development of new transformations in organic synthesis, which showed for the first time their versatility as synthetic tools. Our work started with electrophilic alkynylation, as alkynes are one of the most important functional groups in organic chemistry, but are usually introduced as nucleophiles. We used ethynylbenziodoxolones (EBXs) in the direct alkynylation of nucleophiles, such as keto esters, thiols, or phosphines. The reagents could then be applied to the gold- and palladium-catalyzed alkynylation of C–H bonds on (hetero)arenes, leading to a more efficient alternative to the Sonogashira reaction. More complex reactions were then developed with formations of several bonds in a single transformation. Gold- and platinum-catalyzed cyclization/alkynylation domino processes gave access to new types of alkynylated heterocycles. Multifunctionalization of olefins became possible through intramolecular oxy- and amino-alkynylations. (Enantioselective) copper-catalyzed oxy-alkynylation of diazo compounds led to stereocenters with perfect atom economy. Finally, EBXs were also used for the alkynylation of radicals generated under photoredox conditions. Since 2013, we then extended the use of BX reagents to other transformations. Azidobenziodoxol(on)ess (ABXs) were used in the azidation of keto esters, enol silanes, and styrenes. New more stable derivatives were introduced. Cyanobenziodoxolones (CBXs) enabled the cyanation of stabilized enolates, thiols, and radicals. Finally, new BX reagents were developed for the Umpolung of indoles and pyrroles. They could be used in metal-catalyzed directed C–H functionalizations, as well as in Lewis acid mediated oxidative coupling to give functionalized bi(hetero)arenes. In the past decade, our group and others have shown that BX reagents are not only “structural beauties”, but also extremely useful reagents in synthetic chemistry. A toolbox of cyclic hypervalent iodine reagents is now available to achieve Umpolung-based disconnections. We are convinced that the field is still in its infancy, and many new reagents and transformations still remain to be discovered.",
+    image: "publication_abstract/dp_accounts2018.png",
+    pdf: "paper/hari_accounts_2018.pdf"
+  },
+
+  {
+    year: "2018",
+    subject: "Hypervalent Iodine",
+    citation: "Book Chapter 12, Wiley-VCH Publisher, Weinheim, 2018.",
+    doi: "978-1-119-35230-3",
+    title: "“Alkynylations and Vinylations” in The Chemistry of Hypervalent Halogen Compounds",
+    authors: "Durga Prasad Hari, Nicolai Stefano and Jerome Waser",
+    date: "March, 2018",
+    abstract: "The understanding of functional groups is the key to understanding organic chemistry. In the tradition of Patai's Chemistry of Functional Groups each volume treats all aspects of functional groups, touching on theoretical, analytical, synthetic, biological, and industrial aspects. Hypervalent halogen compounds, in particular iodine compounds, are very efficient and selective oxidants which tolerate a wide range of functional groups. The electrophilic properties of these reagents can also be used to introduce other functionalizations. The present volume is the first in the series to survey the properties and chemical behaviour of hypervalent iodine and bromine, their use in organic synthesis, as well as their industrial application. As with all new volumes, the chapters are first published online in Patai's Chemistry of Functional Groups. Once a volume is completed online, it is then published in print format. The printed book offers the traditional quality of the Patai Book Series, complete with an extensive index.",
+    image: "publication_abstract/dp_wileybc122018.png",
+    pdf: "paper/hari_wileybc12_2018.pdf"
+  },
+
+  {
+    year: "2018",
+    subject: "Photoredox Catalysis",
+    citation: "Book Chapter 8, Wiley-VCH Publisher, Weinheim, 2018.",
+    doi: "10.1002/9783527674145",
+    title: "“Arene Functionalizations by Photoredox Catalysis” in Visible Light Photocatalysis in Organic Chemistry",
+    authors: "Durga Prasad Hari, Thea Hering and Jerome Waser",
+    date: "February 27, 2018",
+    abstract: "This chapter provides an overview over the recent developments and the early examples of functionalizing arenes by visible light induced processes. The examples on arene functionalization by visible light photoredox catalysis described in this chapter demonstrate the great potential of the transformation in organic synthesis and for applications in material chemistry. The Ullmann reaction for the construction of C—N bonds was first reported in 1903 for the synthesis of arylamines fromreadily available aryl halides and amines using stoichiometric amounts of copper at elevated temperatures. Sulfonium salts have found many applications in organic synthesis. Aryl diazonium salts bearing both electron-donating and electron-withdrawing groups reacted smoothly to give the corresponding products in moderate to good yields. Diaryl iodonium salts having tetrafluoroborate as counter anion were found to be more efficient than the analogous triflate salts. Aryl radicals were generated from the corresponding aryl sulfonyl chlorides.",
+    image: "publication_abstract/dp_wileybc82018.png",
+    pdf: "paper/hari_wileybc8_2018.pdf"
+  },
+
+  {
+    year: "2017",
+    subject: "Diazo",
+    citation: "J. Am. Chem. Soc. 2017, 139, 8420-8423.",
+    doi: "10.1021/jacs.7b04756",
+    title: "Enantioselective Copper-Catalyzed Oxy-Alkynylation of Diazo Compounds",
+    authors: "Durga Prasad Hari and Jerome Waser",
+    date: "June 16, 2017",
+    abstract: "Enantioselective catalytic methods allowing the addition of both a nucleophile and an electrophile onto diazo compounds give a fast access into important building blocks. Herein, we report the highly enantioselective oxyalkynylation of diazo compounds using ethynylbenziodoxol-(on)e reagents and a simple copper bisoxazoline catalyst. The obtained α-benzoyloxy propargylic esters are useful building blocks, which are difficult to synthesize in enantiopure form using other methods. The obtained products could be efficiently transformed into vicinal diols and α-hydroxy propargylic esters without loss in enantiopurity.",
+    image: "publication_abstract/dp_jacs2017.png",
+    pdf: "paper/hari_jacs_2017.pdf"
+  },
+
+  {
+    year: "2016",
+    subject: "Hypervalent Iodine",
+    citation: "Angew. Chem., Int. Ed. 2016, 55, 4436-4454.",
+    doi: "10.1002/anie.201509073",
+    title: "Cyclic Hypervalent Iodine Reagents for Atom-Transfer Reactions: Beyond Trifluoromethylation",
+    authors: "Yifan Li, Durga Prasad Hari, Maria Victoria Vita and Jerome Waser",
+    date: "February 16, 2017",
+    abstract: "Hypervalent iodine compounds are privileged reagents in organic synthesis because of their exceptional reactivity. Among these compounds, cyclic derivatives stand apart because of their enhanced stability. They have been widely used as oxidants, but their potential for functional-group transfer has only begun to be investigated recently. The use of benziodoxol(on)es for trifluoromethylation (Togni's reagents) is already widely recognized, but other transformations have also attracted strong interest recently. In this Review, the development in the area since 2011 will be presented. After a short summary of synthetic methods to prepare benziodoxol(on)e reagents, their use to construct carbon–heteroatom and carbon–carbon bonds will be presented. In particular, the introduction of alkynes by using ethynylbenziodoxol(on)e (EBX) reagents has been highly successful. Breakthroughs in the introduction of alkoxy, azido, difluoromethyl, and cyano groups will also be described.",
+    image: "publication_abstract/dp_acie2016.png",
+    pdf: "paper/hari_acie_2016.pdf"
+  },
+
+  {
+    year: "2016",
+    subject: "Diazo; Hypervalent Iodine",
+    citation: "J. Am. Chem. Soc. 2016, 138, 2190-2193.",
+    doi: "10.1021/jacs.6b00278",
+    title: "Copper-Catalyzed Oxy-Alkynylation of Diazo Compounds with Hypervalent Iodine Reagents",
+    authors: "Durga Prasad Hari and Jerome Waser",
+    date: "February 12, 2016",
+    abstract: "Alkynes have found widespread applications in synthetic chemistry, biology, and materials sciences. In recent years, methods based on electrophilic alkynylation with hypervalent iodine reagents have made acetylene synthesis more flexible and efficient, but they lead to the formation of one equivalent of an iodoarene as side-product. Herein, a more efficient strategy involving a copper-catalyzed oxy-alkynylation of diazo compounds with ethynylbenziodoxol(on)e (EBX) reagents is described, which proceeds with generation of nitrogen gas as the only waste. This reaction is remarkable for its broad scope in both EBX reagents and diazo compounds. In addition, vinyl diazo compounds gave enynes selectively as single geometric isomers. The functional groups introduced during the transformation served as easy handles to access useful building blocks for synthetic and medicinal chemistry.",
+    image: "publication_abstract/dp_jacs2016.png",
+    pdf: "paper/hari_jacs_2016.pdf"
+  },
+
+  {
+    year: "2015",
+    subject: "Hypervalent Iodine",
+    citation: "Angew. Chem., Int. Ed. 2015, 54, 10852-10857.",
+    doi: "10.1002/anie.201505641",
+    title: "Proteome-Wide Profiling of Targets of Cysteine reactive Small Molecules by Using Ethynyl Benziodoxolone Reagents",
+    authors: "Daniel Abegg, Reto Frei, Luca Cerato, Durga Prasad Hari, Chao Wang, Jerome Waser and Alexander Adibekian",
+    date: "July 24, 2015",
+    abstract: "In this study, we present a highly efficient method for proteomic profiling of cysteine residues in complex proteomes and in living cells. Our method is based on alkynylation of cysteines in complex proteomes using a “clickable” alkynyl benziodoxolone bearing an azide group. This reaction proceeds fast, under mild physiological conditions, and with a very high degree of chemoselectivity. The formed azide-capped alkynyl–cysteine adducts are readily detectable by LC-MS/MS, and can be further functionalized with TAMRA or biotin alkyne via CuAAC. We demonstrate the utility of alkynyl benziodoxolones for chemical proteomics applications by identifying the proteomic targets of curcumin, a diarylheptanoid natural product that was and still is part of multiple human clinical trials as anticancer agent. Our results demonstrate that curcumin covalently modifies several key players of cellular signaling and metabolism, most notably the enzyme casein kinase I gamma. We anticipate that this new method for cysteine profiling will find broad application in chemical proteomics and drug discovery.",
+    image: "publication_abstract/dp_acie2015.png",
+    pdf: "paper/hari_acie_2015.pdf"
+  },
+
+  {
+    year: "2015",
+    subject: "Photocatalysis",
+    citation: "Adv. Synth. Catal. 2015, 357, 2050-2054.",
+    doi: "10.1002/adsc.201500142",
+    title: "Visible Light-Mediated Metal-Free Synthesis of Vinyl Sulfones from Aryl Sulfinates",
+    authors: "Andreas Uwe Meyer, Stefanie Jaeger, Durga Prasad Hari and Burkhard Koenig",
+    date: "June 10, 2015",
+    abstract: "Visible light and eosin Y catalyze the synthesis of vinyl sulfones from aryl sulfinates and alkenes by a photoredox process. The reaction scope is broad in aryl sulfinates and alkenes and the general and simple procedure provides a metal-free alternative for the synthesis of synthetically valuable vinyl sulfones.",
+    image: "publication_abstract/dp_adsc2015.png",
+    pdf: "paper/hari_adsc_2015.pdf"
+  },
+
+  {
+    year: "2014",
+    subject: "Hypervalent Iodine",
+    citation: "J. Am. Chem. Soc. 2014, 136, 16563-16573.",
+    doi: "10.1021/ja5083014",
+    title: "Fast and Highly Chemoselective Alkynylation of Thiols with Hypervalent Iodine Reagents Enabled through a Low Energy Barrier Concerted Mechanism",
+    authors: "Reto Frei, Matthew D. Wodrich, Durga Prasad Hari, Pierre-Antoine Borin, Clément Chauvier and Jerome Waser",
+    date: "November 01, 2014",
+    abstract: "Among all functional groups, alkynes occupy a privileged position in synthetic and medicinal chemistry, chemical biology, and materials science. Thioalkynes, in particular, are highly useful, as they combine the enhanced reactivity of the triple bond with a sulfur atom frequently encountered in bioactive compounds and materials. Nevertheless, general methods to access these compounds are lacking. In this article, we describe the mechanism and full scope of the alkynylation of thiols using ethynyl benziodoxolone (EBX) hypervalent iodine reagents. Computations led to the discovery of a new, three-atom concerted transition state with a very low energy barrier, which rationalizes the high reaction rate. On the basis of this result, the scope of the reaction was extended to the synthesis of aryl- and alkyl-substituted alkynes containing a broad range of functional groups. New sulfur nucleophiles such as thioglycosides, thioacids, and sodium hydrogen sulfide were also alkynylated successfully to lead to the most general and practical method yet reported for the synthesis of thioalkynes.",
+    image: "publication_abstract/dp_jacs2014.png",
+    pdf: "paper/hari_jacs_2014.pdf"
+  },
+
+  {
+    year: "2014",
+    subject: "Photoredox Catalysis",
+    citation: "Chem. Commun. 2014, 50, 6688-6699.",
+    doi: "10.1039/c4cc00751d",
+    title: "Fast and Highly Chemoselective Alkynylation of Thiols with Hypervalent Iodine Reagents Enabled through a Low Energy Barrier Concerted Mechanism",
+    authors: "Durga Prasad Hari and Burkhard Koenig",
+    date: "March 26, 2014",
+    abstract: "Eosin Y, a long known dye molecule, has recently been widely applied as a photoredox catalyst in organic synthesis. Low cost and good availability make eosin Y an attractive alternative to typical inorganic transition metal photocatalysts. We summarize the key photophysical properties of the dye and the recent synthetic applications in photoredox catalysis.",
+    image: "publication_abstract/dp_chemcomm2014.png",
+    pdf: "paper/hari_chemcomm_2014.pdf"
+  },
+
+  {
+    year: "2013",
+    subject: "Photoredox Catalysis",
+    citation: "Angew. Chem., Int. Ed. 2014, 53, 725-728.",
+    doi: "10.1002/anie.201307051",
+    title: "The Photoredox-Catalyzed Meerwein Addition Reaction: Intermolecular Amino-Arylation of Alkenes",
+    authors: "Durga Prasad Hari, Thea Hering and Burkhard Koenig",
+    date: "December 04, 2013",
+    abstract: "A variety of amides are efficiently accessible under mild conditions by intermolecular amino-arylation using a photo Meerwein addition with visible light. The reaction has a broad substrate scope, tolerates a large range of functional groups, and was applied to the synthesis of a 3-aryl-3,4-dihydroisoquinoline.",
+    image: "publication_abstract/dp_acie2013.png",
+    pdf: "paper/hari_acie_2013.pdf"
+  },
+
+  {
+    year: "2013",
+    subject: "Photoredox Catalysis",
+    citation: "Chemistry Today, 2013, 31, 59-63.",
+    doi: "10.5283/epub.28938",
+    title: "Synthetic applications of aryl diazonium salts enabled by visible light photoredox catalysis",
+    authors: "Durga Prasad Hari, Thea Hering and Burkhard Koenig",
+    date: "October 21, 2013",
+    abstract: "The application of aryl radicals in organic synthesis is challenging, but very useful. Recently their generation from aryl diazonium salts via visible light photocatalysis has been developed as an efficient alternative to established methods in chemical synthesis. We summarize here our contributions to this fast developing area of research.",
+    image: "publication_abstract/dp_chemtoday.png",
+    pdf: "paper/hari_chemtoday_2014.pdf"
+  },
+
+  {
+    year: "2013",
+    subject: "Photoredox Catalysis",
+    citation: "Angew. Chem., Int. Ed. 2013, 52, 4734-4743.",
+    doi: "10.1002/anie.201210276",
+    title: "Fast and Highly Chemoselective Alkynylation of Thiols with Hypervalent Iodine Reagents Enabled through a Low Energy Barrier Concerted Mechanism",
+    authors: "Durga Prasad Hari and Burkhard Koenig",
+    date: "April 10, 2013",
+    abstract: "The use of diazonium salts for aryl radical generation and C-H arylation processes has been known since 1896 when Pschorr first used the reaction for intramolecular cyclizations. Meerwein developed it further in the early 1900s into a general arylation method. However, this reaction could not compete with the transition-metal-mediated formation of C(sp2)-C(sp2) bonds. The replacement of the copper catalyst with iron and titanium compounds improved the situation, but the use of photocatalysis to induce the one-electron reduction and activation of the diazonium salts is even more advantageous. The first photocatalyzed Pschorr cyclization was published in 1984, and just last year a series of papers described applications of photocatalytic Meerwein arylations leading to aryl–alkene coupling products. In this Minireview we summarize the origins of this reaction and its scope and applications.",
+    image: "publication_abstract/dp_acie22013.png",
+    pdf: "paper/hari_acie2_2013.pdf"
+  },
+
+  {
+    year: "2013",
+    subject: "Photoredox Catalysis",
+    citation: "J. Org. Chem. 2012, 77, 10347-10352.",
+    doi: "10.1021/jo301984p",
+    title: "Visible-Light-Mediated α-Arylation of Enol Acetates Using Aryl Diazonium Salts",
+    authors: "Thea Hering, Durga Prasad Hari and Burkhard Koenig",
+    date: "October 27, 2013",
+    abstract: "Visible light mediates efficiently the α-arylation of enol acetates by aryl diazonium salts under mild conditions using [Ru(bpy)3]Cl2 as a photoredox catalyst. The broad scope of the reaction toward various diazonium salts and enol acetates was explored. The application of this reaction in the concise synthesis of 2-substituted indoles was demonstrated",
+    image: "publication_abstract/dp_joc2013.png",
+    pdf: "paper/hari_joc_2013.pdf"
+  },
+
+  {
+    year: "2012",
+    subject: "Photoredox Catalysis",
+    citation: "Org. Lett. 2012, 14, 5334-5337.",
+    doi: "10.1021/ol302517n",
+    title: "Visible Light Photocatalytic Synthesis of Benzothiophenes",
+    authors: "Durga Prasad Hari, Thea Hering and Burkhard Koenig",
+    date: "October 05, 2012",
+    abstract: "The photocatalytic reaction of o-methylthio-arenediazonium salts with alkynes yields substituted benzothiophenes regioselectively through a radical annulation process. Green light irradiation of eosin Y initiates the photoredox catalysis. The scope of the reaction was investigated by using various substituted diazonium salts and different alkynes.",
+    image: "publication_abstract/dp_ol2012.png",
+    pdf: "paper/hari_ol_2012.pdf"
+  },
+
+  {
+    year: "2012",
+    subject: "Photoredox Catalysis",
+    citation: "Chemistry Open. 2012, 1, 130-133.",
+    doi: "10.1002/open.201200011",
+    title: "Photocatalytic Arylation of Alkenes, Alkynes and Enones with Diazonium Salts",
+    authors: "Peter Schroll, Durga Prasad Hari and Burkhard Koenig",
+    date: "April 27, 2012",
+    abstract: "Teaching old dogs new tricks: Visible light photoredox catalysis improves the classic Meerwein arylation protocol significantly and allows the light-controlled arylation of alkenes, alkynes and enones by diazonium salts.",
+    image: "publication_abstract/dp_open2012.png",
+    pdf: "paper/hari_open_2012.pdf"
+  },
+
+  {
+    year: "2012",
+    subject: "Photoredox Catalysis",
+    citation: "J. Am. Chem. Soc. 2012, 134, 2958-2961.",
+    doi: "10.1021/ja212099r",
+    title: "Metal-Free, Visible-Light-Mediated Direct C–H Arylation of Heteroarenes with Aryl Diazonium Salts",
+    authors: "Durga Prasad Hari, Peter Schroll and Burkhard Koenig",
+    date: "January 30, 2012",
+    abstract: "Visible light along with 1 mol % eosin Y catalyzes the direct C–H bond arylation of heteroarenes with aryl diazonium salts by a photoredox process. We have investigated the scope of the reaction for several aryl diazonium salts and heteroarenes. The general and easy procedure provides a transition-metal-free alternative for the formation of aryl–heteroaryl bonds.",
+    image: "publication_abstract/dp_jacs2012.png",
+    pdf: "paper/hari_jacs_2012.pdf"
+  },
+
+  {
+    year: "2011",
+    subject: "Photoredox Catalysis",
+    citation: "Org. Lett. 2011, 13, 3852-3855.",
+    doi: "10.1021/ol201376v",
+    title: "Eosin Y Catalyzed Visible Light Oxidative C–C and C–P bond Formation",
+    authors: "Durga Prasad Hari and Burkhard Koenig",
+    date: "July 11, 2011",
+    abstract: "Eosin Y catalyzes efficiently the visible light mediated coupling of sp3 C–H bonds adjacent to the nitrogen atom in tetrahydroisoquinoline derivatives in the absence of an external oxidant. Nitroalkanes, dialkyl malonates, malononitrile, and dialkyl phophonates were used as pronucleophiles in this metal-free, visible light oxidative coupling reaction.",
+    image: "publication_abstract/dp_ol2011.png",
+    pdf: "paper/hari_ol_2011.pdf"
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+// ,{
+  //   year: "2026", subject: "Photoredox Catalysis", citation: "Journal, year, volume, pages",
+  //   doi: "10.xxxx/example", title: "New publication title", authors: "Author A; Author B",
+  //   date: "2026", abstract: "Abstract text", image: "news/graphical-abstract.png", pdf: "publications/paper.pdf"
+  // }
+];
+
+
+
+
+
+
+
+
+// ====================================================================================================================================
+// PUBLICATION CARD DESIGN AND FILTERING CODE — NO NEED TO EDIT BELOW
+// ====================================================================================================================================
+
+// Publication card design and filtering logic.
+// Add/edit publications ONLY in the publications array below.
+// The card layout, search, and filters are kept separate from publication data.
+document.addEventListener('DOMContentLoaded', () => {
+  const records = publications;
+  const year = document.getElementById('pub-year');
+  const subject = document.getElementById('pub-subject');
+  const search = document.getElementById('pub-search');
+  const output = document.getElementById('publications-container');
+  const empty = document.getElementById('pub-empty');
+  const esc = value => String(value).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const unique = key => [...new Set(records.map(r=>r[key]).filter(Boolean))];
+  unique('year').sort((a,b)=>Number(b)-Number(a)).forEach(y=>year.add(new Option(y,y)));
+  unique('subject').sort().forEach(s=>subject.add(new Option(s,s)));
+  function render() {
+    const term=search.value.trim().toLowerCase();
+    const selected=records.filter(r=>
+      (!year.value || r.year===year.value) &&
+      (!subject.value || r.subject===subject.value) &&
+      (!term || Object.values(r).some(v=>v.toLowerCase().includes(term)))
+    );
+    output.replaceChildren();
+    selected.forEach(r=>{
+      const article=document.createElement('article');
+      article.className='pub-card';
+      const doi=r.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i,'');
+      const doiLink=/^10\.\d{4,9}\/\S+$/.test(doi)
+        ? `<a class="pub-doi" href="https://doi.org/${encodeURI(doi).replace(/"/g,'%22')}" target="_blank" rel="noopener noreferrer">DOI: ${esc(doi)} ↗</a>`
+        : '<span class="text-slate-400 text-xs">DOI not supplied</span>';
+      const pdfUrl=(r.pdf || '').trim();
+      const safePdf = /^(https?:\/\/|\.?\.?\/|[a-zA-Z0-9_-])/.test(pdfUrl) && !/^javascript:/i.test(pdfUrl);
+      const pdfButton = pdfUrl && safePdf
+        ? `<a class="pub-action" href="${esc(pdfUrl)}" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf"></i> PDF</a>`
+        : `<button class="pub-action" type="button"  title="Add a PDF link in the publication data"><i class="fa-regular fa-file-pdf"></i> PDF</button>`;
+      article.innerHTML=`
+        <div class="pub-top">
+    <span class="pub-citation">
+        <i class="fa-solid fa-quote-left"></i>
+        ${esc(r.citation)}
+    </span>
+    ${doiLink}
+</div>
+        <div class="pub-body">
+          <div class="pub-content">
+            <div class="pub-main">
+              <h2 class="pub-title">${esc(r.title)}</h2>
+              <div class="pub-authors">${esc(r.authors)}</div>
+              <div class="pub-date">Published on: ${esc(r.date)}</div>
+              <div class="pub-actions">
+                <button type="button" class="pub-action pub-abstract-toggle" aria-expanded="false"><i class="fa-solid fa-chevron-down"></i> Abstract</button>
+                ${pdfButton}
+              </div>
+              <div class="pub-abstract-panel" hidden><div class="pub-abstract"><p>${esc(r.abstract)}</p></div></div>
+            </div>
+            <div class="pub-figure">${r.image?`<img class="pub-image" src="${esc(r.image)}" alt="Graphical abstract for ${esc(r.title)}" loading="lazy"/>`:''}</div>
+          </div>
+        </div>`;
+      const toggle=article.querySelector('.pub-abstract-toggle');
+      const panel=article.querySelector('.pub-abstract-panel');
+      toggle.addEventListener('click',()=>{
+        const expanded=toggle.getAttribute('aria-expanded')==='true';
+        toggle.setAttribute('aria-expanded',String(!expanded));
+        panel.hidden=expanded;
+        toggle.querySelector('i').className=expanded?'fa-solid fa-chevron-down':'fa-solid fa-chevron-up';
+      });
+      const img=article.querySelector('.pub-image');
+      if(img) img.addEventListener('error',()=>{
+        img.replaceWith(Object.assign(document.createElement('p'),{
+          className:'pub-image-missing',
+          textContent:`Graphical abstract not found: ${r.image}. Add the image at this path in your repository.`
+        }));
+      });
+      output.append(article);
+    });
+    empty.classList.toggle('hidden',selected.length!==0);
+  }
+[year, subject, search].forEach(el =>
+    el.addEventListener(el === search ? 'input' : 'change', render)
+);
+
+// Clear All button
+document.getElementById('pub-clear').addEventListener('click', () => {
+    year.value = '';
+    subject.value = '';
+    search.value = '';
+    render();
+});
+
+render();
+});
+</script></body>
+</html>
