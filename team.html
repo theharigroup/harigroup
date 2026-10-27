@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Members | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="team">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-team">
+<!-- Page Heading -->
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Team &amp; Alumni</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">Current Members</h1>
+</div>
+</section>
+
+
+<!-- Sticky Navigating Menu -->
+<section class="sticky top-0 z-50 w-full py-1 bg-slate-300 shadow-sm" id="sticky-nav" style="--border-width: 2px; --border-height: 70%; --border-color: #94a3b8;">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-0 text-left divide-x-0 divide-y divide-slate-400 lg:divide-y-0">
+<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#postdoc-heading">
+      Postdoctoral Fellows
+    </a>
+<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#graduate-heading">
+      Graduate Students
+    </a>
+<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#master-heading">
+      MS &amp; BS Students
+    </a>
+<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0" href="alumni.html">
+    Alumni
+</a>
+</div>
+</section>
+<style>
+  /* Centralized divider controls */
+  #sticky-nav {
+    --border-width: 2px;
+    --border-height: 60%;
+    --border-color: #94a3b8;
+  }
+
+  @media (min-width: 1024px) {
+    #sticky-nav a:not(:last-child) {
+      border-right: var(--border-width) solid var(--border-color);
+      position: relative;
+    }
+
+    #sticky-nav a:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: calc(-1 * var(--border-width));
+      top: 50%;
+      height: var(--border-height);
+      border-right: var(--border-width) solid var(--border-color);
+      transform: translateY(-50%);
+    }
+
+    #sticky-nav a:not(:last-child) {
+      border-right: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    #sticky-nav a {
+      border-bottom: none;
+      position: relative;
+    }
+
+    #sticky-nav a:nth-child(odd)::after,
+    #sticky-nav a:nth-child(even)::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: var(--border-width) solid var(--border-color);
+    }
+  }
+</style>
+<!-- Team Sections -->
+<section class="py-10 bg-slate-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Postdoctoral Fellows Heading -->
+<div id="postdoc-heading" style="display: flex; align-items: center; gap: 12px;
+            margin-bottom: 18px; width: 100%; scroll-margin-top: 80px;">
+<h3 class="font-bold text-slate-700" style="font-size: 20px; text-align: left; margin: 0; white-space: nowrap;">
+    Postdoctoral Fellows
+  </h3>
+<div style="display: flex; align-items: center; gap: 3px;">
+<div style="width: 2px; height: 15px; background-color: #96ADC5;"></div>
+<div style="height: 3px; width: 50px; background-color: #facc15;"></div>
+</div>
+</div>
+<!-- Postdoctoral Fellows Cards -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="postdoc-grid"></div>
+<!-- Graduate Students Heading -->
+<div id="graduate-heading" style="display: flex; align-items: center; gap: 12px;
+            margin-top: 36px; margin-bottom: 18px; width: 100%;
+            scroll-margin-top: 80px;">
+<h3 class="font-bold text-slate-700" style="font-size: 20px; text-align: left; margin: 0; white-space: nowrap;">
+    Graduate Students
+  </h3>
+<div style="display: flex; align-items: center; gap: 3px;">
+<div style="width: 2px; height: 15px; background-color: #96ADC5;"></div>
+<div style="height: 3px; width: 50px; background-color: #facc15;"></div>
+</div>
+</div>
+<!-- Graduate Students Cards -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="graduate-grid"></div>
+<!-- Master & Undergrad Students Heading -->
+<div id="master-heading" style="display: flex; align-items: center; gap: 12px;
+            margin-top: 36px; margin-bottom: 18px; width: 100%;
+            scroll-margin-top: 80px;">
+<h3 class="font-bold text-slate-700" style="font-size: 20px; text-align: left; margin: 0; white-space: nowrap;">
+    Master &amp; Undergrad Students
+  </h3>
+<div style="display: flex; align-items: center; gap: 3px;">
+<div style="width: 2px; height: 15px; background-color: #96ADC5;"></div>
+<div style="height: 3px; width: 50px; background-color: #facc15;"></div>
+</div>
+</div>
+<!-- Master & Undergrad Students Cards -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="master-grid"></div>
+<!-- Profile Card Styles -->
+<style>
+          .email-icon {
+            color: #696969 !important;
+            transition: color 0.2s ease-in-out;
+          }
+
+          .email-icon:hover {
+            color: #ADADAD !important;
+          }
+
+          .icon-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 3px;
+          }
+
+          .icon-links a {
+            opacity: 0.5;
+            transition: opacity 0.2s ease-in-out;
+            color: inherit;
+            text-decoration: none;
+          }
+
+          .icon-links a:hover {
+            opacity: 0.7;
+          }
+        </style>
+<script>
+          // ====================================================================================================================================
+          // ENTER PROFILE INFORMATION HERE
+          // ====================================================================================================================================
+          const profiles = [
+		{
+              section: "Postdoctoral Fellows",
+              name: "Bina Das",
+              image: "members/binadas.jpg",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              scholar: "https://scholar.google.com",
+              orcid: "https://orcid.org"
+            },
+            {
+              section: "Graduate Students",
+              name: "Tushar Singha",
+              image: "members/tusharsingha.jpeg",
+              degree: "M.Sc, IIT Madras",
+              position: "5th Year Graduate Student",
+              email: "tushraas@iisc.ac.in",
+              scholar: "https://scholar.google.com/citations?user=_lpZUwwAAAAJ&hl=en",
+              orcid: "https://orcid.org/0000-0002-9424-6460"
+            },
+
+            {
+              section: "Graduate Students", 
+              name: "Bina Das",
+              image: "members/binadas.jpg",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              scholar: "https://scholar.google.com",
+              orcid: "https://orcid.org"
+            },
+
+		{
+              section: "Master & Undergrad Students",
+              name: "Bina Das",
+              image: "members/binadas.jpg",
+              degree: "B.Sc, Hooghly Mohsin College",
+              position: "4th Year Int. PhD Student",
+              email: "your-email@example.com",
+              scholar: "https://scholar.google.com",
+              orcid: "https://orcid.org"
+            }
+
+            // Add more profiles below using the same format.
+          ];
+
+          // ====================================================================================================================================
+          // REUSABLE PROFILE CARD TEMPLATE
+          // Do not edit this section when adding profiles.
+          // ==========================================
+
+          function createProfileCard(person) {
+            return `
+              <div class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm">
+
+                <img
+                  class="w-90 h-90 rounded-[3px] mx-auto mb-4 border- border-amber-400 object-cover"
+                  src="${person.image}"
+                  alt="${person.name}"
+                />
+
+                <h3
+                  class="font-bold text-slate-700"
+                  style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 18px; text-align: left; width: 100%;"
+                >
+                  ${person.name}
+                </h3>
+
+                <div
+                  style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"
+                ></div>
+
+                <p
+                  class="text-[13px] font-bold text-slate-500 mt-2 text-left"
+                  style="display: flex; align-items: center; gap: 6px;"
+                >
+                  ${person.degree}
+                </p>
+
+                <p
+                  class="text-[13px] text-slate-500 mt-1 text-left"
+                  style="display: flex; align-items: center; gap: 6px;"
+                >
+                  ${person.position}
+                </p>
+
+                <div class="icon-links" style="margin-top: 10px;">
+
+                  ${person.email ? `
+                    <a
+                      href="mailto:${person.email}"
+                      aria-label="Email ${person.name}"
+                    >
+                      <i class="fa-solid fa-envelope"></i>
+                    </a>
+                  ` : ""}
+
+                  ${person.scholar ? `
+                    <a
+                      href="${person.scholar}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Google Scholar profile"
+                    >
+                      <i class="fa-brands fa-google-scholar"></i>
+                    </a>
+                  ` : ""}
+
+                  ${person.orcid ? `
+                    <a
+                      href="${person.orcid}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="ORCID profile"
+                    >
+                      <i class="fa-brands fa-orcid"></i>
+                    </a>
+                  ` : ""}
+
+                </div>
+
+              </div>
+            `;
+          }
+
+          // ==========================================
+          // AUTOMATICALLY DISPLAY PROFILES BY SECTION
+          // ==========================================
+
+          document.getElementById("postdoc-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Postdoctoral Fellows")
+              .map(createProfileCard)
+              .join("");
+
+          document.getElementById("graduate-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Graduate Students")
+              .map(createProfileCard)
+              .join("");
+
+          document.getElementById("master-grid").innerHTML =
+            profiles
+              .filter(person => person.section === "Master & Undergrad Students")
+              .map(createProfileCard)
+              .join("");
+        </script>
+</div>
+</section>
+</div>
+</main>
+
+<!-- Footer -->
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

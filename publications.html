@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Publications | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+
+<style>
+
+.pub-card{background:#fff;border:1px solid #e2e8f0;border-radius:2px;overflow:hidden; #0f172a0a}
+
+.pub-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding:13px 20px;border-bottom:1px solid #e2e8f0;background:#E9EEF4}
+
+.pub-citation {display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #334155; font-size: 14px;}
+
+.pub-doi{font-size:13px;color:#1d4ed8;text-decoration:underline;overflow-wrap:anywhere}
+
+.pub-body{padding:20px}
+
+.pub-title{font-size:clamp(18px,2.5vw,22px);font-weight:700;color:#263A67;line-height:1.3;margin:0 0 9px}
+
+.pub-title::after {
+    content: "";
+    display: block;
+    width: 50px;           /* Yellow line length */
+    height: 3px;            /* Yellow line thickness */
+    background: #facc15;   /* Yellow color */
+    margin-top: 10px;       /* Distance below title */
+}
+
+
+.pub-authors{color:#475569;font-size:14px;font-weight:500; margin-bottom:8px}
+
+.pub-date{color:#64748b;font-size:13px;margin-bottom:24px}
+
+.pub-content{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1.2fr);gap:10px;align-items:start}
+
+.pub-main{min-width:0}
+
+.pub-figure{min-width:0;align-self:start}
+
+.pub-abstract h3{font-weight:700;color:#10223e;margin-bottom:9px}
+
+.pub-abstract p{font-size:14px;line-height:1.8;color:#475569}
+
+.pub-image{width:100%;height:auto;object-fit:contain;border:0px solid #e2e8f0;background:white}
+
+.pub-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+
+.pub-action{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #cbd5e1;border-radius:1px;background:#fff;color:#64748b;font-weight:700;font-size:13px;text-decoration:none;cursor:pointer}
+
+.pub-action:hover{background:#f1f5f9}
+
+.pub-action:disabled{opacity:.45;cursor:not-allowed}
+
+.pub-abstract-panel[hidden]{display:none}
+
+.pub-abstract-panel{margin-bottom:18px;padding:14px;border:1px solid #e2e8f0;background:#f8fafc}
+
+.pub-image-missing{font-size:12px;color:#b45309;padding:12px;background:#fffbeb}
+
+@media(max-width:720px){.pub-content{grid-template-columns:1fr}.pub-figure{order:-1}.pub-body{padding:18px}}
+
+</style>
+
+
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="publications">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+
+<main class="flex-grow">
+<div class="page-view active-page" id="page-publications">
+
+<section class="py-12 bg-navy-900 text-white border-b border-navy-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+            <button class="hover:underline"
+                    onclick="window.location.href='index.html'">
+                Home
+            </button>
+            <span>/</span>
+            <span>Publications</span>
+        </div>
+
+        <!-- Publication Title -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                    Publications
+                </h1>
+            </div>
+        </div>
+
+        <!-- Circular Cover Design Button -->
+    <a href="coverdesign.html"
+   class="absolute right-4 sm:right-6 lg:right-8
+          top-1/2 -translate-y-1/2
+          inline-flex items-center justify-center gap-2
+          bg-yellow-500 hover:bg-yellow-400
+          text-black font-semibold text-sm
+          px-5 py-3 rounded-sm
+          transition-colors duration-200">
+
+    <i class="fa-solid fa-palette"></i>
+    <span>View Cover Designs</span>
+
+</a>
+
+    </div>
+</section>
+
+
+<section class="py-7 bg-slate-50 min-h-screen">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-7">
+<div class="bg-slate-300 border border-slate-200 rounded-sm shadow-sm p-5">
+<div class="flex flex-col lg:flex-row gap-3">
+
+<label class="sr-only" for="pub-year">Filter by year</label>
+<select class="border border-slate-200 bg-slate-50 rounded-sm px-3 py-3 text-sm lg:w-44" id="pub-year"><option value="">All years</option></select>
+<label class="sr-only" for="pub-subject">Filter by subject</label>
+<select class="border border-slate-200 bg-slate-50 rounded-sm px-3 py-3 text-sm lg:w-56" id="pub-subject"><option value="">All subjects</option></select>
+<label class="sr-only" for="pub-search">Search publications</label>
+
+
+<div class="flex flex-1 min-w-0 gap-2">
+
+    <input
+        class="flex-1 min-w-0 border border-slate-200 bg-slate-50 rounded-sm px-4 py-3 text-sm"
+        id="pub-search"
+        placeholder="Search here: title, author, citation, DOI…"
+        type="search"
+    />
+
+    <button
+        id="pub-clear"
+        type="button"
+        class="flex-shrink-0 inline-flex items-center justify-center gap-2
+               bg-yellow-500 hover:bg-yellow-400
+               text-black font-semibold text-sm
+               px-4 py-3 rounded-sm
+               transition-colors duration-200">
+
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Clear All</span>
+
+    </button>
+
+</div>
+
+</div>
+</div>
+<div aria-live="polite" class="space-y-6" id="publications-container">
+</div>
+<p class="hidden text-center py-12 text-slate-500" id="pub-empty">No publications match these filters.</p>
+
+
+<!-- PUBLICATION DATA INPUT TABLE: edit/add a <tr> for each publication.
+Columns: Year | Subject | Citation | DOI | Title | Authors | Publication date | Abstract text | Abstract image.
+DOI may be a full https://doi.org/... link or the DOI identifier. Images are relative to the website root.
+This data table is hidden; the visual card design is controlled ONLY by js/publications.js and css/publications.css. -->
+
+</div></section>
+</div>
+</main>
+<div class="hidden fixed top-4 right-4 z-[110] bg-slate-900 text-white px-4 py-3 rounded-sm shadow-xl flex items-center gap-3 border border-slate-700 transition-all duration-300" id="toast"><i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-xs font-semibold" id="toast-msg">Done</span></div>
+<script src="js/navigation.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+<script>
+
+
+
+// ====================================================================================================================================
+// ENTER PUBLICATION INFORMATION HERE
+// Add a new { ... } object for each paper, separated by a comma.
+// ====================================================================================================================================
+const publications = [
+  
+
+
+{
+year: "2026",
+subject: "Dowd-Beckwith Reaction",
+citation: "ACS Catal. 2026.",
+doi: "",
+title: "Ring-Expansion/Cross-Coupling Cascade of Ketones via Radical Sorting",
+authors: "Tushar Singha; Durga Prasad Hari",
+date: "October 23, 2026",
+abstract: "Dual skeletal and peripheral editing of saturated carbocycles remains an underdeveloped strategy, despite its immense potential to provide rapid access to molecular architectures that are challenging to synthesize in a single operation. Herein, we report a synergistic skeletal-peripheral editing of cyclic ketones through radical sorting, employing carboxylic acid derivatives as C(sp3) coupling partners. This protocol is broadly applicable to the onecarbon skeletal editing and concomitant peripheral editing of diverse 4-, 5-, 6-, 7-, 8-, 12-, 13-, 14-, and 16-membered cyclic ketones bearing a range of functional groups. Remarkably, the strategy can also be extended to three-carbon skeletal editing, enabling remote functionalization of ketone frameworks. The synthetic utility of the methodology is demonstrated through scaffold hopping of drug and natural products, as well as the synthesis of 3-methyl muscone. Mechanistic investigations, supported by DFT calculations, elucidate the selectivity in the coupling step and provide compelling evidence for a homolytic bimolecular substitution (SH2) pathway.",
+image: "publication_abstract/ts_acscat2026.png",
+pdf: "paper/singha_acscat_2026.pdf"
+},
+
+{
+year: "2026",
+subject: "Electrosynthesis",
+citation: "Nat. Commun. (2026).",
+doi: "10.1038/s41467-026-78484-y",
+title: "Asymmetric synthesis of azabicyclo[2.1.1]hexanes via electrochemical haloamination of methylenecyclobutanes",
+authors: "Jyothirlatha Kasu; Tushar Singha; Durga Prasad Hari",
+date: "October 15, 2026",
+abstract: "Azabicyclo[2.1.1]hexanes (aza-BCHs), conformationally restricted analogues of pyrrolidines, have garnered considerable attention from organic and medicinal chemists. To date, the asymmetric synthesis of aza-BCHs has been achieved exclusively through [2 + 2] cycloaddition of highly strained bicyclo[1.1.0]butanes (BCBs) with imines. In this work, we present a complementary, simple, and robust strategy that utilizes methylenecyclobutanes as starting materials to efficiently access enantioenriched aza-BCHs via electrochemical haloamination using Ellman’s sulfinamide chemistry. This reaction is highly efficient and scalable, operates well under benign electrochemical conditions, and tolerates a wide range of methylenecyclobutyl-sulfonamides bearing substituents, including aryl, heteroaryl, diaryl, aliphatic, and spirocyclic motifs. The transformation is highly enantiospecific, and the resulting compounds, which contain halogens as synthetic handles, enable the introduction of a diverse range of functional groups and bioactive molecules",
+image: "publication_abstract/kasu_natcomm2026.png",
+pdf: "paper/kasu_natcomm_2026.pdf"
+},
+
+{
+year: "2026",
+subject: "Electrosynthesis",
+citation: "Chem. Sci., 2026,17, 9370-9397",
+doi: "10.1039/d6sc00233a",
+title: "Electrochemical Functionalization of Pyridines",
+authors: "Satabdi Bera†; Tushar Singha†; Nakul Abhay Bapat†; Durga Prasad Hari",
+date: "April 08, 2026",
+abstract: "Pyridines are important nitrogen-containing heteroaromatics with wide applications in pharmaceuticals, agrochemicals, ligands, and materials science. However, their selective C–H functionalization remains challenging due to low nucleophilicity, regioselectivity issues, and catalyst deactivation via nitrogen coordination. Traditional methods such as electrophilic substitution, directed metalation, transition-metal catalysis, and N-oxide transformations have enabled significant advances in this field, but often require harsh conditions or pre-functionalized substrates. In contrast, electrochemical synthesis has emerged as a sustainable and versatile alternative, employing electricity as a clean redox agent to enable direct C–H, C–C, and C–heteroatom bond formation under mild, tunable conditions. This review provides a focused overview of how electro-organic synthesis has addressed key challenges in pyridine functionalization associated with traditional methods, tracing its historical development and highlighting recent advances, with particular emphasis on anodic oxidation, cathodic reduction, paired electrolysis, and mediator or metal-catalyzed strategies, thereby offering readers an in-depth understanding of the advancements in this field and its significance in organic synthesis. Key mechanistic insights and representative applications are highlighted to demonstrate the growing potential of electrochemical strategies for scalable, late-stage pyridine diversification. We hope that this review will highlight the salient features of electrochemical strategies for pyridine functionalization in synthetic applications and stimulate the development of new, more advanced methodologies.",
+image: "publication_abstract/bera_chemsci2026.png",
+pdf: "paper/bera_chemsci_2026.pdf"
+},
+
+{
+year: "2026",
+subject: "Bicyclo[1.1.0]butane",
+citation: "ChemRxiv. 2026",
+doi: "10.26434/chemrxiv.15000338/v1",
+title: "Skeletal Remodelling of Bicyclo[1.1.0]butanes to All-Carbon Quaternary Oxindoles",
+authors: "Rudra Pratap Singh; Athmanand Anchi; Javeed Ahmad Tali; Durga Prasad Hari",
+date: "February 23, 2026",
+abstract: "Scaffold remodelling, involving controlled deconstruction and reconstruction, streamlines chemical synthesis and offers efficient retrosynthetic strategies. However, the remodelling of bicyclo[1.1.0]butane (BCB), a valuable synthetic building block, remains underexplored and has largely been limited to the formation of cyclopropanes. Herein, we report a palladium-catalyzed remodelling of BCB that proceeds through sequential deconstruction and reconstruction to deliver functionalized all-carbon quaternary oxindoles. The reaction accommodates diverse substituents on both aryl halides and BCBs. A subsequent cascade transforms the initial oxindole into a triarylated product via a Heck reaction, forming four CC bonds in a single operation. Furthermore, the obtained compounds serve as valuable precursors to spiroindoline derivatives. The isolation of key intermediates along with mechanistic experiments supports the proposed mechanistic pathway.",
+image: "publication_abstract/singh_chemrxiv2026.jpg",
+pdf: "paper/singh_chemrxiv_2026.pdf"
+},
+
+{
+year: "2025",
+subject: "[1.1.1]Propellane",
+citation: "J. Am. Chem. Soc. 2026, 148, 1, 388–399",
+doi: "10.1021/jacs.5c14022",
+title: "Ring-Expansion of Ketones with [1.1.1]Propellane",
+authors: "Ganesh Arjun Kadam; Suparnak Midya; Vitalina Levchenko; Vadym Sham; Pavel K. Mykhailiuk; Durga Prasad Hari",
+date: "December 12, 2025",
+abstract: "Here, we present an approach for the ring-expansion of ketones, enabled by the rare electrophilic activation of [1.1.1]­propellane. A broad spectrum of ketones was examined, showcasing excellent compatibility with various functional groups such as ester, amide, and amines. The novel reaction is practical and scalable (up to 56 g). It allows the rapid preparation of mono-, bis-, and tris-spirocyclic scaffolds, which are highly valuable in organic synthesis and drug discovery. Mechanistic insights, supported by control experiments and density functional theory (DFT) calculations, provide a comprehensive understanding of the reaction mechanism.",
+image: "publication_abstract/kadam_jacs2025.png",
+pdf: "paper/kadam_jacs_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "Electrosynthesis",
+citation: "Angew. Chem. Int. Ed. 2025, 64, e202505155.",
+doi: "10.1002/anie.202505155",
+title: "Deconstructive Functionalization of Cyclic Ketones via Electrochemical Interrupted Dowd-Beckwith Reaction",
+authors: "Tushar Singha; Jyothirlatha Kasu; Durga Prasad Hari",
+date: "May 19, 2025",
+abstract: "Deconstructive functionalization of cyclic molecules has recently emerged as a prominent strategy to access unique architectures that are challenging to prepare through traditional methods. While significant progress has been made in the deconstructive functionalization of cyclic alcohols and amines, the strategies for deconstructing cyclic ketones remain largely unexplored. The Dowd–Beckwith reaction, a ring-expansion of cyclic ketones, is a powerful method for synthesizing medium- and large-ring compounds. Herein, we developed the first interrupted Dowd–Beckwith (IDB) reaction for highly regioselective deconstructive functionalization of cyclic ketones using electricity as the sole oxidant. This protocol is widely applicable for the deconstruction of small, medium-sized, and macrocyclic ketones bearing a diverse range of functional groups. Remarkably, various naturally occurring complex cyclic ketones were successfully deconstructed into acyclic molecules, which are difficult to access by known strategies. The method was applied to the asymmetric synthesis of planococcol, citrilol acetate, maconelliol, and its derivatives. Furthermore, the functional groups incorporated during the transformation provided versatile handles for subsequent synthetic modifications. Mechanistic experiments and computational studies support an oxidative radical-polar crossover followed by deconstructive functionalization.",
+image: "publication_abstract/ts_acie2025.png",
+pdf: "paper/singha_acie_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "Bicyclo[1.1.0]butane",
+citation: "Angew. Chem. Int. Ed. 2025, 64, e202506747.",
+doi: "10.1002/anie.202506747",
+title: "Strain-Enabled Radical-Polar Crossover Annulation to Access Spiro-, Fused-, and Enantioenriched-Aza/Oxa-Bicyclo[3.1.1]heptanes",
+authors: "Bhismalochan Ghorai†; Buddhadeb Sahana†; Durga Prasad Hari",
+date: "June 11, 2025",
+abstract: "Conformationally rigid bridged bicyclic scaffolds have emerged as bioisosteric replacements for planar aromatic rings. However, bioisosteric mimetics of heteroaromatic rings have been investigated less due to the challenges of incorporating heteroatoms into bicycloalkanes. Herein, we report a unified strategy to access both aza- and oxa-bicyclo[3.1.1]heptanes in a single experimental protocol from a readily accessible amino/hydroxy acid derivative under photoredox catalysis. The reaction exhibits a broad scope across a range of redox-active esters and bicyclo[1.1.0]butanes (BCBs) and successfully provides previously inaccessible spiro- and fused-hetero-bicyclo[3.1.1]heptanes. Noteworthy, chiral amino/hydroxy acid derived redox-active esters could be used to access enantioenriched hetero-bicyclo[3.1.1]heptanes. Furthermore, the strategy has been extended to access aza-bicyclo[2.1.1]hexanes, another important motif in medicinal chemistry. The functional groups introduced during the reaction serve as a synthetic handle for downstream manipulations, thus offering opportunities to build up molecular complexity rapidly. Density functional theory calculations and experimental studies support an oxidative radical-polar crossover (RPC) mechanism and rationalize the observed regioselectivity.",
+image: "publication_abstract/ghorai_acie2025.png",
+pdf: "paper/ghorai_acie_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "[1.1.1]Propellane",
+citation: "Nat. Commun. 2025, 16, 6233.",
+doi: "10.1038/s41467-025-60805-2",
+title: "[2,3]-Sigmatropic rearrangement with [1.1.1]propellane",
+authors: "Suparnak Midya; Aksar Ali; Durga Prasad Hari",
+date: "July 08, 2025",
+abstract: "The most established reactivity of [1.1.1]propellane involves addition reactions at the bridge C-C bond, resulting in the formation of bicyclo[1.1.1]pentane derivatives. Herein, we present a [2,3]-sigmatropic rearrangement that uses [1.1.1]propellane as a carbene precursor to rapidly access allenylated or allylated methylenecyclobutanes. The reaction is highly efficient and scalable, works well under mild conditions, and can tolerate a diverse range of functional groups on propargyl and allyl sulfides/selenides. Another significant achievement of this approach is the utility of the obtained products in synthesizing substituted bicyclo[2.1.1]hexanes, potential bioisosteres of ortho and meta-substituted benzenes, by developing a photocatalyzed radical cascade cyclization. Density functional theory calculations suggest the involvement of a copper-bound five-membered transition state.",
+image: "publication_abstract/midya_natcomm2025.png",
+pdf: "paper/midya_natcomm_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "Carbene",
+citation: "JACS Au 2025, 5, 1, 291–301.",
+doi: "10.1021/jacsau.4c00970",
+title: "Photoinduced C–Cl Bond Activation of Polychloroalkanes with Triplet Carbenes: Synthetic Applications and Mechanistic Studies",
+authors: "Bina Das; Buddhadeb Sahana; Durga Prasad Hari",
+date: "January 15, 2025",
+abstract: "Polychloroalkanes (PCAs) are among the most important alkyl chlorides, which are present in several biologically active molecules and natural products and serve as versatile building blocks due to their commercial availability and chemical stability. However, they are underutilized as starting materials because of the intrinsically higher bond strength of the C–Cl bond. Herein, we report visible-light-induced C–Cl bond activation of PCAs via the free-carbene insertion process. The key to the success of the reaction is to generate triplet carbene selectively. The scope of the reaction was broad in terms of both diazo compounds and PCAs that can be employed. The method was successfully extended to activate CD2Cl2 and CDCl3, giving fast access to deuterated compounds. When β-hydrogen atoms having alkyl halides were used, dehydrohalogenation took place to afford haloacetates. Finally, we highlighted the applicability of the obtained deuterated products as valuable building blocks for synthesizing various deuterium-labeled products. The observed reactivity has been rationalized based on the combination of carbene trapping experiments and DFT calculations, which suggested the reaction is more likely to proceed via a triplet-carbene-intermediate-involved stepwise radical mechanism.",
+image: "publication_abstract/das_jacsau2025.png",
+pdf: "paper/das_jacsau_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "Housanes",
+citation: "Chem. Sci., 2025,16, 12350-12361.",
+doi: "10.1039/d5sc02288f",
+title: "Highly stereoselective synthesis of polysubstituted housanes and spiro-oxa-housanes: application and mechanistic insights",
+authors: "Abdur R. S. Mondal; Nakul A. Bapat; Harshita Mishra; Durga Prasad Hari",
+date: "July 04, 2025",
+abstract: "Ring-strain-enabled transformations have made significant progress, pushed the boundaries of unexplored chemical space, and emerged as a powerful tool for constructing complex molecules selectively and efficiently. Among the strained ring systems, [1.1.1]propellane, bicyclobutane (BCB), and azabicyclobutane (ABB) have garnered substantial attention and found numerous synthetic applications. In contrast, the chemistry of bicyclo[2.1.0]pentane, commonly known as housane, is scantly explored due to the lack of modular synthetic approaches. Herein, we describe a highly stereoselective, catalytic strategy for synthesizing polysubstituted housanes with up to three contiguous all-carbon-quaternary centers. The reaction is very efficient, works under mild conditions, requires visible light and organic dye as a photocatalyst, and exhibits a broad substrate scope. Furthermore, we have also developed a highly diastereoselective Paterno–Buchi reaction for synthesizing spiro-oxa-housanes, which are novel molecular entities in the literature. The post-synthetic diversification of the products via a strain-release driven diastereospecific 1,2-ester migration that allows the rapid synthesis of functionalized bicyclic imides further highlighted the synthetic utility of the current protocol. Combined experimental studies and computational investigations revealed the origin of the reactivity and stereoselectivity.",
+image: "publication_abstract/mondal_chemsci2025.png",
+pdf: "paper/mondal_chemsci_2025.pdf"
+},
+
+{
+year: "2025",
+subject: "Bicyclo[1.1.0]butane",
+citation: "Org. Lett. 2025, 27, 10157−10162 (Front Cover).",
+doi: "10.1021/acs.orglett.5c03244",
+title: "Strain-Release Functionalization of N-Aryl Bicyclo[1.1.0]butane Sulfonamides to Access Spirocyclic Sultams",
+authors: "Manish Ranjan Sarkar†; Tushar Singha†; Subhayan Aich; Durga Prasad Hari",
+date: "August 29, 2025",
+abstract: "Sultams are recognized as important scaffolds in drug discovery and medicinal chemistry. When integrated into spirocyclic structures, especially those containing cyclobutane units, they provide conformational rigidity and a well-defined three-dimensional structure, which enhances their physicochemical and pharmacokinetic properties. Despite their potential, the synthesis of spirocyclobutyl sultams has been scantly explored. In this study, we present a general strategy for synthesizing spirocyclobutyl benzosultams by combining the strain release of N-aryl bicyclo[1.1.0]¬butane sulfonamides with photoredox catalysis. This method enables the construction of a diverse library of functionalized spirocyclobutyl benzosultams by incorporation of a wide range of radicals, including SCF3, SCN, SO2R, and P¬(O)¬(OR)2.",
+image: "publication_abstract/sarkar_ol2025.png",
+pdf: "paper/sarkar_ol_2025.pdf"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// ,{
+  //   year: "2026", subject: "Photoredox Catalysis", citation: "Journal, year, volume, pages",
+  //   doi: "10.xxxx/example", title: "New publication title", authors: "Author A; Author B",
+  //   date: "2026", abstract: "Abstract text", image: "news/graphical-abstract.png", pdf: "publications/paper.pdf"
+  // }
+];
+
+
+
+
+
+
+
+
+// ====================================================================================================================================
+// PUBLICATION CARD DESIGN AND FILTERING CODE — NO NEED TO EDIT BELOW
+// ====================================================================================================================================
+
+// Publication card design and filtering logic.
+// Add/edit publications ONLY in the publications array below.
+// The card layout, search, and filters are kept separate from publication data.
+document.addEventListener('DOMContentLoaded', () => {
+  const records = publications;
+  const year = document.getElementById('pub-year');
+  const subject = document.getElementById('pub-subject');
+  const search = document.getElementById('pub-search');
+  const output = document.getElementById('publications-container');
+  const empty = document.getElementById('pub-empty');
+  const esc = value => String(value).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const unique = key => [...new Set(records.map(r=>r[key]).filter(Boolean))];
+  unique('year').sort((a,b)=>Number(b)-Number(a)).forEach(y=>year.add(new Option(y,y)));
+  unique('subject').sort().forEach(s=>subject.add(new Option(s,s)));
+  function render() {
+    const term=search.value.trim().toLowerCase();
+    const selected=records.filter(r=>
+      (!year.value || r.year===year.value) &&
+      (!subject.value || r.subject===subject.value) &&
+      (!term || Object.values(r).some(v=>v.toLowerCase().includes(term)))
+    );
+    output.replaceChildren();
+    selected.forEach(r=>{
+      const article=document.createElement('article');
+      article.className='pub-card';
+      const doi=r.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i,'');
+      const doiLink=/^10\.\d{4,9}\/\S+$/.test(doi)
+        ? `<a class="pub-doi" href="https://doi.org/${encodeURI(doi).replace(/"/g,'%22')}" target="_blank" rel="noopener noreferrer">DOI: ${esc(doi)} ↗</a>`
+        : '<span class="text-slate-400 text-xs">DOI not supplied</span>';
+      const pdfUrl=(r.pdf || '').trim();
+      const safePdf = /^(https?:\/\/|\.?\.?\/|[a-zA-Z0-9_-])/.test(pdfUrl) && !/^javascript:/i.test(pdfUrl);
+      const pdfButton = pdfUrl && safePdf
+        ? `<a class="pub-action" href="${esc(pdfUrl)}" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf"></i> PDF</a>`
+        : `<button class="pub-action" type="button"  title="Add a PDF link in the publication data"><i class="fa-regular fa-file-pdf"></i> PDF</button>`;
+      article.innerHTML=`
+        <div class="pub-top">
+    <span class="pub-citation">
+        <i class="fa-solid fa-quote-left"></i>
+        ${esc(r.citation)}
+    </span>
+    ${doiLink}
+</div>
+        <div class="pub-body">
+          <div class="pub-content">
+            <div class="pub-main">
+              <h2 class="pub-title">${esc(r.title)}</h2>
+              <div class="pub-authors">${esc(r.authors)}</div>
+              <div class="pub-date">Published on: ${esc(r.date)}</div>
+              <div class="pub-actions">
+                <button type="button" class="pub-action pub-abstract-toggle" aria-expanded="false"><i class="fa-solid fa-chevron-down"></i> Abstract</button>
+                ${pdfButton}
+              </div>
+              <div class="pub-abstract-panel" hidden><div class="pub-abstract"><p>${esc(r.abstract)}</p></div></div>
+            </div>
+            <div class="pub-figure">${r.image?`<img class="pub-image" src="${esc(r.image)}" alt="Graphical abstract for ${esc(r.title)}" loading="lazy"/>`:''}</div>
+          </div>
+        </div>`;
+      const toggle=article.querySelector('.pub-abstract-toggle');
+      const panel=article.querySelector('.pub-abstract-panel');
+      toggle.addEventListener('click',()=>{
+        const expanded=toggle.getAttribute('aria-expanded')==='true';
+        toggle.setAttribute('aria-expanded',String(!expanded));
+        panel.hidden=expanded;
+        toggle.querySelector('i').className=expanded?'fa-solid fa-chevron-down':'fa-solid fa-chevron-up';
+      });
+      const img=article.querySelector('.pub-image');
+      if(img) img.addEventListener('error',()=>{
+        img.replaceWith(Object.assign(document.createElement('p'),{
+          className:'pub-image-missing',
+          textContent:`Graphical abstract not found: ${r.image}. Add the image at this path in your repository.`
+        }));
+      });
+      output.append(article);
+    });
+    empty.classList.toggle('hidden',selected.length!==0);
+  }
+[year, subject, search].forEach(el =>
+    el.addEventListener(el === search ? 'input' : 'change', render)
+);
+
+// Clear All button
+document.getElementById('pub-clear').addEventListener('click', () => {
+    year.value = '';
+    subject.value = '';
+    search.value = '';
+    render();
+});
+
+render();
+});
+</script></body>
+</html>

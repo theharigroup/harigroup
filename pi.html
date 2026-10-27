@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>DP Hari | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="pi">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-pi">
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Principal Investigator</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">DP Hari</h1>
+</div>
+</section>
+<section class="py-14 bg-slate-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-12 gap-8 items-start">
+
+<!-- PI profile card: same visual language as member/news cards -->
+<aside class="lg:col-span-3 bg-white rounded-[2px] p-6 border border-slate-200 shadow-sm lg:sticky lg:top-20 lg:self-start">
+<img class="w-full h-auto rounded-[3px] object-contain mb-4" src="https://i0.wp.com/theharigroup.in/wp-content/uploads/2023/04/Web-pic-3-1-removebg-preview.png?w=1080&amp;ssl=1" alt="Durga Prasad Hari"/>
+<h2 class="text-[22px] font-bold text-slate-700">Durga Prasad Hari</h2>
+<div class="w-[50px] h-[3px] bg-yellow-400 mt-2"></div>
+<p class="text-[14px] font-semibold text-slate-600 mt-3">Assistant Professor</p>
+<p class="text-[13px] text-slate-500 mt-1">Department of Organic Chemistry, Indian Institute of Science, Bangalore</p>
+<div class="flex items-center gap-4 mt-5 text-slate-500">
+<a class="hover:text-yellow-600 transition" href="https://orcid.org/0000-0002-0734-8427" target="_blank" rel="noopener noreferrer" aria-label="ORCID profile"><i class="fa-brands fa-orcid text-xl"></i></a>
+<a class="hover:text-yellow-600 transition" href="https://scholar.google.com/citations?user=L47MpAcAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar profile"><i class="fa-brands fa-google-scholar text-xl"></i></a>
+<a class="hover:text-yellow-600 transition" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.202512389" target="_blank" rel="noopener noreferrer" aria-label="Wiley publication"><i class="fa-solid fa-globe text-xl"></i></a>
+</div>
+</aside>
+<div class="lg:col-span-9 min-w-0 space-y-9">
+<div><h3 class="font-bold text-slate-700 text-[22px]">Biography</h3><div class="w-[50px] h-[3px] bg-yellow-400 mt-2 mb-5"></div><p class="text-[14px] text-slate-600 text-justify leading-relaxed">Durga Prasad Hari received his MSc degree from IIT Madras in 2010. He then moved to the University of Regensburg, Germany, where he pursued his Ph.D. with Prof. Burkhard König. In 2014, following his graduate education, he was a postdoctoral fellow in the laboratory of Prof. Jerome Waser at EPFL, Switzerland. In 2018, he joined the Aggarwal group at the University of Bristol as a Marie-Curie research fellow. Since March 2021, he is holding an assistant professor position at the Indian Institute of Science Bangalore.</p></div>
+<div><h3 class="font-bold text-slate-700 text-[22px]">Education</h3><div class="w-[50px] h-[3px] bg-yellow-400 mt-2 mb-5"></div><div class="grid sm:grid-cols-2 gap-4">
+<div class="bg-white border border-slate-200 rounded-[2px] p-5 shadow-sm hover:shadow-md transition duration-300"><div class="flex flex-wrap items-start justify-between gap-2"><h4 class="text-[16px] font-bold text-slate-700">Ph.D.</h4><span class="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1">2010 – 2014</span></div><p class="text-[14px] font-semibold text-slate-600 mt-2">University of Regensburg, Germany</p><p class="text-[13px] text-slate-500 mt-1">Advisor: Prof. Burkhard König</p></div>
+<div class="bg-white border border-slate-200 rounded-[2px] p-5 shadow-sm hover:shadow-md transition duration-300"><div class="flex flex-wrap items-start justify-between gap-2"><h4 class="text-[16px] font-bold text-slate-700">M.Sc.</h4><span class="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1">2008 – 2010</span></div><p class="text-[14px] font-semibold text-slate-600 mt-2">Indian Institute of Technology Madras, India</p><p class="text-[13px] text-slate-500 mt-1">Thesis Advisor: Prof. S. Sankararaman</p></div>
+</div></div>
+<div><h3 class="font-bold text-slate-700 text-[22px]">Professional Experience</h3><div class="w-[50px] h-[3px] bg-yellow-400 mt-2 mb-5"></div><div class="grid sm:grid-cols-2 gap-4">
+<div class="bg-white border border-slate-200 rounded-[2px] p-5 shadow-sm hover:shadow-md transition duration-300"><div class="flex flex-wrap items-start justify-between gap-2"><h4 class="text-[16px] font-bold text-slate-700">Assistant Professor</h4><span class="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1">2021 – present</span></div><p class="text-[14px] font-semibold text-slate-600 mt-2">Indian Institute of Science, India</p><p class="text-[13px] text-slate-500 mt-1">Department of Organic Chemistry</p></div>
+<div class="bg-white border border-slate-200 rounded-[2px] p-5 shadow-sm hover:shadow-md transition duration-300"><div class="flex flex-wrap items-start justify-between gap-2"><h4 class="text-[16px] font-bold text-slate-700">Postdoctoral Research Fellow</h4><span class="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1">2018 – 2021</span></div><p class="text-[14px] font-semibold text-slate-600 mt-2">University of Bristol, UK</p><p class="text-[13px] text-slate-500 mt-1">Marie-Curie Research Fellow · Advisor: Prof. Varinder K. Aggarwal</p></div>
+<div class="bg-white border border-slate-200 rounded-[2px] p-5 shadow-sm hover:shadow-md transition duration-300"><div class="flex flex-wrap items-start justify-between gap-2"><h4 class="text-[16px] font-bold text-slate-700">Postdoctoral Research Fellow</h4><span class="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1">2014 – 2018</span></div><p class="text-[14px] font-semibold text-slate-600 mt-2">EPFL, Switzerland</p><p class="text-[13px] text-slate-500 mt-1">Advisor: Prof. Jerome Waser</p></div>
+</div></div>
+<div><h3 class="font-bold text-slate-700 text-[22px]">Awards & Fellowships</h3><div class="w-[50px] h-[3px] bg-yellow-400 mt-2 mb-5"></div><div class="bg-white border border-slate-200 rounded-[2px] px-5 py-2 shadow-sm"><div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2026</span><span class="text-[14px] text-slate-600">CRS Silver Medal</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2026</span><span class="text-[14px] text-slate-600">Dr. Srinivasa Rajagopalan Award</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2025</span><span class="text-[14px] text-slate-600">INSA Young Associate Fellow</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2025</span><span class="text-[14px] text-slate-600">Rising Stars in Organic Chemistry by Thieme</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2025</span><span class="text-[14px] text-slate-600">Science of Synthesis Early Career Advisory Board Member</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2024</span><span class="text-[14px] text-slate-600">Tetrahedron &amp; Tetrahedron Letters Editorial Board Member</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2024</span><span class="text-[14px] text-slate-600">Thieme Chemistry Journals Award</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2023</span><span class="text-[14px] text-slate-600">Infosys Young Investigator Award</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2022</span><span class="text-[14px] text-slate-600">Helvetica Chimica Acta Early Career Advisory Board Member</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2021</span><span class="text-[14px] text-slate-600">1st place – 8th National SCI/RSC Retrosynthesis Competition, UK</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2020</span><span class="text-[14px] text-slate-600">Finalist – 7th National SCI/RSC Retrosynthesis Competition, UK</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2019</span><span class="text-[14px] text-slate-600">Marie-Curie Individual Fellowship</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2017</span><span class="text-[14px] text-slate-600">Future Leaders on Stage, SCS Fall Meeting, Switzerland</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2016</span><span class="text-[14px] text-slate-600">Bayer Postdoc Workshop in Synthetic Organic Chemistry, USA</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2014</span><span class="text-[14px] text-slate-600">Graduated with Summa Cum Laude, University of Regensburg, Germany</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2012</span><span class="text-[14px] text-slate-600">Finalist – Reaxys PhD Prize, Philadelphia, USA</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2012</span><span class="text-[14px] text-slate-600">BASF International Summer Course, Ludwigshafen, Germany</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2010</span><span class="text-[14px] text-slate-600">GRK 1626 Chemical Photocatalysis Fellowship, Germany</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2009</span><span class="text-[14px] text-slate-600">Merit Scholarship by IIT Madras for all semesters</span></div>
+<div class="flex gap-4 py-3 border-b border-slate-100 last:border-b-0"><span class="shrink-0 w-[54px] text-[12px] font-bold text-slate-600 bg-slate-100 px-2 py-1 h-fit">2008</span><span class="text-[14px] text-slate-600">1st Rank – MSc Chemistry Entrance Test Conducted by UoH and PCU</span></div></div></div>
+</div></div></div>
+</section>
+</div>
+</main>
+
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+</body>
+</html>

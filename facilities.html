@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Facilities | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="facilities">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-facilities">
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Facilities</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">Laboratory Facilities</h1>
+</div>
+</section>
+<section class="py-16 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-slate-50 roundedx-2xl p-6 border border-slate-200">
+<div class="w-12 h-12 roundedx-xl bg-amber-400 text-navy-950 flex items-center justify-center font-bold text-xl mb-4">
+<i class="fa-solid fa-sun"></i>
+</div>
+<h3 class="text-lg font-bold text-navy-900">Photoreactors</h3>
+<p class="text-xs text-slate-600 mt-2">Monochromatic LED arrays (400 nm, 450 nm, 525 nm) for high-efficiency photochemical transformations.</p>
+</div>
+<div class="bg-slate-50 roundedx-2xl p-6 border border-slate-200">
+<div class="w-12 h-12 roundedx-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-xl mb-4">
+<i class="fa-solid fa-bolt"></i>
+</div>
+<h3 class="text-lg font-bold text-navy-900">ElectraSyn 2.0 Workstations</h3>
+<p class="text-xs text-slate-600 mt-2">IKA ElectraSyn setups for constant-current electrosynthesis and cyclic voltammetry.</p>
+</div>
+<div class="bg-slate-50 roundedx-2xl p-6 border border-slate-200">
+<div class="w-12 h-12 roundedx-xl bg-navy-800 text-white flex items-center justify-center font-bold text-xl mb-4">
+<i class="fa-solid fa-box-archive"></i>
+</div>
+<h3 class="text-lg font-bold text-navy-900">Glovebox Workstations</h3>
+<p class="text-xs text-slate-600 mt-2">Dual-station argon glovebox systems for handling air-sensitive carbene and metallic reagents.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+<!-- Work in Progress Section -->
+<div class="flex flex-col items-center justify-center py-16 px-4">
+
+    <!-- Construction Icons -->
+    <div class="flex items-center justify-center gap-6 mb-6 text-yellow-600">
+        <i class="fa-solid fa-helmet-safety text-3xl"></i>
+        <i class="fa-solid fa-person-digging text-4xl"></i>
+        <i class="fa-solid fa-screwdriver-wrench text-3xl"></i>
+    </div>
+
+    <!-- Work in Progress Image -->
+    <img
+        src="images/work-in-progress.png"
+        alt="Work in Progress"
+        class="w-48 sm:w-60 md:w-72 h-auto object-contain"
+    />
+
+    <!-- Message -->
+    <p class="text-sm text-slate-500 mt-5 text-center">
+        This page is currently under construction. Please check back soon.
+    </p>
+
+    <!-- Construction Divider -->
+    <div class="flex items-center gap-3 mt-6 text-yellow-600">
+        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+        <div class="w-24 h-1 bg-yellow-500 rounded-full"></div>
+        <i class="fa-solid fa-road-barrier text-lg"></i>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</section>
+</div>
+</main>
+
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+</body>
+</html>

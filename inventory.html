@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Chemical Inventory | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="inventory">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-research">
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<button class="hover:underline" onclick="window.location.href='usertools.html'">User Tools</button>
+<span>/</span>
+<span>Inventory</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">Chemical Inventory</h1>
+</div></section>
+
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Setup Warning -->
+    <section
+        class="hidden rounded border border-amber-300 bg-amber-50 p-5 mb-6 text-amber-950"
+        id="setup"
+        role="alert"
+    >
+        The inventory portal is not configured yet.
+        Set the public values in <code>config.js</code>
+        and deploy the private backend.
+    </section>
+
+    <!-- Inventory Login Card -->
+    <section class="max-w-md mx-auto py-8" id="auth">
+
+        <div class="bg-white rounded-sm shadow-xl border border-slate-200 overflow-hidden">
+
+            <!-- Navy Header -->
+            <div class="bg-navy-900 text-white p-6 text-center border-b border-navy-800 relative">
+
+                <h2 class="text-xl font-bold">
+                    Inventory Access Required
+                </h2>
+
+                <p class="text-xs text-slate-300 mt-1">
+                    Please log in with your Hari Group credentials to access the chemical inventory system.
+                </p>
+
+            </div>
+
+            <!-- Login Form -->
+            <form class="p-6 space-y-4" id="login">
+
+                <!-- Email -->
+                <div>
+                    <label
+                        for="email"
+                        class="block text-xs font-bold uppercase text-slate-700 mb-1"
+                    >
+                        Email Address
+                        <span class="text-rose-500">*</span>
+                    </label>
+
+                    <div class="relative">
+
+                        <input
+                            autocomplete="username"
+                            class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            id="email"
+                            placeholder="e.g. yourname@iisc.ac.in"
+                            required
+                            type="email"
+                        />
+
+                        <i
+                            class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                            data-lucide="mail"
+                        ></i>
+
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label
+                        for="password"
+                        class="block text-xs font-bold uppercase text-slate-700 mb-1"
+                    >
+                        Password
+                        <span class="text-rose-500">*</span>
+                    </label>
+
+                    <div class="relative">
+
+                        <input
+                            autocomplete="current-password"
+                            class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            id="password"
+                            placeholder="••••••••••••"
+                            required
+                            type="password"
+                        />
+
+                        <i
+                            class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                            data-lucide="lock"
+                        ></i>
+
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm shadow-md transition flex items-center justify-center gap-2 mt-2"
+                    type="submit"
+                >
+                    <i class="w-4 h-4" data-lucide="log-in"></i>
+                    Log In to Inventory
+                </button>
+
+            </form>
+
+<p class="mt-3 text-red-700 text-sm" id="loginError" role="alert"></p></section><section hidden="" id="portal"><div class="flex flex-wrap items-center justify-between gap-3 mb-6"><p class="font-semibold text-slate-700" id="member"></p><button class="border border-slate-300 px-4 py-2 rounded bg-white" id="logout">Sign out</button></div><div class="bg-white border border-slate-200 shadow-sm p-6"><h2 class="text-xl font-bold text-slate-800 mb-4">Find a chemical</h2><form class="flex flex-col md:flex-row gap-3" id="search"><label class="sr-only" for="type">Search type</label><select class="border border-slate-300 rounded p-3" id="type"><option value="name">Name</option><option value="cas">CAS number</option><option value="barcode">Barcode</option><option value="smiles">Structure (SMILES)</option></select><label class="sr-only" for="query">Search query</label><input class="border border-slate-300 rounded p-3 flex-grow" id="query" placeholder="Name, CAS, barcode, or SMILES (e.g. CC(=O)O)" required=""/><button class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3 rounded">Search</button></form><p class="text-sm text-slate-600 my-4" id="message" role="status"></p><div class="hidden mb-4 border border-slate-200 bg-slate-50 p-4 flex flex-wrap items-center gap-4" id="structure-preview"></div><p class="text-xs text-slate-500 mb-3">Structures are retrieved from PubChem (external service). SMILES queries are sent to PubChem for identification. Structure searches use candidate CAS identifiers and are not substructure or similarity searches.</p><div class="overflow-x-auto"><table class="w-full text-left text-sm border-collapse"><thead class="bg-slate-100"><tr><th class="p-3">Structure</th><th class="p-3">Chemical</th><th class="p-3">CAS</th><th class="p-3">Container size</th><th class="p-3">Location</th><th class="p-3">Barcode</th><th class="p-3">Supplier</th></tr></thead><tbody class="divide-y divide-slate-200" id="results"></tbody></table></div></div><div class="grid md:grid-cols-2 gap-6 mt-6"><article class="bg-white border border-slate-200 p-6"><h3 class="text-lg font-bold mb-3">Orders</h3><div class="text-sm text-slate-600" id="orders"></div></article><article class="bg-white border border-slate-200 p-6"><h3 class="text-lg font-bold mb-3">Watchlists</h3><div class="text-sm text-slate-600" id="watchlists"></div></article></div><p class="text-sm text-slate-600 mt-6">To add containers, import spreadsheets or modify orders, open <a class="text-blue-700 underline" href="https://app.cheminventory.net" rel="noopener noreferrer" target="_blank">ChemInventory</a>. Container size does not indicate remaining stock.</p></section></div></div></main>
+
+<!-- Footer -->
+
+<script src="js/navigation.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="js/inventory.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+
+</body>
+</html>
