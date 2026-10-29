@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hari Group, Department of Organic Chemistry, IISc Bangalore">
+  <title>Research | Hari Group</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+
+
+
+
+
+
+
+
+<style>
+/* =========================================
+   RESEARCH WORKFLOW
+   Four circular panels with one line
+   ========================================= */
+
+.research-workflow {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    column-gap: 0;
+    isolation: isolate;
+}
+
+
+/* Single horizontal line */
+.research-workflow::before {
+    content: "";
+    position: absolute;
+    left: 1%;
+    right: 1%;
+    top: 50%;
+    height: 3px;
+    background: #737B8C;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+/* Arrowhead touching the Products circle */
+.research-workflow::after {
+    content: "";
+    position: absolute;
+    left: 76.8%;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    border-left: 16px solid #737B8C;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    z-index: 2;
+}
+
+
+/* =========================================
+   CIRCULAR PANELS
+   ========================================= */
+
+.research-orb {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 3px solid #405671;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #edf3f8;
+}
+
+/* First circle: create outer gap */
+.research-workflow > :first-child {
+    width: calc(100% - 20px); border-width: 2px; border-color: #CAD5E2;
+}
+
+/* Last circle: create outer gap */
+.research-workflow > :last-child {
+    width: calc(100% - 20px); border-width: 2px; border-color: #CAD5E2;
+    margin-left: 20px;
+}
+
+
+
+/* Middle circle 1: Catalysts */
+.research-orb.catalysts {
+    border-color: #CAD5E2;
+    border-width: 2px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Middle circle 2: Experimental setups */
+.research-orb.setups {
+    border-color: #CAD5E2;
+    border-width: 2px;
+    width: 70%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Middle circles size controller */
+.research-middle-slot .research-orb {
+    width: 70%;
+}
+
+
+
+
+
+
+/* Navy background inside first circle */
+.starting-material-bg {
+    position: absolute;
+    inset: 0;
+    background: #0C2340; /* navy-900 */
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Yellow-500 floating balls */
+.yellow-ball {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #EAB308;
+    box-shadow: 0 0 8px rgba(234,179,8,0.65);
+    z-index: 1;
+    animation: yellowFloat 7s ease-in-out infinite alternate;
+}
+
+/* Random positions and sizes */
+.yellow-ball:nth-child(1)  { top: 12%; left: 25%; width: 6px; height: 6px; animation-delay: -1s; }
+.yellow-ball:nth-child(2)  { top: 28%; left: 72%; width: 9px; height: 9px; animation-delay: -3s; }
+.yellow-ball:nth-child(3)  { top: 45%; left: 15%; width: 5px; height: 5px; animation-delay: -2s; }
+.yellow-ball:nth-child(4)  { top: 67%; left: 80%; width: 8px; height: 8px; animation-delay: -5s; }
+.yellow-ball:nth-child(5)  { top: 78%; left: 35%; width: 6px; height: 6px; animation-delay: -4s; }
+.yellow-ball:nth-child(6)  { top: 20%; left: 52%; width: 5px; height: 5px; animation-delay: -6s; }
+.yellow-ball:nth-child(7)  { top: 55%; left: 60%; width: 10px; height: 10px; animation-delay: -2s; }
+.yellow-ball:nth-child(8)  { top: 85%; left: 57%; width: 5px; height: 5px; animation-delay: -1s; }
+.yellow-ball:nth-child(9)  { top: 36%; left: 40%; width: 7px; height: 7px; animation-delay: -4s; }
+.yellow-ball:nth-child(10) { top: 60%; left: 30%; width: 6px; height: 6px; animation-delay: -3s; }
+
+/* Gentle random-looking movement */
+@keyframes yellowFloat {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(9px, -12px);
+    }
+    100% {
+        transform: translate(-8px, 10px);
+    }
+}
+
+/* Transparent molecule image above balls */
+.starting-material-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Keep hover caption above everything */
+.research-orb .research-slice {
+    z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .yellow-ball {
+        animation: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   IMAGES
+   ========================================= */
+
+.research-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.research-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    color: #475569;
+    font-size: clamp(10px, 1.1vw, 14px);
+    font-weight: 600;
+}
+
+/* =========================================
+   TWO IMAGE AREAS IN MIDDLE CIRCLES
+   ========================================= */
+
+.research-slice {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline-offset: -5px;
+}
+
+/* Upper-left triangular half */
+.research-slice.half-a {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* Lower-right triangular half */
+.research-slice.half-b {
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* Individual images */
+.research-half-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.research-half-photo[hidden] {
+    display: none;
+}
+
+.research-half-photo.half-a {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.research-half-photo.half-b {
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* =========================================
+   HOVER / TAP TEXT OVERLAY
+   50% transparent background
+   ========================================= */
+
+.research-slice .research-caption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    background: rgba(9, 24, 47, 0.5);
+    color: white;
+    font-weight: 700;
+    font-size: clamp(10px, 1.1vw, 15px);
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.research-slice:hover .research-caption,
+.research-slice:focus-visible .research-caption,
+.research-slice.is-active .research-caption {
+    opacity: 1;
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .research-workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .research-workflow::before {
+        display: none;
+    }
+
+    .research-workflow > :first-child,
+    .research-workflow > :last-child {
+        width: 100%;
+        margin: 0;
+    }
+
+    .research-orb.catalysts,
+    .research-orb.setups {
+        margin: 0;
+    }
+
+    .research-placeholder,
+    .research-slice .research-caption {
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .research-workflow {
+        grid-template-columns: minmax(0, 270px);
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .research-placeholder,
+    .research-slice .research-caption {
+        font-size: 14px;
+    }
+}
+
+
+/* Show only first and last circles on tablet and mobile */
+@media (max-width: 800px) {
+    .research-workflow > .research-middle-slot { display: none !important; }
+    .research-workflow::after { display: none; }
+}
+/* Keep single captions readable inside the smaller middle circles */
+.research-middle-slot .research-caption {
+    font-size: clamp(10px, 1.05vw, 14px);
+    line-height: 1.35;
+    padding: 10px;
+}
+
+
+
+/* Smooth scaling for all four circles */
+.research-orb {
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+/* Scale by 5% on hover */
+.research-orb:hover {
+    transform: scale(1.05);
+}
+
+/* Keep all captions visible */
+.research-orb .research-caption {
+    opacity: 1 !important;
+}
+
+/* Also scale when keyboard-focused */
+.research-orb:focus-within {
+    transform: scale(1.05);
+}
+
+
+
+/* Research section with energy diagram background */
+.research-energy-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Energy profile background layer */
+.energy-profile-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.20; /* Background visibility controller */
+    pointer-events: none;
+}
+
+.energy-profile-bg svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Keep research circles above the diagram */
+.research-energy-section > .max-w-7xl {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 800px) {
+    .energy-profile-bg {
+        opacity: 0.12;
+    }
+}
+
+
+
+
+
+
+
+
+/* =========================================
+   RESEARCH PILLARS — NEWS CARD STYLE
+   ========================================= */
+
+.research-pillar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stretch inner content to fill card */
+.research-pillar-card > .p-6 {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Align publication dropdowns at bottom */
+.research-publications {
+    margin-top: auto;
+}
+
+.research-pillar-card:hover {
+    transform: translateY(0px);
+    
+}
+
+/* Colored top border */
+.research-pillar-accent {
+    height: 0px;
+}
+
+/* Small category label */
+.research-pillar-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+
+.research-pillar-image {
+    width: 100%;
+    height: 180px;          /* Image height controller */
+    margin: 12px 0 18px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #f8fafc;
+}
+
+.research-pillar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;    /* Show entire chemical scheme */
+    display: block;
+}
+
+/* Research title */
+.research-pillar-title {
+    color: #314158;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    min-height: 50px;
+}
+
+/* Description */
+.research-pillar-description {
+    color: #64748b;       /* text-slate-500 */
+    font-size: 13px;      /* text-[13px] */
+    margin-top: 12px;     /* mt-3 */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-align: justify;  /* text-justify */
+    line-height: 1.4;
+    margin-bottom: 24px;
+}
+
+/* Representative publications */
+.research-publications {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 18px;
+}
+
+.research-publications-heading {
+    color: #0c2340;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* Dropdown buttons */
+.research-publication-dropdown {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.research-publication-dropdown summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0c2340;
+    list-style: none;
+    transition: background 0.2s ease;
+}
+
+.research-publication-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.research-publication-dropdown summary::after {
+    content: "+";
+    font-size: 19px;
+    font-weight: 400;
+    color: #2563eb;
+}
+
+.research-publication-dropdown[open] summary::after {
+    content: "−";
+}
+
+.research-publication-dropdown summary:hover {
+    background: #eaf1fb;
+}
+
+/* Expanded publication content */
+.research-publication-content {
+    padding: 12px 14px 16px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.research-publication-content a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.research-publication-content a:hover {
+    text-decoration: underline;
+}
+
+/* Tablet and mobile */
+@media (max-width: 1023px) {
+    .research-pillar-title {
+        min-height: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .research-pillar-card {
+        transition: none;
+    }
+}
+
+
+
+</style>
+
+
+
+
+
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="research">
+<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Brand / Logo -->
+<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
+<div class="relative py-1">
+<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</div>
+</a>
+
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
+<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
+<span>Contact</span>
+<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
+</button>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
+<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+</div>
+
+
+
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-research">
+<section class="py-12 bg-navy-900 text-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<span>/</span>
+<span>Research Focus</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold">Research Areas</h1>
+</div>
+</section>
+
+
+<!-- Interactive research workflow -->
+
+
+<section class="research-energy-section py-12 bg-slate-50 border border-slate-200"
+         aria-labelledby="research-workflow-title">
+
+    <!-- Background energy profile -->
+    <div class="energy-profile-bg" aria-hidden="true">
+        <svg viewBox="0 0 1200 400"
+             preserveAspectRatio="none"
+             xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+                <linearGradient id="energyGradient"
+                                x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#2563eb"/>
+                    <stop offset="50%" stop-color="#eab308"/>
+                    <stop offset="100%" stop-color="#2563eb"/>
+                </linearGradient>
+            </defs>
+
+            <!-- Smooth energy profile: SM, TS1, INT1, TS2, INT2, TS3, P -->
+            <path
+                d="
+                M 30 280
+                C 80 280, 105 280, 140 280
+                C 195 280, 210 90, 285 90
+                C 355 90, 365 240, 425 240
+                C 490 240, 510 45, 580 45
+                C 650 45, 670 265, 735 265
+                C 795 265, 820 125, 880 125
+                C 945 125, 960 320, 1030 320
+                C 1080 320, 1130 320, 1170 320
+                "
+                fill="none"
+                stroke="url(#energyGradient)"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+
+            <!-- Energy levels -->
+            <g fill="#64748b" font-size="18"
+               font-family="Inter, sans-serif"
+               text-anchor="middle">
+                <text x="85" y="310">SM</text>
+                <text x="285" y="70">TS1</text>
+                <text x="425" y="270">INT1</text>
+                <text x="580" y="25">TS2</text>
+                <text x="735" y="295">INT2</text>
+                <text x="880" y="105">TS3</text>
+                <text x="1100" y="350">P</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Your existing research workflow content remains here -->
+
+
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+  <div class="research-workflow">
+    <!-- Circle 1: Starting Materials -->
+    <div class="research-orb">
+      <!-- Starting Materials background -->
+<div class="starting-material-bg">
+
+    <!-- Random yellow balls -->
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+     <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+       <span class="yellow-ball"></span>
+
+    <!-- Transparent image on top -->
+    <img
+        class="starting-material-image"
+        src="research/startingmaterial.png"
+        alt="Starting material structures"
+    >
+
+</div>
+      <div class="research-slice" tabindex="0" role="button" aria-label="Starting Materials">
+        <span class="research-caption" style="font-size:20px;">Starting Materials</span>
+      </div>
+    </div>
+
+    <!-- Circle 2: two catalyst photos, one full-circle hover caption -->
+    <div class="research-middle-slot">
+      <div class="research-orb catalysts">
+        <img class="research-half-photo half-a" id="research-metal-photo" alt="Metal catalysts" src="research/metalcatalyst.png">
+        <img class="research-half-photo half-b" id="research-photoredox-photo" alt="Photoredox catalysts" src="research/photocatalyst.png">
+        <div class="research-slice" tabindex="0" role="button" aria-label="Transition Metal &amp; Photo-Catalysis">
+          <span class="research-caption">Transition Metal &amp; Photo-Catalysis</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Circle 3: two synthesis photos, one full-circle hover caption -->
+    <div class="research-middle-slot">
+      <div class="research-orb setups">
+        <img class="research-half-photo half-a" id="research-photo-photo" alt="Photochemical setup" src="research/photochemical.png">
+        <img class="research-half-photo half-b" id="research-electro-photo" alt="Electrochemical setup" src="research/electrochemical.png">
+        <div class="research-slice" tabindex="0" role="button" aria-label="Photochemical &amp; Electrochemical Synthesis">
+          <span class="research-caption">Photochemical &amp; Electrochemical Synthesis</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Circle 4: Value Added Products -->
+    <div class="research-orb">
+      <!-- Value Added Products: same background and floating balls as first circle -->
+<div class="starting-material-bg">
+
+    <!-- Random yellow balls -->
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+     <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+    <span class="yellow-ball"></span>
+       <span class="yellow-ball"></span>
+
+    <!-- Transparent image on top -->
+    <img
+        class="starting-material-image"
+        src="research/products.png"
+        alt="Product structures"
+    >
+
+</div>
+      <div class="research-slice" tabindex="0" role="button" aria-label="Value Added Products">
+        <span class="research-caption" style="font-size:20px;">Value Added Products</span>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ document.querySelectorAll('.research-slice').forEach(el=>{
+  const toggle=()=>{const active=el.classList.contains('is-active');document.querySelectorAll('.research-slice.is-active').forEach(e=>e.classList.remove('is-active'));if(!active)el.classList.add('is-active')};
+  el.addEventListener('click',toggle);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+ });
+});
+</script>
+
+
+
+
+
+
+
+
+<!-- Research Pillars -->
+<section class="py-16 bg-slate-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+
+      <!-- PILLAR 01 -->
+      <article class="research-pillar-card">
+        <div class="research-pillar-accent bg-yellow-500"></div>
+
+	<div class="p-6">
+  	  <span class="research-pillar-tag">RESEARCH AREA 01</span>
+
+ 	   <!-- Image -->
+  	  <div class="research-pillar-image">
+    	    <img src="research/pillar1.png"
+             alt="Ring-Strain-Driven Reaction Discovery">
+    		</div>
+
+   	 <h3 class="research-pillar-title">
+        Ring-Strain-Driven Reaction Discovery
+   	 </h3>
+
+    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
+
+          <p class="research-pillar-description">
+            Ring strain drives reactivity by releasing strain energy,
+            enabling access to valuable scaffolds. We aim to exploit
+            strain-release strategies to design novel reactions that
+            expand the synthetic toolbox for constructing complex molecules.
+          </p>
+
+          <div class="research-publications">
+
+            <details class="research-publication-dropdown">
+              <summary>Representative Publications</summary>
+              <div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+		<div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+            </details>
+
+            </div>
+        </div>
+      </article>
+
+
+<!-- PILLAR 02 -->
+      <article class="research-pillar-card">
+        <div class="research-pillar-accent bg-yellow-500"></div>
+
+	<div class="p-6">
+  	  <span class="research-pillar-tag">RESEARCH AREA 02</span>
+
+ 	   <!-- Image -->
+  	  <div class="research-pillar-image">
+    	    <img src="research/pillar2.png"
+             alt="Synthesis and Applications of New Carbenes">
+    		</div>
+
+   	 <h3 class="research-pillar-title">
+        Synthesis and Applications of New Carbenes
+   	 </h3>
+
+    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
+
+          <p class="research-pillar-description">
+            Diazo compounds are powerful carbene precursors in synthesis
+            and catalysis, yet few precursors are known. We aim to develop
+            new diazo reagents with versatile handles for use in late-stage
+            functionalization of complex, privileged structures.
+          </p>
+
+          <div class="research-publications">
+
+            <details class="research-publication-dropdown">
+              <summary>Representative Publications</summary>
+              <div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+		<div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+            </details>
+
+            </div>
+        </div>
+      </article>
+
+
+
+<!-- PILLAR 03 -->
+      <article class="research-pillar-card">
+        <div class="research-pillar-accent bg-yellow-500"></div>
+
+	<div class="p-6">
+  	  <span class="research-pillar-tag">RESEARCH AREA 03</span>
+
+ 	   <!-- Image -->
+  	  <div class="research-pillar-image">
+    	    <img src="research/pillar3.png"
+             alt=" Deconstructive Functionalization">
+    		</div>
+
+   	 <h3 class="research-pillar-title">
+         Deconstructive Functionalization
+   	 </h3>
+
+    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
+
+          <p class="research-pillar-description">
+            While C–C and C–X bond-forming methods are central to synthesis,
+            they can fall short in accessing novel architectures. We are
+            developing deconstructive strategies to convert simple cyclic
+            compounds into richly functionalized acyclic molecules.
+          </p>
+
+          <div class="research-publications">
+
+            <details class="research-publication-dropdown">
+              <summary>Representative Publications</summary>
+              <div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+		<div class="research-publication-content">
+                <p>Add publication title and citation here.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  View Publication ↗
+                </a>
+              </div>
+            </details>
+
+            </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+</div>
+</main>
+
+
+<script src="js/navigation.js"></script>
+<script src="js/site-ui.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>
