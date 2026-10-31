@@ -959,6 +959,9 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="pub-actions">
                 <button type="button" class="pub-action pub-abstract-toggle" aria-expanded="false"><i class="fa-solid fa-chevron-down"></i> Abstract</button>
                 ${pdfButton}
+                ${/^10\.\d{4,9}\/\S+$/.test(doi)
+                  ? `<a class="pub-action" href="https://doi.org/${encodeURI(doi).replace(/"/g,'%22')}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Online</a>`
+                  : ''}
               </div>
               <div class="pub-abstract-panel" hidden><div class="pub-abstract"><p>${esc(r.abstract)}</p></div></div>
             </div>
