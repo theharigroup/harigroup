@@ -96,22 +96,6 @@ The website is developed using:
 - Supabase integration for supported laboratory applications
 
 
-## Deployment
-
-This website is hosted using GitHub Pages and is accessible through the custom domain:
-
-**https://www.theharigroup.in**
-
-To deploy:
-
-1. Upload the website files and folders to the root of the GitHub repository.
-2. Open **Settings → Pages**.
-3. Select **Deploy from a branch**.
-4. Choose the `main` branch and `/(root)` directory.
-5. Save the settings and wait for deployment.
-
-For custom-domain deployment, configure the GitHub Pages domain settings and corresponding DNS records.
-
 ## Contact
 
 **Hari Group**  
