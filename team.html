@@ -218,55 +218,249 @@
           }
         </style>
 <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
           // ====================================================================================================================================
           // ENTER PROFILE INFORMATION HERE
           // ====================================================================================================================================
-          const profiles = [
-		{
-              section: 
-              name: "",
-              image: 
-              degree: "
-              position: 
-              email: 
-              scholar: 
-              orcid: 
-            },
-            {
-              section:
-              name: 
-              image: "me
-              degree: "M.Sc, 
-              position: "5th Year 
-              email: "tushraas@iisc.a
-              scholar: "https://scholar.google.c
-              orcid: "https://orcid.org/000
-            },
+          
+const members = [
+  {
+    section: "Postdoctoral Fellows",
+    name: "Satabdi Bera",
+    image: "members/satabdibera.jpg",
+    degree: "PhD, IIT Kharagpur",
+    position: "WISE Post-Doctoral Fellowship",
+    email: "satabdibera@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=hvAEE1kAAAAJ&hl=en",
+    orcid: "https://orcid.org/0000-0003-0536-6274"
+  },
+  {
+    section: "Postdoctoral Fellows",
+    name: "Vandana Jaiswal",
+    image: "members/vandanajaiswal.jpg",
+    degree: "PhD, CBMR Lucknow",
+    position: "NPDF Post-Doctoral Fellowship",
+    email: "vandanaj@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Postdoctoral Fellows",
+    name: "Athmanand Anchi",
+    image: "members/athmanandanchi.jpg",
+    degree: "PhD, Karnatak University, Dharwad",
+    position: "Post-Doctoral RA",
+    email: "athmananda@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=KoaEi60AAAAJ&hl=en",
+    orcid: "https://orcid.org/0009-0005-1769-2167"
+  },
+  {
+    section: "Graduate Students",
+    name: "Tushar Singha",
+    image: "members/tusharsingha.jpeg",
+    degree: "M.Sc, IIT Madras",
+    position: "5th Year Graduate Student",
+    email: "tushraas@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=_lpZUwwAAAAJ&hl=en",
+    orcid: "https://orcid.org/0000-0002-9424-6460"
+  },
+  {
+    section: "Graduate Students",
+    name: "Abdur R. S. Mondal",
+    image: "members/abdurmondal.jpeg",
+    degree: "M.Sc, Kalyani University",
+    position: "5th Year Graduate Student",
+    email: "abdurmondal@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=9GzHKb0AAAAJ&hl=en",
+    orcid: "https://orcid.org/0000-0002-3387-3647"
+  },
+  {
+    section: "Graduate Students",
+    name: "Suparnak Midya",
+    image: "members/suparnakmidya.jpeg",
+    degree: "M.Sc, IIT-ISM Dhanbad",
+    position: "5th Year Graduate Student",
+    email: "suparnakm@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=Qvwx3r0AAAAJ&hl=en",
+    orcid: "https://orcid.org/0000-0003-3264-5121"
+  },
+  {
+    section: "Graduate Students",
+    name: "Bina Das",
+    image: "members/binadas.jpeg",
+    degree: "B.Sc, Hooghly Mohsin College",
+    position: "4th Year Int. PhD Student",
+    email: "binadas@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=pLssSncAAAAJ&hl=en",
+    orcid: "https://orcid.org/0009-0007-2414-7313"
+  },
+  {
+    section: "Graduate Students",
+    name: "Ganesh A. Kadam",
+    image: "members/ganeshkadam.jpeg",
+    degree: "M.Sc, Dr. Babasaheb Ambedkar Marathwada University",
+    position: "4th Year Graduate Student",
+    email: "ganeshkadam@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=oM3QkP0AAAAJ&hl=en",
+    orcid: "https://orcid.org/0009-0007-3749-6635"
+  },
+  {
+    section: "Graduate Students",
+    name: "Bhishmalochan Ghorai",
+    image: "members/bhishmalochan.jpeg",
+    degree: "M.Sc, IIT Kanpur",
+    position: "4th Year Graduate Student",
+    email: "bhismalochan@iisc.ac.in",
+    scholar: "",
+    orcid: "https://orcid.org/0009-0008-6231-0406"
+  },
+  {
+    section: "Graduate Students",
+    name: "Jyothirlatha V. N. Kasu",
+    image: "members/jyothikasu.jpeg",
+    degree: "BS-MS, NIT Durgapur",
+    position: "3rd Year Graduate Student",
+    email: "jyothirlatha@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?hl=en&user=XuphoMYAAAAJ",
+    orcid: "https://orcid.org/0009-0006-8852-5830"
+  },
+  {
+    section: "Graduate Students",
+    name: "Harshita Mishra",
+    image: "members/harshitamishra.jpeg",
+    degree: "B.Sc, Banaras Hindu University",
+    position: "3rd Year Int. PhD Student",
+    email: "harshitam@iisc.ac.in",
+    scholar: "",
+    orcid: "https://orcid.org/0009-0007-3713-8125"
+  },
+  {
+    section: "Graduate Students",
+    name: "Rudra P. Singh",
+    image: "members/rudrasingh.jpeg",
+    degree: "B.Sc, Banaras Hindu University",
+    position: "2nd Year Int. PhD Student",
+    email: "rudrapratap@iisc.ac.in",
+    scholar: "",
+    orcid: "https://orcid.org/0009-0001-8165-4676"
+  },
+  {
+    section: "Graduate Students",
+    name: "Subhayan Aich",
+    image: "members/subhayan.jpeg",
+    degree: "M.Sc, University of Calcutta",
+    position: "2nd Year Graduate Student",
+    email: "subhayanaich@iisc.ac.in",
+    scholar: "https://scholar.google.com/citations?user=-3fOBUoAAAAJ&hl=en",
+    orcid: "https://orcid.org/0009-0003-2863-8516"
+  },
+  {
+    section: "Graduate Students",
+    name: "Rwishanya Das",
+    image: "members/rwishanya.jpeg",
+    degree: "M.Sc, IIT-ISM Dhanbad",
+    position: "2nd Year Graduate Student",
+    email: "rwishanyadas@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Graduate Students",
+    name: "Bibhas R. Biswal",
+    image: "members/bibhas.jpeg",
+    degree: "B.Sc, Ravenshaw University",
+    position: "1st Year Int. PhD Student",
+    email: "bibhasbiswal@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Graduate Students",
+    name: "Anupam Dutta",
+    image: "members/anupam.jpeg",
+    degree: "M.Sc, IIT-ISM Dhanbad",
+    position: "1st Year Graduate Student",
+    email: "anupamdutta@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Graduate Students",
+    name: "Siva S. Padala",
+    image: "members/siva.jpeg",
+    degree: "M.Sc, University of Hyderabad",
+    position: "1st Year Graduate Student",
+    email: "sivasuryana1@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Graduate Students",
+    name: "Adarsh Vishwakarma",
+    image: "members/adarsh.jpeg",
+    degree: "M.Sc, Benaras Hindu University",
+    position: "1st Year Graduate Student",
+    email: "adarshvishw1@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Master & Undergrad Students",
+    name: "Annesa Das",
+    image: "members/annesadas.jpg",
+    degree: "B.Sc, Nabadwip Vidyasagar College",
+    position: "2nd Year Master’s Student",
+    email: "annesadas@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  },
+  {
+    section: "Master & Undergrad Students",
+    name: "P K Harrishnarayanan",
+    image: "members/harish.jpg",
+    degree: "BS-MS, IISc Bangalore",
+    position: "4th Year Bachelor’s Student",
+    email: "harrishnaray@iisc.ac.in",
+    scholar: "",
+    orcid: ""
+  }
+];
 
-            {
-              section: "Graduate S
-              name: "Bina Das",
-              image: "members/binadas
-              degree: "B.Sc, Hooghly Moh
-              position: "4th Year Int.
-              email: "your-email@e
-              scholar: "https://scholar.
-              orcid: "https://orcid.o
-            },
 
-		{
-              section: "Master & U
-              name: "Bina
-              image: "members/
-              degree: "B.Sc, Hooghly Mohsi
-              position: "4th Year Int. PhD Stud
-              email: "your-email@example.co
-              scholar: "https://scholar.google
-              orcid: "https://o
-            }
 
-            // Add more profiles below using the same format.
-          ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 
           // ====================================================================================================================================
           // REUSABLE PROFILE CARD TEMPLATE
