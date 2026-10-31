@@ -237,7 +237,6 @@
 
 
 
-	
           // ====================================================================================================================================
           // ENTER PROFILE INFORMATION HERE
           // ====================================================================================================================================
@@ -443,26 +442,30 @@ const members = [
     scholar: "",
     orcid: ""
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-          // ====================================================================================================================================
+       
+  // ====================================================================================================================================
           // REUSABLE PROFILE CARD TEMPLATE
           // Do not edit this section when adding profiles.
           // ==========================================
@@ -546,19 +549,19 @@ const members = [
           // ==========================================
 
           document.getElementById("postdoc-grid").innerHTML =
-            profiles
+            members
               .filter(person => person.section === "Postdoctoral Fellows")
               .map(createProfileCard)
               .join("");
 
           document.getElementById("graduate-grid").innerHTML =
-            profiles
+            members
               .filter(person => person.section === "Graduate Students")
               .map(createProfileCard)
               .join("");
 
           document.getElementById("master-grid").innerHTML =
-            profiles
+            members
               .filter(person => person.section === "Master & Undergrad Students")
               .map(createProfileCard)
               .join("");
