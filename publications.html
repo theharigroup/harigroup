@@ -73,6 +73,13 @@
 
 @media(max-width:720px){.pub-content{grid-template-columns:1fr}.pub-figure{order:-1}.pub-body{padding:18px}}
 
+ /* Temporarily disable all PDF buttons */
+  .pub-action[href$=".pdf"] {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+    
 </style>
 
 
