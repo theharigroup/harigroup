@@ -4,7 +4,7 @@
 
 **Principal Investigator:** Dr. Durga Prasad Hari
 
-🌐 **Official Website: [www.theharigroup.in](https://www.theharigroup.in)**
+🌐 **Official Website: 
 
 ---
 
