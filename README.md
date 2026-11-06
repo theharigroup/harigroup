@@ -4,7 +4,7 @@
 
 **Principal Investigator:** Dr. Durga Prasad Hari
 
-🌐 **Official Website: 
+🌐 **Official Website: (https://harigroup.orgchem.iisc.ac.in/)**
 
 ---
 
@@ -58,7 +58,7 @@ The publication descriptions above are abbreviated summaries; consult the journa
 
 For the complete and updated publication list, visit:
 
-**[Hari Group Publications](https://www.theharigroup.in/publications.html)**
+**[Hari Group Publications](https://harigroup.orgchem.iisc.ac.in/publications.html)**
 
 ---
 
@@ -103,7 +103,7 @@ Department of Organic Chemistry
 Indian Institute of Science (IISc)  
 Bengaluru 560012, India
 
-**Website:** https://www.theharigroup.in
+**Website:** (https://harigroup.orgchem.iisc.ac.in/)
 
 For research collaborations, academic inquiries, and prospective group membership, please visit the [Contact page](https://www.theharigroup.in/contact.html).
 
