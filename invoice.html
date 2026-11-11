@@ -174,9 +174,9 @@
 <!-- Filter & Toolbar -->
 <div class="bg-white p-3 rounded-sm border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center gap-3">
 <!-- Search Input -->
-<div class="relative w-full lg:flex-1 lg:min-w-[260px]">
+<div class="relative w-full lg:flex-1 lg:min-w-[220px]">
 <i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="search"></i>
-<input class="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white" id="search-input" oninput="handleSearch(this.value)" placeholder="Search by Vendor, Invoice #, PO #, Grant, or Item..." type="text"/>
+<input class="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white" id="search-input" oninput="handleSearch(this.value)" placeholder="Search vendor, invoice #, PO, item…" type="text"/>
 <button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" id="clear-search-btn" onclick="clearSearch()" aria-label="Clear search">
 <i class="w-4 h-4" data-lucide="x"></i>
 </button>
@@ -184,8 +184,7 @@
 <!-- Controls -->
 <div class="flex flex-wrap lg:flex-nowrap items-center gap-2 lg:shrink-0" id="filter-controls">
 <div class="flex items-center gap-2">
-<i class="w-4 h-4 text-slate-400 hidden xl:block" data-lucide="filter"></i>
-<select class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" id="status-filter" onchange="handleFilterChange(this.value)">
+<select class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" id="status-filter" style="width:9.5rem" onchange="handleFilterChange(this.value)">
 <option value="ALL">All Stages</option>
 <option value="SUBMITTED">Stage 1: Pending Accountant</option>
 <option value="REJECTED">Stage 1: Rejected by Accountant</option>
@@ -194,19 +193,19 @@
 <option value="COMPLETED">Stage 4: PO Completed</option>
 </select>
 </div>
-<input type="date" id="date-from" onchange="handleDateChange()" aria-label="From date" title="Invoice date from" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-[8.5rem]"/>
+<input type="date" id="date-from" onchange="handleDateChange()" aria-label="From date" title="Invoice date from" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-[7.75rem]"/>
 <span class="text-slate-400 text-xs">to</span>
-<input type="date" id="date-to" onchange="handleDateChange()" aria-label="To date" title="Invoice date to" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-[8.5rem]"/>
-<select id="sort-select" onchange="handleSortChange(this.value)" aria-label="Sort" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
+<input type="date" id="date-to" onchange="handleDateChange()" aria-label="To date" title="Invoice date to" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-[7.75rem]"/>
+<select id="sort-select" style="width:7.75rem" onchange="handleSortChange(this.value)" aria-label="Sort" class="bg-slate-50 border border-slate-200 rounded-sm text-xs px-2 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
 <option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="high">Amount: high to low</option><option value="low">Amount: low to high</option><option value="vendor">Vendor A-Z</option>
 </select>
-<button type="button" onclick="exportCsv()" aria-label="Export CSV" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-sm text-xs font-semibold flex items-center gap-1.5" title="Download the currently shown invoices as CSV"><i class="w-3.5 h-3.5" data-lucide="download"></i><span class="hidden xl:inline">Export CSV</span></button>
+<button type="button" onclick="exportCsv()" aria-label="Export CSV" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-sm text-xs font-semibold flex items-center gap-1.5" title="Download the currently shown invoices as CSV"><i class="w-3.5 h-3.5" data-lucide="download"></i></button>
 <div class="bg-slate-100 p-1 rounded-sm border border-slate-200 flex items-center">
 <button class="px-3 py-1.5 rounded-md text-xs font-semibold transition flex items-center gap-1.5 bg-white text-indigo-700 shadow-sm" id="btn-view-board" aria-label="Grid view" onclick="switchView('board')">
-<i class="w-3.5 h-3.5" data-lucide="layers"></i><span class="hidden xl:inline">Grid View</span>
+<i class="w-3.5 h-3.5" data-lucide="layers"></i><span class="hidden 2xl:inline">Grid View</span>
                                 </button>
 <button class="px-3 py-1.5 rounded-md text-xs font-semibold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900" id="btn-view-list" aria-label="Table view" onclick="switchView('list')">
-<i class="w-3.5 h-3.5" data-lucide="file-text"></i><span class="hidden xl:inline">Table View</span>
+<i class="w-3.5 h-3.5" data-lucide="file-text"></i><span class="hidden 2xl:inline">Table View</span>
                                 </button>
 </div>
 </div>
