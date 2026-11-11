@@ -104,6 +104,7 @@ body {
 .cat-icon .cat-v{transform-origin:12px 12px;transition:transform .3s,opacity .3s}
 #mobile-menu-btn.open .cat-ring{transform:rotate(180deg)}
 #mobile-menu-btn.open .cat-v{transform:scaleY(0);opacity:0}
+#mobile-menu-btn,#mobile-menu-btn:hover,#mobile-menu-btn:focus{background:transparent !important;box-shadow:none}
 #mobile-menu-btn:hover .cat-icon{color:#b45309}
 
 /* Footer uses the hero banner background (same height as before) */
