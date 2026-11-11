@@ -7,7 +7,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>LogiDFT | Hari Group</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=2" rel="stylesheet"/>
+<link href="css/style.css?v=3" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -15,6 +15,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="css/logidft.css?v=1" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -54,7 +56,6 @@
 <a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
 <a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
 <a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
-<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Openings / Join Us</a>
 <a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
 </div>
 </header>
@@ -75,111 +76,172 @@
 <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight"><span class="grad-text">LogiDFT</span></h1>
 </div>
 </section>
-<!-- Main Tool Workspace -->
-<section class="py-8 bg-slate-50 text-slate-100 min-h-screen">
-<div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-<!-- Upload & Settings Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<!-- Drag and Drop Dropzone -->
-<div class="lg:col-span-2 bg-white border-[1px] border-slate-200 hover:border-blue-200 rounded-sm p-6 transition text-center flex flex-col justify-center items-center relative group cursor-pointer shadow-sm" id="dropzone" onclick="document.getElementById('fileInput').click()">
-<input accept=".log,.out,.txt" class="hidden" id="fileInput" multiple="" onchange="handleFileSelect(event)" type="file"/>
-<div class="w-14 h-14 rounded-sm text-blue-400 flex items-center justify-center mb-3 group-hover:scale-110 transition duration-300">
-<i class="fa-solid fa-cloud-arrow-up text-3xl"></i>
+<!-- Main Tool Workspace (LogiDFT app from theharigroup/dft-log-parser) -->
+<section class="py-8 bg-slate-50 min-h-screen">
+<div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+<div class="logidft-app" data-theme="light">
+<div class="no-print" style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px;">
+<button type="button" class="btn" data-action="load-demo" title="Load five demo structures"><i class="fa-solid fa-flask-vial"></i><span class="hide-sm">Load demo</span></button>
+<button type="button" class="btn" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
 </div>
-<h3 class="text-base font-semibold text-slate-900 mb-1">Drop your DFT calculation log files here.</h3>
-<p class="text-xs text-slate-900 max-w-md mb-3">Supports multiple Gaussian (<code>.log</code>, <code>.out</code>) or ORCA output files simultaneously.</p>
-<div class="flex items-center gap-2">
-<span class="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-black rounded-sm text-xs font-medium shadow-md transition">
-                                    Browse Log Files
-                                </span>
-</div>
-</div>
-<!-- Settings & Configuration Panel -->
-<div class="bg-white border-[1px] border-slate-200 rounded-sm p-5 flex flex-col justify-between shadow-sm">
-<div>
-<h3 class="text-medium font-bold text-slate-900 border-b border-slate-700 pb-2 mb-3 flex items-center gap-2">
-<i class="fa-solid fa-sliders text-blue-500"></i> Parsing &amp; Output Options
-                                </h3>
-<div class="space-y-3.5 text-xs">
-<!-- Coordinate Element Format -->
-<div>
-<label class="block text-slate-800 font-medium mb-1">Coordinate Labeling</label>
-<div class="grid grid-cols-2 gap-2">
-<button class="px-3 py-1.5 rounded-sm border text-center transition font-mono bg-blue-600 border-blue-600 text-white" id="optAtomicNum" onclick="setCoordFormat('atomic')" type="button">
-            Atomic Num (6)
-        </button>
-<button class="px-3 py-1.5 rounded-sm border text-center transition font-mono bg-blue-100 border-blue-200 text-slate-800 hover:bg-blue-200" id="optSymbol" onclick="setCoordFormat('symbol')" type="button">
-            Symbol (C)
-        </button>
-</div>
-</div>
-<!-- Energy Unit Options -->
-<div>
-<label class="block text-slate-800 font-medium mb-1">E_elec Label Format</label>
-<select class="w-full bg-slate-200 border border-slate-300 rounded-sm px-2.5 py-1.5 text-slate-800 focus:outline-none focus:border-blue-500" id="energyLabelFormat" onchange="renderAllResults()">
-<option value="HF">Electronic energy:   HF=-387.598184 (Standard)</option>
-<option value="E_DFT">Electronic energy:   E(DFT)=-387.598184</option>
-<option value="PLAIN">Electronic energy:   -387.598184</option>
-</select>
-</div>
-<!-- Relative Energy Reference -->
-<div>
-<label class="block text-slate-800 font-medium mb-1">Reference Structure for ΔG (kcal/mol)</label>
-<select class="w-full bg-slate-200 border border-slate-300 rounded-sm px-2.5 py-1.5 text-slate-800 focus:outline-none focus:border-blue-500" id="refStructureSelect" onchange="renderAllResults()">
-<option value="">None (Absolute Hartree only)</option>
-</select>
-</div>
-</div>
-</div>
-<!-- Actions Toolbar -->
-<div class="pt-4 border-t border-slate-700 mt-3 flex items-center gap-2 flex-wrap sm:flex-nowrap">
-<button class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-3 rounded-sm text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-md" id="copyAllBtn" onclick="copyAllSI()">
-<i class="fa-solid fa-copy"></i> Copy All SI Text
-                                </button>
-<button class="bg-slate-700 hover:bg-slate-600 text-slate-200 p-2 rounded-sm text-xs font-medium transition border border-slate-600" onclick="downloadAllSI()" title="Download concatenated .txt">
-<i class="fa-solid fa-download"></i>
-</button>
-<button class="bg-slate-700 hover:bg-slate-600 text-slate-200 p-2 rounded-sm text-xs font-medium transition border border-slate-600" onclick="exportCSV()" title="Export Energy Table CSV">
-<i class="fa-solid fa-file-csv text-emerald-400"></i>
-</button>
-<button class="px-3 py-2 bg-rose-700 hover:bg-rose-500 text-white rounded-sm text-xs font-medium flex items-center gap-1" onclick="clearAllData()">
-<i class="fa-solid fa-trash-can"></i> Clear All
-                                </button>
-</div>
-</div>
-</div>
-<!-- Summary Stats Banner -->
-<div class="hidden bg-slate-800/90 border border-slate-700 rounded-sm p-4 shadow-sm" id="summaryBanner">
-<div class="flex flex-wrap items-center justify-between gap-4">
-<div class="flex items-center space-x-6">
-<div>
-<span class="text-xs text-slate-400 block uppercase tracking-wider">Loaded Files</span>
-<span class="text-lg font-bold text-blue-400" id="statFileCount">0</span>
-</div>
-<div class="border-l border-slate-700 pl-6">
-<span class="text-xs text-slate-400 block uppercase tracking-wider">TS Structures</span>
-<span class="text-lg font-bold text-amber-400" id="statTSCount">0</span>
-</div>
-<div class="border-l border-slate-700 pl-6">
-<span class="text-xs text-slate-400 block uppercase tracking-wider">Lowest Energy Structure</span>
-<span class="text-sm font-semibold text-emerald-400" id="statLowestG">--</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<button class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-sm text-slate-300" onclick="expandAllCards(true)">Expand All</button>
-<button class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-sm text-slate-300" onclick="expandAllCards(false)">Collapse All</button>
-</div>
-</div>
-</div>
-<!-- Parsed Output Container -->
-<div class="space-y-6" id="resultsContainer">
-<div class="bg-slate-200 border border-slate-100 rounded-sm p-12 text-center" id="emptyState">
-<div class="w-16 h-16 mx-auto mb-4 rounded-sm bg-slate-200 flex items-center justify-center text-slate-500">
-<i class="fa-solid fa-file-lines text-2xl"></i>
-</div>
-<h3 class="text-slate-800 font-semibold mb-1">No DFT log files loaded yet</h3>
-<p class="text-xs text-slate-800 max-w-sm mx-auto">Upload Gaussian or ORCA log files above to parse thermochemistry and Cartesian coordinates.</p>
-</div>
+<div class="main">
+
+        <!-- Upload & settings -->
+        <section class="top-grid no-print" aria-label="Upload and options">
+
+            <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose or drop DFT log files">
+                <input type="file" id="fileInput" multiple accept=".log,.out,.txt,.output" class="visually-hidden">
+                <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <h3>Drop your DFT calculation log files here</h3>
+                <p>Supports multiple Gaussian (<code>.log</code>, <code>.out</code>) or ORCA output files at once. Files are parsed locally in your browser — nothing is uploaded.</p>
+                <span class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Browse log files</span>
+                <div class="dropzone-busy" aria-hidden="true"><span class="spinner"></span><span id="busyText">Parsing…</span></div>
+            </div>
+
+            <div class="panel options">
+                <h3 class="panel-title"><i class="fa-solid fa-sliders"></i> Parsing &amp; output options</h3>
+
+                <div class="field">
+                    <label>Coordinate labeling</label>
+                    <div class="seg" role="group" aria-label="Coordinate labeling">
+                        <button type="button" id="optAtomicNum" data-action="set-coord" data-value="atomic" aria-pressed="true">Atomic Num (6)</button>
+                        <button type="button" id="optSymbol" data-action="set-coord" data-value="symbol" aria-pressed="false">Symbol (C)</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="energyLabelFormat">E_elec label format</label>
+                    <select id="energyLabelFormat" data-change="energy-format">
+                        <option value="HF">Electronic energy:   HF=-387.598184 (Standard)</option>
+                        <option value="E_DFT">Electronic energy:   E(DFT)=-387.598184</option>
+                        <option value="PLAIN">Electronic energy:   -387.598184</option>
+                    </select>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="refStructureSelect">Reference structure for ΔG</label>
+                        <select id="refStructureSelect" data-change="reference">
+                            <option value="">None (absolute Hartree only)</option>
+                        </select>
+                    </div>
+                    <div class="field field-narrow">
+                        <label for="unitSelect">Unit</label>
+                        <select id="unitSelect" data-change="unit">
+                            <option value="kcal">kcal/mol</option>
+                            <option value="kj">kJ/mol</option>
+                            <option value="ev">eV</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel-actions">
+                    <button type="button" class="btn btn-success grow" id="copyAllBtn" data-action="copy-all"><i class="fa-solid fa-copy"></i> Copy all SI text</button>
+                    <button type="button" class="btn btn-icon" data-action="download-all" title="Download concatenated .txt" aria-label="Download concatenated .txt"><i class="fa-solid fa-download"></i></button>
+                    <button type="button" class="btn btn-icon" data-action="export-csv" title="Export energy table as CSV" aria-label="Export energy table as CSV"><i class="fa-solid fa-file-csv text-ok"></i></button>
+                    <button type="button" class="btn btn-danger" data-action="clear-all"><i class="fa-solid fa-trash-can"></i> Clear all</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary banner -->
+        <section id="summaryBanner" class="panel summary hidden no-print" aria-label="Summary">
+            <div class="stat"><span class="stat-label">Loaded files</span><span id="statFileCount" class="stat-value text-accent">0</span></div>
+            <div class="stat"><span class="stat-label">TS structures</span><span id="statTSCount" class="stat-value text-warn">0</span></div>
+            <div class="stat stat-wide"><span class="stat-label">Lowest-energy structure (G)</span><span id="statLowestG" class="stat-value stat-value-sm text-ok">--</span></div>
+            <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
+        </section>
+
+        <!-- Tabs -->
+        <nav class="tabs no-print" role="tablist" aria-label="Views">
+            <button type="button" role="tab" class="tab" data-action="tab" data-value="structures" aria-selected="true"><i class="fa-solid fa-cube"></i> Structures</button>
+            <button type="button" role="tab" class="tab" data-action="tab" data-value="profile" aria-selected="false"><i class="fa-solid fa-chart-line"></i> Energy profile</button>
+            <button type="button" role="tab" class="tab" data-action="tab" data-value="table" aria-selected="false"><i class="fa-solid fa-table"></i> Energy table</button>
+        </nav>
+
+        <!-- ===== Structures tab ===== -->
+        <section id="tab-structures" class="tab-panel" role="tabpanel">
+            <div id="structuresToolbar" class="toolbar hidden no-print">
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="filterInput" placeholder="Filter structures by name…" aria-label="Filter structures by name" autocomplete="off">
+                </div>
+                <select id="sortSelect" data-change="sort" aria-label="Sort structures">
+                    <option value="">Sort…</option>
+                    <option value="name">By name (A→Z)</option>
+                    <option value="g">By free energy (low→high)</option>
+                    <option value="e">By electronic energy (low→high)</option>
+                </select>
+                <div class="grow"></div>
+                <button type="button" class="btn" data-action="expand-all"><i class="fa-solid fa-expand"></i> Open all 3D views</button>
+                <button type="button" class="btn" data-action="collapse-all"><i class="fa-solid fa-compress"></i> Close all</button>
+            </div>
+
+            <div id="resultsContainer" class="results"></div>
+
+            <div id="noMatch" class="empty hidden">
+                <p>No structures match this filter.</p>
+            </div>
+
+            <div id="emptyState" class="empty">
+                <div class="empty-icon"><i class="fa-solid fa-file-lines"></i></div>
+                <h3>No DFT log files loaded yet</h3>
+                <p>Upload your log files above to generate Supporting Information text, inspect structures in 3D and plot the reaction energy profile.</p>
+                <button type="button" class="btn btn-primary" data-action="load-demo"><i class="fa-solid fa-flask-vial"></i> Try it with demo data</button>
+            </div>
+        </section>
+
+        <!-- ===== Energy profile tab ===== -->
+        <section id="tab-profile" class="tab-panel hidden" role="tabpanel">
+            <div class="panel" id="profilePanel">
+                <div class="toolbar toolbar-flush no-print">
+                    <div class="field-inline">
+                        <label for="profileEnergyType">Energy</label>
+                        <select id="profileEnergyType" data-change="energy-type">
+                            <option value="G">Gibbs free energy (G)</option>
+                            <option value="H">Enthalpy (H)</option>
+                            <option value="E0">Electronic + ZPE (E₀)</option>
+                            <option value="E">Electronic energy (E)</option>
+                        </select>
+                    </div>
+                    <label class="check"><input type="checkbox" id="showValues" data-change="show-values" checked> Show values</label>
+                    <div class="grow"></div>
+                    <button type="button" class="btn" data-action="profile-svg"><i class="fa-solid fa-file-code"></i> Save SVG</button>
+                    <button type="button" class="btn" data-action="profile-png"><i class="fa-solid fa-image"></i> Save PNG</button>
+                </div>
+                <p id="profileNote" class="note"></p>
+                <div id="profileChart" class="profile-chart"></div>
+                <p class="note note-small">Structures are plotted in the order of the energy table (use the arrows there to reorder). Exports use a white background and are ready for papers and slides.</p>
+            </div>
+            <div id="profileEmpty" class="empty hidden">
+                <div class="empty-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Nothing to plot yet</h3>
+                <p>Load log files that contain frequency (thermochemistry) data to see the energy profile.</p>
+            </div>
+        </section>
+
+        <!-- ===== Energy table tab ===== -->
+        <section id="tab-table" class="tab-panel hidden" role="tabpanel">
+            <div class="panel" id="tablePanel">
+                <div class="toolbar toolbar-flush no-print">
+                    <h3 class="panel-title panel-title-flush"><i class="fa-solid fa-table"></i> Energies (Hartree) &amp; relative values</h3>
+                    <div class="grow"></div>
+                    <button type="button" class="btn" data-action="copy-table"><i class="fa-solid fa-copy"></i> Copy table</button>
+                    <button type="button" class="btn" data-action="export-csv"><i class="fa-solid fa-file-csv"></i> CSV</button>
+                </div>
+                <div class="table-wrap"><table class="data" id="dataTable"></table></div>
+            </div>
+            <div id="tableEmpty" class="empty hidden">
+                <div class="empty-icon"><i class="fa-solid fa-table"></i></div>
+                <h3>No data yet</h3>
+                <p>Load log files to see their energies side by side.</p>
+            </div>
+        </section>
+    </div>
+<div id="toast" class="toast" role="status" aria-live="polite">
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Notification message</span>
+    </div>
 </div>
 </div>
 </section>
@@ -187,9 +249,16 @@
 </main>
 
 
-<script src="js/navigation.js?v=2"></script>
-<script src="js/hero.js?v=2"></script>
-<script src="js/logidft.js"></script>
+<script src="js/navigation.js?v=3"></script>
+<script src="js/hero.js?v=3"></script>
+<script src="js/logidft/data.js?v=1"></script>
+<script src="js/logidft/parser.js?v=1"></script>
+<script src="js/logidft/format.js?v=1"></script>
+<script src="js/logidft/sample.js?v=1"></script>
+<script src="js/logidft/viewer.js?v=1"></script>
+<script src="js/logidft/profile.js?v=1"></script>
+<script src="js/logidft/ui.js?v=1"></script>
+<script src="js/logidft/app.js?v=1"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
 <!-- Background Connected Hexagons -->

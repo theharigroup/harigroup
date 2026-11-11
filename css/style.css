@@ -91,3 +91,10 @@ body {
 .chip .n { margin-left:6px; font-family:'JetBrains Mono',monospace; font-size:11px; opacity:.6; }
 .toolbar-field { border:1px solid #cbd5e1; background:#fff; font-size:14px; color:#1e293b; padding:10px 14px; transition:border-color .25s, box-shadow .25s; }
 .toolbar-field:focus { outline:none; box-shadow:0 0 0 3px rgba(250,204,21,.35); border-color:#eab308; }
+
+/* =========================================================
+   ALL CORNERS 1px (site-wide).
+   Exception: the large circular panels of the Research workflow, which are circles by design.
+   ========================================================= */
+*, *::before, *::after { border-radius: 1px !important; }
+.research-orb, .starting-material-bg, .yellow-ball { border-radius: 50% !important; }
