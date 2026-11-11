@@ -17,63 +17,58 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="pi">
-<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div id="progress"></div>
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100" id="navbar">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-16">
+<div class="flex items-center justify-between h-[68px]">
 <!-- Brand / Logo -->
-<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
-<div class="relative py-1">
-<img class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
-</div>
+<a class="flex items-center group" href="index.html" aria-label="Hari Group home">
+<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
 </a>
-
 
 <!-- Desktop Multi-Page Navigation Links -->
 <nav class="hidden xl:flex items-center gap-1">
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
-<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
-<span>Contact</span>
-<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
-</button>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-home" href="index.html">Home</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-pi" href="pi.html">DP Hari</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-research" href="research.html">Research</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-publications" href="publications.html">Publications</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-team" href="team.html">Members</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-facilities" href="facilities.html">Facilities</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-usertools" href="usertools.html">User Tools</a>
+<a class="btn-gold ml-3 px-5 py-2.5 text-sm flex items-center gap-2" id="nav-contact" href="contact.html"><span>Contact</span><i class="fa-solid fa-paper-plane text-xs"></i></a>
 </nav>
 
 <!-- Mobile menu toggle button -->
-<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<button aria-label="Toggle navigation" aria-expanded="false" class="xl:hidden p-2.5 text-slate-800 hover:bg-slate-100 transition" id="mobile-menu-btn">
 <i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
 </button>
 </div>
 </div>
 <!-- Mobile Drawer Navigation -->
-<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+<div class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur px-4 pt-3 pb-6 shadow-lg" id="mobile-menu">
+<a href="index.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Home</a>
+<a href="pi.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">DP Hari</a>
+<a href="research.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Research Focus</a>
+<a href="publications.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Publications</a>
+<a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
+<a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
+<a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Openings / Join Us</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
 </div>
-
-
-
 </header>
 <main class="flex-grow">
 <div class="page-view active-page" id="page-pi">
-<section class="py-12 bg-navy-900 text-white">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
-<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<section class="relative overflow-hidden text-white hero-bg py-16 sm:py-20">
+<div class="absolute inset-0 grid-lines"></div>
+<canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-4">
+<a href="index.html" class="hover:underline">Home</a>
 <span>/</span>
 <span>Principal Investigator</span>
 </div>
-<h1 class="text-3xl sm:text-4xl font-extrabold">DP Hari</h1>
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">DP <span class="grad-text">Hari</span></h1>
 </div>
 </section>
 <section class="py-14 bg-slate-50">
@@ -131,6 +126,7 @@
 
 
 <script src="js/navigation.js"></script>
+<script src="js/hero.js"></script>
 <script src="js/site-ui.js"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">

@@ -18,134 +18,79 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="team">
-<header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300 border-b border-slate-100" id="navbar">
+<div id="progress"></div>
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100" id="navbar">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center justify-between h-16">
+<div class="flex items-center justify-between h-[68px]">
 <!-- Brand / Logo -->
-<a class="flex items-center gap-3 group" href="index.html" onclick="window.location.href='index.html'">
-<div class="relative py-1">
-<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('vector-logo').classList.remove('hidden');" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
-</div>
+<a class="flex items-center group" href="index.html" aria-label="Hari Group home">
+<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
 </a>
-
-
 
 <!-- Desktop Multi-Page Navigation Links -->
 <nav class="hidden xl:flex items-center gap-1">
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-home" onclick="window.location.href='index.html'">Home</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-pi" onclick="window.location.href='pi.html'">DP Hari</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-research" onclick="window.location.href='research.html'">Research</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-publications" onclick="window.location.href='publications.html'">Publications</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-team" onclick="window.location.href='team.html'">Members</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-facilities" onclick="window.location.href='facilities.html'">Facilities</button>
-<button class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-600 rounded-sm transition" id="nav-usertools" onclick="window.location.href='usertools.html'">User Tools</button>
-<button class="ml-2 px-4 py-2 text-sm font-semibold text-slate-800 bg-yellow-500 hover:bg-yellow-400 rounded-sm shadow transition flex items-center gap-2" id="nav-contact" onclick="window.location.href='contact.html'">
-<span>Contact</span>
-<i class="fa-solid fa-paper-plane text-xs text-slate-800"></i>
-</button>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-home" href="index.html">Home</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-pi" href="pi.html">DP Hari</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-research" href="research.html">Research</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-publications" href="publications.html">Publications</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-team" href="team.html">Members</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-facilities" href="facilities.html">Facilities</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-usertools" href="usertools.html">User Tools</a>
+<a class="btn-gold ml-3 px-5 py-2.5 text-sm flex items-center gap-2" id="nav-contact" href="contact.html"><span>Contact</span><i class="fa-solid fa-paper-plane text-xs"></i></a>
 </nav>
 
 <!-- Mobile menu toggle button -->
-<button aria-label="Toggle Navigation" class="xl:hidden p-2.5 text-navy-800 hover:bg-slate-100 rounded-sm transition" id="mobile-menu-btn">
+<button aria-label="Toggle navigation" aria-expanded="false" class="xl:hidden p-2.5 text-slate-800 hover:bg-slate-100 transition" id="mobile-menu-btn">
 <i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
 </button>
 </div>
 </div>
 <!-- Mobile Drawer Navigation -->
-<div class="hidden xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg" id="mobile-menu">
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-navy-900 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='index.html'">Home</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='pi.html'">DP Hari</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='research.html'">Research Focus</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='publications.html'">Publications</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='team.html'">Members</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='facilities.html'">Facilities</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100 border-b border-slate-300" onclick="window.location.href='contact.html'">Openings / Join Us</button>
-<button class="mobile-nav-btn w-full text-left px-4 py-2.5 rounded-sm font-medium text-slate-700 hover:bg-slate-100" onclick="window.location.href='contact.html'">Contact Us</button>
+<div class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur px-4 pt-3 pb-6 shadow-lg" id="mobile-menu">
+<a href="index.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Home</a>
+<a href="pi.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">DP Hari</a>
+<a href="research.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Research Focus</a>
+<a href="publications.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Publications</a>
+<a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
+<a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
+<a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Openings / Join Us</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
 </div>
-
-
-
 </header>
 <main class="flex-grow">
 <div class="page-view active-page" id="page-team">
 <!-- Page Heading -->
-<section class="py-12 bg-navy-900 text-white">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
-<button class="hover:underline" onclick="window.location.href='index.html'">Home</button>
+<section class="relative overflow-hidden text-white hero-bg py-16 sm:py-20">
+<div class="absolute inset-0 grid-lines"></div>
+<canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-4">
+<a href="index.html" class="hover:underline">Home</a>
 <span>/</span>
 <span>Team &amp; Alumni</span>
 </div>
-<h1 class="text-3xl sm:text-4xl font-extrabold">Current Members</h1>
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">Current <span class="grad-text">Members</span></h1>
+<p class="mt-4 max-w-2xl text-slate-300 leading-relaxed">The people behind the chemistry — researchers from across India, united by a passion for strained rings, light and electrons.</p>
+<div id="stats" class="mt-8 flex flex-wrap gap-x-10 gap-y-4"></div>
 </div>
 </section>
 
 
-<!-- Sticky Navigating Menu -->
-<section class="hidden md:block sticky top-0 z-50 w-full py-1 bg-slate-300 shadow-sm"
-         id="sticky-nav"
-         style="--border-width: 2px; --border-height: 70%; --border-color: #94a3b8;">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-0 text-left divide-x-0 divide-y divide-slate-400 lg:divide-y-0">
-<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#postdoc-heading">
-      Postdoctoral Fellows
-    </a>
-<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#graduate-heading">
-      Graduate Students
-    </a>
-<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0 lg:border-r-0" href="#master-heading">
-      MS &amp; BS Students
-    </a>
-<a class="text-[15px] font-semibold text-slate-700 hover:text-yellow-600 transition py-3 lg:py-2 lg:px-4 border-b border-slate-400 lg:border-b-0" href="alumni.html">
-    Alumni
-</a>
+<!-- Sticky Search & Navigating Menu -->
+<section id="toolbar" class="toolbar-sticky">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col lg:flex-row lg:items-center gap-3 justify-between">
+<div id="chips" class="flex gap-2 overflow-x-auto pb-1 lg:pb-0 -mx-1 px-1"></div>
+<div class="flex items-center gap-3">
+<div class="relative flex-1 lg:w-72">
+<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+<label class="sr-only" for="search">Search members</label>
+<input id="search" type="search" placeholder="Search name, institute, year…" autocomplete="off" class="toolbar-field w-full" style="padding-left:2.5rem"/>
+</div>
+<a href="alumni.html" class="chip flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-xs"></i> Alumni</a>
+</div>
 </div>
 </section>
-<style>
-  /* Centralized divider controls */
-  #sticky-nav {
-    --border-width: 2px;
-    --border-height: 60%;
-    --border-color: #94a3b8;
-  }
-
-  @media (min-width: 1024px) {
-    #sticky-nav a:not(:last-child) {
-      border-right: var(--border-width) solid var(--border-color);
-      position: relative;
-    }
-
-    #sticky-nav a:not(:last-child)::after {
-      content: "";
-      position: absolute;
-      right: calc(-1 * var(--border-width));
-      top: 50%;
-      height: var(--border-height);
-      border-right: var(--border-width) solid var(--border-color);
-      transform: translateY(-50%);
-    }
-
-    #sticky-nav a:not(:last-child) {
-      border-right: none;
-    }
-  }
-
-  @media (max-width: 1023px) {
-    #sticky-nav a {
-      border-bottom: none;
-      position: relative;
-    }
-
-    #sticky-nav a:nth-child(odd)::after,
-    #sticky-nav a:nth-child(even)::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      border-bottom: var(--border-width) solid var(--border-color);
-    }
-  }
-</style>
 <!-- Team Sections -->
 <section class="py-10 bg-slate-50">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -190,6 +135,10 @@
 </div>
 <!-- Master & Undergrad Students Cards -->
 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="master-grid"></div>
+<div id="empty" class="hidden text-center py-24">
+<i class="fa-regular fa-face-frown text-4xl text-slate-300"></i>
+<p class="mt-4 text-slate-500">No members match your search.</p>
+</div>
 <!-- Profile Card Styles -->
 <style>
           .email-icon {
@@ -550,23 +499,53 @@ const members = [
           // AUTOMATICALLY DISPLAY PROFILES BY SECTION
           // ==========================================
 
-          document.getElementById("postdoc-grid").innerHTML =
-            members
-              .filter(person => person.section === "Postdoctoral Fellows")
-              .map(createProfileCard)
-              .join("");
+          const TEAM_SECTIONS = [
+            { key: "Postdoctoral Fellows",        short: "Postdocs",  grid: "postdoc-grid",   heading: "postdoc-heading" },
+            { key: "Graduate Students",           short: "Graduate",  grid: "graduate-grid",  heading: "graduate-heading" },
+            { key: "Master & Undergrad Students", short: "MS & BS",   grid: "master-grid",    heading: "master-heading" }
+          ];
+          let teamFilter = "all", teamQuery = "";
 
-          document.getElementById("graduate-grid").innerHTML =
-            members
-              .filter(person => person.section === "Graduate Students")
-              .map(createProfileCard)
-              .join("");
+          function renderMembers() {
+            const q = teamQuery.trim().toLowerCase();
+            const match = m => !q || [m.name, m.degree, m.position].join(" ").toLowerCase().includes(q);
+            let total = 0;
+            TEAM_SECTIONS.forEach(s => {
+              const list = (teamFilter === "all" || teamFilter === s.key)
+                ? members.filter(m => m.section === s.key && match(m)) : [];
+              document.getElementById(s.grid).innerHTML = list.map(createProfileCard).join("");
+              document.getElementById(s.heading).style.display = list.length ? "flex" : "none";
+              total += list.length;
+            });
+            document.getElementById("empty").classList.toggle("hidden", total > 0);
+          }
 
-          document.getElementById("master-grid").innerHTML =
-            members
-              .filter(person => person.section === "Master & Undergrad Students")
-              .map(createProfileCard)
-              .join("");
+          function renderChips() {
+            const items = [{ key: "all", short: "All", n: members.length }]
+              .concat(TEAM_SECTIONS.map(s => ({ key: s.key, short: s.short, n: members.filter(m => m.section === s.key).length })));
+            const wrap = document.getElementById("chips");
+            wrap.innerHTML = items.map((i, idx) =>
+              `<button type="button" class="chip ${i.key === teamFilter ? "on" : ""}" data-idx="${idx}">${i.short}<span class="n">${i.n}</span></button>`).join("");
+            wrap.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+              teamFilter = items[+b.dataset.idx].key;
+              renderChips(); renderMembers();
+            }));
+          }
+
+          function renderStats() {
+            const stat = (n, l) => `<div><div class="text-3xl font-extrabold text-white"><span data-count="${n}">0</span><span class="text-amber-400">+</span></div><div class="font-mono text-[11px] tracking-[.18em] uppercase text-slate-400 mt-1">${l}</div></div>`;
+            const c = k => members.filter(m => m.section === k).length;
+            document.getElementById("stats").innerHTML =
+              stat(members.length, "Members") + stat(c("Postdoctoral Fellows"), "Postdocs") +
+              stat(c("Graduate Students"), "Graduate students") + stat(c("Master & Undergrad Students"), "MS & BS");
+            document.querySelectorAll("[data-count]").forEach(el => {
+              const t = +el.dataset.count; let v = 0; const step = Math.max(1, Math.ceil(t / 30));
+              const id = setInterval(() => { v = Math.min(t, v + step); el.textContent = v; if (v >= t) clearInterval(id); }, 35);
+            });
+          }
+
+          document.getElementById("search").addEventListener("input", e => { teamQuery = e.target.value; renderMembers(); });
+          renderChips(); renderStats(); renderMembers();
         </script>
 </div>
 </section>
@@ -576,6 +555,7 @@ const members = [
 <!-- Footer -->
 
 <script src="js/navigation.js"></script>
+<script src="js/hero.js"></script>
 <script src="js/site-ui.js"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
