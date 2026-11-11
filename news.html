@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
+<title>Group News | Hari Group</title>
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css?v=4" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="news">
+<div id="progress"></div>
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-[68px]">
+<!-- Brand / Logo -->
+<a class="flex items-center group" href="index.html" aria-label="Hari Group home">
+<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" src="https://github.com/theharigroup/ims/raw/main/hariGroup.png"/>
+</a>
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-home" href="index.html">Home</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-pi" href="pi.html">DP Hari</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-research" href="research.html">Research</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-publications" href="publications.html">Publications</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-team" href="team.html">Members</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-facilities" href="facilities.html">Facilities</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-usertools" href="usertools.html">User Tools</a>
+<a class="btn-gold ml-3 px-5 py-2.5 text-sm flex items-center gap-2" id="nav-contact" href="contact.html"><span>Contact</span><i class="fa-solid fa-paper-plane text-xs"></i></a>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle navigation" aria-expanded="false" class="xl:hidden p-2.5 text-slate-800 hover:bg-slate-100 transition" id="mobile-menu-btn">
+<svg id="menu-icon" class="cat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="cat-ring"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M22.9 8.03 21.55 11.93 18 9.81Z" fill="currentColor" stroke-width="1"/><g transform="rotate(180 12 12)"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M22.9 8.03 21.55 11.93 18 9.81Z" fill="currentColor" stroke-width="1"/></g></g><path d="M8.8 12h6.4"/><path class="cat-v" d="M12 8.8v6.4"/></svg>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur px-4 pt-3 pb-6 shadow-lg" id="mobile-menu">
+<a href="index.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Home</a>
+<a href="pi.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">DP Hari</a>
+<a href="research.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Research Focus</a>
+<a href="publications.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Publications</a>
+<a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
+<a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
+<a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
+</div>
+</header>
+<main class="flex-grow">
+<div class="page-view active-page" id="page-team">
+<!-- Page Heading -->
+<section class="relative overflow-hidden text-white hero-bg py-16 sm:py-20">
+<div class="absolute inset-0 grid-lines"></div>
+<canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-4">
+<a href="index.html" class="hover:underline">Home</a>
+<span>/</span>
+<span>Group News</span>
+</div>
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight"><span class="grad-text">Group News</span></h1>
+</div>
+</section>
+
+<section class="py-16 bg-slate-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-grid"></div>
+<p class="text-sm text-slate-500 hidden" id="news-empty">No news yet.</p>
+</div>
+<style>.icon-links{display:flex;gap:12px;margin-top:10px}.icon-links a{color:#696969;transition:color .2s}.icon-links a:hover{color:#facc15}</style>
+<script>
+// =====================================================================================
+// HOW TO ADD NEWS: copy one { ... } block below, paste it ABOVE the first block
+// (newest first), and edit title / date / image / description / weblink.
+// - image: path to a file inside the "news" folder (leave "" for no image)
+// - weblink: optional; leave "" to hide the globe icon
+// =====================================================================================
+const newsItems = [
+            {
+              title: "Congraluations Tushar!",
+              image: "news/singha_acscat2026.png",
+              date: "OCTOBER 2026",
+              description: "We congratulate Tushar on his work, “Ring-Expansion/Cross-Coupling Cascade of Ketones via Radical Sorting”. This study enables ring expansion and functionalization of ketones, offering access to diverse molecular architectures and late-stage scaffold remodelling of drugs and natural products.",
+              weblink: "https://doi.org/10.1021/acscatal.6c07222",
+              
+            },
+            {
+              title: "Congratulations to DP!",
+              image: "news/dp_alumni_award.JPG",
+              date: "MARCH 2026",
+              description: "We congratulate Dr. D. P. Hari on receiving the prestigious Dr. Srinivasa Rajagopalan Award by IISc Alumni Association. This recognition reflects his exceptional contributions and inspiring leadership – a proud moment for the group.",
+              weblink: "https://www.iiscalumni.com/newsroom/news/Post-event-report-Dr-Srinivasa-Rajagopalan-Award-Er-Avinash-Shirode-Yashokirti-Award-Ceremony-2026.dz",
+              
+            },
+
+          {
+              title: "Congratulations to Ganesh & Suparanak!",
+              image: "news/kadam_jacs2026.png",
+              date: "DECEMBER 2025",
+              description: "We congratulate Ganesh and Suparnak for their remarkable work on ring-expansion of ketones using [1.1.1]propellane to access spirocyclic ketones published in J. Am. Chem. Soc. A very nice collaboration with Pavel Mykhailiuk.",
+              weblink: "https://doi.org/10.1021/jacs.5c14022",
+              
+            }
+
+			  
+                        // Add more news above this line using the same format.
+          ];
+
+// ==== DO NOT EDIT BELOW =====
+function createNewsCard(person) {
+            return `
+              <div class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm">
+
+ 			<p
+    	class="block w-fit mr-auto
+           text-[11px] font-bold text-slate-500
+           tracking-[0.08em]
+           mt-0 mb-[10px] text-left
+           bg-slate-0 px-2 py-1"
+		>
+ 	   ${person.date}
+		</p>
+
+                ${person.image ? `<img class="w-70 h-70 mx-auto mb-4 object-cover" src="${person.image}" alt="${person.title}"/>` : ""}
+
+                <h3
+                  class="font-bold text-slate-700"
+                  style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 20px; text-align: left; width: 100%;"
+                >
+                  ${person.title}
+                </h3>
+
+                <div
+                  style="background-color: #facc15; width: 50px; height: 3px; margin-top: 8px;"
+                ></div>
+
+                <p
+                  class="text-[13px] text-slate-500 mt-3 text-justify"
+                  style="display: flex; align-items: center; gap: 6px;"
+                >
+                  ${person.description}
+                </p>
+
+                <div class="icon-links" style="margin-top: 10px;">
+
+                  ${person.weblink ? `
+    <a
+        href="${person.weblink}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit website of ${person.title}"
+    >
+        <i class="fa-solid fa-globe"></i>
+    </a>
+` : ""}
+
+                  ${person.scholar ? `
+                    <a
+                      href="${person.scholar}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Google Scholar profile"
+                    >
+                      <i class="fa-brands fa-google-scholar"></i>
+                    </a>
+                  ` : ""}
+
+                  ${person.orcid ? `
+                    <a
+                      href="${person.orcid}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="ORCID profile"
+                    >
+                      <i class="fa-brands fa-orcid"></i>
+                    </a>
+                  ` : ""}
+
+                </div>
+
+              </div>
+            `;
+          }
+
+          
+const grid=document.getElementById("news-grid");
+grid.innerHTML=newsItems.map(createNewsCard).join("");
+if(!newsItems.length) document.getElementById("news-empty").classList.remove("hidden");
+</script>
+</section>
+
+</main>
+
+
+<!-- Footer -->
+
+<script src="js/navigation.js?v=4"></script>
+<script src="js/hero.js?v=3"></script>
+<script src="js/site-ui.js"></script>
+<hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuButton.addEventListener('click', () => {
       const open = mobileMenu.classList.toggle('hidden') === false;
       menuButton.setAttribute('aria-expanded', open);
-      if (menuIcon) menuIcon.className = open ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-bars-staggered text-xl';
+      menuButton.classList.toggle('open', open);
     });
   }
 

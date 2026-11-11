@@ -98,3 +98,20 @@ body {
    ========================================================= */
 *, *::before, *::after { border-radius: 1px !important; }
 .research-orb, .starting-material-bg, .yellow-ball { border-radius: 50% !important; }
+
+/* Catalytic-cycle mobile menu icon: rings turn, + becomes - when open */
+.cat-icon .cat-ring{transform-origin:12px 12px;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.cat-icon .cat-v{transform-origin:12px 12px;transition:transform .3s,opacity .3s}
+#mobile-menu-btn.open .cat-ring{transform:rotate(180deg)}
+#mobile-menu-btn.open .cat-v{transform:scaleY(0);opacity:0}
+#mobile-menu-btn:hover .cat-icon{color:#b45309}
+
+/* Footer uses the hero banner background (same height as before) */
+footer.bg-navy-950{background:radial-gradient(900px 400px at 85% -20%, rgba(59,130,246,.28), transparent 60%),
+  radial-gradient(700px 350px at 0% 120%, rgba(250,204,21,.16), transparent 60%), #060f1f !important;}
+footer.bg-navy-950::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%);}
+
+/* Round-by-design elements exempt from the 1px radius rule */
+.dept-badge,.scroll-mouse div,.dept-badge span,.dept-badge span span{border-radius:9999px !important}
