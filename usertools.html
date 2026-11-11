@@ -7,7 +7,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>User Tools | Hari Group</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=2" rel="stylesheet"/>
+<link href="css/style.css?v=3" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -53,7 +53,6 @@
 <a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
 <a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
 <a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
-<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Openings / Join Us</a>
 <a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
 </div>
 </header>
@@ -89,11 +88,14 @@
     </p>
 
 
-    <img
-        class="w-full h-56 rounded-[3px] mx-auto mb-4 object-cover"
-        src="https://raw.githubusercontent.com/theharigroup/ims/main/120122.jpg"
-        alt="Invoice Management System"
-    />
+    <div class="viz viz-inv" role="img" aria-label="Animated invoice with items, total and paid status">
+<div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">invoice_2048.json</span></div>
+<div class="inv-head"><span>INV-<b>2048</b></span><span class="pill" id="iv-pill">PENDING</span></div>
+<div class="inv-row"><span>Acetonitrile (HPLC) 4 L</span><em>₹ 12,400</em></div>
+<div class="inv-row"><span>Silica gel 60–120 mesh</span><em>₹ 8,250</em></div>
+<div class="inv-row"><span>Chloroform-d 100 g</span><em>₹ 27,600</em></div>
+<div class="inv-total"><span>TOTAL</span><strong id="iv-total">₹ 0</strong></div>
+</div>
 
     <h3 class="font-bold text-slate-700 text-[18px] text-left">
         Invoice Manager
@@ -125,11 +127,16 @@
         PRIVATE
     </p>
 
-    <img
-        class="w-full h-56 rounded-[3px] mx-auto mb-4 object-cover"
-        src="https://www.cheminventory.net/img/chemical-inventory-laboratory-structure-search.jpg"
-        alt="Chemical Inventory"
-    />
+    <div class="viz viz-chem" role="img" aria-label="Animated chemical search with result">
+<div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">search.query</span></div>
+<div class="chem-search"><i class="fa-solid fa-magnifying-glass"></i><span id="cs-text"></span><span class="caret"></span></div>
+<div class="chem-res" id="cs-res">
+<svg viewBox="0 0 40 40" width="44" height="44" aria-hidden="true"><polygon points="20,4 33,12 33,28 20,36 7,28 7,12" fill="none" stroke="#facc15" stroke-width="2"/><line x1="11" y1="14" x2="11" y2="26" stroke="#60a5fa" stroke-width="2"/><line x1="20" y1="8" x2="30" y2="14" stroke="#60a5fa" stroke-width="2"/></svg>
+<div><div class="chem-name" id="cs-name"></div><div class="chem-cas" id="cs-cas"></div></div>
+<span class="pill ok" id="cs-loc"></span>
+</div>
+<div class="chem-meta"><span>● in stock</span><span>barcode ▌▌▎▌▎▌▌▎</span></div>
+</div>
 
     <h3 class="font-bold text-slate-700 text-[18px] text-left">
         Chemical Inventory
@@ -161,11 +168,16 @@
         PUBLIC
     </p>
 
-    <img
-        class="w-full h-56 rounded-[3px] mx-auto mb-4 object-cover"
-        src="https://raw.githubusercontent.com/theharigroup/dft-log-parser/refs/heads/main/LogiDFT1.png"
-        alt="LogiDFT"
-    />
+    <div class="viz viz-dft" role="img" aria-label="Animated DFT log lines and energy profile">
+<div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">ts1_freq.log</span></div>
+<div class="dft-log"><div><span class="k">E_elec</span> <span id="dl-1"></span></div><div><span class="k">Freq</span> <span id="dl-2"></span></div></div>
+<svg viewBox="0 0 300 96" width="100%" height="96" preserveAspectRatio="none" aria-hidden="true">
+<line x1="0" y1="90" x2="300" y2="90" stroke="#1f3560" stroke-width="1"/>
+<path class="dft-path" pathLength="1" d="M12 70 C40 70 52 70 72 70 C100 70 104 20 140 20 C176 20 178 56 204 56 C228 56 232 80 262 80 L290 80" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round"/>
+<g class="dft-pts" fill="#60a5fa"><circle cx="40" cy="70" r="3"/><circle cx="140" cy="20" r="3.5" fill="#fb923c"/><circle cx="204" cy="56" r="3"/><circle cx="262" cy="80" r="3"/></g>
+<g class="dft-lbl" fill="#94a3b8" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="middle"><text x="40" y="84">SM</text><text x="140" y="12">TS</text><text x="204" y="70">INT</text><text x="262" y="94">P</text></g>
+</svg>
+</div>
 
     <h3 class="font-bold text-slate-700 text-[18px] text-left">
         LogiDFT
@@ -187,6 +199,97 @@
 </div>
 </div>
 </section>
+<style>
+/* Live-coded tool previews (replace static images) */
+.viz { height:224px; margin-bottom:16px; position:relative; overflow:hidden; text-align:left; color:#cbd5e1; font:500 11.5px/1.5 'JetBrains Mono',monospace;
+  background:radial-gradient(500px 220px at 85% -10%, rgba(59,130,246,.30), transparent 60%), radial-gradient(400px 200px at 0% 120%, rgba(250,204,21,.16), transparent 60%), #060f1f;
+  border:1px solid #13254a; padding:12px 14px; }
+.viz::before { content:""; position:absolute; inset:0; pointer-events:none; background-size:24px 24px;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px); }
+.viz > * { position:relative; }
+.viz-bar { display:flex; align-items:center; gap:5px; margin-bottom:10px; }
+.viz-bar i { width:8px; height:8px; background:#ef4444; } .viz-bar i:nth-child(2){background:#facc15} .viz-bar i:nth-child(3){background:#10b981}
+.viz-file { margin-left:8px; color:#64748b; font-size:10.5px; letter-spacing:.04em; }
+.pill { font-size:10px; font-weight:700; letter-spacing:.08em; padding:2px 8px; background:rgba(250,204,21,.15); color:#facc15; border:1px solid rgba(250,204,21,.45); transition:all .4s; }
+.pill.ok, .pill.paid { background:rgba(16,185,129,.15); color:#34d399; border-color:rgba(16,185,129,.5); }
+/* invoice */
+.inv-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; color:#f1f5f9; font-weight:700; }
+.inv-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed #1f3560; opacity:0; transform:translateX(-14px); transition:all .5s; }
+.inv-row.show { opacity:1; transform:none; } .inv-row em { font-style:normal; color:#93c5fd; }
+.inv-total { display:flex; justify-content:space-between; align-items:center; margin-top:9px; color:#94a3b8; letter-spacing:.12em; }
+.inv-total strong { color:#facc15; font-size:18px; letter-spacing:0; }
+/* chemical inventory */
+.chem-search { display:flex; align-items:center; gap:8px; border:1px solid #2d4a7c; background:rgba(11,27,51,.85); padding:8px 10px; color:#f1f5f9; min-height:36px; }
+.chem-search i { color:#64748b; }
+.caret { width:7px; height:14px; background:#facc15; animation:blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity:0; } }
+.chem-res { display:flex; align-items:center; gap:12px; margin-top:12px; padding:8px 10px; border:1px solid #1f3560; background:rgba(19,37,74,.55); opacity:0; transform:translateY(10px); transition:all .5s; }
+.chem-res.show { opacity:1; transform:none; }
+.chem-res > div { flex:1; min-width:0; } .chem-name { color:#f1f5f9; font-weight:700; font-size:13px; } .chem-cas { color:#64748b; }
+.chem-meta { display:flex; justify-content:space-between; margin-top:12px; color:#64748b; font-size:10.5px; } .chem-meta span:first-child { color:#34d399; }
+/* LogiDFT */
+.dft-log { min-height:42px; color:#f1f5f9; } .dft-log .k { color:#64748b; display:inline-block; width:56px; }
+.dft-path { stroke-dasharray:1; stroke-dashoffset:1; animation:dftdraw 6s ease-in-out infinite; }
+.dft-pts, .dft-lbl { animation:dftfade 6s ease-in-out infinite; }
+@keyframes dftdraw { 0%{stroke-dashoffset:1} 55%,90%{stroke-dashoffset:0} 100%{stroke-dashoffset:1} }
+@keyframes dftfade { 0%,30%{opacity:0} 60%,90%{opacity:1} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce) { .dft-path { animation:none; stroke-dashoffset:0; } .dft-pts,.dft-lbl{ animation:none; } .caret{ animation:none; } }
+</style>
+<script>
+(function () {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  async function type(el, text, ms) { el.textContent = ''; for (const ch of text) { el.textContent += ch; await sleep(ms); } }
+  const $ = id => document.getElementById(id);
+
+  // Invoice: rows slide in, total counts up, status flips to PAID
+  async function invoice() {
+    const rows = document.querySelectorAll('.viz-inv .inv-row'), pill = $('iv-pill'), total = $('iv-total');
+    if (!pill) return;
+    const fmt = n => '₹ ' + n.toLocaleString('en-IN');
+    if (reduce) { rows.forEach(r => r.classList.add('show')); total.textContent = fmt(48250); pill.textContent = 'PAID'; pill.classList.add('paid'); return; }
+    for (;;) {
+      rows.forEach(r => r.classList.remove('show')); pill.textContent = 'PENDING'; pill.classList.remove('paid'); total.textContent = fmt(0);
+      await sleep(500);
+      for (const r of rows) { r.classList.add('show'); await sleep(450); }
+      const t0 = performance.now(), dur = 1200;
+      await new Promise(res => { (function tick(t) { const p = Math.min(1, (t - t0) / dur); total.textContent = fmt(Math.round(48250 * p)); p < 1 ? requestAnimationFrame(tick) : res(); })(t0); });
+      await sleep(400); pill.textContent = 'PAID'; pill.classList.add('paid');
+      await sleep(2600);
+    }
+  }
+
+  // Inventory: type a query, show the matching container
+  async function chem() {
+    const txt = $('cs-text'), res = $('cs-res'); if (!txt) return;
+    const items = [
+      { q: 'acetic acid', n: 'Acetic acid', cas: 'CAS 64-19-7 · 2.5 L', loc: 'SHELF B2' },
+      { q: '67-64-1', n: 'Acetone', cas: 'CAS 67-64-1 · 500 mL', loc: 'CABINET A1' },
+      { q: 'CC(=O)OCC', n: 'Ethyl acetate', cas: 'CAS 141-78-6 · 1 L', loc: 'SHELF C3' }
+    ];
+    const show = it => { $('cs-name').textContent = it.n; $('cs-cas').textContent = it.cas; $('cs-loc').textContent = it.loc; res.classList.add('show'); };
+    if (reduce) { txt.textContent = items[0].q; show(items[0]); return; }
+    for (let i = 0; ; i = (i + 1) % items.length) {
+      res.classList.remove('show'); txt.textContent = ''; await sleep(500);
+      await type(txt, items[i].q, 85); await sleep(350); show(items[i]); await sleep(2600);
+    }
+  }
+
+  // LogiDFT: log lines typed while the energy profile draws itself
+  async function dft() {
+    const a = $('dl-1'), b = $('dl-2'); if (!a) return;
+    if (reduce) { a.textContent = 'HF=-387.598184'; b.textContent = '-412.3 cm-1 (TS)'; return; }
+    for (;;) {
+      a.textContent = ''; b.textContent = '';
+      await type(a, 'HF=-387.598184', 70); await sleep(200);
+      await type(b, '-412.3 cm-1  (1 imaginary → TS)', 45);
+      await sleep(3300);
+    }
+  }
+  invoice(); chem(); dft();
+})();
+</script>
+
 </div>
 </main>
 
@@ -195,8 +298,8 @@
 
 <!-- Footer -->
 
-<script src="js/navigation.js?v=2"></script>
-<script src="js/hero.js?v=2"></script>
+<script src="js/navigation.js?v=3"></script>
+<script src="js/hero.js?v=3"></script>
 <script src="js/site-ui.js"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">

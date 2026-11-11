@@ -1,0 +1,344 @@
+/* LogiDFT tool styles (from theharigroup/dft-log-parser), scoped to .logidft-app so they
+   do not affect the rest of the site. All corner radii are 1px. */
+.logidft-app {
+    color-scheme: dark;
+
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-2: #26344a;
+    --surface-3: #31415c;
+    --border: #334155;
+    --border-strong: #475569;
+
+    --text: #f1f5f9;
+    --text-2: #cbd5e1;
+    --muted: #94a3b8;
+
+    --accent: #3b82f6;
+    --accent-strong: #2563eb;
+    --accent-text: #60a5fa;
+    --accent-soft: rgba(59, 130, 246, 0.15);
+    --indigo-text: #a5b4fc;
+    --indigo-soft: rgba(99, 102, 241, 0.18);
+    --ok: #10b981;
+    --ok-text: #34d399;
+    --ok-soft: rgba(16, 185, 129, 0.14);
+    --warn-text: #fbbf24;
+    --warn-soft: rgba(245, 158, 11, 0.14);
+    --danger: #e11d48;
+    --danger-text: #fb7185;
+    --danger-soft: rgba(244, 63, 94, 0.14);
+
+    --code-bg: #020617;
+    --header-bg: #ffffff;
+    --header-text: #1e293b;
+    --header-border: #e2e8f0;
+    --footer-bg: #020617;
+    --si-bar-bg: #dbeafe;
+    --si-bar-text: #0f172a;
+    --stage-bg: #020617;
+
+    --shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+    --radius: 1px;
+    --radius-sm: 1px;
+
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.logidft-app[data-theme="light"] {
+    color-scheme: light;
+
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --surface-3: #e2e8f0;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+
+    --text: #0f172a;
+    --text-2: #334155;
+    --muted: #64748b;
+
+    --accent-text: #1d4ed8;
+    --accent-soft: rgba(37, 99, 235, 0.1);
+    --indigo-text: #4338ca;
+    --indigo-soft: rgba(99, 102, 241, 0.12);
+    --ok-text: #047857;
+    --ok-soft: rgba(16, 185, 129, 0.12);
+    --warn-text: #b45309;
+    --warn-soft: rgba(245, 158, 11, 0.14);
+    --danger-text: #be123c;
+    --danger-soft: rgba(244, 63, 94, 0.1);
+
+    --code-bg: #f8fafc;
+    --stage-bg: #e2e8f0;
+    --shadow: 0 10px 28px -16px rgba(15, 23, 42, 0.3);
+}
+.logidft-app *,
+.logidft-app *::before,
+.logidft-app *::after { box-sizing: border-box; }
+.logidft-app {background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.5; padding: 20px;}
+.logidft-app h1,
+.logidft-app h2,
+.logidft-app h3,
+.logidft-app p { margin: 0; }
+.logidft-app button,
+.logidft-app input,
+.logidft-app select { font: inherit; color: inherit; }
+.logidft-app button { cursor: pointer; }
+.logidft-app code { font-family: var(--mono); font-size: 0.92em; background: var(--surface-2); padding: 0.05em 0.35em;  border-radius: 1px; }
+.logidft-app .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.logidft-app .hidden { display: none !important; }
+.logidft-app .grow { flex: 1 1 auto; }
+.logidft-app .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.logidft-app .text-accent { color: var(--accent-text); }
+.logidft-app .text-warn { color: var(--warn-text); }
+.logidft-app .text-ok { color: var(--ok-text); }
+.logidft-app .text-muted { color: var(--muted); }
+.logidft-app :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.logidft-app ::-webkit-scrollbar { width: 8px; height: 8px; }
+.logidft-app ::-webkit-scrollbar-track { background: var(--surface); }
+.logidft-app ::-webkit-scrollbar-thumb { background: var(--border-strong);  border-radius: 1px; }
+.logidft-app ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+.logidft-app .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+.logidft-app .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 10px; padding-bottom: 10px; }
+.logidft-app .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.logidft-app .brand-logo { height: 40px; width: auto; object-fit: contain; display: block; }
+.logidft-app .brand-logo-wide { max-width: 220px; }
+.logidft-app .brand-link { display: flex; align-items: center; transition: opacity 0.15s; }
+.logidft-app .brand-link:hover { opacity: 0.85; }
+.logidft-app .brand-divider { width: 1px; height: 32px; background: #94a3b8; flex: none; }
+.logidft-app .brand-fallback { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--header-text); }
+.logidft-app .brand-fallback i { color: #2563eb; }
+.logidft-app .header-actions { display: flex; align-items: center; gap: 8px; }
+.logidft-app .btn-ghost-light { background: #f1f5f9; border-color: #e2e8f0; color: #334155; }
+.logidft-app .btn-ghost-light:hover { background: #e2e8f0; color: #0f172a; }
+.logidft-app .site-footer { background: var(--footer-bg); border-top: 1px solid #1e293b; margin-top: auto; padding: 18px 0; color: #94a3b8; font-size: 12px; }
+.logidft-app .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.logidft-app .footer-left { display: flex; align-items: center; gap: 8px; }
+.logidft-app .footer-left a { color: #e2e8f0; font-weight: 600; text-decoration: none; }
+.logidft-app .footer-left a:hover { color: #60a5fa; }
+.logidft-app .footer-right { display: flex; gap: 16px; font-size: 17px; }
+.logidft-app .footer-right a { color: #94a3b8; transition: color 0.15s; }
+.logidft-app .footer-right a:hover { color: #fff; }
+.logidft-app .main { flex: 1 0 auto; padding-top: 24px; padding-bottom: 32px; display: flex; flex-direction: column; gap: 20px; }
+.logidft-app .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--border);
+     border-radius: 1px;
+    background: var(--surface-2);
+    color: var(--text-2);
+    font-size: 12.5px; font-weight: 600; line-height: 1.2; white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.05s;
+}
+.logidft-app .btn:hover { background: var(--surface-3); color: var(--text); }
+.logidft-app .btn:active { transform: translateY(1px); }
+.logidft-app .btn-primary { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+.logidft-app .btn-primary:hover { background: var(--accent); color: #fff; }
+.logidft-app .btn-success { background: #059669; border-color: #059669; color: #fff; }
+.logidft-app .btn-success:hover { background: var(--ok); color: #fff; }
+.logidft-app .btn-danger { background: var(--danger-soft); border-color: transparent; color: var(--danger-text); }
+.logidft-app .btn-danger:hover { background: var(--danger); color: #fff; }
+.logidft-app .btn-accent { background: var(--indigo-soft); border-color: rgba(99, 102, 241, 0.35); color: var(--indigo-text); }
+.logidft-app .btn-accent:hover { background: rgba(99, 102, 241, 0.3); color: var(--indigo-text); }
+.logidft-app .btn-icon { padding: 7px 10px; }
+.logidft-app .btn-sm { padding: 5px 9px; font-size: 12px; }
+.logidft-app .btn[aria-pressed="true"],
+.logidft-app .btn.is-on { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+.logidft-app .icon-btn { background: none; border: 0; color: var(--muted); padding: 6px;  border-radius: 1px; font-size: 16px; line-height: 1; transition: color 0.15s, background 0.15s; }
+.logidft-app .icon-btn:hover { color: var(--danger-text); background: var(--danger-soft); }
+.logidft-app select,
+.logidft-app input[type="search"],
+.logidft-app input[type="text"] {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+     border-radius: 1px;
+    padding: 7px 10px;
+    color: var(--text);
+    font-size: 12.5px;
+    min-width: 0;
+}
+.logidft-app select:focus,
+.logidft-app input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.logidft-app select { width: 100%; }
+.logidft-app .seg { display: inline-flex; width: 100%; border: 1px solid var(--border);  border-radius: 1px; overflow: hidden; background: var(--code-bg); }
+.logidft-app .seg button { flex: 1; border: 0; background: transparent; color: var(--text-2); padding: 7px 10px; font-size: 12px; font-family: var(--mono); transition: background 0.15s, color 0.15s; }
+.logidft-app .seg button + button { border-left: 1px solid var(--border); }
+.logidft-app .seg button:hover { background: var(--surface-2); }
+.logidft-app .seg button[aria-pressed="true"] { background: var(--accent-strong); color: #fff; }
+.logidft-app .seg.seg-auto { width: auto; }
+.logidft-app .check { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-2); cursor: pointer; user-select: none; }
+.logidft-app .check input { accent-color: var(--accent); width: 15px; height: 15px; }
+.logidft-app .top-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 1024px) {
+.logidft-app .top-grid { grid-template-columns: 2fr 1fr; }
+}
+.logidft-app .panel { background: var(--surface); border: 1px solid var(--border);  border-radius: 1px; padding: 18px; box-shadow: var(--shadow); }
+.logidft-app .panel-title { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; color: var(--text); padding-bottom: 10px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.logidft-app .panel-title i { color: var(--accent-text); }
+.logidft-app .panel-title-flush { padding: 0; margin: 0; border: 0; }
+.logidft-app .options { display: flex; flex-direction: column; gap: 14px; }
+.logidft-app .options .panel-title { margin-bottom: 0; }
+.logidft-app .field { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1; }
+.logidft-app .field label,
+.logidft-app .field-inline label { font-size: 12px; font-weight: 600; color: var(--text-2); }
+.logidft-app .field-row { display: flex; gap: 10px; }
+.logidft-app .field-narrow { flex: 0 0 104px; }
+.logidft-app .field-inline { display: inline-flex; align-items: center; gap: 8px; }
+.logidft-app .field-inline select { width: auto; }
+.logidft-app .panel-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; margin-top: auto; border-top: 1px solid var(--border); }
+.logidft-app .dropzone {
+    position: relative; min-height: 220px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    padding: 24px; text-align: center; cursor: pointer;
+    background: var(--surface); border: 2px dashed var(--border-strong);  border-radius: 1px;
+    transition: border-color 0.2s, background 0.2s;
+}
+.logidft-app .dropzone:hover,
+.logidft-app .dropzone:focus-visible { border-color: var(--accent); }
+.logidft-app .dropzone.drag-over { border-color: var(--accent); background: var(--accent-soft); }
+.logidft-app .dropzone h3 { font-size: 15.5px; font-weight: 650; }
+.logidft-app .dropzone p { font-size: 12px; color: var(--muted); max-width: 480px; }
+.logidft-app .dropzone-icon { width: 56px; height: 56px; display: grid; place-items: center;  border-radius: 1px; background: var(--accent-soft); color: var(--accent-text); font-size: 24px; transition: transform 0.25s; }
+.logidft-app .dropzone:hover .dropzone-icon { transform: scale(1.1); }
+.logidft-app .dropzone-busy { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; gap: 10px;  border-radius: 1px; background: color-mix(in srgb, var(--surface) 88%, transparent); font-weight: 600; }
+.logidft-app .dropzone.is-busy .dropzone-busy { display: flex; }
+.logidft-app .spinner { width: 18px; height: 18px;  border-radius: 1px; border: 3px solid var(--border-strong); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logidft-app .summary { display: flex; flex-wrap: wrap; gap: 14px 0; padding: 14px 18px; }
+.logidft-app .stat { display: flex; flex-direction: column; padding: 0 24px; border-left: 1px solid var(--border); }
+.logidft-app .stat:first-child { padding-left: 0; border-left: 0; }
+.logidft-app .stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.logidft-app .stat-value { font-size: 20px; font-weight: 700; line-height: 1.25; }
+.logidft-app .stat-value-sm { font-size: 14px; font-weight: 600; padding-top: 4px; }
+.logidft-app .stat-wide { flex: 1 1 260px; }
+@media (max-width: 640px) {
+.logidft-app .stat { padding: 0 14px; }
+.logidft-app .stat:first-child { padding-left: 0; }
+}
+.logidft-app .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.logidft-app .tab { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font-weight: 600; font-size: 13px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+.logidft-app .tab:hover { color: var(--text); }
+.logidft-app .tab[aria-selected="true"] { color: var(--accent-text); border-bottom-color: var(--accent); }
+.logidft-app .tab-panel { display: flex; flex-direction: column; gap: 16px; }
+.logidft-app .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.logidft-app .toolbar-flush { margin-bottom: 12px; }
+.logidft-app .toolbar select { width: auto; }
+.logidft-app .search { position: relative; flex: 0 1 280px; min-width: 180px; }
+.logidft-app .search i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; pointer-events: none; }
+.logidft-app .search input { width: 100%; padding-left: 30px; }
+.logidft-app .empty { text-align: center; padding: 48px 20px; background: color-mix(in srgb, var(--surface) 60%, transparent); border: 1px solid var(--border);  border-radius: 1px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.logidft-app .empty h3 { font-size: 15px; color: var(--text-2); }
+.logidft-app .empty p { font-size: 12.5px; color: var(--muted); max-width: 440px; margin-bottom: 6px; }
+.logidft-app .empty-icon { width: 60px; height: 60px; display: grid; place-items: center;  border-radius: 1px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 22px; margin-bottom: 4px; }
+.logidft-app .results { display: flex; flex-direction: column; gap: 18px; }
+.logidft-app .card { background: var(--surface); border: 1px solid var(--border);  border-radius: 1px; box-shadow: var(--shadow); overflow: hidden; }
+.logidft-app .card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.logidft-app .card-id { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.logidft-app .index-badge { flex: none; width: 30px; height: 30px; display: grid; place-items: center;  border-radius: 1px; background: var(--accent-soft); color: var(--accent-text); border: 1px solid rgba(59, 130, 246, 0.3); font-size: 12px; font-weight: 700; }
+.logidft-app .title-block { min-width: 0; }
+.logidft-app input.title-input { background: transparent; border: 1px solid transparent;  border-radius: 1px; padding: 2px 6px; margin-left: -6px; font-size: 16px; font-weight: 700; width: min(380px, 60vw); transition: background 0.15s, border-color 0.15s; }
+.logidft-app input.title-input:hover { background: var(--surface-3); border-color: var(--border-strong); }
+.logidft-app input.title-input:focus { background: var(--code-bg); }
+.logidft-app .file-name { display: block; font-size: 11.5px; color: var(--muted); padding-left: 0; word-break: break-all; }
+.logidft-app .card-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.logidft-app .dg-badge { padding: 4px 10px;  border-radius: 1px; border: 1px solid var(--border-strong); background: var(--surface-3); font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text-2); }
+.logidft-app .dg-badge.up { color: var(--warn-text); background: var(--warn-soft); border-color: rgba(245, 158, 11, 0.35); }
+.logidft-app .dg-badge.down { color: var(--ok-text); background: var(--ok-soft); border-color: rgba(16, 185, 129, 0.35); }
+.logidft-app .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 18px 0; }
+.logidft-app .chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px;  border-radius: 1px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); font-size: 11.5px; line-height: 1.7; max-width: 100%; }
+.logidft-app .chip i { font-size: 10.5px; opacity: 0.85; }
+.logidft-app .chip-mono { font-family: var(--mono); font-size: 11px; }
+.logidft-app .chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 420px; }
+.logidft-app .chip-ok { background: var(--ok-soft); border-color: rgba(16, 185, 129, 0.3); color: var(--ok-text); }
+.logidft-app .chip-warn { background: var(--warn-soft); border-color: rgba(245, 158, 11, 0.35); color: var(--warn-text); }
+.logidft-app .chip-danger { background: var(--danger-soft); border-color: rgba(244, 63, 94, 0.35); color: var(--danger-text); }
+.logidft-app .card-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 10px; }
+@media (min-width: 1100px) {
+.logidft-app .card.has-viewer .card-body { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+}
+.logidft-app .viewer-pane { background: var(--surface); border-top: 1px solid var(--border); padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+@media (min-width: 1100px) {
+.logidft-app .viewer-pane { border-right: 1px solid var(--border); }
+}
+.logidft-app .viewer-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.logidft-app .viewer-toolbar .seg { width: auto; }
+.logidft-app .viewer-toolbar .seg button { font-family: var(--font); font-weight: 500; padding: 5px 9px; white-space: nowrap; }
+.logidft-app .viewer-toolbar select { width: auto; padding: 5px 8px; font-size: 12px; }
+.logidft-app .viewer-toolbar .sep { width: 1px; align-self: stretch; background: var(--border); margin: 2px 2px; }
+.logidft-app .stage { position: relative; height: 420px;  border-radius: 1px; overflow: hidden; background: var(--stage-bg); border: 1px solid var(--border); }
+.logidft-app .mol { position: relative; width: 100%; height: 100%; }
+.logidft-app .readout { position: absolute; left: 10px; bottom: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; pointer-events: none; font-size: 12px; }
+.logidft-app .readout-text { padding: 5px 10px;  border-radius: 1px; background: rgba(15, 23, 42, 0.82); border: 1px solid #334155; color: #e2e8f0; backdrop-filter: blur(6px); font-family: var(--mono); font-size: 12px; }
+.logidft-app .readout-text:empty { display: none; }
+.logidft-app .readout-hint { padding: 5px 10px;  border-radius: 1px; background: rgba(15, 23, 42, 0.7); border: 1px solid #334155; color: #cbd5e1; margin-left: auto; }
+.logidft-app .viewer-pane:fullscreen { background: var(--bg); padding: 16px; }
+.logidft-app .viewer-pane:fullscreen .stage { flex: 1; height: auto; }
+.logidft-app .si-pane { padding: 16px 18px 18px; overflow-x: auto; min-width: 0; background: color-mix(in srgb, var(--code-bg) 55%, var(--surface)); }
+.logidft-app .si-title { background: var(--si-bar-bg); color: var(--si-bar-text); font-weight: 700; text-align: center; padding: 6px 14px; border: 1px solid #bfdbfe;  border-radius: 1px; font-size: 13.5px; }
+.logidft-app .si-text { margin: 0; padding: 14px 16px; background: var(--code-bg); border: 1px solid var(--border); border-top: 0;  border-radius: 1px; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: var(--text-2); white-space: pre; overflow-x: auto; user-select: all; }
+.logidft-app .profile-chart { overflow-x: auto; padding: 6px 0; }
+.logidft-app .profile-chart svg { display: block; width: 100%; height: auto; max-height: 640px; min-width: 520px; }
+.logidft-app .note { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+.logidft-app .note:empty { display: none; }
+.logidft-app .note-small { font-size: 11.5px; margin: 8px 0 0; }
+.logidft-app .note strong { color: var(--text-2); }
+.logidft-app .table-wrap { overflow-x: auto; border: 1px solid var(--border);  border-radius: 1px; }
+.logidft-app table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.logidft-app table.data th,
+.logidft-app table.data td { padding: 8px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--border); }
+.logidft-app table.data th { position: sticky; top: 0; background: var(--surface-2); color: var(--text-2); font-weight: 600; font-size: 11.5px; text-transform: none; }
+.logidft-app table.data td.num { font-family: var(--mono); }
+.logidft-app table.data th:nth-child(-n+3),
+.logidft-app table.data td:nth-child(-n+3) { text-align: left; }
+.logidft-app table.data tbody tr:hover { background: var(--surface-2); }
+.logidft-app table.data tbody tr:last-child td { border-bottom: 0; }
+.logidft-app table.data tr.is-lowest td { background: var(--ok-soft); }
+.logidft-app table.data .row-actions { text-align: center; }
+.logidft-app table.data .row-actions button { padding: 3px 6px; font-size: 11px; background: none; border: 0; color: var(--muted);  border-radius: 1px; }
+.logidft-app table.data .row-actions button:hover:not(:disabled) { color: var(--text); background: var(--surface-3); }
+.logidft-app table.data .row-actions button:disabled { opacity: 0.3; cursor: default; }
+.logidft-app .tag { display: inline-block; padding: 1px 8px;  border-radius: 1px; font-size: 11px; font-weight: 600; }
+.logidft-app .tag-min { background: var(--ok-soft); color: var(--ok-text); }
+.logidft-app .tag-ts { background: var(--warn-soft); color: var(--warn-text); }
+.logidft-app .tag-na { background: var(--surface-3); color: var(--muted); }
+.logidft-app .toast {
+    position: fixed; right: 20px; bottom: 20px; z-index: 80;
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 16px;  border-radius: 1px;
+    background: var(--surface); color: var(--text); border: 1px solid var(--border-strong);
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.55);
+    font-size: 12.5px; font-weight: 500; max-width: min(440px, calc(100vw - 40px));
+    opacity: 0; transform: translateY(14px); pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+}
+.logidft-app .toast.show { opacity: 1; transform: none; }
+.logidft-app .toast i { font-size: 17px; }
+.logidft-app .toast i.ok { color: var(--ok-text); }
+.logidft-app .toast i.err { color: var(--danger-text); }
+.logidft-app .toast i.info { color: var(--accent-text); }
+@media (max-width: 720px) {
+.logidft-app .hide-sm { display: none; }
+.logidft-app .container { padding: 0 14px; }
+.logidft-app .brand-logo { height: 32px; }
+.logidft-app .brand-divider { display: none; }
+.logidft-app .stage { height: 340px; }
+.logidft-app .readout-hint { display: none; }
+.logidft-app .field-row { flex-direction: column; }
+.logidft-app .field-narrow { flex: 1 1 auto; }
+}
+@media print {
+.logidft-app .no-print { display: none !important; }
+.logidft-app { background: #fff; color: #000; }
+.logidft-app .card,
+.logidft-app .panel { box-shadow: none; border-color: #999; }
+.logidft-app .viewer-pane { display: none !important; }
+.logidft-app .si-text { color: #000; background: #fff; }
+}
