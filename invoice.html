@@ -113,10 +113,10 @@
 </div>
 <div>
 <label class="block text-xs font-bold uppercase text-slate-700 mb-1">
-                                    Username / User ID <span class="text-rose-500">*</span>
+                                    Email <span class="text-rose-500">*</span>
 </label>
 <div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-username" placeholder="e.g. yourname@iisc.ac.in" required="" type="text"/>
+<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-username" placeholder="e.g. yourname@iisc.ac.in" required="" type="email" autocomplete="username"/>
 <i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="user"></i>
 </div>
 </div>
@@ -125,13 +125,14 @@
                                     Password <span class="text-rose-500">*</span>
 </label>
 <div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-password" placeholder="••••••••••••" required="" type="password"/>
+<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-password" placeholder="••••••••••••" required="" type="password" autocomplete="current-password"/>
 <i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
 </div>
 </div>
-<button class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm shadow-md transition flex items-center justify-center gap-2 mt-2" type="submit">
+<button id="login-submit-btn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition flex items-center justify-center gap-2 mt-2" type="submit">
 <i class="w-4 h-4" data-lucide="log-in"></i> Log In to Portal
                             </button>
+<button type="button" onclick="handleForgotPassword()" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Forgot password?</button>
 </form>
 </div>
 </div>
@@ -142,26 +143,31 @@
 <div class="bg-white p-4 rounded-sm border border-slate-200 shadow-sm">
 <div class="text-xs font-medium text-slate-500">Total Recorded</div>
 <div class="text-2xl font-bold text-slate-900 mt-1" id="stat-total-count">0</div>
-<div class="text-[11px] text-slate-500 mt-1 font-mono" id="stat-total-spend">₹0.00</div>
+<div class="text-[11px] text-slate-700 mt-1 font-mono font-semibold" id="stat-total-spend">₹0.00</div>
+<div class="text-[10px] text-slate-400" id="stat-total-of">all invoices</div>
 </div>
 <div class="bg-white p-4 rounded-sm border border-slate-200 shadow-sm border-l-4 border-l-amber-700">
 <div class="text-xs font-medium text-amber-700">Awaiting Accountant</div>
 <div class="text-2xl font-bold text-amber-900 mt-1" id="stat-submitted-count">0</div>
+<div class="text-[11px] font-mono font-semibold text-amber-800 mt-0.5" id="stat-submitted-amt">₹0.00</div>
 <div class="text-[11px] text-amber-600 mt-1">Pending acceptance</div>
 </div>
 <div class="bg-white p-4 rounded-sm border border-slate-200 shadow-sm border-l-4 border-l-blue-800">
 <div class="text-xs font-medium text-blue-700">With Accountant</div>
 <div class="text-2xl font-bold text-blue-900 mt-1" id="stat-accountant-count">0</div>
+<div class="text-[11px] font-mono font-semibold text-blue-800 mt-0.5" id="stat-accountant-amt">₹0.00</div>
 <div class="text-[11px] text-blue-600 mt-1">Accepted by Accountant</div>
 </div>
 <div class="bg-white p-4 rounded-sm border border-slate-200 shadow-sm border-l-4 border-l-purple-800">
 <div class="text-xs font-medium text-purple-700">Sent to OC Office</div>
 <div class="text-2xl font-bold text-purple-900 mt-1" id="stat-office-count">0</div>
+<div class="text-[11px] font-mono font-semibold text-purple-800 mt-0.5" id="stat-office-amt">₹0.00</div>
 <div class="text-[11px] text-purple-600 mt-1">Grant assigned / Needs PO</div>
 </div>
 <div class="bg-white p-4 rounded-sm border border-slate-200 shadow-sm border-l-4 border-l-emerald-800 col-span-2 sm:col-span-1">
 <div class="text-xs font-medium text-emerald-700">PO Processed</div>
 <div class="text-2xl font-bold text-emerald-900 mt-1" id="stat-completed-count">0</div>
+<div class="text-[11px] font-mono font-semibold text-emerald-800 mt-0.5" id="stat-completed-amt">₹0.00</div>
 <div class="text-[11px] text-emerald-600 mt-1">Payment Initiated</div>
 </div>
 </div>
@@ -171,7 +177,7 @@
 <div class="relative flex-1 max-w-md">
 <i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="search"></i>
 <input class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white" id="search-input" oninput="handleSearch(this.value)" placeholder="Search by Vendor, Invoice #, PO #, Grant, or Item..." type="text"/>
-<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" id="clear-search-btn" onclick="clearSearch()">
+<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" id="clear-search-btn" onclick="clearSearch()" aria-label="Clear search">
 <i class="w-4 h-4" data-lucide="x"></i>
 </button>
 </div>
@@ -188,6 +194,13 @@
 <option value="COMPLETED">Stage 4: PO Completed</option>
 </select>
 </div>
+<input type="date" id="date-from" onchange="handleDateChange()" aria-label="From date" title="Invoice date from" class="bg-slate-50 border border-slate-200 rounded-sm text-sm px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+<span class="text-slate-400 text-xs">to</span>
+<input type="date" id="date-to" onchange="handleDateChange()" aria-label="To date" title="Invoice date to" class="bg-slate-50 border border-slate-200 rounded-sm text-sm px-2 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+<select id="sort-select" onchange="handleSortChange(this.value)" aria-label="Sort" class="bg-slate-50 border border-slate-200 rounded-sm text-sm px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
+<option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="high">Amount: high to low</option><option value="low">Amount: low to high</option><option value="vendor">Vendor A-Z</option>
+</select>
+<button type="button" onclick="exportCsv()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-sm text-xs font-semibold flex items-center gap-1.5" title="Download the currently shown invoices as CSV"><i class="w-3.5 h-3.5" data-lucide="download"></i> Export CSV</button>
 <div class="bg-slate-100 p-1 rounded-sm border border-slate-200 flex items-center">
 <button class="px-3 py-1.5 rounded-md text-xs font-semibold transition flex items-center gap-1.5 bg-white text-indigo-700 shadow-sm" id="btn-view-board" onclick="switchView('board')">
 <i class="w-3.5 h-3.5" data-lucide="layers"></i> Grid View
@@ -198,6 +211,10 @@
 </div>
 </div>
 </div>
+<div class="hidden bg-amber-50 border border-amber-200 text-amber-900 rounded-sm px-4 py-2.5 text-xs flex flex-wrap items-center justify-between gap-2" id="filter-summary">
+<span id="filter-summary-text"></span>
+<button type="button" onclick="clearAllFilters()" class="font-semibold underline hover:text-amber-700">Clear all filters</button>
+</div>
 <!-- Kanban Board View -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch" id="view-board">
 <!-- Stage 1 Column -->
@@ -207,7 +224,7 @@
 <span class="w-2.5 h-2.5 rounded-full bg-amber-700"></span>
                                     1. Added by Manager
                                 </div>
-<span class="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-1">0</span>
+<div class="flex items-center gap-2"><span class="text-[10px] font-mono text-slate-500" id="amt-stage-1"></span><span class="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-1">0</span></div>
 </div>
 <div class="space-y-3 flex-1" id="col-stage-1"></div>
 </div>
@@ -218,7 +235,7 @@
 <span class="w-2.5 h-2.5 rounded-full bg-blue-800"></span>
                                     2. With Accountant
                                 </div>
-<span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-2">0</span>
+<div class="flex items-center gap-2"><span class="text-[10px] font-mono text-slate-500" id="amt-stage-2"></span><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-2">0</span></div>
 </div>
 <div class="space-y-3 flex-1" id="col-stage-2"></div>
 </div>
@@ -229,7 +246,7 @@
 <span class="w-2.5 h-2.5 rounded-full bg-purple-800"></span>
                                     3. In OC Office
                                 </div>
-<span class="bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-3">0</span>
+<div class="flex items-center gap-2"><span class="text-[10px] font-mono text-slate-500" id="amt-stage-3"></span><span class="bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-3">0</span></div>
 </div>
 <div class="space-y-3 flex-1" id="col-stage-3"></div>
 </div>
@@ -240,7 +257,7 @@
 <span class="w-2.5 h-2.5 rounded-full bg-emerald-800"></span>
                                     4. Processed for Payment
                                 </div>
-<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-4">0</span>
+<div class="flex items-center gap-2"><span class="text-[10px] font-mono text-slate-500" id="amt-stage-4"></span><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded-full font-bold" id="badge-stage-4">0</span></div>
 </div>
 <div class="space-y-3 flex-1" id="col-stage-4"></div>
 </div>
@@ -270,20 +287,13 @@
 </div>
 <script>
                 // --- SUPABASE INITIALIZATION ---
+                // The anon key is public by design. Data is protected by Supabase Auth + Row Level Security
+                // (see docs/invoice-security.sql) -- NOT by anything in this file.
                 const SUPABASE_URL = 'https://kknmrxopxnhirntmnwhb.supabase.co';
                 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrbm1yeG9weG5oaXJudG1ud2hiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzIzNTMsImV4cCI6MjEwMzg0ODM1M30.XU-WKnn--on-UKwaSWAVMNG3mZCCO4QOenobrEXKf2s';
-                
-                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-                const USERS = [
-                    { id: 'usr-1', username: 'bibhasbiswal@iisc.ac.in', password: 'sfej$875646HH', name: 'Bibhas Ranjan', role: 'Solvent Manager', title: 'Lab Consumable Receiver', avatar: 'BR', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-2', username: 'anupamdutta@iisc.ac.in', password: 'anufej$8756', name: 'Anupam Dutta', role: 'Chemical Manager', title: 'Lab Consumable Receiver', avatar: 'AD', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-3', username: 'rwishanyadas@iisc.ac.in', password: 'rwishi$8756', name: 'Rwishanya Das', role: 'Chemical Manager', title: 'Lab Consumable Receiver', avatar: 'RD', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-4', username: 'athmananda@iisc.ac.in', password: 'athma0*(%$8756', name: 'Athmanand Anchi', role: 'Glassware Manager', title: 'Lab Consumable Receiver', avatar: 'AA', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-5', username: 'binadas@iisc.ac.in', password: 'sjfh%&%$^FVHGHG', name: 'Bina Das', role: 'Lab Accountant', title: 'Financial Manager', avatar: 'BD', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-6', username: 'oc.office@iisc.ac.in', password: 'ashjdgj%^%$%&^TGH', name: 'Office Staff', role: 'Office Staff', title: 'University Finance Admin', avatar: 'OC', color: 'bg-blue-600 rounded-full' },
-                    { id: 'usr-7', username: 'tushraas@iisc.ac.in', password: '4051310074&Tus', name: 'Tushar Singha', role: 'Administrator', title: 'Administrator', avatar: 'TS', color: 'bg-blue-600 rounded-full' }
-                ];
+                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+                });
 
                 const MOCK_VENDORS = [
                     'Chempure Pvt Ltd',
@@ -302,8 +312,20 @@
                 let activeView = 'board';
                 let searchQuery = '';
                 let selectedStatus = 'ALL';
+                let dateFrom = '';
+                let dateTo = '';
+                let sortMode = 'newest';
                 let selectedInvoice = null;
                 let formItems = [{ name: '', quantity: 1, unitPrice: 0 }];
+
+                // --- SAFETY HELPERS ---
+                // All user-entered text is escaped before it is placed into innerHTML (prevents script injection).
+                function esc(v) {
+                    return String(v == null ? '' : v).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+                }
+                function inr(n) {
+                    return '₹' + (Number(n) || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
 
                 function isConsumableManager(role) {
                     return ['Solvent Manager', 'Chemical Manager', 'Glassware Manager', 'Lab Receiver'].includes(role);
@@ -322,24 +344,13 @@
 
                 window.addEventListener('DOMContentLoaded', async () => {
                     if (typeof lucide !== 'undefined') lucide.createIcons();
-
-                    const savedUserStr = localStorage.getItem('LAB_ACTIVE_USER');
-                    if (savedUserStr) {
-                        try {
-                            const u = JSON.parse(savedUserStr);
-                            const found = USERS.find(usr => usr.username === u.username);
-                            if (found) {
-                                currentUser = found;
-                                updateUserUi();
-                            }
-                        } catch(e) {}
-                    }
-
-                    await fetchInvoicesFromSupabase();
+                    setupModalBehaviour();
+                    await initAuth();
                 });
 
                 // --- SUPABASE DATA FETCHING ---
                 async function fetchInvoicesFromSupabase() {
+                    if (!currentUser) { invoices = []; renderApp(); return; }
                     try {
                         const { data: dbInvoices, error } = await supabaseClient
                             .from('invoices')
@@ -347,31 +358,31 @@
 
                         if (error) throw error;
 
-                        if (dbInvoices && dbInvoices.length > 0) {
-                            invoices = dbInvoices.map(row => ({
-                                id: row.id,
-                                vendor: row.vendor,
-                                invoiceNumber: row.invoice_number,
-                                invoiceDate: row.invoice_date,
-                                grantCode: row.grant_code || 'UNASSIGNED',
-                                totalPrice: parseFloat(row.total_price) || 0,
-                                status: row.status,
-                                created: { by: row.created_by || 'System User', timestamp: formatDate(row.created_at) },
-                                accountantReceived: row.accountant_received_by ? { by: row.accountant_received_by, timestamp: formatDate(row.accountant_received_at) } : null,
-                                officeReceived: row.office_received_by ? { by: row.office_received_by, timestamp: formatDate(row.office_received_at) } : null,
-                                completed: row.completed_by ? { by: row.completed_by, timestamp: formatDate(row.completed_at), poNumber: row.po_number } : null,
-                                notes: row.notes,
-                                rejectionReason: row.rejection_reason,
-                                comments: row.comments || [],
-                                items: (row.invoice_items || []).map(item => ({
-                                    name: item.item_name,
-                                    quantity: item.quantity,
-                                    unitPrice: parseFloat(item.unit_price)
-                                }))
-                            }));
-                        } else {
-                            invoices = [];
-                        }
+                        invoices = (dbInvoices || []).map(row => ({
+                            id: row.id,
+                            vendor: row.vendor || '',
+                            invoiceNumber: row.invoice_number || '',
+                            invoiceDate: row.invoice_date || '',
+                            grantCode: row.grant_code || 'UNASSIGNED',
+                            totalPrice: parseFloat(row.total_price) || 0,
+                            status: row.status,
+                            created: { by: row.created_by || 'System User', timestamp: formatDate(row.created_at) },
+                            createdAtRaw: row.created_at || '',
+                            accountantReceived: row.accountant_received_by ? { by: row.accountant_received_by, timestamp: formatDate(row.accountant_received_at) } : null,
+                            officeReceived: row.office_received_by ? { by: row.office_received_by, timestamp: formatDate(row.office_received_at) } : null,
+                            completed: row.completed_by ? { by: row.completed_by, timestamp: formatDate(row.completed_at), poNumber: row.po_number } : null,
+                            notes: row.notes,
+                            rejectionReason: row.rejection_reason,
+                            comments: row.comments || [],
+                            items: (row.invoice_items || []).map(item => ({
+                                id: item.id,
+                                name: item.item_name,
+                                quantity: item.quantity,
+                                unitPrice: parseFloat(item.unit_price) || 0
+                            }))
+                        }));
+                        // remember vendors already used
+                        invoices.forEach(i => { if (i.vendor && !vendors.some(v => v.toLowerCase() === i.vendor.toLowerCase())) vendors.push(i.vendor); });
                     } catch (err) {
                         console.error('Error fetching invoices from Supabase:', err);
                         showToast('Error syncing with Supabase.');
@@ -379,35 +390,141 @@
                     renderApp();
                 }
 
-                // --- AUTHENTICATION ---
-                function handleLoginSubmit(e) {
-                    e.preventDefault();
-                    const uInput = document.getElementById('login-username').value.trim();
-                    const pInput = document.getElementById('login-password').value.trim();
+                // --- AUTHENTICATION (Supabase Auth) ---
+                // Passwords are never stored in this page. Login goes to Supabase Auth; the user's role comes from
+                // the protected `staff` table, and the database (RLS) enforces who may read or change invoices.
+                const IDLE_LIMIT_MS = 30 * 60 * 1000;
+                let idleTimer = null;
+                let failedLogins = 0;
+                let lockedUntil = 0;
 
-                    const matchedUser = USERS.find(u => u.username === uInput && u.password === pInput);
+                function showLoginError(msg) {
+                    document.getElementById('login-error-text').innerText = msg;
+                    document.getElementById('login-error').classList.remove('hidden');
+                }
 
-                    if (matchedUser) {
-                        currentUser = matchedUser;
-                        localStorage.setItem('LAB_ACTIVE_USER', JSON.stringify({ username: matchedUser.username }));
-                        document.getElementById('login-error').classList.add('hidden');
-                        updateUserUi();
-                        renderApp();
-                        showToast(`Logged in as ${currentUser.name} (${currentUser.role})`);
+                async function initAuth() {
+                    supabaseClient.auth.onAuthStateChange((event, session) => {
+                        // never await Supabase calls inside this callback; defer them
+                        if (event === 'PASSWORD_RECOVERY') {
+                            setTimeout(() => document.getElementById('modal-reset').classList.remove('hidden'), 0);
+                        } else if (event === 'SIGNED_OUT') {
+                            setTimeout(() => { currentUser = null; invoices = []; stopIdleTimer(); renderApp(); }, 0);
+                        }
+                    });
+                    const { data } = await supabaseClient.auth.getSession();
+                    if (data && data.session) {
+                        await loadProfile(data.session.user);
                     } else {
-                        document.getElementById('login-error-text').innerText = 'Invalid username or password credentials.';
-                        document.getElementById('login-error').classList.remove('hidden');
+                        renderApp();
                     }
                 }
 
-                function handleLogout() {
+                async function loadProfile(user) {
+                    const email = (user.email || '').toLowerCase();
+                    const { data, error } = await supabaseClient.from('staff').select('*').eq('email', email).maybeSingle();
+                    if (error || !data) {
+                        await supabaseClient.auth.signOut();
+                        currentUser = null;
+                        renderApp();
+                        showLoginError('Your account is not authorised for this portal. Please contact the administrator.');
+                        return false;
+                    }
+                    const parts = (data.name || email).trim().split(/\s+/);
+                    currentUser = {
+                        id: user.id,
+                        username: email,
+                        name: data.name || email,
+                        role: data.role,
+                        title: data.title || '',
+                        avatar: (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase(),
+                        color: 'bg-blue-600'
+                    };
+                    updateUserUi();
+                    startIdleTimer();
+                    await fetchInvoicesFromSupabase();
+                    return true;
+                }
+
+                async function handleLoginSubmit(e) {
+                    e.preventDefault();
+                    const btn = document.getElementById('login-submit-btn');
+                    const email = document.getElementById('login-username').value.trim().toLowerCase();
+                    const password = document.getElementById('login-password').value;
+
+                    if (Date.now() < lockedUntil) {
+                        showLoginError(`Too many attempts. Try again in ${Math.ceil((lockedUntil - Date.now()) / 1000)} seconds.`);
+                        return;
+                    }
+                    btn.disabled = true;
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    btn.disabled = false;
+
+                    if (error || !data || !data.user) {
+                        failedLogins += 1;
+                        if (failedLogins >= 5) { lockedUntil = Date.now() + 30000; failedLogins = 0; }
+                        showLoginError('Invalid email or password.');
+                        return;
+                    }
+                    failedLogins = 0;
+                    document.getElementById('login-error').classList.add('hidden');
+                    document.getElementById('login-password').value = '';
+                    if (await loadProfile(data.user)) showToast(`Logged in as ${currentUser.name} (${currentUser.role})`);
+                }
+
+                async function handleForgotPassword() {
+                    const email = document.getElementById('login-username').value.trim().toLowerCase();
+                    if (!email) { showLoginError('Enter your email above first, then click "Forgot password".'); return; }
+                    await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+                    showToast('If this email is registered, a password-reset link has been sent.');
+                }
+
+                async function handleResetSubmit(e) {
+                    e.preventDefault();
+                    const p1 = document.getElementById('reset-password-1').value;
+                    const p2 = document.getElementById('reset-password-2').value;
+                    const msg = document.getElementById('reset-error');
+                    if (p1.length < 12) { msg.innerText = 'Use at least 12 characters.'; return; }
+                    if (p1 !== p2) { msg.innerText = 'Passwords do not match.'; return; }
+                    const { error } = await supabaseClient.auth.updateUser({ password: p1 });
+                    if (error) { msg.innerText = error.message; return; }
+                    msg.innerText = '';
+                    document.getElementById('modal-reset').classList.add('hidden');
+                    document.getElementById('reset-password-1').value = '';
+                    document.getElementById('reset-password-2').value = '';
+                    showToast('Password updated.');
+                    const { data } = await supabaseClient.auth.getSession();
+                    if (data && data.session && !currentUser) await loadProfile(data.session.user);
+                }
+
+                async function handleLogout(silent) {
+                    await supabaseClient.auth.signOut();
                     currentUser = null;
-                    localStorage.removeItem('LAB_ACTIVE_USER');
-                    if (document.getElementById('login-username')) document.getElementById('login-username').value = '';
-                    if (document.getElementById('login-password')) document.getElementById('login-password').value = '';
-                    if (document.getElementById('login-error')) document.getElementById('login-error').classList.add('hidden');
+                    invoices = [];
+                    stopIdleTimer();
+                    ['login-username', 'login-password'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+                    document.getElementById('login-error').classList.add('hidden');
                     renderApp();
-                    showToast('Logged out of session');
+                    if (silent !== true) showToast('Logged out of session');
+                }
+
+                // automatic sign-out after 30 minutes of inactivity
+                function startIdleTimer() {
+                    stopIdleTimer();
+                    const reset = () => {
+                        clearTimeout(idleTimer);
+                        idleTimer = setTimeout(async () => { await handleLogout(true); showLoginError('You were signed out after 30 minutes of inactivity.'); }, IDLE_LIMIT_MS);
+                    };
+                    ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.addEventListener(ev, reset, { passive: true }));
+                    window.__idleReset = reset;
+                    reset();
+                }
+                function stopIdleTimer() {
+                    clearTimeout(idleTimer);
+                    if (window.__idleReset) {
+                        ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.removeEventListener(ev, window.__idleReset));
+                        window.__idleReset = null;
+                    }
                 }
 
                 function updateUserUi() {
@@ -416,6 +533,23 @@
                     document.getElementById('user-role').innerText = currentUser.role;
                     document.getElementById('user-avatar').innerText = currentUser.avatar;
                     document.getElementById('user-avatar').className = `w-8 h-8 ${currentUser.color} rounded-full flex items-center justify-center font-bold text-xs text-white`;
+                }
+
+                // --- POPUPS: always fully visible, scroll inside on small screens ---
+                const MODAL_IDS = ['modal-add', 'modal-details', 'modal-send-office', 'modal-reject', 'modal-po', 'modal-reset'];
+                function setupModalBehaviour() {
+                    const sync = () => document.body.classList.toggle('inv-modal-open',
+                        MODAL_IDS.some(id => { const m = document.getElementById(id); return m && !m.classList.contains('hidden'); }));
+                    MODAL_IDS.forEach(id => {
+                        const m = document.getElementById(id);
+                        if (!m) return;
+                        new MutationObserver(sync).observe(m, { attributes: true, attributeFilter: ['class'] });
+                        if (id !== 'modal-reset') m.addEventListener('mousedown', e => { if (e.target === m) m.classList.add('hidden'); });
+                    });
+                    document.addEventListener('keydown', e => {
+                        if (e.key !== 'Escape') return;
+                        MODAL_IDS.filter(id => id !== 'modal-reset').forEach(id => document.getElementById(id)?.classList.add('hidden'));
+                    });
                 }
 
                 // --- TOAST NOTIFICATIONS ---
@@ -449,6 +583,69 @@
                     renderApp();
                 }
 
+                function filtersActive() {
+                    return !!(searchQuery || selectedStatus !== 'ALL' || dateFrom || dateTo);
+                }
+
+                function getFilteredInvoices() {
+                    const q = searchQuery.toLowerCase();
+                    let list = invoices.filter(inv => {
+                        const hay = [inv.vendor, inv.invoiceNumber, inv.grantCode, inv.completed && inv.completed.poNumber,
+                                     inv.created && inv.created.by, inv.notes, inv.invoiceDate, ...inv.items.map(i => i.name)]
+                                    .map(x => String(x || '').toLowerCase());
+                        const matchSearch = !q || hay.some(h => h.includes(q));
+                        const matchStatus = selectedStatus === 'ALL' || inv.status === selectedStatus;
+                        const d = inv.invoiceDate || '';
+                        const matchDate = (!dateFrom || d >= dateFrom) && (!dateTo || d <= dateTo);
+                        return matchSearch && matchStatus && matchDate;
+                    });
+                    const by = {
+                        newest: (a, b) => (b.invoiceDate || '').localeCompare(a.invoiceDate || '') || (b.createdAtRaw || '').localeCompare(a.createdAtRaw || ''),
+                        oldest: (a, b) => (a.invoiceDate || '').localeCompare(b.invoiceDate || ''),
+                        high: (a, b) => b.totalPrice - a.totalPrice,
+                        low: (a, b) => a.totalPrice - b.totalPrice,
+                        vendor: (a, b) => a.vendor.localeCompare(b.vendor)
+                    }[sortMode];
+                    return by ? list.sort(by) : list;
+                }
+
+                function handleDateChange() {
+                    dateFrom = document.getElementById('date-from').value;
+                    dateTo = document.getElementById('date-to').value;
+                    renderApp();
+                }
+
+                function handleSortChange(val) { sortMode = val; renderApp(); }
+
+                function clearAllFilters() {
+                    searchQuery = ''; selectedStatus = 'ALL'; dateFrom = ''; dateTo = '';
+                    document.getElementById('search-input').value = '';
+                    document.getElementById('clear-search-btn').classList.add('hidden');
+                    document.getElementById('status-filter').value = 'ALL';
+                    document.getElementById('date-from').value = '';
+                    document.getElementById('date-to').value = '';
+                    renderApp();
+                }
+
+                function exportCsv() {
+                    const rows = getFilteredInvoices();
+                    if (!rows.length) { showToast('Nothing to export for the current filters.'); return; }
+                    const cell = v => { let t = String(v == null ? '' : v); if (/^[=+\-@]/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; };
+                    const head = ['Invoice #', 'Vendor', 'Debit Head', 'Invoice Date', 'Items', 'Total (INR)', 'Status', 'PO Number', 'Added By'];
+                    const lines = [head.map(cell).join(',')].concat(rows.map(i => [
+                        i.invoiceNumber, i.vendor, i.grantCode, i.invoiceDate,
+                        i.items.map(x => `${x.quantity}x ${x.name}`).join('; '), i.totalPrice.toFixed(2), i.status,
+                        (i.completed && i.completed.poNumber) || '', i.created.by
+                    ].map(cell).join(',')));
+                    lines.push(['', 'TOTAL', '', '', '', rows.reduce((t, i) => t + i.totalPrice, 0).toFixed(2), '', '', ''].map(cell).join(','));
+                    const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = `invoices_${new Date().toISOString().split('T')[0]}.csv`;
+                    document.body.appendChild(a); a.click(); a.remove();
+                    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+                }
+
                 function switchView(view) {
                     activeView = view;
                     document.getElementById('view-board').classList.toggle('hidden', view !== 'board');
@@ -476,41 +673,42 @@
                     if (loggedInView) loggedInView.classList.remove('hidden');
                     if (headerActions) headerActions.classList.remove('hidden');
 
-                    const filtered = invoices.filter(inv => {
-                        const matchSearch = 
-                            inv.vendor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            inv.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            inv.grantCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            (inv.completed?.poNumber && inv.completed.poNumber.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                            inv.items.some(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()));
+                    const filtered = getFilteredInvoices();
+                    const isFiltered = filtersActive();
+                    const sum = list => list.reduce((t, i) => t + i.totalPrice, 0);
+                    const stage = {
+                        sub: filtered.filter(i => i.status === 'SUBMITTED' || i.status === 'REJECTED'),
+                        acc: filtered.filter(i => i.status === 'ACCOUNTANT_RECEIVED'),
+                        off: filtered.filter(i => i.status === 'OFFICE_RECEIVED'),
+                        com: filtered.filter(i => i.status === 'COMPLETED')
+                    };
+                    const totalSpendAll = sum(invoices);
+                    const totalSpend = sum(filtered);
 
-                        const matchStatus = selectedStatus === 'ALL' || inv.status === selectedStatus;
-                        return matchSearch && matchStatus;
+                    document.getElementById('stat-total-count').innerText = filtered.length;
+                    document.getElementById('stat-total-spend').innerText = isFiltered
+                        ? `${inr(totalSpend)} of ${inr(totalSpendAll)}`
+                        : inr(totalSpend);
+                    document.getElementById('stat-total-of').innerText = isFiltered ? `matching ${filtered.length} of ${invoices.length} invoices` : 'all invoices';
+
+                    [['submitted', 'sub', 1], ['accountant', 'acc', 2], ['office', 'off', 3], ['completed', 'com', 4]].forEach(([name, key, n]) => {
+                        document.getElementById(`stat-${name}-count`).innerText = stage[key].length;
+                        document.getElementById(`stat-${name}-amt`).innerText = inr(sum(stage[key]));
+                        document.getElementById(`badge-stage-${n}`).innerText = stage[key].length;
+                        document.getElementById(`amt-stage-${n}`).innerText = inr(sum(stage[key]));
                     });
 
-                    const totalCount = invoices.length;
-                    const subCount = invoices.filter(i => i.status === 'SUBMITTED' || i.status === 'REJECTED').length;
-                    const accCount = invoices.filter(i => i.status === 'ACCOUNTANT_RECEIVED').length;
-                    const offCount = invoices.filter(i => i.status === 'OFFICE_RECEIVED').length;
-                    const comCount = invoices.filter(i => i.status === 'COMPLETED').length;
-                    const totalSpend = invoices.reduce((sum, i) => sum + i.totalPrice, 0);
+                    const bar = document.getElementById('filter-summary');
+                    bar.classList.toggle('hidden', !isFiltered);
+                    if (isFiltered) {
+                        document.getElementById('filter-summary-text').innerHTML =
+                            `Showing <b>${filtered.length}</b> of <b>${invoices.length}</b> invoices &middot; matched amount <b class="font-mono">${esc(inr(totalSpend))}</b> of <b class="font-mono">${esc(inr(totalSpendAll))}</b>`;
+                    }
 
-                    document.getElementById('stat-total-count').innerText = totalCount;
-                    document.getElementById('stat-total-spend').innerText = `₹${totalSpend.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-                    document.getElementById('stat-submitted-count').innerText = subCount;
-                    document.getElementById('stat-accountant-count').innerText = accCount;
-                    document.getElementById('stat-office-count').innerText = offCount;
-                    document.getElementById('stat-completed-count').innerText = comCount;
-
-                    document.getElementById('badge-stage-1').innerText = subCount;
-                    document.getElementById('badge-stage-2').innerText = accCount;
-                    document.getElementById('badge-stage-3').innerText = offCount;
-                    document.getElementById('badge-stage-4').innerText = comCount;
-
-                    renderKanbanColumn('col-stage-1', filtered.filter(i => i.status === 'SUBMITTED' || i.status === 'REJECTED'), 'SUBMITTED');
-                    renderKanbanColumn('col-stage-2', filtered.filter(i => i.status === 'ACCOUNTANT_RECEIVED'), 'ACCOUNTANT_RECEIVED');
-                    renderKanbanColumn('col-stage-3', filtered.filter(i => i.status === 'OFFICE_RECEIVED'), 'OFFICE_RECEIVED');
-                    renderKanbanColumn('col-stage-4', filtered.filter(i => i.status === 'COMPLETED'), 'COMPLETED');
+                    renderKanbanColumn('col-stage-1', stage.sub, 'SUBMITTED');
+                    renderKanbanColumn('col-stage-2', stage.acc, 'ACCOUNTANT_RECEIVED');
+                    renderKanbanColumn('col-stage-3', stage.off, 'OFFICE_RECEIVED');
+                    renderKanbanColumn('col-stage-4', stage.com, 'COMPLETED');
 
                     renderTableView(filtered);
                     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -532,52 +730,52 @@
                         const canAccountantEdit = activeRole === 'Lab Accountant';
 
                         return `
-                            <div onclick="openDetailsModal('${inv.id}')" class="bg-white p-4 rounded-sm border ${isRejected ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} shadow-sm hover:shadow-md transition cursor-pointer group hover:border-indigo-300">
+                            <div onclick="openDetailsModal('${esc(inv.id)}')" class="bg-white p-4 rounded-sm border ${isRejected ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} shadow-sm hover:shadow-md transition cursor-pointer group hover:border-indigo-300">
                                 <div class="flex items-start justify-between gap-2 mb-2">
-                                    <span class="font-mono font-bold text-indigo-700 text-xs group-hover:underline">${inv.invoiceNumber}</span>
+                                    <span class="font-mono font-bold text-indigo-700 text-xs group-hover:underline">${esc(inv.invoiceNumber)}</span>
                                     <span class="text-xs font-bold text-slate-900 font-mono">₹${inv.totalPrice.toFixed(2)}</span>
                                 </div>
-                                <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-1">${inv.vendor}</h4>
+                                <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-1">${esc(inv.vendor)}</h4>
                                 <div class="flex items-center gap-1 text-[11px] text-slate-500 mt-1">
                                     <i data-lucide="tag" class="w-3 h-3 text-slate-400"></i>
-                                    <span class="font-mono font-semibold ${inv.grantCode === 'UNASSIGNED' ? 'text-amber-600' : 'text-indigo-800'}">${inv.grantCode}</span>
+                                    <span class="font-mono font-semibold ${inv.grantCode === 'UNASSIGNED' ? 'text-amber-600' : 'text-indigo-800'}">${esc(inv.grantCode)}</span>
                                     <span class="text-slate-300">&bull;</span>
-                                    <span>${inv.invoiceDate}</span>
+                                    <span>${esc(inv.invoiceDate)}</span>
                                 </div>
                                 ${isRejected ? `
                                     <div class="mt-2 p-2 bg-rose-50 border border-rose-200 rounded text-[11px] text-rose-800 font-medium">
                                         <span class="font-bold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Rejected by Accountant:</span>
-                                        <p class="mt-0.5 line-clamp-2 italic">"${inv.rejectionReason || 'Details incorrect'}"</p>
+                                        <p class="mt-0.5 line-clamp-2 italic">"${esc(inv.rejectionReason || 'Details incorrect')}"</p>
                                     </div>
                                 ` : ''}
                                 <div class="mt-2 text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 line-clamp-2">
                                     <span class="font-semibold text-slate-700">Items: </span>
-                                    ${inv.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}
+                                    ${esc(inv.items.map(i => `${i.quantity}x ${i.name}`).join(', '))}
                                 </div>
                                 <div class="mt-3 pt-2 border-t border-slate-100 flex flex-col gap-1.5">
                                     <div class="flex items-center justify-between text-[10px] text-slate-400">
-                                        <span>Added by: ${inv.created.by}</span>
+                                        <span>Added by: ${esc(inv.created.by)}</span>
                                         <div class="flex items-center gap-1">
-                                            ${inv.comments && inv.comments.length > 0 ? `<span class="text-indigo-600 font-bold flex items-center gap-0.5"><i data-lucide="message-square" class="w-3 h-3"></i> ${inv.comments.length}</span>` : ''}
+                                            ${inv.comments && inv.comments.length > 0 ? `<span class="text-indigo-600 font-bold flex items-center gap-0.5"><i data-lucide="message-square" class="w-3 h-3"></i> ${esc(inv.comments.length)}</span>` : ''}
                                             <i data-lucide="clock" class="w-3 h-3"></i>
                                         </div>
                                     </div>
                                     ${canManagerEdit ? `
                                         <div class="flex gap-1.5 mt-1">
-                                            <button onclick="event.stopPropagation(); openEditModal('${inv.id}')" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
+                                            <button onclick="event.stopPropagation(); openEditModal('${esc(inv.id)}')" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
                                                 <i data-lucide="edit-3" class="w-3 h-3"></i> ${isRejected ? 'Edit & Resubmit' : 'Edit'}
                                             </button>
-                                            <button onclick="event.stopPropagation(); deleteInvoice('${inv.id}')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
+                                            <button onclick="event.stopPropagation(); deleteInvoice('${esc(inv.id)}')" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
                                                 <i data-lucide="trash-2" class="w-3 h-3"></i>
                                             </button>
                                         </div>
                                     ` : ''}
                                     ${stageKey === 'SUBMITTED' && activeRole === 'Lab Accountant' ? `
                                         <div class="flex gap-1.5 mt-1">
-                                            <button onclick="event.stopPropagation(); acceptInvoice('${inv.id}')" class="flex-1 bg-blue-800 hover:bg-blue-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
+                                            <button onclick="event.stopPropagation(); acceptInvoice('${esc(inv.id)}')" class="flex-1 bg-blue-800 hover:bg-blue-600 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
                                                 <i data-lucide="check-circle" class="w-3 h-3"></i> Accept
                                             </button>
-                                            <button onclick="event.stopPropagation(); openRejectModal('${inv.id}')" class="flex-1 bg-rose-800 hover:bg-rose-700 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
+                                            <button onclick="event.stopPropagation(); openRejectModal('${esc(inv.id)}')" class="flex-1 bg-rose-800 hover:bg-rose-700 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
                                                 <i data-lucide="x-circle" class="w-3 h-3"></i> Reject
                                             </button>
                                         </div>
@@ -585,24 +783,24 @@
                                     ${canAccountantEdit && (stageKey === 'ACCOUNTANT_RECEIVED' || stageKey === 'OFFICE_RECEIVED' || stageKey === 'COMPLETED') ? `
                                         <div class="flex gap-1.5 mt-1">
                                             ${stageKey === 'ACCOUNTANT_RECEIVED' ? `
-                                                <button onclick="event.stopPropagation(); openSendToOfficeModal('${inv.id}')" class="flex-1 bg-purple-800 hover:bg-purple-700 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
+                                                <button onclick="event.stopPropagation(); openSendToOfficeModal('${esc(inv.id)}')" class="flex-1 bg-purple-800 hover:bg-purple-700 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition">
                                                     <i data-lucide="send" class="w-3 h-3"></i> Send to OC Office
                                                 </button>
                                             ` : ''}
-                                            <button onclick="event.stopPropagation(); openEditModal('${inv.id}')" class="bg-slate-700 hover:bg-slate-800 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition" title="Accountant Edit">
+                                            <button onclick="event.stopPropagation(); openEditModal('${esc(inv.id)}')" class="bg-slate-700 hover:bg-slate-800 text-white font-semibold text-[11px] py-1.5 px-2 rounded-sm flex items-center justify-center gap-1 shadow-sm transition" title="Accountant Edit">
                                                 <i data-lucide="edit-3" class="w-3 h-3"></i> Edit
                                             </button>
                                         </div>
                                     ` : ''}
                                     ${stageKey === 'OFFICE_RECEIVED' && activeRole === 'Office Staff' ? `
-                                        <button onclick="event.stopPropagation(); openPoModal('${inv.id}')" class="w-full mt-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2 px-3 rounded-sm flex items-center justify-center gap-1.5 shadow-sm transition">
+                                        <button onclick="event.stopPropagation(); openPoModal('${esc(inv.id)}')" class="w-full mt-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2 px-3 rounded-sm flex items-center justify-center gap-1.5 shadow-sm transition">
                                             <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Attach PO & Process
                                         </button>
                                     ` : ''}
                                     ${stageKey === 'COMPLETED' ? `
                                         <div class="mt-1 p-2 bg-emerald-50 rounded-sm border border-emerald-200 text-xs">
                                             <div class="text-[10px] text-emerald-600 font-semibold uppercase">Purchase Order Number</div>
-                                            <div class="font-mono font-bold text-emerald-900">${inv.completed.poNumber}</div>
+                                            <div class="font-mono font-bold text-emerald-900">${esc(inv.completed.poNumber)}</div>
                                         </div>
                                     ` : ''}
                                 </div>
@@ -614,48 +812,48 @@
                 function renderTableView(filteredInvoices) {
                     const tbody = document.getElementById('table-body');
                     if (filteredInvoices.length === 0) {
-                        tbody.innerHTML = `<tr><td colSpan="9" class="text-center py-8 text-slate-400">No matching invoices found.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="9" class="text-center py-8 text-slate-400">No matching invoices found.</td></tr>`;
                         return;
                     }
 
                     const activeRole = currentUser ? currentUser.role : null;
 
                     tbody.innerHTML = filteredInvoices.map(inv => `
-                        <tr onclick="openDetailsModal('${inv.id}')" class="hover:bg-slate-50/80 cursor-pointer transition ${inv.status === 'REJECTED' ? 'bg-rose-50/30' : ''}">
-                            <td class="py-3 px-4 font-bold text-indigo-700 font-mono">${inv.invoiceNumber}</td>
-                            <td class="py-3 px-4 font-semibold text-slate-800">${inv.vendor}</td>
+                        <tr onclick="openDetailsModal('${esc(inv.id)}')" class="hover:bg-slate-50/80 cursor-pointer transition ${inv.status === 'REJECTED' ? 'bg-rose-50/30' : ''}">
+                            <td class="py-3 px-4 font-bold text-indigo-700 font-mono">${esc(inv.invoiceNumber)}</td>
+                            <td class="py-3 px-4 font-semibold text-slate-800">${esc(inv.vendor)}</td>
                             <td class="py-3 px-4">
                                 <span class="inline-block px-2 py-0.5 rounded font-mono text-[10px] ${inv.grantCode === 'UNASSIGNED' ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-slate-100 border border-slate-200 text-slate-700'}">
-                                    ${inv.grantCode}
+                                    ${esc(inv.grantCode)}
                                 </span>
                             </td>
-                            <td class="py-3 px-4 text-slate-600">${inv.invoiceDate}</td>
-                            <td class="py-3 px-4 max-w-xs truncate text-slate-600">${inv.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}</td>
+                            <td class="py-3 px-4 text-slate-600">${esc(inv.invoiceDate)}</td>
+                            <td class="py-3 px-4 max-w-xs truncate text-slate-600">${esc(inv.items.map(i => `${i.quantity}x ${i.name}`).join(', '))}</td>
                             <td class="py-3 px-4 font-bold text-slate-900 font-mono">₹${inv.totalPrice.toFixed(2)}</td>
                             <td class="py-3 px-4">${getBadgeHtml(inv.status)}</td>
                             <td class="py-3 px-4 font-mono font-bold text-emerald-700">
-                                ${inv.completed?.poNumber || '<span class="text-slate-400 font-normal font-sans text-[11px]">Unassigned</span>'}
+                                ${inv.completed?.poNumber ? esc(inv.completed.poNumber) : '<span class="text-slate-400 font-normal font-sans text-[11px]">Unassigned</span>'}
                             </td>
                             <td class="py-3 px-4 text-right" onclick="event.stopPropagation()">
                                 <div class="flex items-center justify-end gap-1.5">
                                     ${(inv.status === 'SUBMITTED' || inv.status === 'REJECTED') && isInvoiceCreator(inv, currentUser) ? `
-                                        <button onclick="openEditModal('${inv.id}')" class="px-2 py-1 bg-amber-500 text-white rounded text-[11px] font-semibold">Edit</button>
-                                        <button onclick="deleteInvoice('${inv.id}')" class="px-2 py-1 bg-rose-600 text-white rounded text-[11px] font-semibold">Delete</button>
+                                        <button onclick="openEditModal('${esc(inv.id)}')" class="px-2 py-1 bg-amber-500 text-white rounded text-[11px] font-semibold">Edit</button>
+                                        <button onclick="deleteInvoice('${esc(inv.id)}')" class="px-2 py-1 bg-rose-600 text-white rounded text-[11px] font-semibold">Delete</button>
                                     ` : ''}
                                     ${inv.status === 'SUBMITTED' && activeRole === 'Lab Accountant' ? `
-                                        <button onclick="acceptInvoice('${inv.id}')" class="px-2.5 py-1 bg-blue-600 text-white rounded text-[11px] font-semibold">Accept</button>
-                                        <button onclick="openRejectModal('${inv.id}')" class="px-2 py-1 bg-rose-600 text-white rounded text-[11px] font-semibold">Reject</button>
+                                        <button onclick="acceptInvoice('${esc(inv.id)}')" class="px-2.5 py-1 bg-blue-600 text-white rounded text-[11px] font-semibold">Accept</button>
+                                        <button onclick="openRejectModal('${esc(inv.id)}')" class="px-2 py-1 bg-rose-600 text-white rounded text-[11px] font-semibold">Reject</button>
                                     ` : ''}
                                     ${inv.status === 'ACCOUNTANT_RECEIVED' && activeRole === 'Lab Accountant' ? `
-                                        <button onclick="openSendToOfficeModal('${inv.id}')" class="px-2.5 py-1 bg-purple-600 text-white rounded text-[11px] font-semibold">To Office</button>
+                                        <button onclick="openSendToOfficeModal('${esc(inv.id)}')" class="px-2.5 py-1 bg-purple-600 text-white rounded text-[11px] font-semibold">To Office</button>
                                     ` : ''}
                                     ${activeRole === 'Lab Accountant' ? `
-                                        <button onclick="openEditModal('${inv.id}')" class="px-2 py-1 bg-slate-700 text-white rounded text-[11px] font-semibold">Edit</button>
+                                        <button onclick="openEditModal('${esc(inv.id)}')" class="px-2 py-1 bg-slate-700 text-white rounded text-[11px] font-semibold">Edit</button>
                                     ` : ''}
                                     ${inv.status === 'OFFICE_RECEIVED' && activeRole === 'Office Staff' ? `
-                                        <button onclick="openPoModal('${inv.id}')" class="px-2.5 py-1 bg-emerald-600 text-white rounded text-[11px] font-semibold">Attach PO</button>
+                                        <button onclick="openPoModal('${esc(inv.id)}')" class="px-2.5 py-1 bg-emerald-600 text-white rounded text-[11px] font-semibold">Attach PO</button>
                                     ` : ''}
-                                    <button onclick="openDetailsModal('${inv.id}')" class="p-1 hover:bg-slate-200 rounded text-slate-500">
+                                    <button onclick="openDetailsModal('${esc(inv.id)}')" class="p-1 hover:bg-slate-200 rounded text-slate-500">
                                         <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                     </button>
                                 </div>
@@ -726,7 +924,7 @@
                     const commentVal = document.getElementById('send-office-comment-input').value.trim();
 
                     if (!grantVal) {
-                        alert('Please enter a DEBIT HEAD before sending to office.');
+                        showToast('Please enter a DEBIT HEAD before sending to office.');
                         return;
                     }
 
@@ -778,7 +976,7 @@
                     const reasonVal = document.getElementById('reject-reason-input').value.trim();
 
                     if (!reasonVal) {
-                        alert('Please specify a rejection reason.');
+                        showToast('Please specify a rejection reason.');
                         return;
                     }
 
@@ -811,7 +1009,7 @@
                     if (!currentUser || !selectedInvoice) return;
                     const poNum = document.getElementById('input-po-number').value.trim();
                     if (!poNum) {
-                        alert('Please enter a valid Purchase Order (PO) number.');
+                        showToast('Please enter a valid Purchase Order (PO) number.');
                         return;
                     }
 
@@ -935,8 +1133,8 @@
                     dropdown.innerHTML = `
                         <div class="px-3 py-1 bg-slate-50 text-[10px] font-bold text-slate-400 uppercase">Previously Saved Vendors</div>
                         ${matches.map(v => `
-                            <div onclick="selectVendor('${v.replace(/'/g, "\\'")}')" class="px-3 py-2 text-xs hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer border-b border-slate-100 last:border-0">
-                                ${v}
+                            <div data-vendor="${esc(v)}" onclick="selectVendor(this.dataset.vendor)" class="px-3 py-2 text-xs hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer border-b border-slate-100 last:border-0">
+                                ${esc(v)}
                             </div>
                         `).join('')}
                     `;
@@ -951,13 +1149,13 @@
                 function renderFormItems() {
                     const container = document.getElementById('form-items-container');
                     container.innerHTML = formItems.map((item, idx) => `
-                        <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-sm border border-slate-200">
+                        <div class="flex flex-wrap items-center gap-2 bg-slate-50 p-2 rounded-sm border border-slate-200">
                             <input
                                 type="text"
                                 placeholder="Item description (e.g. Taq Polymerase)"
-                                value="${item.name}"
+                                value="${esc(item.name)}"
                                 onchange="updateFormItem(${idx}, 'name', this.value)"
-                                class="flex-1 px-2.5 py-1.5 bg-white border border-slate-300 rounded text-xs focus:ring-1 focus:ring-indigo-500"
+                                class="w-full sm:w-auto sm:flex-1 min-w-0 px-2.5 py-1.5 bg-white border border-slate-300 rounded text-xs focus:ring-1 focus:ring-indigo-500"
                                 required
                             />
                             <input
@@ -1018,6 +1216,7 @@
                 async function handleCreateInvoice(e) {
                     e.preventDefault();
                     if (!currentUser) return;
+                    const submitBtn = document.getElementById('add-modal-submit-btn');
 
                     const editId = document.getElementById('edit-invoice-id').value;
                     const vendorVal = document.getElementById('input-vendor').value.trim();
@@ -1025,87 +1224,74 @@
                     const invDateVal = document.getElementById('input-invoice-date').value;
                     const notesVal = document.getElementById('input-notes').value.trim();
 
-                    if (!vendorVal || !invNumVal) {
-                        alert('Please provide Vendor Name and Invoice Number.');
-                        return;
-                    }
+                    if (!vendorVal || !invNumVal) { showToast('Please provide Vendor Name and Invoice Number.'); return; }
+                    if (!invDateVal) { showToast('Please select the invoice date.'); return; }
+                    const cleanItems = formItems.map(i => ({ name: String(i.name || '').trim(), quantity: Number(i.quantity), unitPrice: Number(i.unitPrice) }));
+                    if (cleanItems.some(i => !i.name)) { showToast('Every item needs a description.'); return; }
+                    if (cleanItems.some(i => !Number.isFinite(i.quantity) || i.quantity < 1)) { showToast('Quantity must be at least 1.'); return; }
+                    if (cleanItems.some(i => !Number.isFinite(i.unitPrice) || i.unitPrice < 0)) { showToast('Price cannot be negative.'); return; }
 
-                    const calculatedTotal = formItems.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0);
+                    const duplicate = invoices.find(i => i.id !== editId
+                        && i.vendor.toLowerCase() === vendorVal.toLowerCase()
+                        && i.invoiceNumber.toLowerCase() === invNumVal.toLowerCase());
+                    if (duplicate) { showToast(`Invoice ${invNumVal} from ${vendorVal} is already recorded.`); return; }
+
+                    const calculatedTotal = Math.round(cleanItems.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0) * 100) / 100;
                     const now = new Date();
+                    submitBtn.disabled = true;
 
-                    if (!vendors.some(v => v.toLowerCase() === vendorVal.toLowerCase())) {
-                        vendors.push(vendorVal);
-                    }
+                    try {
+                        if (editId) {
+                            const existingInv = invoices.find(i => i.id === editId);
+                            if (!existingInv) throw new Error('Invoice no longer exists');
+                            const isResubmitting = existingInv.status === 'REJECTED';
 
-                    if (editId) {
-                        const existingInv = invoices.find(i => i.id === editId);
-                        const isResubmitting = existingInv && existingInv.status === 'REJECTED';
+                            // 1) insert the new item rows first, 2) update the invoice, 3) only then remove the old rows
+                            const oldIds = existingInv.items.map(i => i.id).filter(Boolean);
+                            const { error: insErr } = await supabaseClient.from('invoice_items').insert(
+                                cleanItems.map(i => ({ invoice_id: editId, item_name: i.name, quantity: i.quantity, unit_price: i.unitPrice })));
+                            if (insErr) throw insErr;
 
-                        const { error: invErr } = await supabaseClient
-                            .from('invoices')
-                            .update({
-                                vendor: vendorVal,
-                                invoice_number: invNumVal,
-                                invoice_date: invDateVal,
-                                total_price: calculatedTotal,
-                                notes: notesVal,
+                            const { error: invErr } = await supabaseClient.from('invoices').update({
+                                vendor: vendorVal, invoice_number: invNumVal, invoice_date: invDateVal,
+                                total_price: calculatedTotal, notes: notesVal,
                                 status: isResubmitting ? 'SUBMITTED' : existingInv.status,
                                 rejection_reason: isResubmitting ? null : existingInv.rejectionReason
-                            })
-                            .eq('id', editId);
+                            }).eq('id', editId);
+                            if (invErr) throw invErr;
 
-                        if (invErr) {
-                            console.error('Error updating invoice:', invErr);
-                            showToast('Failed to update invoice in database.');
-                            return;
-                        }
+                            if (oldIds.length) await supabaseClient.from('invoice_items').delete().in('id', oldIds);
+                            showToast(`Invoice ${invNumVal} updated!`);
+                        } else {
+                            let invId;
+                            do {
+                                const rnd = crypto.getRandomValues(new Uint32Array(1))[0] % 90000 + 10000;
+                                invId = `INV-${now.getFullYear()}-${rnd}`;
+                            } while (invoices.some(i => i.id === invId));
 
-                        await supabaseClient.from('invoice_items').delete().eq('invoice_id', editId);
-                        const dbItems = formItems.map(item => ({
-                            invoice_id: editId,
-                            item_name: item.name,
-                            quantity: item.quantity,
-                            unit_price: item.unitPrice
-                        }));
-                        await supabaseClient.from('invoice_items').insert(dbItems);
-
-                        showToast(`Invoice ${invNumVal} updated!`);
-                    } else {
-                        const invId = `INV-${now.getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
-
-                        const { error: invErr } = await supabaseClient
-                            .from('invoices')
-                            .insert({
-                                id: invId,
-                                vendor: vendorVal,
-                                invoice_number: invNumVal,
-                                invoice_date: invDateVal,
-                                grant_code: 'UNASSIGNED',
-                                total_price: calculatedTotal,
-                                status: 'SUBMITTED',
-                                created_by: `${currentUser.name} (${currentUser.role})`,
-                                notes: notesVal
+                            const { error: invErr } = await supabaseClient.from('invoices').insert({
+                                id: invId, vendor: vendorVal, invoice_number: invNumVal, invoice_date: invDateVal,
+                                grant_code: 'UNASSIGNED', total_price: calculatedTotal, status: 'SUBMITTED',
+                                created_by: `${currentUser.name} (${currentUser.role})`, notes: notesVal
                             });
+                            if (invErr) throw invErr;
 
-                        if (invErr) {
-                            console.error('Supabase insert error:', invErr);
-                            showToast('Failed to record invoice in database.');
-                            return;
+                            const { error: itemsErr } = await supabaseClient.from('invoice_items').insert(
+                                cleanItems.map(i => ({ invoice_id: invId, item_name: i.name, quantity: i.quantity, unit_price: i.unitPrice })));
+                            if (itemsErr) {
+                                await supabaseClient.from('invoices').delete().eq('id', invId); // roll back the half-saved invoice
+                                throw itemsErr;
+                            }
+                            showToast(`Invoice ${invNumVal} recorded and sent to Accountant!`);
                         }
-
-                        const dbItems = formItems.map(item => ({
-                            invoice_id: invId,
-                            item_name: item.name,
-                            quantity: item.quantity,
-                            unit_price: item.unitPrice
-                        }));
-                        await supabaseClient.from('invoice_items').insert(dbItems);
-
-                        showToast(`Invoice ${invNumVal} recorded and sent to Accountant!`);
+                        closeAddModal();
+                        await fetchInvoicesFromSupabase();
+                    } catch (err) {
+                        console.error('Error saving invoice:', err);
+                        showToast('Could not save the invoice. Nothing was changed.');
+                    } finally {
+                        submitBtn.disabled = false;
                     }
-
-                    closeAddModal();
-                    await fetchInvoicesFromSupabase();
                 }
 
                 function openPoModal(invId) {
@@ -1139,7 +1325,7 @@
 
                     document.getElementById('detail-items-table').innerHTML = selectedInvoice.items.map(item => `
                         <tr>
-                            <td class="py-2 px-3 font-medium text-slate-800">${item.name}</td>
+                            <td class="py-2 px-3 font-medium text-slate-800">${esc(item.name)}</td>
                             <td class="py-2 px-3 text-center font-mono">${item.quantity}</td>
                             <td class="py-2 px-3 text-right font-mono">₹${item.unitPrice.toFixed(2)}</td>
                             <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">₹${(item.quantity * item.unitPrice).toFixed(2)}</td>
@@ -1163,7 +1349,7 @@
                                     <span class="font-bold text-slate-800">1. Invoice Logged into Portal</span>
                                     <span class="text-[10px] font-mono text-slate-500">${selectedInvoice.created.timestamp || 'N/A'}</span>
                                 </div>
-                                <p class="text-slate-600 mt-1">Logged by <span class="font-semibold text-slate-800">${selectedInvoice.created.by}</span></p>
+                                <p class="text-slate-600 mt-1">Logged by <span class="font-semibold text-slate-800">${esc(selectedInvoice.created.by)}</span></p>
                             </div>
                         </div>
 
@@ -1174,12 +1360,12 @@
                             <div class="p-3 rounded-sm border w-full text-xs ${selectedInvoice.accountantReceived ? 'bg-slate-50 border-slate-200' : (selectedInvoice.status === 'REJECTED' ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-white border-dashed border-slate-200 text-slate-400')}">
                                 <div class="flex justify-between items-center">
                                     <span class="font-bold text-slate-800">2. Accountant Accepted Invoice</span>
-                                    ${selectedInvoice.accountantReceived ? `<span class="text-[10px] font-mono text-slate-500">${selectedInvoice.accountantReceived.timestamp}</span>` : ''}
+                                    ${selectedInvoice.accountantReceived ? `<span class="text-[10px] font-mono text-slate-500">${esc(selectedInvoice.accountantReceived.timestamp)}</span>` : ''}
                                 </div>
                                 ${selectedInvoice.accountantReceived ? `
-                                    <p class="text-slate-600 mt-1">Accepted by <span class="font-semibold text-slate-800">${selectedInvoice.accountantReceived.by}</span></p>
+                                    <p class="text-slate-600 mt-1">Accepted by <span class="font-semibold text-slate-800">${esc(selectedInvoice.accountantReceived.by)}</span></p>
                                 ` : (selectedInvoice.status === 'REJECTED' ? `
-                                    <p class="mt-1 font-medium">Rejected back to Manager. Reason: ${selectedInvoice.rejectionReason}</p>
+                                    <p class="mt-1 font-medium">Rejected back to Manager. Reason: ${esc(selectedInvoice.rejectionReason)}</p>
                                 ` : '<p class="mt-1 italic">Pending Accountant acceptance...</p>')}
                             </div>
                         </div>
@@ -1191,10 +1377,10 @@
                             <div class="p-3 rounded-sm border w-full text-xs ${selectedInvoice.officeReceived ? 'bg-slate-50 border-slate-200' : 'bg-white border-dashed border-slate-200 text-slate-400'}">
                                 <div class="flex justify-between items-center">
                                     <span class="font-bold text-slate-800">3. Debit Head Assigned & Handed to Office</span>
-                                    ${selectedInvoice.officeReceived ? `<span class="text-[10px] font-mono text-slate-500">${selectedInvoice.officeReceived.timestamp}</span>` : ''}
+                                    ${selectedInvoice.officeReceived ? `<span class="text-[10px] font-mono text-slate-500">${esc(selectedInvoice.officeReceived.timestamp)}</span>` : ''}
                                 </div>
                                 ${selectedInvoice.officeReceived ? `
-                                    <p class="text-slate-600 mt-1">Assigned Debit Head <span class="font-mono font-bold text-indigo-800">${selectedInvoice.grantCode}</span> & delivered by <span class="font-semibold text-slate-800">${selectedInvoice.officeReceived.by}</span></p>
+                                    <p class="text-slate-600 mt-1">Assigned Debit Head <span class="font-mono font-bold text-indigo-800">${esc(selectedInvoice.grantCode)}</span> & delivered by <span class="font-semibold text-slate-800">${esc(selectedInvoice.officeReceived.by)}</span></p>
                                 ` : '<p class="mt-1 italic">Awaiting Accountant to assign Debit Head & send to Office...</p>'}
                             </div>
                         </div>
@@ -1206,13 +1392,13 @@
                             <div class="p-3 rounded-sm border w-full text-xs ${selectedInvoice.completed ? 'bg-emerald-50/50 border-emerald-200' : 'bg-white border-dashed border-slate-200 text-slate-400'}">
                                 <div class="flex justify-between items-center">
                                     <span class="font-bold text-slate-800">4. Purchase Order Linked & Payment Processed</span>
-                                    ${selectedInvoice.completed ? `<span class="text-[10px] font-mono text-slate-500">${selectedInvoice.completed.timestamp}</span>` : ''}
+                                    ${selectedInvoice.completed ? `<span class="text-[10px] font-mono text-slate-500">${esc(selectedInvoice.completed.timestamp)}</span>` : ''}
                                 </div>
                                 ${selectedInvoice.completed ? `
                                     <div class="mt-1 space-y-1">
-                                        <p class="text-slate-600">Processed by <span class="font-semibold text-slate-800">${selectedInvoice.completed.by}</span></p>
+                                        <p class="text-slate-600">Processed by <span class="font-semibold text-slate-800">${esc(selectedInvoice.completed.by)}</span></p>
                                         <div class="inline-block bg-white px-2 py-1 rounded border border-emerald-300 font-mono font-bold text-emerald-900 text-xs">
-                                            PO Number: ${selectedInvoice.completed.poNumber}
+                                            PO Number: ${esc(selectedInvoice.completed.poNumber)}
                                         </div>
                                     </div>
                                 ` : '<p class="mt-1 italic">Awaiting Office to issue PO and process payment...</p>'}
@@ -1228,9 +1414,9 @@
                     let actionButtons = '';
 
                     if ((selectedInvoice.status === 'SUBMITTED' || selectedInvoice.status === 'REJECTED') && isCreator) {
-                        actionButtons = `<button onclick="closeDetailsModal(); openEditModal('${selectedInvoice.id}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded text-xs flex items-center gap-1"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Invoice</button>`;
+                        actionButtons = `<button onclick="closeDetailsModal(); openEditModal('${esc(selectedInvoice.id)}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded text-xs flex items-center gap-1"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Invoice</button>`;
                     } else if (activeRole === 'Lab Accountant') {
-                        actionButtons = `<button onclick="closeDetailsModal(); openEditModal('${selectedInvoice.id}')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded text-xs flex items-center gap-1"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Invoice</button>`;
+                        actionButtons = `<button onclick="closeDetailsModal(); openEditModal('${esc(selectedInvoice.id)}')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded text-xs flex items-center gap-1"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Invoice</button>`;
                     }
 
                     actionsContainer.innerHTML = actionButtons;
@@ -1250,10 +1436,10 @@
                     listContainer.innerHTML = comments.map(c => `
                         <div class="bg-slate-50 p-2.5 rounded-sm border border-slate-200 text-xs space-y-0.5">
                             <div class="flex justify-between items-center text-[10px] text-slate-500">
-                                <span class="font-bold text-slate-800">${c.user}</span>
-                                <span class="font-mono">${c.timestamp}</span>
+                                <span class="font-bold text-slate-800">${esc(c.user)}</span>
+                                <span class="font-mono">${esc(c.timestamp)}</span>
                             </div>
-                            <p class="text-slate-700 leading-snug">${c.text}</p>
+                            <p class="text-slate-700 leading-snug">${esc(c.text)}</p>
                         </div>
                     `).join('');
                 }
@@ -1298,6 +1484,32 @@
 </main>
 
 
+
+<style>
+/* Popups: always fully visible on every screen size; long ones scroll inside the screen */
+#modal-add,#modal-details,#modal-send-office,#modal-reject,#modal-po,#modal-reset{
+  position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  align-items:flex-start !important;justify-content:center;
+  padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left)) !important;}
+#modal-add>div,#modal-details>div,#modal-send-office>div,#modal-reject>div,#modal-po>div,#modal-reset>div{margin:auto !important;max-width:100%;}
+#modal-details table{min-width:420px}
+#modal-details .overflow-hidden:has(> table),#modal-details .overflow-hidden:has(table){overflow-x:auto !important}
+body.inv-modal-open{overflow:hidden}
+#toast{max-width:calc(100vw - 2rem)}
+/* Everything on this page uses 1px corners (circles stay only where drawn as avatars/dots) */
+#page-Invoice\ Management *,#toast,#modal-add *,#modal-details *,#modal-send-office *,#modal-reject *,#modal-po *,#modal-reset *{border-radius:1px !important}
+</style>
+<div class="hidden fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" id="modal-reset">
+<div class="bg-white w-full max-w-md rounded-sm shadow-2xl border border-slate-200 overflow-hidden">
+<div class="bg-navy-900 text-white p-4"><h3 class="font-bold text-sm">Set a new password</h3></div>
+<form class="p-5 space-y-3" onsubmit="handleResetSubmit(event)">
+<p id="reset-error" class="text-xs text-rose-600 font-semibold"></p>
+<input id="reset-password-1" type="password" autocomplete="new-password" minlength="12" required placeholder="New password (12+ characters)" class="w-full px-3 py-2 border border-slate-300 rounded-sm text-sm"/>
+<input id="reset-password-2" type="password" autocomplete="new-password" minlength="12" required placeholder="Repeat new password" class="w-full px-3 py-2 border border-slate-300 rounded-sm text-sm"/>
+<button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm">Save password</button>
+</form>
+</div>
+</div>
 <div class="hidden fixed top-4 right-4 z-[110] bg-slate-900 text-white px-4 py-3 rounded-sm shadow-xl flex items-center gap-3 border border-slate-700 transition-all duration-300" id="toast">
 <i class="w-5 h-5 text-amber-400" data-lucide="sparkles"></i>
 <span class="text-sm font-medium" id="toast-message"></span>
