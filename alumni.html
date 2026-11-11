@@ -8,7 +8,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>Members | Hari Group</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=3" rel="stylesheet"/>
+<link href="css/style.css?v=4" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -41,7 +41,7 @@
 
 <!-- Mobile menu toggle button -->
 <button aria-label="Toggle navigation" aria-expanded="false" class="xl:hidden p-2.5 text-slate-800 hover:bg-slate-100 transition" id="mobile-menu-btn">
-<i class="fa-solid fa-bars-staggered text-xl" id="menu-icon"></i>
+<svg id="menu-icon" class="cat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="cat-ring"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M22.9 8.03 21.55 11.93 18 9.81Z" fill="currentColor" stroke-width="1"/><g transform="rotate(180 12 12)"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M22.9 8.03 21.55 11.93 18 9.81Z" fill="currentColor" stroke-width="1"/></g></g><path d="M8.8 12h6.4"/><path class="cat-v" d="M12 8.8v6.4"/></svg>
 </button>
 </div>
 </div>
@@ -79,45 +79,46 @@
 
 
 
-<!-- Work in Progress Section -->
-<div class="flex flex-col items-center justify-center py-16 px-4">
+<div id="alumni-root" class="space-y-12"></div>
+<style>
+.alumni-email{color:#696969;font-size:13px;transition:color .2s;word-break:break-all}.alumni-email:hover{color:#b45309}
+</style>
+<script>
+// =====================================================================================
+// ADD ALUMNI HERE. Cards: { name, email, destination }.  Internship students: just names.
+// =====================================================================================
+const ALUMNI = [
+  { title: "Project Associates", type: "card", people: [
+    { name: "Kousik Das", email: "kousikam216@gmail.com", destination: "PhD at University of Regensburg, Germany" },
+    { name: "Abilash Pedada", email: "abhilashpedada.cool98@gmail.com", destination: "PhD at Johannes Gutenberg-Universität Mainz, Germany" },
+    { name: "Buddhadeb Sahana", email: "buddhadebsahana31@gmail.com", destination: "PhD at University of Regensburg, Germany" }
+  ]},
+  { title: "BS-MS Students", type: "card", people: [
+    { name: "Subrat Kumar Mishra", email: "subratmishra@alum.iisc.ac.in", destination: "PhD at NTU, Singapore" },
+    { name: "Aksar Ali", email: "aksarali@alum.iisc.ac.in", destination: "PhD at RWTH Aachen, Germany" },
+    { name: "Nakul Abhay Bapat", email: "nakulabhay@alum.iisc.ac.in", destination: "PhD at EPFL, Switzerland" },
+    { name: "Manish R. Sarkar", email: "manishranjan@iisc.ac.in", destination: "Master's Thesis at EPFL, Switzerland" },
+    { name: "Arjun Buragohain", email: "barjun@iisc.ac.in", destination: "PhD at University of Texas at Dallas, USA" }
+  ]},
+  { title: "Internship Students", type: "list", people: [
+    "Rudra N. Dasmahapatra","Karthika T T","Ankita Narain","Supratik Ghosh","Akash Rajesh","Shelly","Gayathri K G","Ayisha T A","Maelle Thouzery","Anurag Sarkar","Kasmita Singha","Souptik Das","Deepshikha Bhowmik","Sai Jaswanth Kumar","Neha N. Patil","Aditya Patnaik","Srikala Korukonda","Subraja S.H.R","Pawaki Verma","Riya Fernandes","Koustav Arandhara","Shlok Asgola"
+  ]}
+];
 
-    <!-- Construction Icons -->
-    <div class="flex items-center justify-center gap-6 mb-6 text-yellow-600">
-        <i class="fa-solid fa-helmet-safety text-3xl"></i>
-        <i class="fa-solid fa-person-digging text-4xl"></i>
-        <i class="fa-solid fa-screwdriver-wrench text-3xl"></i>
-    </div>
-
-    <!-- Work in Progress Image -->
-    <img
-        src="images/work-in-progress.png"
-        alt="Work in Progress"
-        class="w-48 sm:w-60 md:w-72 h-auto object-contain"
-    />
-
-    <!-- Message -->
-    <p class="text-sm text-slate-500 mt-5 text-center">
-        This page is currently under construction. Please check back soon.
-    </p>
-
-    <!-- Construction Divider -->
-    <div class="flex items-center gap-3 mt-6 text-yellow-600">
-        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
-        <div class="w-24 h-1 bg-yellow-500 rounded-full"></div>
-        <i class="fa-solid fa-road-barrier text-lg"></i>
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-
+// ==== DO NOT EDIT BELOW =====
+const heading = t => `<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;width:100%"><h3 class="font-bold text-slate-700" style="font-size:20px;margin:0;white-space:nowrap">${t}</h3><div style="display:flex;align-items:center;gap:3px"><div style="width:2px;height:15px;background-color:#96ADC5"></div><div style="height:3px;width:50px;background-color:#facc15"></div></div></div>`;
+const card = p => `<div class="bg-white p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm flex flex-col items-center">
+  <h4 class="font-bold text-slate-700" style="font-size:18px">${p.name}</h4>
+  <div style="background-color:#facc15;width:50px;height:3px;margin:8px 0 12px"></div>
+  ${p.email ? `<a class="alumni-email" href="mailto:${p.email}"><i class="fa-solid fa-envelope mr-1.5"></i>${p.email}</a>` : ""}
+  ${p.destination ? `<p class="text-[13px] text-slate-500 mt-3"><i class="fa-solid fa-briefcase mr-1.5 text-slate-400"></i>${p.destination}</p>` : ""}
+</div>`;
+document.getElementById("alumni-root").innerHTML = ALUMNI.map(g => `<section>${heading(g.title)}${
+  g.type === "card"
+    ? `<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">${g.people.map(card).join("")}</div>`
+    : `<ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-2 bg-white border border-slate-200 shadow-sm p-6 text-[14px] text-slate-600 list-decimal list-inside">${g.people.map(n => `<li>${n}</li>`).join("")}</ol>`
+}</section>`).join("");
+</script>
 </div>
 </section>
 </div>
@@ -126,7 +127,7 @@
 
 <!-- Footer -->
 
-<script src="js/navigation.js?v=3"></script>
+<script src="js/navigation.js?v=4"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/site-ui.js"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
