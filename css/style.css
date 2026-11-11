@@ -59,3 +59,35 @@ body {
             font-weight: 700;
             border-bottom: 2px solid #f59e0b;
         }
+
+
+/* =========================================================
+   NEW HEADER, MENU, HERO BANNER AND STICKY TOOLBAR
+   ========================================================= */
+#progress { position:fixed; top:0; left:0; height:3px; width:0; z-index:100; background:linear-gradient(90deg,#3b82f6,#10b981,#facc15,#ef4444); }
+
+#navbar { transition: background .3s, box-shadow .3s; }
+#navbar.scrolled { background:rgba(255,255,255,.82); backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%); box-shadow:0 8px 30px -12px rgba(6,15,31,.25); }
+.nav-link { position:relative; }
+.nav-link::after { content:""; position:absolute; left:12px; right:12px; bottom:2px; height:2px; background:#facc15; transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+.nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
+.nav-link.active { color:#a16207; }
+.btn-gold { background:linear-gradient(135deg,#facc15,#eab308); color:#0b1b33; font-weight:700; transition:transform .25s, box-shadow .25s; box-shadow:0 10px 30px -10px rgba(250,204,21,.6); }
+.btn-gold:hover { transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(250,204,21,.8); }
+
+.hero-bg { background:radial-gradient(900px 400px at 85% -20%, rgba(59,130,246,.28), transparent 60%),
+           radial-gradient(700px 350px at 0% 120%, rgba(250,204,21,.16), transparent 60%), #060f1f; }
+.grid-lines { background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:48px 48px; mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%); -webkit-mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%); }
+.grad-text { background:linear-gradient(100deg,#fde68a,#facc15 40%,#fb923c 75%,#fde68a); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 6s linear infinite; }
+@keyframes shine { to { background-position:200% center; } }
+@media (prefers-reduced-motion: reduce) { .grad-text, #navbar, .nav-link::after { animation:none !important; transition:none !important; } }
+
+/* Sticky filter / search toolbar (Members, Publications) */
+.toolbar-sticky { position:sticky; top:68px; z-index:40; background:rgba(255,255,255,.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; box-shadow:0 1px 2px rgba(15,23,42,.06); }
+.chip { padding:8px 16px; font-size:13px; font-weight:600; color:#334155; background:#fff; border:1px solid #cbd5e1; transition:all .25s; white-space:nowrap; cursor:pointer; }
+.chip:hover { border-color:#facc15; color:#a16207; }
+.chip.on { background:#0b1b33; color:#fff; border-color:#0b1b33; box-shadow:0 8px 20px -8px rgba(11,27,51,.6); }
+.chip .n { margin-left:6px; font-family:'JetBrains Mono',monospace; font-size:11px; opacity:.6; }
+.toolbar-field { border:1px solid #cbd5e1; background:#fff; font-size:14px; color:#1e293b; padding:10px 14px; transition:border-color .25s, box-shadow .25s; }
+.toolbar-field:focus { outline:none; box-shadow:0 0 0 3px rgba(250,204,21,.35); border-color:#eab308; }
