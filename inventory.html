@@ -186,6 +186,7 @@
 <select class="border border-r-0 border-slate-300 bg-white text-sm px-2 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="type">
 <option value="name">Name</option><option value="cas">CAS number</option><option value="barcode">Barcode</option><option value="smiles">Structure (SMILES)</option>
 </select>
+<button class="border border-r-0 border-slate-300 bg-white hover:bg-slate-100 text-slate-700 px-3 text-sm flex items-center gap-1.5 font-semibold" id="draw-structure" type="button" title="Draw a structure (Ketcher)" aria-label="Draw a structure"><i class="fa-solid fa-draw-polygon"></i><span class="hidden xl:inline">Draw</span></button>
 <label class="sr-only" for="query">Search query</label>
 <input class="flex-1 min-w-0 border border-slate-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" id="query" placeholder="Search name, CAS, barcode or SMILES…" required="" maxlength="160" autocomplete="off"/>
 <button class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-5 text-sm flex items-center gap-2" type="submit"><i class="fa-solid fa-magnifying-glass text-xs"></i><span class="hidden sm:inline">Search</span></button>
@@ -253,6 +254,33 @@
 </div>
 <p class="text-sm text-slate-600 mt-4">To add containers, import spreadsheets or modify orders, open <a class="text-blue-700 underline" href="https://app.cheminventory.net" rel="noopener noreferrer" target="_blank">ChemInventory</a>.</p>
 </section>
+<div class="hidden fixed inset-0 z-[120] bg-slate-900/60 backdrop-blur-sm items-center justify-center p-3" id="ketcher-modal" role="dialog" aria-modal="true" aria-labelledby="ketcher-title">
+<div class="bg-white w-full max-w-6xl shadow-2xl border border-slate-200 flex flex-col" style="height:min(92vh,92dvh,820px)">
+<div class="flex items-center justify-between px-4 py-3 bg-navy-900 text-white shrink-0">
+<h3 class="font-bold text-sm flex items-center gap-2" id="ketcher-title"><i class="fa-solid fa-draw-polygon text-amber-400"></i> Draw a structure to search</h3>
+<button class="px-2 text-slate-300 hover:text-white" id="ketcher-close" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="relative flex-1 min-h-0 bg-slate-100">
+<iframe class="absolute inset-0 w-full h-full border-0 bg-white" id="ketcher-frame" title="Ketcher structure editor"></iframe>
+<div class="hidden absolute inset-0 items-center justify-center p-6 text-center bg-white" id="ketcher-missing">
+<div class="max-w-md text-sm text-slate-700 space-y-3">
+<p class="font-bold text-slate-900">The structure editor is not installed on this site yet.</p>
+<p>Copy the Ketcher standalone release into the <code class="font-mono bg-slate-100 px-1">ketcher/</code> folder (see <code class="font-mono bg-slate-100 px-1">ketcher/README.md</code>). Meanwhile you can paste a SMILES string here:</p>
+<input class="w-full border border-slate-300 px-3 py-2 font-mono text-sm" id="ketcher-fallback-smiles" placeholder="e.g. CC(=O)O" autocomplete="off"/>
+</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-white text-slate-500 text-sm" id="ketcher-loading"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Loading editor…</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-2 px-4 py-3 border-t border-slate-200 bg-slate-50 shrink-0">
+<p class="text-xs text-slate-500" id="ketcher-note">Draw or paste a molecule, then search. Matching uses PubChem identification, not substructure search.</p>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-slate-300 bg-white hover:bg-slate-100 text-sm font-semibold" id="ketcher-cancel" type="button">Cancel</button>
+<button class="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-950 text-sm font-bold disabled:opacity-50" id="ketcher-use" type="button" disabled><i class="fa-solid fa-magnifying-glass mr-1.5 text-xs"></i>Search this structure</button>
+</div>
+</div>
+</div>
+</div>
+<style>#ketcher-modal:not(.hidden){display:flex}#ketcher-missing:not(.hidden){display:flex}body.ketcher-open{overflow:hidden}</style>
 <style>
 .inv-nav{display:flex;align-items:center;gap:.6rem;padding:.55rem .75rem;font-size:.85rem;font-weight:600;color:#475569;white-space:nowrap;text-align:left;flex:0 0 auto}
 .inv-nav:hover{background:#f1f5f9}.inv-nav.on{background:#0a2342;color:#fff}
