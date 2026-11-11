@@ -8,7 +8,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>Members | Hari Group</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css" rel="stylesheet"/>
+<link href="css/style.css?v=2" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -72,7 +72,6 @@
 </div>
 <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">Current <span class="grad-text">Members</span></h1>
 <p class="mt-4 max-w-2xl text-slate-300 leading-relaxed">The people behind the chemistry — researchers from across India, united by a passion for strained rings, light and electrons.</p>
-<div id="stats" class="mt-8 flex flex-wrap gap-x-10 gap-y-4"></div>
 </div>
 </section>
 
@@ -532,20 +531,8 @@ const members = [
             }));
           }
 
-          function renderStats() {
-            const stat = (n, l) => `<div><div class="text-3xl font-extrabold text-white"><span data-count="${n}">0</span><span class="text-amber-400">+</span></div><div class="font-mono text-[11px] tracking-[.18em] uppercase text-slate-400 mt-1">${l}</div></div>`;
-            const c = k => members.filter(m => m.section === k).length;
-            document.getElementById("stats").innerHTML =
-              stat(members.length, "Members") + stat(c("Postdoctoral Fellows"), "Postdocs") +
-              stat(c("Graduate Students"), "Graduate students") + stat(c("Master & Undergrad Students"), "MS & BS");
-            document.querySelectorAll("[data-count]").forEach(el => {
-              const t = +el.dataset.count; let v = 0; const step = Math.max(1, Math.ceil(t / 30));
-              const id = setInterval(() => { v = Math.min(t, v + step); el.textContent = v; if (v >= t) clearInterval(id); }, 35);
-            });
-          }
-
           document.getElementById("search").addEventListener("input", e => { teamQuery = e.target.value; renderMembers(); });
-          renderChips(); renderStats(); renderMembers();
+          renderChips(); renderMembers();
         </script>
 </div>
 </section>
@@ -554,8 +541,8 @@ const members = [
 
 <!-- Footer -->
 
-<script src="js/navigation.js"></script>
-<script src="js/hero.js"></script>
+<script src="js/navigation.js?v=2"></script>
+<script src="js/hero.js?v=2"></script>
 <script src="js/site-ui.js"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
