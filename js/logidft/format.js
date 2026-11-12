@@ -55,7 +55,14 @@
         lines.push(`Thermal correction to Enthalpy=${formatPad(file.thermalEnthalpyCorr)}`);
         lines.push(`Thermal correction to Gibbs Free Energy=${formatPad(file.thermalGibbsCorr)}`);
 
-        if (file.energySource === 'sp') lines.push('Final energies = HF (single-point log) + thermal correction (frequency log)');
+        {
+            const e = file.elecEnergy, g = file.thermalGibbsCorr, tot = file.sumElecThermalG;
+            const f6 = v => v.toFixed(6);
+            const first = file.energySource === 'sp' ? 'HF (single-point)' : 'HF (frequency job; no sp log paired)';
+            lines.push(e !== null && g !== null && tot !== null
+                ? `Final energies = ${first} + Thermal correction to Gibbs (frequency) = ${f6(e)} + ${f6(g)} = ${f6(tot)}`
+                : `Final energies = ${first} + Thermal correction to Gibbs (frequency) = N/A (thermal correction or electronic energy missing)`);
+        }
 
         // 4. Sums
         lines.push(`Sum of electronic and zero-point Energies=${formatPad(file.sumElecZpe)}`);

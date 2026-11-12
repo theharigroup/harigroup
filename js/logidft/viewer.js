@@ -23,9 +23,9 @@
         Si: '#e0b48c', Fe: '#e06633', Co: '#f090a0', Cu: '#c88033', Zn: '#7d80b0', Pd: '#006985', Pt: '#d0d0e0', Li: '#b27cf5'
     };
     // Ball radii (Å) – small H, mid C/N/O/B, large metals.
-    const BALL_RADIUS = { H: 0.3, C: 0.42, N: 0.44, O: 0.44, B: 0.44, Ni: 0.6, default: 0.5 };
+    const BALL_RADIUS = { H: 0.22, C: 0.32, N: 0.34, O: 0.34, B: 0.34, Ni: 0.48, default: 0.4 };
     const BOND_COLOR = '#2b2b2b';
-    const BOND_RADIUS = 0.17;
+    const BOND_RADIUS = 0.13;
 
     const STYLE_NAMES = ['ballstick', 'stick', 'sphere', 'wire'];
 
@@ -107,8 +107,8 @@
             const elements = Array.from(new Set(this.file.atoms.map(a => a.symbol)));
             elements.forEach(el => v.setStyle({ elem: el }, elementStyle(style, el)));
             if (this.state.hideH) v.setStyle({ elem: 'H' }, {});
-            // black outline around the shaded spheres/bonds (publication look); ignored by older 3Dmol builds
-            try { v.setViewStyle({ style: 'outline', color: 'black', width: 0.06 }); } catch (e) { /* optional */ }
+            // depth cue: atoms and bonds in the back fade towards the background (translucent look)
+            try { v.enableFog({ fogStart: 0.3, fogEnd: 1.5 }); } catch (e) { /* older 3Dmol builds */ }
         }
 
         clearLabels() {

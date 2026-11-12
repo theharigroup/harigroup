@@ -185,17 +185,6 @@
         if (failed.length) showToast(`Could not read: ${failed.join(', ')}`, 'error');
     }
 
-    function loadDemo() {
-        closeAllViewers();
-        state.logs = NS.buildSampleLogs().map(s => NS.parseDFTLog(s.fileName, s.text));
-        state.files = [];
-        rebuildSpecies();
-        state.files.forEach(f => { if (f.title === 'Reagent B') f.role = 'balance'; });
-        state.settings.refId = NS.groupStages(state.files)[0].key;
-        renderAll();
-        showToast('Loaded demo Gaussian log files!', 'success');
-    }
-
     // ------------------------------------------------------------------ rendering
 
     function renderAll() {
@@ -697,7 +686,6 @@
     }
 
     const ACTIONS = {
-        'load-demo': () => loadDemo(),
         'toggle-theme': () => {
             state.settings.theme = state.settings.theme === 'dark' ? 'light' : 'dark';
             applyTheme();
@@ -920,5 +908,5 @@
         renderAll();
     }
 
-    NS.UI = { init, state, handleFiles, loadDemo, renderAll };
+    NS.UI = { init, state, handleFiles, renderAll };
 })(typeof window !== 'undefined' ? window : globalThis);

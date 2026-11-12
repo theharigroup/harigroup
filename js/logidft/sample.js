@@ -125,7 +125,7 @@ ${coords}
         { name: 'TS-2',    scf: -387.571500, sp: -387.779100, zpe: 0.188900, tE: 0.199400, tH: 0.200344, tG: 0.153400, imag: 395.80, shift: 0.18 },
         // Product lost two carbons (C3 instead of C5): the profile adds "Reagent B" (C2) to balance atoms and electrons.
         { name: 'Product', scf: -311.650000, sp: -311.784000, zpe: 0.110000, tE: 0.118000, tH: 0.118944, tG: 0.080500, shift: 0.24, n: 3 },
-        { name: 'Reagent B', scf: -75.920000, sp: -75.990000, zpe: 0.045000, tE: 0.048000, tH: 0.048944, tG: 0.020500, shift: 0,
+        { name: 'Reagent-B', scf: -75.920000, sp: -75.990000, zpe: 0.045000, tE: 0.048000, tH: 0.048944, tG: 0.020500, shift: 0,
           coords: [[6, 0.0, 0.0, 0.0], [6, 1.34, 0.0, 0.0]] }
     ];
 
