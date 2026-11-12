@@ -118,14 +118,16 @@
 
 <!-- User Gadget 2: Chemical Inventory -->
 <div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm hover:shadow-md cursor-pointer"
-    onclick="window.location.href='inventory.html'"
+    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm cursor-not-allowed select-none"
+    aria-disabled="true"
+    title="Coming soon"
 >
 
 
-<p class="text-[13px] text-red-800 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
-        PRIVATE
+<p class="text-[13px] text-slate-300 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
+        BETA &bull; COMING SOON
     </p>
+    <div class="opacity-50 grayscale-[40%] pointer-events-none">
 
     <div class="viz viz-chem" role="img" aria-label="Animated chemical search with result">
 <div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">search.query</span></div>
@@ -149,9 +151,10 @@
     </p>
 
     <div class="icon-links text-justify" style="margin-top: 10px;">
-        <a href="inventory.html" aria-label="Visit Chemical Inventory">
+        <span aria-label="Chemical Inventory (coming soon)" class="cursor-not-allowed">
             <i class="fa-solid fa-globe"></i>
-        </a>
+        </span>
+    </div>
     </div>
 
 </div>
