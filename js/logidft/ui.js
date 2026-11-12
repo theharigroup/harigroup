@@ -21,11 +21,13 @@
         unit: 'kcal',            // key of NS.UNITS
         energyType: 'G',         // key of NS.ENERGY_TYPES
         showValues: true,
+        gridLines: true,
+        lineStyle: 'solid',     // 'solid' | 'dotted' | 'dashed'
         theme: 'light',
         tab: 'structures',
         refId: ''                // session only (ids are random per load)
     };
-    const PERSISTED = ['coordFormat', 'energyFormat', 'unit', 'energyType', 'showValues', 'theme', 'tab'];
+    const PERSISTED = ['coordFormat', 'energyFormat', 'unit', 'energyType', 'showValues', 'gridLines', 'lineStyle', 'theme', 'tab'];
     const VIEW_DEFAULTS = { style: 'ballstick', labels: 'none', hideH: false, bg: 'white', spin: false, measure: false };
     const MAX_OPEN_VIEWERS = 8; // browsers only allow ~16 WebGL contexts per page
 
@@ -196,19 +198,22 @@
     }
 
     function updateReferenceDropdown() {
-        const select = $('#refStructureSelect');
+        // two selects stay in sync: the options panel and the one next to Copy table / CSV
+        const selects = ['#refStructureSelect', '#refStructureSelectTable'].map(sel => $(sel)).filter(Boolean);
         const key = typeInfo().key;
         const stages = NS.groupStages(state.files);
-        select.innerHTML = '';
-        stages.forEach(st => {
-            const opt = doc.createElement('option');
-            const v = st.members.every(m => m[key] !== null) ? st.members.reduce((t, m) => t + m[key], 0) : null;
-            opt.value = st.key;
-            opt.textContent = `${st.label} (${typeInfo().symbol.slice(1)} = ${v !== null ? v.toFixed(6) : 'N/A'} Hartree)`;
-            select.appendChild(opt);
-        });
         if (!stages.some(st => st.key === state.settings.refId)) state.settings.refId = stages.length ? stages[0].key : '';
-        select.value = state.settings.refId;
+        selects.forEach(select => {
+            select.innerHTML = '';
+            stages.forEach(st => {
+                const opt = doc.createElement('option');
+                const v = st.members.every(m => m[key] !== null) ? st.members.reduce((t, m) => t + m[key], 0) : null;
+                opt.value = st.key;
+                opt.textContent = `${st.label} (${typeInfo().symbol.slice(1)} = ${v !== null ? v.toFixed(6) : 'N/A'} Hartree)`;
+                select.appendChild(opt);
+            });
+            select.value = state.settings.refId;
+        });
     }
 
     function renderSummary() {
@@ -259,16 +264,16 @@
         const toggle = (prop, icon, label, title) =>
             `<button type="button" class="btn btn-sm" data-action="v-toggle" data-prop="${prop}" aria-pressed="false" title="${title}"><i class="fa-solid ${icon}"></i> ${label}</button>`;
         const vib = file.imaginaryModes && file.imaginaryModes.length
-            ? `<button type="button" class="btn btn-sm btn-accent" data-action="v-vib" aria-pressed="false" title="Animate the imaginary vibrational mode (${file.imaginaryModes[0].freq.toFixed(1)} cm⁻¹)"><i class="fa-solid fa-wave-square"></i> <span data-role="vib-label">Animate TS mode</span></button><span class="sep"></span>`
+            ? `<button type="button" class="btn btn-sm btn-accent" data-action="v-vib" aria-pressed="false" title="Animate the imaginary vibrational mode (${file.imaginaryModes[0].freq.toFixed(1)} cm⁻¹)"><i class="fa-solid fa-wave-square"></i> <span data-role="vib-label">Animate TS Mode</span></button><span class="sep"></span>`
             : '';
         return `
             <div class="viewer-toolbar no-print">
                 <div class="seg" role="group" aria-label="Display style">
-                    ${styleBtn('ballstick', 'Ball &amp; stick')}${styleBtn('stick', 'Stick')}${styleBtn('sphere', 'Spacefill')}${styleBtn('wire', 'Wire')}
+                    ${styleBtn('ballstick', 'Ball &amp; Stick')}${styleBtn('stick', 'Stick')}${styleBtn('sphere', 'Spacefill')}${styleBtn('wire', 'Wire')}
                 </div>
                 <select data-change="v-labels" aria-label="Atom labels" title="Atom labels">
-                    <option value="none">No labels</option><option value="symbol">Symbols</option>
-                    <option value="number">Numbers</option><option value="both">Symbol + number</option>
+                    <option value="none">No Labels</option><option value="symbol">Symbols</option>
+                    <option value="number">Numbers</option><option value="both">Symbol + Number</option>
                 </select>
                 <select data-change="v-bg" aria-label="Background" title="Background">
                     <option value="dark">Dark</option><option value="light">Light</option><option value="white">White</option>
@@ -301,8 +306,8 @@
                 </div>
                 <div class="card-actions">
                     <span class="dg-badge hidden" data-role="dg"></span>
-                    <button type="button" class="btn btn-accent" data-action="toggle-viewer" ${hasAtoms ? '' : 'disabled title="No coordinates found in this file"'}><i class="fa-solid fa-cube"></i> 3D view</button>
-                    <button type="button" class="btn btn-primary" data-action="copy-si"><i class="fa-solid fa-copy"></i> Copy text</button>
+                    <button type="button" class="btn btn-accent" data-action="toggle-viewer" ${hasAtoms ? '' : 'disabled title="No coordinates found in this file"'}><i class="fa-solid fa-cube"></i> 3D View</button>
+                    <button type="button" class="btn btn-primary" data-action="copy-si"><i class="fa-solid fa-copy"></i> Copy Text</button>
                     <button type="button" class="icon-btn" data-action="remove" title="Remove file" aria-label="Remove file"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </header>
@@ -310,8 +315,8 @@
             <div class="stage-row no-print">
                 <label>Role
                     <select data-change="role" aria-label="Role in the reaction profile">
-                        <option value="stage"${file.role === 'stage' ? ' selected' : ''}>Profile stage</option>
-                        <option value="balance"${file.role === 'balance' ? ' selected' : ''}>Balancing species (reagent / by-product)</option>
+                        <option value="stage"${file.role === 'stage' ? ' selected' : ''}>Profile Stage</option>
+                        <option value="balance"${file.role === 'balance' ? ' selected' : ''}>Balancing Species (Reagent / By-Product)</option>
                     </select>
                 </label>
                 <label class="${file.role === 'balance' ? 'hidden' : ''}">Stage
@@ -406,7 +411,7 @@
 
         const head = `<thead><tr>
             <th>#</th><th>Structure</th><th>Type</th><th>N<sub>imag</sub></th>
-            <th title="HF / SCF energy of the single-point (sp) log">E<sub>sp</sub> (HF)</th><th>ZPE corr.</th><th>H corr.</th><th>G corr.</th>
+            <th title="HF / SCF energy of the single-point (sp) log">E<sub>sp</sub> (HF)</th><th>ZPE Corr.</th><th>H Corr.</th><th>G Corr.</th>
             <th>E + ZPE</th><th>H</th><th title="E(sp) + thermal correction to Gibbs free energy">G = E<sub>sp</sub> + G<sub>corr</sub></th>
             <th>Order</th></tr></thead>`;
 
@@ -422,8 +427,7 @@
                 <td class="num">${n6(f.thermalEnthalpyCorr)}</td><td class="num">${n6(f.thermalGibbsCorr)}</td>
                 <td class="num">${n6(f.sumElecZpe)}</td><td class="num">${n6(f.sumElecThermalH)}</td><td class="num">${n6(f.sumElecThermalG)}</td>
                 <td class="row-actions">
-                    <button type="button" data-action="move-up" ${i === 0 ? 'disabled' : ''} aria-label="Move up" title="Move up"><i class="fa-solid fa-chevron-up"></i></button>
-                    <button type="button" data-action="move-down" ${i === files.length - 1 ? 'disabled' : ''} aria-label="Move down" title="Move down"><i class="fa-solid fa-chevron-down"></i></button>
+                    <button type="button" class="drag-handle" data-drag aria-label="Drag to reorder (or use the up/down arrow keys)" title="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></button>
                 </td></tr>`;
         }).join('');
         $('#dataTable').innerHTML = head + `<tbody>${rows}</tbody>`;
@@ -435,7 +439,7 @@
             'balance-no-energy': 'a balancing species has no energy'
         };
         const sHead = `<thead><tr><th>Stage</th><th>Species</th><th>Composition</th>
-            <th>Σ ${esc(type.symbol.slice(1))} species (Ha)</th><th>Balancing species added</th><th>Balanced ${esc(type.symbol.slice(1))} (Ha)</th>
+            <th>Σ ${esc(type.symbol.slice(1))} Species (Ha)</th><th>Balancing Species Added</th><th>Balanced ${esc(type.symbol.slice(1))} (Ha)</th>
             <th>${esc(type.symbol)} (${U.label})</th></tr></thead>`;
         const sRows = profile.stages.map(st => {
             const ok = st.status === 'ok';
@@ -468,7 +472,9 @@
             unit: NS.UNITS[unit].label,
             symbol: type.symbol,
             digits: NS.UNITS[unit].digits,
-            showValues: state.settings.showValues
+            showValues: state.settings.showValues,
+            gridLines: state.settings.gridLines !== false,
+            lineStyle: state.settings.lineStyle
         });
         return { type, profile, built };
     }
@@ -484,7 +490,7 @@
         const note = $('#profileNote');
 
         if (!built.svg) {
-            chart.innerHTML = '<div class="empty"><h3>No values to plot</h3><p>No stage has a complete energy. Load each frequency log together with its single-point (sp) log.</p></div>';
+            chart.innerHTML = '<div class="empty"><h3>No Values to Plot</h3><p>No stage has a complete energy. Load each frequency log together with its single-point (sp) log.</p></div>';
             note.innerHTML = '';
             return;
         }
@@ -525,7 +531,7 @@
         const btn = $('[data-action="v-vib"]', card);
         if (!btn) return;
         btn.setAttribute('aria-pressed', String(on));
-        $('[data-role="vib-label"]', btn).textContent = on ? 'Stop animation' : 'Animate TS mode';
+        $('[data-role="vib-label"]', btn).textContent = on ? 'Stop Animation' : 'Animate TS Mode';
     }
 
     function openViewer(id) {
@@ -610,6 +616,8 @@
         $('#unitSelect').value = s.unit;
         $('#profileEnergyType').value = s.energyType;
         $('#showValues').checked = !!s.showValues;
+        $('#gridLines').checked = s.gridLines !== false;
+        $('#lineStyle').value = s.lineStyle || 'solid';
         showTab(s.tab, true);
     }
 
@@ -642,6 +650,82 @@
         renderStructures();
         renderTable();
         renderProfile();
+    }
+
+    /** Moves species `from` -> `to` (indexes) and refreshes everything that depends on the order. */
+    function reorderFile(from, to) {
+        if (from === to || from < 0 || to < 0 || to >= state.files.length) return;
+        const [item] = state.files.splice(from, 1);
+        state.files.splice(to, 0, item);
+        updateReferenceDropdown();
+        renderStructures();
+        renderTable();
+        renderProfile();
+        refreshBadges();
+    }
+
+    /** Smooth pointer-based drag & drop of the rows of the energy table (mouse, touch and pen). */
+    function initTableDrag() {
+        const table = $('#dataTable');
+        let drag = null;
+
+        table.addEventListener('pointerdown', e => {
+            const handle = e.target.closest('[data-drag]');
+            if (!handle || (e.pointerType === 'mouse' && e.button !== 0)) return;
+            const row = handle.closest('tr');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const from = rows.indexOf(row);
+            if (from < 0) return;
+            e.preventDefault();
+            handle.setPointerCapture(e.pointerId);
+            const rects = rows.map(r => r.getBoundingClientRect());
+            drag = { handle, row, rows, from, to: from, startY: e.clientY, h: rects[from].height, mids: rects.map(r => r.top + r.height / 2), top0: rects[from].top, pid: e.pointerId };
+            row.classList.add('is-dragging');
+            table.classList.add('is-sorting');
+            rows.forEach(r => { if (r !== row) r.classList.add('is-shifting'); });
+        });
+
+        table.addEventListener('pointermove', e => {
+            if (!drag || e.pointerId !== drag.pid) return;
+            const dy = e.clientY - drag.startY;
+            const min = -drag.from * drag.h, max = (drag.rows.length - 1 - drag.from) * drag.h;
+            const clamped = Math.max(min, Math.min(max, dy));
+            drag.row.style.transform = `translateY(${clamped}px)`;
+            const center = drag.top0 + drag.h / 2 + clamped;
+            let to = drag.from;
+            drag.mids.forEach((m, i) => { if (i < drag.from && center < m) to = Math.min(to, i); if (i > drag.from && center > m) to = Math.max(to, i); });
+            drag.to = to;
+            drag.rows.forEach((r, i) => {
+                if (r === drag.row) return;
+                let shift = 0;
+                if (drag.to < drag.from && i >= drag.to && i < drag.from) shift = drag.h;
+                if (drag.to > drag.from && i <= drag.to && i > drag.from) shift = -drag.h;
+                r.style.transform = shift ? `translateY(${shift}px)` : '';
+            });
+        });
+
+        const finish = e => {
+            if (!drag || (e && e.pointerId !== drag.pid)) return;
+            const d = drag;
+            drag = null;
+            try { d.handle.releasePointerCapture(d.pid); } catch (err) { /* already released */ }
+            d.rows.forEach(r => { r.style.transform = ''; r.classList.remove('is-dragging', 'is-shifting'); });
+            table.classList.remove('is-sorting');
+            reorderFile(d.from, d.to);
+        };
+        table.addEventListener('pointerup', finish);
+        table.addEventListener('pointercancel', finish);
+
+        // keyboard: arrow keys on the focused handle
+        table.addEventListener('keydown', e => {
+            const handle = e.target.closest('[data-drag]');
+            if (!handle || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return;
+            e.preventDefault();
+            const id = handle.closest('tr').dataset.id;
+            moveFile(id, e.key === 'ArrowUp' ? -1 : 1);
+            const again = $(`#dataTable tr[data-id="${id}"] [data-drag]`);
+            if (again) again.focus();
+        });
     }
 
     function sortFiles(mode) {
@@ -726,8 +810,6 @@
         'remove': (t, id) => removeFile(id),
 
         // table
-        'move-up': (t, id) => moveFile(id, -1),
-        'move-down': (t, id) => moveFile(id, 1),
         'copy-table': () => {
             if (!state.files.length) return;
             copyText(NS.buildTSV(state.files, currentProfile(), state.settings.unit, typeInfo().symbol), 'Copied energy table (tab-separated — paste into Excel)');
@@ -801,6 +883,7 @@
         'energy-format': t => { state.settings.energyFormat = t.value; refreshSIText(); saveSettings(); },
         'reference': t => {
             state.settings.refId = t.value;
+            ['#refStructureSelect', '#refStructureSelectTable'].forEach(sel => { const el = $(sel); if (el && el !== t) el.value = t.value; });
             refreshBadges();
             renderTable();
             renderProfile();
@@ -825,6 +908,8 @@
             f.stageLabel = t.value.trim();
             renderAll();
         },
+        'grid-lines': t => { state.settings.gridLines = t.checked; renderProfile(); saveSettings(); },
+        'line-style': t => { state.settings.lineStyle = t.value; renderProfile(); saveSettings(); },
         'show-values': t => { state.settings.showValues = t.checked; renderProfile(); saveSettings(); },
         'sort': t => { sortFiles(t.value); t.value = ''; },
         'title': (t, id) => {
@@ -847,6 +932,7 @@
     };
 
     function bindEvents() {
+        initTableDrag();
         doc.addEventListener('click', e => {
             const t = e.target.closest('[data-action]');
             if (!t || t.disabled) return;
