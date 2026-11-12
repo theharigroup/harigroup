@@ -65,7 +65,8 @@
 <section class="relative overflow-hidden text-white hero-bg py-16 sm:py-20">
 <div class="absolute inset-0 grid-lines"></div>
 <canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
-<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div>
 <div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-4">
 <a href="index.html" class="hover:underline">Home</a>
 <span>/</span>
@@ -74,9 +75,10 @@
 <span>LogiDFT</span>
 </div>
 <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight"><span class="grad-text">LogiDFT</span></h1>
-<div class="flex items-center gap-3 mt-6 no-print">
-<button type="button" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2.5 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" data-action="load-demo" title="Load demo structures (freq + sp logs)"><i class="fa-solid fa-flask-vial"></i> Load demo</button>
-<button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-10 h-10 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+</div>
+<div class="flex items-center gap-3 no-print">
+<a href="docs/LogiDFT_How_to_Use.pdf" target="_blank" rel="noopener" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-3 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" title="Step-by-step guide (PDF) using demo data"><i class="fa-solid fa-circle-question"></i> How to Use?</a>
+<button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-11 h-11 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
 </div>
 </div>
 </section>
@@ -186,7 +188,8 @@
                 <div class="empty-icon"><i class="fa-solid fa-file-lines"></i></div>
                 <h3>No DFT log files loaded yet</h3>
                 <p>Upload your log files above to generate Supporting Information text, inspect structures in 3D and plot the reaction energy profile.</p>
-                <button type="button" class="btn btn-primary" data-action="load-demo"><i class="fa-solid fa-flask-vial"></i> Try it with demo data</button>
+                <a class="btn btn-primary" href="docs/LogiDFT_How_to_Use.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-circle-question"></i> How to use LogiDFT (PDF)</a>
+                <a class="btn" href="docs/LogiDFT_demo_logs.zip" download><i class="fa-solid fa-download"></i> Demo log files</a>
             </div>
         </section>
 
@@ -251,15 +254,15 @@
 
 <script src="js/navigation.js?v=5"></script>
 <script src="js/hero.js?v=3"></script>
-<script src="js/logidft/data.js?v=2"></script>
-<script src="js/logidft/parser.js?v=2"></script>
-<script src="js/logidft/format.js?v=2"></script>
-<script src="js/logidft/species.js?v=2"></script>
-<script src="js/logidft/sample.js?v=2"></script>
-<script src="js/logidft/viewer.js?v=2"></script>
-<script src="js/logidft/profile.js?v=2"></script>
-<script src="js/logidft/ui.js?v=2"></script>
-<script src="js/logidft/app.js?v=2"></script>
+<script src="js/logidft/data.js?v=3"></script>
+<script src="js/logidft/parser.js?v=3"></script>
+<script src="js/logidft/format.js?v=3"></script>
+<script src="js/logidft/species.js?v=3"></script>
+<script src="js/logidft/sample.js?v=3"></script>
+<script src="js/logidft/viewer.js?v=3"></script>
+<script src="js/logidft/profile.js?v=3"></script>
+<script src="js/logidft/ui.js?v=3"></script>
+<script src="js/logidft/app.js?v=3"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
 <!-- Background Connected Hexagons -->
