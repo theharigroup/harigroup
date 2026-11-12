@@ -55,6 +55,8 @@
         lines.push(`Thermal correction to Enthalpy=${formatPad(file.thermalEnthalpyCorr)}`);
         lines.push(`Thermal correction to Gibbs Free Energy=${formatPad(file.thermalGibbsCorr)}`);
 
+        if (file.energySource === 'sp') lines.push('Final energies = HF (single-point log) + thermal correction (frequency log)');
+
         // 4. Sums
         lines.push(`Sum of electronic and zero-point Energies=${formatPad(file.sumElecZpe)}`);
         lines.push(`Sum of electronic and thermal Energies=${formatPad(file.sumElecThermalE)}`);
@@ -141,25 +143,35 @@
 
     const fix6 = v => (v !== null && v !== undefined ? v.toFixed(6) : '');
 
-    function tableRows(files, ref, unit) {
+    /** Stage object (from NS.buildProfile) that holds `species`, or null. */
+    function stageOf(profile, species) {
+        return profile ? (profile.stages.find(st => st.members.includes(species)) || null) : null;
+    }
+
+    function tableRows(files, profile, unit, symbol) {
         const u = NS.UNITS[unit].label;
-        const header = ['Structure Title', 'Filename', 'N_Imag', 'Electronic Energy (Ha)', 'ZPE (Ha)', 'H_corr (Ha)',
-            'G_corr (Ha)', 'E+ZPE (Ha)', 'H_total (Ha)', 'G_total (Ha)', `Rel ΔG (${u})`];
+        const sym = symbol || 'ΔG';
+        const header = ['Structure Title', 'Files (freq + sp)', 'Stage', 'N_Imag', 'E_elec HF from sp (Ha)', 'ZPE (Ha)', 'H_corr (Ha)',
+            'G_corr (Ha)', 'E+ZPE (Ha)', 'H_total (Ha)', 'G_total = E_sp + G_corr (Ha)',
+            'Balancing species added to stage', `Balanced stage energy (Ha)`, `Rel ${sym} (${u})`];
         const rows = files.map(f => {
-            const rel = relValue(f, ref, 'sumElecThermalG', unit);
-            return [f.title, f.fileName, f.imaginaryFreqCount, fix6(f.elecEnergy), fix6(f.zpeCorr),
+            const st = stageOf(profile, f);
+            const ok = st && st.status === 'ok' && st.rel !== null;
+            return [f.title, f.fileName, st ? st.label : '(balancing species)', f.imaginaryFreqCount, fix6(f.elecEnergy), fix6(f.zpeCorr),
                 fix6(f.thermalEnthalpyCorr), fix6(f.thermalGibbsCorr), fix6(f.sumElecZpe),
-                fix6(f.sumElecThermalH), fix6(f.sumElecThermalG), rel === null ? 'N/A' : rel.toFixed(NS.UNITS[unit].digits)];
+                fix6(f.sumElecThermalH), fix6(f.sumElecThermalG),
+                st && st.balance ? NS.balanceText(st.balance) : '', ok ? fix6(st.value) : '',
+                ok ? (st.rel * NS.UNITS[unit].factor).toFixed(NS.UNITS[unit].digits) : 'N/A'];
         });
         return [header].concat(rows);
     }
 
-    function buildCSV(files, ref, unit) {
-        return tableRows(files, ref, unit).map(r => r.map(csvCell).join(',')).join('\n');
+    function buildCSV(files, profile, unit, symbol) {
+        return tableRows(files, profile, unit, symbol).map(r => r.map(csvCell).join(',')).join('\n');
     }
 
-    function buildTSV(files, ref, unit) {
-        return tableRows(files, ref, unit).map(r => r.join('\t')).join('\n');
+    function buildTSV(files, profile, unit, symbol) {
+        return tableRows(files, profile, unit, symbol).map(r => r.join('\t')).join('\n');
     }
 
     // ---- geometry (Å and degrees) ----
@@ -191,6 +203,7 @@
     NS.toXYZ = toXYZ;
     NS.hillFormula = hillFormula;
     NS.relValue = relValue;
+    NS.stageOf = stageOf;
     NS.formatRel = formatRel;
     NS.csvCell = csvCell;
     NS.buildCSV = buildCSV;

@@ -16,12 +16,28 @@
         white: { color: '0xffffff', fg: '#0f172a', labelBg: '#f1f5f9' }
     };
 
-    const STYLES = {
-        ballstick: { stick: { radius: 0.14 }, sphere: { scale: 0.28 } },
-        stick:     { stick: { radius: 0.2 } },
-        sphere:    { sphere: { scale: 0.85 } },
-        wire:      { line: { linewidth: 2 } }
+    // Publication-style element colours (match the reference ball-and-stick figures).
+    const ELEMENT_COLORS = {
+        H: '#ffffff', C: '#8f8f8f', N: '#2f54eb', O: '#e5261f', B: '#f4a3b8', Ni: '#3cb043',
+        F: '#7ed957', Cl: '#2fbf2f', Br: '#a62929', I: '#7a1fa2', S: '#f2d02c', P: '#ff8c1a',
+        Si: '#e0b48c', Fe: '#e06633', Co: '#f090a0', Cu: '#c88033', Zn: '#7d80b0', Pd: '#006985', Pt: '#d0d0e0', Li: '#b27cf5'
     };
+    // Ball radii (Å) – small H, mid C/N/O/B, large metals.
+    const BALL_RADIUS = { H: 0.3, C: 0.42, N: 0.44, O: 0.44, B: 0.44, Ni: 0.6, default: 0.5 };
+    const BOND_COLOR = '#2b2b2b';
+    const BOND_RADIUS = 0.17;
+
+    const STYLE_NAMES = ['ballstick', 'stick', 'sphere', 'wire'];
+
+    function elementStyle(style, el) {
+        const color = ELEMENT_COLORS[el];
+        const col = color ? { color: color } : { colorscheme: 'Jmol' };
+        const r = BALL_RADIUS[el] || BALL_RADIUS.default;
+        if (style === 'stick') return { stick: Object.assign({ radius: 0.2 }, col) };
+        if (style === 'sphere') return { sphere: Object.assign({ scale: 0.8 }, col) };
+        if (style === 'wire') return { line: Object.assign({ linewidth: 2 }, col) };
+        return { stick: { radius: BOND_RADIUS, color: BOND_COLOR }, sphere: Object.assign({ radius: r }, col) };
+    }
 
     const MAX_LABELS = 400;
     const VIBRATION_FRAMES = 24;
@@ -87,8 +103,12 @@
 
         applyStyle() {
             const v = this.viewer;
-            v.setStyle({}, STYLES[this.state.style] || STYLES.ballstick);
+            const style = STYLE_NAMES.includes(this.state.style) ? this.state.style : 'ballstick';
+            const elements = Array.from(new Set(this.file.atoms.map(a => a.symbol)));
+            elements.forEach(el => v.setStyle({ elem: el }, elementStyle(style, el)));
             if (this.state.hideH) v.setStyle({ elem: 'H' }, {});
+            // black outline around the shaded spheres/bonds (publication look); ignored by older 3Dmol builds
+            try { v.setViewStyle({ style: 'outline', color: 'black', width: 0.06 }); } catch (e) { /* optional */ }
         }
 
         clearLabels() {

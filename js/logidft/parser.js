@@ -274,7 +274,8 @@
         const warnings = [];
         if (program === 'Unknown') warnings.push('Unrecognised log format (expected Gaussian or ORCA output)');
         if (elecEnergy === null) warnings.push('No electronic energy found');
-        if (thermo.sumElecThermalG === null) warnings.push('No thermochemistry found (was a frequency calculation run?)');
+        const hasThermo = thermo.thermalGibbsCorr !== null || thermo.sumElecThermalG !== null;
+        const jobType = hasThermo ? 'freq' : 'sp';
         if (atoms.length === 0) warnings.push('No Cartesian coordinates found');
         if (terminatedNormally === false) warnings.push('No normal-termination message found (job may be incomplete)');
 
@@ -284,6 +285,7 @@
             fileName: fileName,
             program: program,
             route: parseRoute(lines, program),
+            jobType: jobType,
             charge: charge,
             multiplicity: multiplicity,
             terminatedNormally: terminatedNormally,
