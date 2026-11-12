@@ -7,8 +7,8 @@
     const NS = (root.LogiDFT = root.LogiDFT || {});
 
     const PALETTES = {
-        dark:  { bg: 'none',    fg: '#e2e8f0', muted: '#94a3b8', grid: '#334155', axis: '#64748b', minimum: '#60a5fa', ts: '#fbbf24', link: '#cbd5e1' },
-        light: { bg: '#ffffff', fg: '#0f172a', muted: '#475569', grid: '#e2e8f0', axis: '#475569', minimum: '#1d4ed8', ts: '#b45309', link: '#111827' }
+        dark:  { bg: 'none',    fg: '#e2e8f0', muted: '#94a3b8', grid: '#334155', axis: '#64748b', minimum: '#60a5fa', ts: '#fbbf24', link: '#cbd5e1', branch: '#64748b' },
+        light: { bg: '#ffffff', fg: '#0f172a', muted: '#475569', grid: '#e2e8f0', axis: '#475569', minimum: '#1d4ed8', ts: '#b45309', link: '#111827', branch: '#9aa5b4' }
     };
 
     const FONT = "Inter, 'Segoe UI', Helvetica, Arial, sans-serif";
@@ -31,8 +31,9 @@
     }
 
     /**
-     * @param {Array<{label:string, value:number|null, isTS:boolean}>} items in plotting order
-     * @param {{palette:'dark'|'light', unit:string, symbol:string, digits:number, showValues:boolean}} opts
+     * @param {Array<{key?:string, label:string, value:number|null, isTS:boolean, parents?:string[]}>} items in list order.
+     *   `parents` = keys of the stages this one comes from (omit it for a simple sequential chain, [] = start).
+     * @param {{palette:'dark'|'light', unit:string, symbol:string, digits:number, showValues:boolean, gridLines:boolean, lineStyle:string}} opts
      * @returns {{svg:string, skipped:string[], plotted:number}}
      */
     function buildProfileSVG(items, opts) {
@@ -43,13 +44,39 @@
         const n = plotted.length;
         if (n === 0) return { svg: '', skipped, plotted: 0 };
 
-        const longest = plotted.reduce((m, it) => Math.max(m, it.label.length), 0);
-        const rotate = n > 5 || longest > 11;
+        // ---- graph: parents of every stage, and the column (number of steps from the start) of each stage
+        const idxByKey = new Map(plotted.map((it, i) => [it.key !== undefined ? it.key : it.label, i]));
+        const parentsOf = plotted.map((it, i) => {
+            const keys = it.parents !== undefined ? it.parents : (i > 0 ? [plotted[i - 1].key !== undefined ? plotted[i - 1].key : plotted[i - 1].label] : []);
+            return keys.map(k => idxByKey.get(k)).filter(j => j !== undefined && j !== i);
+        });
+        const childrenOf = plotted.map(() => []);
+        parentsOf.forEach((ps, i) => ps.forEach(j => childrenOf[j].push(i)));
+        const col = new Array(n).fill(-1);
+        const colOf = (i, stack) => {
+            if (col[i] >= 0) return col[i];
+            if (stack.has(i)) return 0;
+            stack.add(i);
+            let c = 0;
+            parentsOf[i].forEach(j => { c = Math.max(c, colOf(j, stack) + 1); });
+            stack.delete(i);
+            col[i] = c;
+            return c;
+        };
+        for (let i = 0; i < n; i++) colOf(i, new Set());
+        const ncol = Math.max(...col) + 1;
+        const colLabels = [];
+        for (let c = 0; c < ncol; c++) {
+            colLabels.push(plotted.map((it, i) => (col[i] === c ? it.label + (it.isTS ? ' ‡' : '') : null)).filter(Boolean).join(' / '));
+        }
 
-        const slot = Math.max(84, Math.min(140, 900 / n));
-        const margin = { top: 44, right: 28, bottom: (rotate ? 28 + Math.min(longest, 22) * 5.6 : 50) + 18, left: 74 };
-        const W = Math.round(margin.left + margin.right + slot * n);
-        const H = 438 + (rotate ? Math.min(longest, 22) * 4 : 0);
+        const longest = colLabels.reduce((m, t) => Math.max(m, t.length), 0);
+        const rotate = ncol > 5 || longest > 11;
+
+        const slot = Math.max(84, Math.min(140, 900 / ncol));
+        const margin = { top: 44, right: 28, bottom: (rotate ? 28 + Math.min(longest, 28) * 5.6 : 50) + 18, left: 74 };
+        const W = Math.round(margin.left + margin.right + slot * ncol);
+        const H = 438 + (rotate ? Math.min(longest, 28) * 4 : 0);
         const plotH = H - margin.top - margin.bottom;
 
         const values = plotted.map(it => it.value);
@@ -64,7 +91,16 @@
         const dotR = 6.5;
         const grid = opts.gridLines !== false;
         const dash = { solid: '', dotted: ' stroke-dasharray="0.1 6" stroke-linecap="round"', dashed: ' stroke-dasharray="8 5"' }[opts.lineStyle || 'solid'] || '';
-        const cx = i => margin.left + slot * (i + 0.5);
+        const cx = c => margin.left + slot * (c + 0.5);
+
+        // dots that share a column and would overlap are spread sideways
+        const xOff = new Array(n).fill(0);
+        for (let c = 0; c < ncol; c++) {
+            const members = plotted.map((it, i) => i).filter(i => col[i] === c).sort((a, b) => plotted[a].value - plotted[b].value);
+            const close = members.some((m, k) => k > 0 && Math.abs(y(plotted[m].value) - y(plotted[members[k - 1]].value)) < 26);
+            if (close) members.forEach((m, k) => { xOff[m] = (k - (members.length - 1) / 2) * 30; });
+        }
+        const px = i => cx(col[i]) + xOff[i];
 
         let g = '';
 
@@ -84,42 +120,52 @@
         g += `<line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
         g += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${W - margin.right}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
 
-        // smooth connecting curve through all points (flat tangent at every stage => rounded peaks and wells)
-        let d = `M${cx(0).toFixed(1)} ${y(plotted[0].value).toFixed(1)}`;
-        for (let i = 0; i < n - 1; i++) {
-            const x1 = cx(i), x2 = cx(i + 1);
-            const k = (x2 - x1) * 0.5;
-            d += ` C${(x1 + k).toFixed(1)} ${y(plotted[i].value).toFixed(1)} ${(x2 - k).toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)} ${x2.toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)}`;
-        }
-        if (n > 1) g += `<path d="${d}" fill="none" stroke="${pal.link}" stroke-width="2.2"${dash}/>`;
+        // smooth connecting curves (flat tangent at each stage => rounded peaks and wells).
+        // Main path = first connection of each parent/child; other branches are drawn grey underneath.
+        const edgePath = (j, i) => {
+            const x1 = px(j), x2 = px(i), k = (x2 - x1) * 0.5;
+            const y1 = y(plotted[j].value), y2 = y(plotted[i].value);
+            return `M${x1.toFixed(1)} ${y1.toFixed(1)} C${(x1 + k).toFixed(1)} ${y1.toFixed(1)} ${(x2 - k).toFixed(1)} ${y2.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+        };
+        const mainEdges = [], branchEdges = [];
+        parentsOf.forEach((ps, i) => ps.forEach((j, pos) => {
+            (childrenOf[j][0] === i && pos === 0 ? mainEdges : branchEdges).push(edgePath(j, i));
+        }));
+        branchEdges.forEach(d => { g += `<path d="${d}" fill="none" stroke="${pal.branch}" stroke-width="2.2"${dash}/>`; });
+        mainEdges.forEach(d => { g += `<path d="${d}" fill="none" stroke="${pal.link}" stroke-width="2.2"${dash}/>`; });
 
-        // dots (minima / transition states), values, stage labels
+        // dots (minima / transition states) and values
         plotted.forEach((it, i) => {
             const color = it.isTS ? pal.ts : pal.minimum;
             const yy = y(it.value);
             const unitText = it.value.toFixed(opts.digits);
             g += `<g><title>${esc(it.label)}: ${esc(unitText)} ${esc(opts.unit)}${it.isTS ? ' (transition state)' : ''}</title>`;
-            g += `<circle cx="${cx(i).toFixed(1)}" cy="${yy.toFixed(1)}" r="${dotR}" fill="${color}" stroke="${pal.bg === 'none' ? '#0f172a' : '#ffffff'}" stroke-width="1.5"/>`;
+            g += `<circle cx="${px(i).toFixed(1)}" cy="${yy.toFixed(1)}" r="${dotR}" fill="${color}" stroke="${pal.bg === 'none' ? '#0f172a' : '#ffffff'}" stroke-width="1.5"/>`;
             if (opts.showValues) {
-                const above = it.isTS || (i > 0 && i < n - 1 && it.value >= plotted[i - 1].value && it.value >= plotted[i + 1].value);
+                const around = parentsOf[i].concat(childrenOf[i]).map(j => plotted[j].value);
+                const above = it.isTS || (around.length > 0 && around.every(v => it.value >= v));
                 const ty = above ? yy - 14 : yy + 24;
-                g += `<text x="${cx(i).toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${color}">${esc(unitText)}</text>`;
+                g += `<text x="${px(i).toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${color}">${esc(unitText)}</text>`;
             }
-            const lx = cx(i).toFixed(1);
+            g += '</g>';
+        });
+
+        // stage labels under the axis (one per column)
+        colLabels.forEach((txt, c) => {
+            const lx = cx(c).toFixed(1);
             const ly = (margin.top + plotH + 20).toFixed(1);
-            const label = esc(it.label.length > 24 ? it.label.slice(0, 23) + '…' : it.label) + (it.isTS ? ' ‡' : '');
+            const label = esc(txt.length > 34 ? txt.slice(0, 33) + '…' : txt);
             if (rotate) {
                 g += `<text x="${lx}" y="${ly}" text-anchor="end" font-size="12" fill="${pal.fg}" transform="rotate(-35 ${lx} ${ly})">${label}</text>`;
             } else {
                 g += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="12.5" fill="${pal.fg}">${label}</text>`;
             }
-            g += '</g>';
         });
 
         // x axis title
         g += `<text x="${((margin.left + W - margin.right) / 2).toFixed(1)}" y="${(H - 10).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Reaction Coordinate</text>`;
 
-        // axis title
+        // y axis title
         const midY = margin.top + plotH / 2;
         g += `<text transform="translate(18 ${midY.toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Relative ${esc(opts.symbol.replace(/^Δ/, ''))} (${esc(opts.unit)})</text>`;
 
