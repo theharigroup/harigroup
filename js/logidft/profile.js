@@ -7,8 +7,8 @@
     const NS = (root.LogiDFT = root.LogiDFT || {});
 
     const PALETTES = {
-        dark:  { bg: 'none',    fg: '#e2e8f0', muted: '#94a3b8', grid: '#334155', axis: '#64748b', minimum: '#60a5fa', ts: '#fbbf24', link: '#64748b' },
-        light: { bg: '#ffffff', fg: '#0f172a', muted: '#475569', grid: '#e2e8f0', axis: '#475569', minimum: '#1d4ed8', ts: '#b45309', link: '#64748b' }
+        dark:  { bg: 'none',    fg: '#e2e8f0', muted: '#94a3b8', grid: '#334155', axis: '#64748b', minimum: '#60a5fa', ts: '#fbbf24', link: '#cbd5e1' },
+        light: { bg: '#ffffff', fg: '#0f172a', muted: '#475569', grid: '#e2e8f0', axis: '#475569', minimum: '#1d4ed8', ts: '#b45309', link: '#111827' }
     };
 
     const FONT = "Inter, 'Segoe UI', Helvetica, Arial, sans-serif";
@@ -47,9 +47,9 @@
         const rotate = n > 5 || longest > 11;
 
         const slot = Math.max(84, Math.min(140, 900 / n));
-        const margin = { top: 44, right: 28, bottom: rotate ? 28 + Math.min(longest, 22) * 5.6 : 50, left: 74 };
+        const margin = { top: 44, right: 28, bottom: (rotate ? 28 + Math.min(longest, 22) * 5.6 : 50) + 18, left: 74 };
         const W = Math.round(margin.left + margin.right + slot * n);
-        const H = 420 + (rotate ? Math.min(longest, 22) * 4 : 0);
+        const H = 438 + (rotate ? Math.min(longest, 22) * 4 : 0);
         const plotH = H - margin.top - margin.bottom;
 
         const values = plotted.map(it => it.value);
@@ -61,7 +61,9 @@
         const decimals = Math.max(0, Math.min(4, -Math.floor(Math.log10(axis.step))));
         const fmtTick = t => t.toFixed(decimals);
 
-        const halfBar = Math.min(36, slot * 0.3);
+        const dotR = 6.5;
+        const grid = opts.gridLines !== false;
+        const dash = { solid: '', dotted: ' stroke-dasharray="0.1 6" stroke-linecap="round"', dashed: ' stroke-dasharray="8 5"' }[opts.lineStyle || 'solid'] || '';
         const cx = i => margin.left + slot * (i + 0.5);
 
         let g = '';
@@ -69,7 +71,7 @@
         // grid + y ticks
         axis.ticks.forEach(t => {
             const yy = y(t).toFixed(1);
-            g += `<line x1="${margin.left}" y1="${yy}" x2="${W - margin.right}" y2="${yy}" stroke="${pal.grid}" stroke-width="1"/>`;
+            if (grid) g += `<line x1="${margin.left}" y1="${yy}" x2="${W - margin.right}" y2="${yy}" stroke="${pal.grid}" stroke-width="1"/>`;
             g += `<text x="${margin.left - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end" font-size="12" fill="${pal.muted}">${fmtTick(t)}</text>`;
         });
 
@@ -82,22 +84,25 @@
         g += `<line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
         g += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${W - margin.right}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
 
-        // connecting curves
+        // smooth connecting curve through all points (flat tangent at every stage => rounded peaks and wells)
+        let d = `M${cx(0).toFixed(1)} ${y(plotted[0].value).toFixed(1)}`;
         for (let i = 0; i < n - 1; i++) {
-            const x1 = cx(i) + halfBar, x2 = cx(i + 1) - halfBar, xm = (x1 + x2) / 2;
-            g += `<path d="M${x1.toFixed(1)} ${y(plotted[i].value).toFixed(1)} C${xm.toFixed(1)} ${y(plotted[i].value).toFixed(1)} ${xm.toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)} ${x2.toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)}" fill="none" stroke="${pal.link}" stroke-width="1.6" stroke-dasharray="6 4"/>`;
+            const x1 = cx(i), x2 = cx(i + 1);
+            const k = (x2 - x1) * 0.5;
+            d += ` C${(x1 + k).toFixed(1)} ${y(plotted[i].value).toFixed(1)} ${(x2 - k).toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)} ${x2.toFixed(1)} ${y(plotted[i + 1].value).toFixed(1)}`;
         }
+        if (n > 1) g += `<path d="${d}" fill="none" stroke="${pal.link}" stroke-width="2.2"${dash}/>`;
 
-        // bars, value labels, structure labels
+        // dots (minima / transition states), values, stage labels
         plotted.forEach((it, i) => {
             const color = it.isTS ? pal.ts : pal.minimum;
             const yy = y(it.value);
             const unitText = it.value.toFixed(opts.digits);
             g += `<g><title>${esc(it.label)}: ${esc(unitText)} ${esc(opts.unit)}${it.isTS ? ' (transition state)' : ''}</title>`;
-            g += `<line x1="${(cx(i) - halfBar).toFixed(1)}" y1="${yy.toFixed(1)}" x2="${(cx(i) + halfBar).toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${color}" stroke-width="4" stroke-linecap="round"/>`;
+            g += `<circle cx="${cx(i).toFixed(1)}" cy="${yy.toFixed(1)}" r="${dotR}" fill="${color}" stroke="${pal.bg === 'none' ? '#0f172a' : '#ffffff'}" stroke-width="1.5"/>`;
             if (opts.showValues) {
                 const above = it.isTS || (i > 0 && i < n - 1 && it.value >= plotted[i - 1].value && it.value >= plotted[i + 1].value);
-                const ty = above ? yy - 10 : yy + 20;
+                const ty = above ? yy - 14 : yy + 24;
                 g += `<text x="${cx(i).toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${color}">${esc(unitText)}</text>`;
             }
             const lx = cx(i).toFixed(1);
@@ -111,14 +116,17 @@
             g += '</g>';
         });
 
+        // x axis title
+        g += `<text x="${((margin.left + W - margin.right) / 2).toFixed(1)}" y="${(H - 10).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Reaction Coordinate</text>`;
+
         // axis title
         const midY = margin.top + plotH / 2;
         g += `<text transform="translate(18 ${midY.toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Relative ${esc(opts.symbol.replace(/^Δ/, ''))} (${esc(opts.unit)})</text>`;
 
         // legend
         const lgx = W - margin.right - 200;
-        g += `<line x1="${lgx}" y1="18" x2="${lgx + 20}" y2="18" stroke="${pal.minimum}" stroke-width="4" stroke-linecap="round"/><text x="${lgx + 26}" y="22" font-size="12" fill="${pal.muted}">minimum</text>`;
-        g += `<line x1="${lgx + 92}" y1="18" x2="${lgx + 112}" y2="18" stroke="${pal.ts}" stroke-width="4" stroke-linecap="round"/><text x="${lgx + 118}" y="22" font-size="12" fill="${pal.muted}">TS ‡ (imag. freq.)</text>`;
+        g += `<circle cx="${lgx + 6}" cy="18" r="5.5" fill="${pal.minimum}"/><text x="${lgx + 18}" y="22" font-size="12" fill="${pal.muted}">minimum</text>`;
+        g += `<circle cx="${lgx + 98}" cy="18" r="5.5" fill="${pal.ts}"/><text x="${lgx + 110}" y="22" font-size="12" fill="${pal.muted}">TS ‡ (imag. freq.)</text>`;
 
         const background = pal.bg === 'none' ? '' : `<rect width="${W}" height="${H}" fill="${pal.bg}"/>`;
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}" role="img" aria-label="Reaction energy profile">${background}${g}</svg>`;

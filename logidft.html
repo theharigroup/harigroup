@@ -16,7 +16,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="css/logidft.css?v=2" rel="stylesheet"/>
+<link href="css/logidft.css?v=11" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -78,6 +78,7 @@
 </div>
 <div class="flex items-center gap-3 no-print">
 <a href="docs/LogiDFT_How_to_Use.pdf" target="_blank" rel="noopener" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-3 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" title="Step-by-step guide (PDF) using demo data"><i class="fa-solid fa-circle-question"></i> How to Use?</a>
+<button type="button" id="privacyInfoBtn" class="relative bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-amber-300 w-11 h-11 rounded-sm flex items-center justify-center transition" aria-haspopup="dialog" aria-controls="privacyModal" aria-label="Privacy information" title="Is my data safe?"><i class="fa-solid fa-circle-info"></i><span class="absolute -top-1 -right-1 flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span></span></button>
 <button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-11 h-11 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
 </div>
 </div>
@@ -94,16 +95,17 @@
                 <input type="file" id="fileInput" multiple accept=".log,.out,.txt,.output" class="visually-hidden">
                 <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <h3>Drop your DFT calculation log files here</h3>
-                <p>Load each frequency log together with its single-point log (e.g. <code>name.log</code> + <code>name_sp.log</code>) — they are paired automatically and G = HF(sp) + thermal correction. Files are parsed locally in your browser — nothing is uploaded.</p>
+                <p>Load each frequency log together with its single-point log (e.g. <code>name.log</code> + <code>name_sp.log</code>) — they are paired automatically and G = HF(sp) + thermal correction.</p>
+                <p class="privacy-note"><i class="fa-solid fa-lock"></i> Files are parsed locally in your browser &mdash; nothing is uploaded.</p>
                 <span class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Browse log files</span>
                 <div class="dropzone-busy" aria-hidden="true"><span class="spinner"></span><span id="busyText">Parsing…</span></div>
             </div>
 
             <div class="panel options">
-                <h3 class="panel-title"><i class="fa-solid fa-sliders"></i> Parsing &amp; output options</h3>
+                <h3 class="panel-title"><i class="fa-solid fa-sliders"></i> Parsing &amp; Output Options</h3>
 
                 <div class="field">
-                    <label>Coordinate labeling</label>
+                    <label>Coordinate Labeling</label>
                     <div class="seg" role="group" aria-label="Coordinate labeling">
                         <button type="button" id="optAtomicNum" data-action="set-coord" data-value="atomic" aria-pressed="true">Atomic Num (6)</button>
                         <button type="button" id="optSymbol" data-action="set-coord" data-value="symbol" aria-pressed="false">Symbol (C)</button>
@@ -111,7 +113,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="energyLabelFormat">E_elec label format</label>
+                    <label for="energyLabelFormat">E_elec Label Format</label>
                     <select id="energyLabelFormat" data-change="energy-format">
                         <option value="HF">Electronic energy:   HF=-387.598184 (Standard)</option>
                         <option value="E_DFT">Electronic energy:   E(DFT)=-387.598184</option>
@@ -121,9 +123,9 @@
 
                 <div class="field-row">
                     <div class="field">
-                        <label for="refStructureSelect">Reference structure for ΔG</label>
+                        <label for="refStructureSelect">Reference Structure for ΔG</label>
                         <select id="refStructureSelect" data-change="reference">
-                            <option value="">None (absolute Hartree only)</option>
+                            <option value="">None (Absolute Hartree Only)</option>
                         </select>
                     </div>
                     <div class="field field-narrow">
@@ -137,45 +139,46 @@
                 </div>
 
                 <div class="panel-actions">
-                    <button type="button" class="btn btn-success grow" id="copyAllBtn" data-action="copy-all"><i class="fa-solid fa-copy"></i> Copy all SI text</button>
+                    <button type="button" class="btn btn-success grow" id="copyAllBtn" data-action="copy-all"><i class="fa-solid fa-copy"></i> Copy All SI Text</button>
                     <button type="button" class="btn btn-icon" data-action="download-all" title="Download concatenated .txt" aria-label="Download concatenated .txt"><i class="fa-solid fa-download"></i></button>
                     <button type="button" class="btn btn-icon" data-action="export-csv" title="Export energy table as CSV" aria-label="Export energy table as CSV"><i class="fa-solid fa-file-csv text-ok"></i></button>
-                    <button type="button" class="btn btn-danger" data-action="clear-all"><i class="fa-solid fa-trash-can"></i> Clear all</button>
+                    <button type="button" class="btn btn-danger" data-action="clear-all"><i class="fa-solid fa-trash-can"></i> Clear All</button>
                 </div>
             </div>
         </section>
 
-        <!-- Summary banner -->
-        <section id="summaryBanner" class="panel summary hidden no-print" aria-label="Summary">
-            <div class="stat"><span class="stat-label">Loaded files</span><span id="statFileCount" class="stat-value text-accent">0</span></div>
-            <div class="stat"><span class="stat-label">TS structures</span><span id="statTSCount" class="stat-value text-warn">0</span></div>
-            <div class="stat stat-wide"><span class="stat-label">Lowest-energy structure (G)</span><span id="statLowestG" class="stat-value stat-value-sm text-ok">--</span></div>
-            <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
-        </section>
-
-        <!-- Tabs -->
-        <nav class="tabs no-print" role="tablist" aria-label="Views">
-            <button type="button" role="tab" class="tab" data-action="tab" data-value="structures" aria-selected="true"><i class="fa-solid fa-cube"></i> Structures</button>
-            <button type="button" role="tab" class="tab" data-action="tab" data-value="profile" aria-selected="false"><i class="fa-solid fa-chart-line"></i> Energy profile</button>
-            <button type="button" role="tab" class="tab" data-action="tab" data-value="table" aria-selected="false"><i class="fa-solid fa-table"></i> Energy table</button>
-        </nav>
+        <!-- Sticky bar: file information (left, once files are loaded) + view tabs and Copy all SI text (right) -->
+        <div id="stickyBar" class="sticky-bar no-print">
+            <div id="summaryBanner" class="summary hidden" aria-label="Summary">
+                <div class="stat"><span class="stat-label">Loaded Files</span><span id="statFileCount" class="stat-value text-accent">0</span></div>
+                <div class="stat"><span class="stat-label">TS Structures</span><span id="statTSCount" class="stat-value text-warn">0</span></div>
+                <div class="stat stat-wide"><span class="stat-label">Lowest-Energy Structure (G)</span><span id="statLowestG" class="stat-value stat-value-sm text-ok">--</span></div>
+                <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
+            </div>
+            <nav class="tabs" role="tablist" aria-label="Views">
+                <button type="button" role="tab" class="tab" data-action="tab" data-value="structures" aria-selected="true"><i class="fa-solid fa-cube"></i> Structures</button>
+                <button type="button" role="tab" class="tab" data-action="tab" data-value="table" aria-selected="false"><i class="fa-solid fa-table"></i> Energy Table</button>
+                <button type="button" role="tab" class="tab" data-action="tab" data-value="profile" aria-selected="false"><i class="fa-solid fa-chart-line"></i> Energy Profile</button>
+                <button type="button" class="btn btn-success sticky-only" id="stickyCopyAll" data-action="copy-all"><i class="fa-regular fa-copy"></i> Copy All SI Text</button>
+            </nav>
+        </div>
 
         <!-- ===== Structures tab ===== -->
         <section id="tab-structures" class="tab-panel" role="tabpanel">
             <div id="structuresToolbar" class="toolbar hidden no-print">
                 <div class="search">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="filterInput" placeholder="Filter structures by name…" aria-label="Filter structures by name" autocomplete="off">
+                    <input type="search" id="filterInput" placeholder="Filter Structures by Name…" aria-label="Filter structures by name" autocomplete="off">
                 </div>
                 <select id="sortSelect" data-change="sort" aria-label="Sort structures">
                     <option value="">Sort…</option>
-                    <option value="name">By name (A→Z)</option>
-                    <option value="g">By free energy (low→high)</option>
-                    <option value="e">By electronic energy (low→high)</option>
+                    <option value="name">By Name (A→Z)</option>
+                    <option value="g">By Free Energy (Low→High)</option>
+                    <option value="e">By Electronic Energy (Low→High)</option>
                 </select>
                 <div class="grow"></div>
-                <button type="button" class="btn" data-action="expand-all"><i class="fa-solid fa-expand"></i> Open all 3D views</button>
-                <button type="button" class="btn" data-action="collapse-all"><i class="fa-solid fa-compress"></i> Close all</button>
+                <button type="button" class="btn" data-action="expand-all"><i class="fa-solid fa-expand"></i> Open All 3D Views</button>
+                <button type="button" class="btn" data-action="collapse-all"><i class="fa-solid fa-compress"></i> Close All</button>
             </div>
 
             <div id="resultsContainer" class="results"></div>
@@ -186,7 +189,7 @@
 
             <div id="emptyState" class="empty">
                 <div class="empty-icon"><i class="fa-solid fa-file-lines"></i></div>
-                <h3>No DFT log files loaded yet</h3>
+                <h3>No DFT Log Files Loaded Yet</h3>
                 <p>Upload your log files above to generate Supporting Information text, inspect structures in 3D and plot the reaction energy profile.</p>
                 <a class="btn btn-primary" href="docs/LogiDFT_How_to_Use.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-circle-question"></i> How to use LogiDFT (PDF)</a>
                 <a class="btn" href="docs/LogiDFT_demo_logs.zip" download><i class="fa-solid fa-download"></i> Demo log files</a>
@@ -200,24 +203,33 @@
                     <div class="field-inline">
                         <label for="profileEnergyType">Energy</label>
                         <select id="profileEnergyType" data-change="energy-type">
-                            <option value="G">Gibbs free energy (G)</option>
+                            <option value="G">Gibbs Free Energy (G)</option>
                             <option value="H">Enthalpy (H)</option>
                             <option value="E0">Electronic + ZPE (E₀)</option>
-                            <option value="E">Electronic energy (E)</option>
+                            <option value="E">Electronic Energy (E)</option>
                         </select>
                     </div>
-                    <label class="check"><input type="checkbox" id="showValues" data-change="show-values" checked> Show values</label>
+                    <div class="field-inline">
+                        <label for="lineStyle">Line Style</label>
+                        <select id="lineStyle" data-change="line-style">
+                            <option value="solid">Solid</option>
+                            <option value="dashed">Dashed</option>
+                            <option value="dotted">Dotted</option>
+                        </select>
+                    </div>
+                    <label class="check"><input type="checkbox" id="gridLines" data-change="grid-lines" checked> Grid Lines</label>
+                    <label class="check"><input type="checkbox" id="showValues" data-change="show-values" checked> Show Values</label>
                     <div class="grow"></div>
                     <button type="button" class="btn" data-action="profile-svg"><i class="fa-solid fa-file-code"></i> Save SVG</button>
                     <button type="button" class="btn" data-action="profile-png"><i class="fa-solid fa-image"></i> Save PNG</button>
                 </div>
                 <p id="profileNote" class="note"></p>
                 <div id="profileChart" class="profile-chart"></div>
-                <p class="note note-small">Structures are plotted in the order of the energy table (use the arrows there to reorder). Exports use a white background and are ready for papers and slides.</p>
+                <p class="note note-small">Structures are plotted in the order of the energy table (drag the rows there to reorder). Exports use a white background and are ready for papers and slides.</p>
             </div>
             <div id="profileEmpty" class="empty hidden">
                 <div class="empty-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <h3>Nothing to plot yet</h3>
+                <h3>Nothing to Plot Yet</h3>
                 <p>Load log files that contain frequency (thermochemistry) data to see the energy profile.</p>
             </div>
         </section>
@@ -226,18 +238,21 @@
         <section id="tab-table" class="tab-panel hidden" role="tabpanel">
             <div class="panel" id="tablePanel">
                 <div class="toolbar toolbar-flush no-print">
-                    <h3 class="panel-title panel-title-flush"><i class="fa-solid fa-table"></i> Energies (Hartree) &amp; relative values</h3>
+                    <h3 class="panel-title panel-title-flush"><i class="fa-solid fa-table"></i> Energies (Hartree) &amp; Relative Values</h3>
                     <div class="grow"></div>
-                    <button type="button" class="btn" data-action="copy-table"><i class="fa-solid fa-copy"></i> Copy table</button>
+                    <label class="table-ref" for="refStructureSelectTable">Reference Structure for ΔG
+                        <select id="refStructureSelectTable" data-change="reference" aria-label="Reference structure for ΔG"></select>
+                    </label>
+                    <button type="button" class="btn" data-action="copy-table"><i class="fa-solid fa-copy"></i> Copy Table</button>
                     <button type="button" class="btn" data-action="export-csv"><i class="fa-solid fa-file-csv"></i> CSV</button>
                 </div>
                 <div class="table-wrap"><table class="data" id="dataTable"></table></div>
-                <h3 class="panel-title" style="margin-top:22px"><i class="fa-solid fa-scale-balanced"></i> Balanced stages (same atoms &amp; electrons as the reference)</h3>
+                <h3 class="panel-title" style="margin-top:22px"><i class="fa-solid fa-scale-balanced"></i> Balanced Stages (Same Atoms &amp; Electrons as the Reference)</h3>
                 <div class="table-wrap"><table class="data" id="stageTable"></table></div>
             </div>
             <div id="tableEmpty" class="empty hidden">
                 <div class="empty-icon"><i class="fa-solid fa-table"></i></div>
-                <h3>No data yet</h3>
+                <h3>No Data Yet</h3>
                 <p>Load log files to see their energies side by side.</p>
             </div>
         </section>
@@ -260,8 +275,8 @@
 <script src="js/logidft/species.js?v=3"></script>
 <script src="js/logidft/sample.js?v=3"></script>
 <script src="js/logidft/viewer.js?v=3"></script>
-<script src="js/logidft/profile.js?v=3"></script>
-<script src="js/logidft/ui.js?v=3"></script>
+<script src="js/logidft/profile.js?v=5"></script>
+<script src="js/logidft/ui.js?v=7"></script>
 <script src="js/logidft/app.js?v=3"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
@@ -317,5 +332,48 @@
 </footer>
 
 
+
+<div id="privacyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm no-print" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+<div class="bg-white text-slate-800 rounded-sm shadow-2xl w-full max-w-md p-6 relative">
+<button type="button" id="privacyClose" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-sm" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+<div class="flex items-center gap-3 mb-3">
+<span class="w-10 h-10 flex items-center justify-center rounded-sm bg-emerald-100 text-emerald-700"><i class="fa-solid fa-lock"></i></span>
+<h2 id="privacyTitle" class="text-lg font-bold">Your Data Stays with You</h2>
+</div>
+<p class="text-base font-semibold text-slate-900 mb-2">Files are parsed locally in your browser &mdash; nothing is uploaded.</p>
+<p class="text-sm text-slate-600 leading-relaxed">Your Gaussian/ORCA log files and all results are processed entirely on your own computer. LogiDFT has no upload, no server-side storage and no login, so your unpublished data never leaves your device. Closing or refreshing the page clears everything; only display preferences (theme, units) are remembered in your browser.</p>
+<button type="button" id="privacyOk" class="mt-5 w-full bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2.5 rounded-sm font-semibold text-sm">Got It</button>
+</div>
+</div>
+<script>
+(function () {
+    var btn = document.getElementById('privacyInfoBtn'), modal = document.getElementById('privacyModal');
+    if (!btn || !modal) return;
+    function open() { modal.classList.remove('hidden'); document.getElementById('privacyOk').focus(); }
+    function close() { modal.classList.add('hidden'); btn.focus(); }
+    btn.addEventListener('click', open);
+    document.getElementById('privacyClose').addEventListener('click', close);
+    document.getElementById('privacyOk').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+})();
+</script>
+<script>
+(function () {
+    var bar = document.getElementById('stickyBar');
+    if (!bar) return;
+    var ticking = false;
+    function update() {
+        ticking = false;
+        var header = document.getElementById('navbar');
+        var top = header ? header.getBoundingClientRect().height : 68;
+        bar.classList.toggle('is-stuck', bar.getBoundingClientRect().top <= top + 1 && window.scrollY > 0);
+    }
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    update();
+})();
+</script>
 </body>
 </html>

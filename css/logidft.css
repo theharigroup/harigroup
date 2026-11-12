@@ -205,14 +205,16 @@
 .logidft-app .dropzone:focus-visible { border-color: var(--accent); }
 .logidft-app .dropzone.drag-over { border-color: var(--accent); background: var(--accent-soft); }
 .logidft-app .dropzone h3 { font-size: 15.5px; font-weight: 650; }
-.logidft-app .dropzone p { font-size: 12px; color: var(--muted); max-width: 480px; }
-.logidft-app .dropzone-icon { width: 56px; height: 56px; display: grid; place-items: center;  border-radius: 1px; background: var(--accent-soft); color: var(--accent-text); font-size: 24px; transition: transform 0.25s; }
+.logidft-app .dropzone p { font-size: 13.5px; line-height: 1.6; color: var(--text); max-width: 560px; }
+.logidft-app .dropzone p code { font-size: 12.5px; }
+.logidft-app .dropzone .privacy-note { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--accent-text); background: var(--accent-soft); padding: 8px 14px; border-radius: 1px; }
+.logidft-app .dropzone-icon { width: 56px; height: 56px; display: grid; place-items: center;  border-radius: 1px; background: transparent; color: var(--accent-text); font-size: 44px; transition: transform 0.25s; }
 .logidft-app .dropzone:hover .dropzone-icon { transform: scale(1.1); }
 .logidft-app .dropzone-busy { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; gap: 10px;  border-radius: 1px; background: color-mix(in srgb, var(--surface) 88%, transparent); font-weight: 600; }
 .logidft-app .dropzone.is-busy .dropzone-busy { display: flex; }
 .logidft-app .spinner { width: 18px; height: 18px;  border-radius: 1px; border: 3px solid var(--border-strong); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.logidft-app .summary { display: flex; flex-wrap: wrap; gap: 14px 0; padding: 14px 18px; }
+.logidft-app .summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 0; padding: 0; }
 .logidft-app .stat { display: flex; flex-direction: column; padding: 0 24px; border-left: 1px solid var(--border); }
 .logidft-app .stat:first-child { padding-left: 0; border-left: 0; }
 .logidft-app .stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
@@ -223,8 +225,8 @@
 .logidft-app .stat { padding: 0 14px; }
 .logidft-app .stat:first-child { padding-left: 0; }
 }
-.logidft-app .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-.logidft-app .tab { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font-weight: 600; font-size: 13px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+.logidft-app .tabs { display: flex; align-items: center; gap: 4px; overflow-x: auto; margin-left: auto; }
+.logidft-app .tab { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font-weight: 600; font-size: 13px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
 .logidft-app .tab:hover { color: var(--text); }
 .logidft-app .tab[aria-selected="true"] { color: var(--accent-text); border-bottom-color: var(--accent); }
 .logidft-app .tab-panel { display: flex; flex-direction: column; gap: 16px; }
@@ -350,3 +352,41 @@
 .logidft-app .stage-row input { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); padding: 4px 8px; font-size: 12px; min-width: 0; }
 .logidft-app .stage-row input { width: 170px; }
 .logidft-app .stage-formula { margin-left: auto; font-family: var(--mono); }
+
+/* Structures toolbar: white bar with bordered fields/buttons (same look as the Members page navigating menu) */
+.logidft-app #structuresToolbar { background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(15, 23, 42, .06); padding: 12px 14px; gap: 12px; }
+.logidft-app #structuresToolbar .search input,
+.logidft-app #structuresToolbar select { background: #fff; border: 1px solid #cbd5e1; color: #1e293b; font-size: 13.5px; padding: 9px 12px; transition: border-color .25s, box-shadow .25s; }
+.logidft-app #structuresToolbar .search input { padding-left: 32px; }
+.logidft-app #structuresToolbar .search i { color: #94a3b8; }
+.logidft-app #structuresToolbar .search input:focus,
+.logidft-app #structuresToolbar select:focus { outline: none; box-shadow: 0 0 0 3px rgba(250, 204, 21, .35); border-color: #eab308; }
+.logidft-app #structuresToolbar .btn { background: #fff; border: 1px solid #cbd5e1; color: #334155; font-size: 13px; padding: 9px 16px; transition: all .25s; }
+.logidft-app #structuresToolbar .btn:hover { border-color: #facc15; color: #a16207; background: #fff; }
+.logidft-app[data-theme="dark"] #structuresToolbar { background: var(--surface); border-color: var(--border); }
+.logidft-app[data-theme="dark"] #structuresToolbar .search input,
+.logidft-app[data-theme="dark"] #structuresToolbar select,
+.logidft-app[data-theme="dark"] #structuresToolbar .btn { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
+
+/* Single sticky bar: file info (left) + view tabs (right); Copy all SI text appears only while stuck */
+.logidft-app .sticky-bar { position: sticky; top: 68px; z-index: 40; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; background: #f1f5f9; padding: 10px 16px; border-bottom: 1px solid #e2e8f0; transition: box-shadow .2s; }
+.logidft-app .sticky-bar.is-stuck { box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .25); }
+.logidft-app .sticky-bar .sticky-only { display: none; margin-left: 10px; }
+.logidft-app .sticky-bar.is-stuck .sticky-only { display: inline-flex; }
+.logidft-app[data-theme="dark"] .sticky-bar { background: var(--surface-2); border-bottom-color: var(--border); }
+.logidft-app .sticky-bar .stat:first-child { padding-left: 0; }
+@media (max-width: 767px) { .logidft-app .sticky-bar { top: 64px; } .logidft-app .sticky-bar .tabs { margin-left: 0; width: 100%; } }
+.logidft-app .sticky-bar .summary { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; }
+.logidft-app .sticky-bar .stat { padding: 0 18px; white-space: nowrap; }
+.logidft-app .sticky-bar .stat-wide { flex: 0 1 auto; }
+@media (max-width: 1023px) { .logidft-app .sticky-bar .summary { flex-wrap: wrap; } }
+.logidft-app .table-ref { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--text-2); }
+.logidft-app .table-ref select { max-width: 280px; }
+
+/* Drag & drop reordering of the energy table */
+.logidft-app table.data .drag-handle { cursor: grab; padding: 6px 10px; font-size: 14px; background: none; border: 0; color: var(--muted); touch-action: none; user-select: none; }
+.logidft-app table.data .drag-handle:hover, .logidft-app table.data .drag-handle:focus-visible { color: var(--text); background: var(--surface-3); }
+.logidft-app table.data.is-sorting, .logidft-app table.data.is-sorting .drag-handle { cursor: grabbing; user-select: none; }
+.logidft-app table.data tbody tr.is-shifting { transition: transform .18s ease; }
+.logidft-app table.data tbody tr.is-dragging { position: relative; z-index: 5; background: var(--surface); box-shadow: 0 8px 22px -6px rgba(15, 23, 42, .35); outline: 1px solid var(--accent); }
+.logidft-app table.data tbody tr.is-dragging td { background: var(--surface); }
