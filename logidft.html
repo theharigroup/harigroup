@@ -16,7 +16,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="css/logidft.css?v=1" rel="stylesheet"/>
+<link href="css/logidft.css?v=2" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -74,16 +74,15 @@
 <span>LogiDFT</span>
 </div>
 <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight"><span class="grad-text">LogiDFT</span></h1>
+<div class="flex items-center gap-3 mt-6 no-print">
+<button type="button" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2.5 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" data-action="load-demo" title="Load demo structures (freq + sp logs)"><i class="fa-solid fa-flask-vial"></i> Load demo</button>
+<button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-10 h-10 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+</div>
 </div>
 </section>
 <!-- Main Tool Workspace (LogiDFT app from theharigroup/dft-log-parser) -->
-<section class="py-8 bg-slate-50 min-h-screen">
-<div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-<div class="logidft-app" data-theme="light">
-<div class="no-print" style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px;">
-<button type="button" class="btn" data-action="load-demo" title="Load five demo structures"><i class="fa-solid fa-flask-vial"></i><span class="hide-sm">Load demo</span></button>
-<button type="button" class="btn" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
-</div>
+<section class="logidft-app" data-theme="light">
+<div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <div class="main">
 
         <!-- Upload & settings -->
@@ -93,7 +92,7 @@
                 <input type="file" id="fileInput" multiple accept=".log,.out,.txt,.output" class="visually-hidden">
                 <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <h3>Drop your DFT calculation log files here</h3>
-                <p>Supports multiple Gaussian (<code>.log</code>, <code>.out</code>) or ORCA output files at once. Files are parsed locally in your browser — nothing is uploaded.</p>
+                <p>Load each frequency log together with its single-point log (e.g. <code>name.log</code> + <code>name_sp.log</code>) — they are paired automatically and G = HF(sp) + thermal correction. Files are parsed locally in your browser — nothing is uploaded.</p>
                 <span class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Browse log files</span>
                 <div class="dropzone-busy" aria-hidden="true"><span class="spinner"></span><span id="busyText">Parsing…</span></div>
             </div>
@@ -230,6 +229,8 @@
                     <button type="button" class="btn" data-action="export-csv"><i class="fa-solid fa-file-csv"></i> CSV</button>
                 </div>
                 <div class="table-wrap"><table class="data" id="dataTable"></table></div>
+                <h3 class="panel-title" style="margin-top:22px"><i class="fa-solid fa-scale-balanced"></i> Balanced stages (same atoms &amp; electrons as the reference)</h3>
+                <div class="table-wrap"><table class="data" id="stageTable"></table></div>
             </div>
             <div id="tableEmpty" class="empty hidden">
                 <div class="empty-icon"><i class="fa-solid fa-table"></i></div>
@@ -243,7 +244,6 @@
         <span id="toastMsg">Notification message</span>
     </div>
 </div>
-</div>
 </section>
 </div>
 </main>
@@ -251,14 +251,15 @@
 
 <script src="js/navigation.js?v=5"></script>
 <script src="js/hero.js?v=3"></script>
-<script src="js/logidft/data.js?v=1"></script>
-<script src="js/logidft/parser.js?v=1"></script>
-<script src="js/logidft/format.js?v=1"></script>
-<script src="js/logidft/sample.js?v=1"></script>
-<script src="js/logidft/viewer.js?v=1"></script>
-<script src="js/logidft/profile.js?v=1"></script>
-<script src="js/logidft/ui.js?v=1"></script>
-<script src="js/logidft/app.js?v=1"></script>
+<script src="js/logidft/data.js?v=2"></script>
+<script src="js/logidft/parser.js?v=2"></script>
+<script src="js/logidft/format.js?v=2"></script>
+<script src="js/logidft/species.js?v=2"></script>
+<script src="js/logidft/sample.js?v=2"></script>
+<script src="js/logidft/viewer.js?v=2"></script>
+<script src="js/logidft/profile.js?v=2"></script>
+<script src="js/logidft/ui.js?v=2"></script>
+<script src="js/logidft/app.js?v=2"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
 <!-- Background Connected Hexagons -->

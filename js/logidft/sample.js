@@ -39,13 +39,14 @@
         const first = spec.imag ? -spec.imag : 120.45;
         const modeA = spec.imag ? TS_MODE : OTHER_MODE;
 
-        const coords = BASE_COORDS.map((c, i) => {
+        const base = spec.coords || BASE_COORDS.slice(0, spec.n || 5);
+        const coords = base.map((c, i) => {
             const dx = (spec.shift || 0) * (i % 2 ? 1 : -1);
             return `${String(i + 1).padStart(7)}${String(c[0]).padStart(11)}${'0'.padStart(11)}` +
                 `${(c[1] + dx).toFixed(6).padStart(16)}${(c[2] - dx / 2).toFixed(6).padStart(12)}${(c[3] + dx / 3).toFixed(6).padStart(12)}`;
         }).join('\n');
 
-        const modeRows = modeA.map((v, i) => vecRow(i + 1, v, OTHER_MODE[(i + 1) % 5], OTHER_MODE[(i + 2) % 5])).join('\n');
+        const modeRows = modeA.slice(0, base.length).map((v, i) => vecRow(i + 1, v, OTHER_MODE[(i + 1) % 5], OTHER_MODE[(i + 2) % 5])).join('\n');
 
         return ` Entering Gaussian System, Link 0=g16
  %chk=${spec.name}.chk
@@ -89,15 +90,51 @@ ${coords}
 `;
     }
 
+    /** Single-point log (higher level of theory): energy + geometry, no thermochemistry. */
+    function makeSpLog(spec) {
+        const base = spec.coords || BASE_COORDS.slice(0, spec.n || 5);
+        const coords = base.map((c, i) => {
+            const dx = (spec.shift || 0) * (i % 2 ? 1 : -1);
+            return `${String(i + 1).padStart(7)}${String(c[0]).padStart(11)}${'0'.padStart(11)}` +
+                `${(c[1] + dx).toFixed(6).padStart(16)}${(c[2] - dx / 2).toFixed(6).padStart(12)}${(c[3] + dx / 3).toFixed(6).padStart(12)}`;
+        }).join('\n');
+        return ` Entering Gaussian System, Link 0=g16
+ ----------------------------------------------------------------------
+ # M06/def2TZVP geom=check guess=read
+ ----------------------------------------------------------------------
+ Charge =  0 Multiplicity = 1
+
+ Standard orientation:
+ ---------------------------------------------------------------------
+ Center     Atomic      Atomic             Coordinates (Angstroms)
+ Number     Number       Type             X           Y           Z
+ ---------------------------------------------------------------------
+${coords}
+ ---------------------------------------------------------------------
+
+ SCF Done:  E(RM06) =  ${spec.sp.toFixed(9)}     A.U. after   10 cycles
+ Normal termination of Gaussian 16 at Mon Jan  1 00:00:00 2026.
+`;
+    }
+
+    // `scf`/thermal values belong to the frequency job; `sp` is the single-point HF/SCF energy.
     const SPECS = [
-        { name: 'Int-I',   scf: -387.598184, zpe: 0.190989, tE: 0.200771, tH: 0.201715, tG: 0.156195, shift: 0 },
-        { name: 'TS-1',    scf: -387.562100, zpe: 0.188500, tE: 0.199100, tH: 0.200044, tG: 0.152100, imag: 482.15, shift: 0.06 },
-        { name: 'Int-II',  scf: -387.589000, zpe: 0.190200, tE: 0.200300, tH: 0.201244, tG: 0.155000, shift: 0.12 },
-        { name: 'TS-2',    scf: -387.571500, zpe: 0.188900, tE: 0.199400, tH: 0.200344, tG: 0.153400, imag: 395.80, shift: 0.18 },
-        { name: 'Product', scf: -387.615000, zpe: 0.192000, tE: 0.201500, tH: 0.202444, tG: 0.158100, shift: 0.24 }
+        { name: 'Int-I',   scf: -387.598184, sp: -387.801250, zpe: 0.190989, tE: 0.200771, tH: 0.201715, tG: 0.156195, shift: 0 },
+        { name: 'TS-1',    scf: -387.562100, sp: -387.769420, zpe: 0.188500, tE: 0.199100, tH: 0.200044, tG: 0.152100, imag: 482.15, shift: 0.06 },
+        { name: 'Int-II',  scf: -387.589000, sp: -387.793800, zpe: 0.190200, tE: 0.200300, tH: 0.201244, tG: 0.155000, shift: 0.12 },
+        { name: 'TS-2',    scf: -387.571500, sp: -387.779100, zpe: 0.188900, tE: 0.199400, tH: 0.200344, tG: 0.153400, imag: 395.80, shift: 0.18 },
+        // Product lost two carbons (C3 instead of C5): the profile adds "Reagent B" (C2) to balance atoms and electrons.
+        { name: 'Product', scf: -311.650000, sp: -311.784000, zpe: 0.110000, tE: 0.118000, tH: 0.118944, tG: 0.080500, shift: 0.24, n: 3 },
+        { name: 'Reagent B', scf: -75.920000, sp: -75.990000, zpe: 0.045000, tE: 0.048000, tH: 0.048944, tG: 0.020500, shift: 0,
+          coords: [[6, 0.0, 0.0, 0.0], [6, 1.34, 0.0, 0.0]] }
     ];
 
     NS.buildSampleLogs = function () {
-        return SPECS.map(spec => ({ fileName: spec.name + '.log', text: makeLog(spec) }));
+        const out = [];
+        SPECS.forEach(spec => {
+            out.push({ fileName: spec.name + '.log', text: makeLog(spec) });
+            out.push({ fileName: spec.name + '_sp.log', text: makeSpLog(spec) });
+        });
+        return out;
     };
 })(typeof window !== 'undefined' ? window : globalThis);
