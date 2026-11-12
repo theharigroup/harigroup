@@ -258,4 +258,58 @@ async function loadPanels() {
     $('count-watchlists').textContent = n || '';
   } catch (e) { $('watchlists').replaceChildren(h('p', { class: 'text-rose-600', text: 'Unable to load watchlists.' })); }
 }
+
+// ---------- Ketcher structure editor (popup) ----------
+// Ketcher's ready-to-run standalone app is served from ./ketcher/ (same origin, so we can read its API).
+const KETCHER_URL = 'ketcher/index.html';
+const kf = { ready: false, loaded: false, missing: false };
+function ketcherApi() { try { return $('ketcher-frame').contentWindow.ketcher || null; } catch { return null; } }
+function setKetcherReady() {
+  kf.ready = true; $('ketcher-loading').classList.add('hidden'); $('ketcher-use').disabled = false;
+  const k = ketcherApi(), q = $('query').value.trim();
+  if (k && q && $('type').value === 'smiles') k.setMolecule(q).catch(() => {});   // reopen with the current SMILES
+}
+async function openKetcher() {
+  $('ketcher-modal').classList.remove('hidden'); document.body.classList.add('ketcher-open');
+  if (kf.loaded) { if (kf.ready) setKetcherReady(); return; }
+  kf.loaded = true;
+  try {
+    const r = await fetch(KETCHER_URL, { method: 'HEAD', cache: 'no-store' });
+    const type = r.headers.get('content-type') || '';
+    if (!r.ok || !type.includes('html')) throw new Error('missing');
+  } catch {
+    kf.missing = true; kf.loaded = false;
+    $('ketcher-loading').classList.add('hidden'); $('ketcher-missing').classList.remove('hidden'); $('ketcher-frame').classList.add('hidden');
+    $('ketcher-use').disabled = false; $('ketcher-fallback-smiles').value = $('type').value === 'smiles' ? $('query').value : '';
+    $('ketcher-fallback-smiles').focus();
+    return;
+  }
+  $('ketcher-frame').src = KETCHER_URL;
+  setTimeout(() => { if (!kf.ready && !ketcherApi()) $('ketcher-loading').textContent = 'The editor is taking a while to load…'; }, 15000);
+}
+function closeKetcher() { $('ketcher-modal').classList.add('hidden'); document.body.classList.remove('ketcher-open'); }
+window.addEventListener('message', e => {
+  if (e.source === $('ketcher-frame').contentWindow && e.data && e.data.eventType === 'init') setKetcherReady();
+});
+$('draw-structure').addEventListener('click', openKetcher);
+$('ketcher-close').addEventListener('click', closeKetcher);
+$('ketcher-cancel').addEventListener('click', closeKetcher);
+$('ketcher-modal').addEventListener('mousedown', e => { if (e.target === $('ketcher-modal')) closeKetcher(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('ketcher-modal').classList.contains('hidden')) closeKetcher(); });
+$('ketcher-use').addEventListener('click', async () => {
+  let smiles = '';
+  if (kf.missing) smiles = $('ketcher-fallback-smiles').value.trim();
+  else {
+    const k = ketcherApi();
+    if (!k) return;
+    try { smiles = (await k.getSmiles()).trim(); } catch { smiles = ''; }
+  }
+  if (!smiles) { $('ketcher-note').textContent = kf.missing ? 'Enter a SMILES string first.' : 'Draw a structure first.'; return; }
+  if (smiles.length > 350) { $('ketcher-note').textContent = 'That structure is too large to search (350 character SMILES limit).'; return; }
+  $('type').value = 'smiles'; $('type').dispatchEvent(new Event('change'));
+  $('query').value = smiles;
+  closeKetcher();
+  $('search').requestSubmit();
+});
+
 refresh();
