@@ -391,3 +391,34 @@
 .logidft-app table.data tbody tr.is-dragging { position: relative; z-index: 5; background: var(--surface); box-shadow: 0 8px 22px -6px rgba(15, 23, 42, .35); outline: 1px solid var(--accent); }
 .logidft-app table.data tbody tr.is-dragging td { background: var(--surface); }
 .logidft-app[data-theme="dark"] .card-head { background: var(--surface-2); }
+
+/* Energy profile: chart + "Species / Comes From" table */
+.logidft-app .profile-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (min-width: 1100px) { .logidft-app .profile-layout { grid-template-columns: minmax(0, 1fr) 320px; } }
+.logidft-app .profile-side { display: flex; flex-direction: column; gap: 10px; }
+.logidft-app .profile-side table.data th, .logidft-app .profile-side table.data td { white-space: normal; }
+.logidft-app .from-cell { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.logidft-app .from-chip { display: inline-flex; align-items: center; gap: 4px; background: #e0e7ff; color: #3730a3; padding: 2px 8px; font-size: 12px; }
+.logidft-app .from-chip.auto { background: var(--surface-2); color: var(--muted); border: 1px dashed var(--border-strong); }
+.logidft-app .from-chip.start { background: #d1fae5; color: #047857; }
+.logidft-app .from-chip button { background: none; border: 0; color: inherit; cursor: pointer; font-size: 14px; line-height: 1; padding: 0 0 0 2px; }
+.logidft-app .from-cell select { font-size: 12px; padding: 2px 4px; max-width: 120px; }
+
+/* Full-screen mode: covers the site header, hero banner and footer; every tool is a tab in the top bar */
+.logidft-app .full-only { display: none; }
+.logidft-app .icon-btn { padding: 9px 12px; }
+body.lt-full-open { overflow: hidden; }
+.logidft-app.is-full { position: fixed; inset: 0; z-index: 200; overflow: auto; background: var(--bg); }
+.logidft-app.is-full > div { max-width: none !important; padding-top: 0 !important; padding-bottom: 20px !important; }
+.logidft-app.is-full .full-only { display: inline-flex; }
+.logidft-app.is-full .sticky-bar { top: 0; box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .25); margin-bottom: 18px; }
+.logidft-app.is-full .sticky-bar .sticky-only { display: inline-flex; }
+.logidft-app.is-full .top-grid { display: none; }
+.logidft-app.is-full.show-files .top-grid { display: grid; }
+.logidft-app.is-full .toast { z-index: 300; }
+.logidft-app.is-full .profile-chart { overflow: auto; }
+/* the page-view wrapper has an entry animation (transform) that would trap a fixed overlay */
+body.lt-full-open .page-view, body.lt-full-open main { transform: none !important; animation: none !important; filter: none !important; will-change: auto !important; opacity: 1 !important; }
+.logidft-app.is-full .sticky-bar { order: -1; }
+.logidft-app.is-full .main { padding: 0 16px 24px; }
+.logidft-app.is-full .sticky-bar { margin: 0 -16px 0; padding-left: 32px; padding-right: 32px; }

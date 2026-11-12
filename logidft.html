@@ -16,7 +16,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="css/logidft.css?v=12" rel="stylesheet"/>
+<link href="css/logidft.css?v=14" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -77,9 +77,10 @@
 <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight"><span class="grad-text">LogiDFT</span></h1>
 </div>
 <div class="flex items-center gap-3 no-print">
+<button type="button" data-action="toggle-full" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-11 h-11 rounded-sm flex items-center justify-center transition" aria-label="Open full-screen mode" title="Full-screen mode (hides header, hero and footer)"><i class="fa-solid fa-expand"></i></button>
 <a href="docs/LogiDFT_How_to_Use.pdf" target="_blank" rel="noopener" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-3 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" title="Step-by-step guide (PDF) using demo data"><i class="fa-solid fa-circle-question"></i> How to Use?</a>
 <button type="button" id="privacyInfoBtn" class="relative bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-amber-300 w-11 h-11 rounded-sm flex items-center justify-center transition" aria-haspopup="dialog" aria-controls="privacyModal" aria-label="Privacy information" title="Is my data safe?"><i class="fa-solid fa-circle-info"></i><span class="absolute -top-1 -right-1 flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span></span></button>
-<button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-11 h-11 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+<button type="button" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white w-11 h-11 rounded-sm flex items-center justify-center transition" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="theme-icon fa-solid fa-moon" id="themeIcon"></i></button>
 </div>
 </div>
 </section>
@@ -156,10 +157,13 @@
                 <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
             </div>
             <nav class="tabs" role="tablist" aria-label="Views">
+                <button type="button" role="tab" class="tab full-only" data-action="tab" data-value="files" aria-selected="false"><i class="fa-solid fa-upload"></i> Upload &amp; Options</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="structures" aria-selected="true"><i class="fa-solid fa-cube"></i> Structures</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="table" aria-selected="false"><i class="fa-solid fa-table"></i> Energy Table</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="profile" aria-selected="false"><i class="fa-solid fa-chart-line"></i> Energy Profile</button>
                 <button type="button" class="btn btn-success sticky-only" id="stickyCopyAll" data-action="copy-all"><i class="fa-regular fa-copy"></i> Copy All SI Text</button>
+                <button type="button" class="btn icon-btn full-only" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="theme-icon fa-solid fa-moon"></i></button>
+                <button type="button" class="btn icon-btn full-only" data-action="toggle-full" aria-label="Exit full-screen mode" title="Exit full-screen mode"><i class="fa-solid fa-compress"></i></button>
             </nav>
         </div>
 
@@ -224,7 +228,14 @@
                     <button type="button" class="btn" data-action="profile-png"><i class="fa-solid fa-image"></i> Save PNG</button>
                 </div>
                 <p id="profileNote" class="note"></p>
-                <div id="profileChart" class="profile-chart"></div>
+                <div class="profile-layout">
+                    <div id="profileChart" class="profile-chart"></div>
+                    <aside class="profile-side">
+                        <div class="table-wrap"><table class="data" id="profileTable"></table></div>
+                        <button type="button" class="btn hidden" id="profileTableReset" data-action="parents-reset"><i class="fa-solid fa-rotate-left"></i> Reset to Sequential</button>
+                        <p class="note note-small">Choose where each stage comes from to draw branched paths; stages with the same number of steps share a column.</p>
+                    </aside>
+                </div>
                 <p class="note note-small">Structures are plotted in the order of the energy table (drag the rows there to reorder). Exports use a white background and are ready for papers and slides.</p>
             </div>
             <div id="profileEmpty" class="empty hidden">
@@ -275,8 +286,8 @@
 <script src="js/logidft/species.js?v=3"></script>
 <script src="js/logidft/sample.js?v=3"></script>
 <script src="js/logidft/viewer.js?v=3"></script>
-<script src="js/logidft/profile.js?v=5"></script>
-<script src="js/logidft/ui.js?v=7"></script>
+<script src="js/logidft/profile.js?v=6"></script>
+<script src="js/logidft/ui.js?v=9"></script>
 <script src="js/logidft/app.js?v=3"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">

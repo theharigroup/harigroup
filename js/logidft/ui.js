@@ -32,6 +32,8 @@
     const MAX_OPEN_VIEWERS = 8; // browsers only allow ~16 WebGL contexts per page
 
     const state = {
+        parents: {},          // stage key -> keys of the stages it comes from (override of the sequential default)
+        full: false,          // full-screen mode
         logs: [],             // raw parsed log files
         files: [],            // species built from the logs (freq + sp pairs); everything below renders these
         viewers: new Map(),   // file id -> MolViewer (insertion order = open order)
@@ -458,14 +460,62 @@
 
     // ---- energy profile ----
 
+    /** Plotted stages in order + effective "comes from" keys (explicit choice, otherwise the previous plotted stage). */
+    function stageGraph(profile) {
+        const plotted = profile.stages.filter(st => st.status === 'ok' && st.rel !== null);
+        const keys = new Set(plotted.map(st => st.key));
+        const parents = {};
+        plotted.forEach((st, i) => {
+            const own = state.parents[st.key];
+            parents[st.key] = own !== undefined
+                ? own.filter(k => keys.has(k) && k !== st.key)
+                : (i > 0 ? [plotted[i - 1].key] : []);
+        });
+        return { plotted, parents, auto: plotted.map(st => state.parents[st.key] === undefined) };
+    }
+
+    /** True when `ancestor` is reachable from `key` by following "comes from" links (prevents loops). */
+    function isAncestor(graph, ancestor, key, seen) {
+        seen = seen || new Set();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return (graph.parents[key] || []).some(p => p === ancestor || isAncestor(graph, ancestor, p, seen));
+    }
+
+    function renderProfileTable(profile) {
+        const box = $('#profileTable');
+        if (!box) return;
+        const graph = stageGraph(profile);
+        const byKey = new Map(graph.plotted.map(st => [st.key, st]));
+        const head = '<thead><tr><th>Species</th><th>Comes From</th></tr></thead>';
+        const rows = graph.plotted.map((st, i) => {
+            const auto = graph.auto[i];
+            const chips = graph.parents[st.key].map(k => `<span class="from-chip${auto ? ' auto' : ''}">${esc(byKey.get(k).label)}${auto ? '' : `<button type="button" data-action="parent-remove" data-parent="${esc(k)}" aria-label="Remove ${esc(byKey.get(k).label)}">&times;</button>`}</span>`).join('')
+                || '<span class="from-chip start">Start</span>';
+            const options = graph.plotted
+                .filter(o => o.key !== st.key && !graph.parents[st.key].includes(o.key) && !isAncestor(graph, st.key, o.key))
+                .map(o => `<option value="${esc(o.key)}">${esc(o.label)}</option>`).join('');
+            return `<tr data-id="${esc(st.key)}">
+                <td>${esc(st.label)}${st.isTS ? ' <span class="tag tag-ts">TS</span>' : ''}</td>
+                <td><div class="from-cell">${chips}
+                    <select data-change="parent-add" aria-label="Add a stage that ${esc(st.label)} comes from"><option value="">+ Add</option>${graph.parents[st.key].length ? '<option value="__start">Start (no parent)</option>' : ''}${options}</select></div></td></tr>`;
+        }).join('');
+        box.innerHTML = head + `<tbody>${rows}</tbody>`;
+        const reset = $('#profileTableReset');
+        if (reset) reset.classList.toggle('hidden', Object.keys(state.parents).length === 0);
+    }
+
     function profileData(palette) {
         const type = typeInfo();
         const unit = state.settings.unit;
         const profile = currentProfile();
+        const graph = stageGraph(profile);
         const items = profile.stages.map(st => ({
+            key: st.key,
             label: st.label,
             value: st.status === 'ok' && st.rel !== null ? st.rel * NS.UNITS[unit].factor : null,
-            isTS: st.isTS
+            isTS: st.isTS,
+            parents: graph.parents[st.key]
         }));
         const built = NS.buildProfileSVG(items, {
             palette: palette,
@@ -489,6 +539,7 @@
         const chart = $('#profileChart');
         const note = $('#profileNote');
 
+        renderProfileTable(profile);
         if (!built.svg) {
             chart.innerHTML = '<div class="empty"><h3>No Values to Plot</h3><p>No stage has a complete energy. Load each frequency log together with its single-point (sp) log.</p></div>';
             note.innerHTML = '';
@@ -604,8 +655,7 @@
         const theme = state.settings.theme;
         const appRoot = $('.logidft-app') || doc.documentElement;
         appRoot.setAttribute('data-theme', theme);
-        const icon = $('#themeIcon');
-        if (icon) icon.className = 'fa-solid ' + (theme === 'dark' ? 'fa-sun' : 'fa-moon');
+        $$('.theme-icon').forEach(icon => { icon.className = 'theme-icon fa-solid ' + (theme === 'dark' ? 'fa-sun' : 'fa-moon'); });
     }
 
     function syncSettingsUI() {
@@ -622,12 +672,35 @@
     }
 
     function showTab(name, skipSave) {
-        if (!['structures', 'profile', 'table'].includes(name)) name = 'structures';
+        if (!['structures', 'profile', 'table', 'files'].includes(name)) name = 'structures';
+        if (name === 'files' && !state.full) name = 'structures';
         state.settings.tab = name;
         $$('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.value === name)));
         ['structures', 'profile', 'table'].forEach(n => $('#tab-' + n).classList.toggle('hidden', n !== name));
+        const app = $('.logidft-app');
+        if (app) app.classList.toggle('show-files', state.full && name === 'files');
         if (name === 'profile') renderProfile();
         if (!skipSave) saveSettings();
+    }
+
+    /** Full-screen mode: the tool covers the site header, hero and footer; the top bar carries every tool as a tab. */
+    function setFull(on, fromBrowser) {
+        const app = $('.logidft-app');
+        if (!app || state.full === on) return;
+        state.full = on;
+        app.classList.toggle('is-full', on);
+        doc.body.classList.toggle('lt-full-open', on);
+        if (on) {
+            if (doc.documentElement.requestFullscreen) doc.documentElement.requestFullscreen().catch(() => {});
+            showTab(state.files.length ? (state.settings.tab === 'files' ? 'structures' : state.settings.tab) : 'files', true);
+            app.scrollTop = 0;
+        } else {
+            if (!fromBrowser && doc.fullscreenElement && doc.exitFullscreen) doc.exitFullscreen().catch(() => {});
+            if (state.settings.tab === 'files') showTab('structures', true);
+            else showTab(state.settings.tab, true);
+        }
+        state.viewers.forEach(v => { if (v && v.resize) v.resize(); });
+        root.dispatchEvent(new Event('resize'));
     }
 
     // ------------------------------------------------------------------ actions
@@ -794,6 +867,14 @@
         'export-csv': () => exportCSV(),
         'clear-all': () => clearAll(),
         'tab': t => showTab(t.dataset.value),
+        'toggle-full': () => setFull(!state.full),
+        'parent-remove': (t, key) => {
+            const g = stageGraph(currentProfile());
+            if (!key || !g.parents[key]) return;
+            state.parents[key] = g.parents[key].filter(k => k !== t.dataset.parent);
+            renderProfile();
+        },
+        'parents-reset': () => { state.parents = {}; renderProfile(); },
         'expand-all': () => {
             const withAtoms = state.files.filter(f => f.atoms.length);
             withAtoms.slice(0, MAX_OPEN_VIEWERS).forEach(f => openViewer(f.id));
@@ -908,6 +989,12 @@
             f.stageLabel = t.value.trim();
             renderAll();
         },
+        'parent-add': (t, key) => {
+            if (!key || !t.value) return;
+            const g = stageGraph(currentProfile());
+            state.parents[key] = t.value === '__start' ? [] : (g.parents[key] || []).concat([t.value]);
+            renderProfile();
+        },
         'grid-lines': t => { state.settings.gridLines = t.checked; renderProfile(); saveSettings(); },
         'line-style': t => { state.settings.lineStyle = t.value; renderProfile(); saveSettings(); },
         'show-values': t => { state.settings.showValues = t.checked; renderProfile(); saveSettings(); },
@@ -933,6 +1020,11 @@
 
     function bindEvents() {
         initTableDrag();
+        doc.addEventListener('fullscreenchange', () => { if (!doc.fullscreenElement && state.full) setFull(false, true); });
+        doc.addEventListener('keydown', e => {
+            const modal = doc.getElementById('privacyModal');
+            if (e.key === 'Escape' && state.full && !(modal && !modal.classList.contains('hidden'))) setFull(false);
+        });
         doc.addEventListener('click', e => {
             const t = e.target.closest('[data-action]');
             if (!t || t.disabled) return;
