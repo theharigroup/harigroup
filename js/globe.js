@@ -7,16 +7,25 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const OMEGA = 0.3; // rad/s auto-rotation (half of the first mock-up)
 
-  fetch('publications.html', { cache: 'no-cache' })
-    .then(r => (r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status))))
-    .then(html => {
-      const s = html.indexOf('const publications = [');
-      const e = html.indexOf('\n];', s);
-      if (s < 0 || e < 0) throw new Error('publication list not found');
-      const list = (new Function('return ' + html.slice(s + 'const publications = '.length, e + 2)))();
-      start(list.filter(p => p.image && p.title));
-    })
-    .catch(err => { host.style.display = 'none'; console.warn('Globe disabled:', err.message); });
+  const mobile = matchMedia('(max-width: 1023px)');
+  let started = false;
+  function init() {
+    if (started) return;
+    started = true;
+    fetch('publications.html', { cache: 'no-cache' })
+      .then(r => (r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then(html => {
+        const s = html.indexOf('const publications = [');
+        const e = html.indexOf('\n];', s);
+        if (s < 0 || e < 0) throw new Error('publication list not found');
+        const list = (new Function('return ' + html.slice(s + 'const publications = '.length, e + 2)))();
+        start(list.filter(p => p.image && p.title));
+      })
+      .catch(err => { host.style.display = 'none'; console.warn('Globe disabled:', err.message); });
+  }
+  // The globe is not shown (or even loaded) below the desktop layout.
+  if (!mobile.matches) init();
+  else mobile.addEventListener('change', e => { if (!e.matches) init(); });
 
   function start(papers) {
     if (!papers.length) { host.style.display = 'none'; return; }
