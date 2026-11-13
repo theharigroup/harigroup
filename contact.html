@@ -7,7 +7,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>Contact | Hari Group</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=5" rel="stylesheet"/>
+<link href="css/style.css?v=6" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -73,109 +73,91 @@
 
 <section class="py-16 bg-slate-50">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="grid lg:grid-cols-12 gap-8 lg:gap-6 items-stretch">
-<div class="lg:col-span-3 bg-white border border-slate-200 p-6 rounded-sm space-y-6 h-full min-w-0">
-      <div class="flex items-center gap-3">
-        <h2 class="text-2xl font-bold text-slate-700">Lab Location</h2>
-        <div class="flex items-center gap-[3px]" aria-hidden="true">
-          <div class="w-[2px] h-[15px] bg-[#96ADC5]"></div>
-          <div class="h-[3px] w-[35px] bg-yellow-400"></div>
-        </div>
+  <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+    <div class="ct-card lg:col-span-4 min-w-0">
+      <div class="ct-tags"><span class="ct-tag n">Lab Location</span><span class="ct-tag">IISc Bangalore</span></div>
+      <h2 class="ct-title">Chemical Science Building</h2><div class="ct-bar"></div>
+      <div class="flex items-start gap-2 text-[14px] text-slate-600 mb-3">
+        <i class="fa-solid fa-location-dot text-slate-500 mt-1" aria-hidden="true"></i>
+        <address class="not-italic leading-6" id="ct-address">E222, E224, E226<br>Chemical Science Building<br>Department of Organic Chemistry<br>IISc Bangalore - 560012, India</address>
       </div>
-      <div class="space-y-4 text-[15px] leading-5 text-slate-500">
-        <div class="flex items-start leading-5 gap-2">
-          <i class="fa-solid fa-location-dot text-slate-500 mt-1" aria-hidden="true"></i>
-          <address class="not-italic leading-7">
-            <span class="block leading-5">E222, E224, E226</span>
-            <span class="block leading-5">Chemical Science Building</span>
-            <span class="block leading-5">Department of Organic Chemistry</span>
-            <span class="block leading-5">IISc Bangalore - 560012, India</span>
-          </address>
-        </div>
-        <p class="break-words font-semibold"><i class="fa-solid fa-envelope text-slate-500 mr-2" aria-hidden="true"></i><a href="mailto:dphari@iisc.ac.in" class="hover:text-yellow-600">dphari@iisc.ac.in</a></p>
-        <p><i class="fa-solid fa-phone text-slate-500 mr-2" aria-hidden="true"></i><a href="tel:+918022932848" class="hover:text-yellow-600">+91 (080) 2293-2848</a></p>
+      <p class="text-[14px] text-slate-600 break-words mb-1"><i class="fa-solid fa-envelope text-slate-500 mr-2" aria-hidden="true"></i><a href="mailto:dphari@iisc.ac.in" class="hover:text-yellow-600">dphari@iisc.ac.in</a></p>
+      <p class="text-[14px] text-slate-600 mb-5"><i class="fa-solid fa-phone text-slate-500 mr-2" aria-hidden="true"></i><a href="tel:+918022932848" class="hover:text-yellow-600">+91 (080) 2293-2848</a></p>
+      <div class="ct-btns">
+        <a class="ct-btn y" href="mailto:dphari@iisc.ac.in"><i class="fa-solid fa-envelope"></i> Email</a>
+        <a class="ct-btn n" href="tel:+918022932848"><i class="fa-solid fa-phone"></i> Call</a>
+        <button type="button" class="ct-btn o" id="ct-copy"><i class="fa-regular fa-copy"></i> Copy address</button>
       </div>
+      <i class="fa-solid fa-location-dot ct-wm" aria-hidden="true"></i>
     </div>
-    <div class="lg:col-span-9 min-w-0 bg-white border border-slate-200 rounded-sm p-6 h-full flex flex-col">
-      <div class="flex items-center justify-between gap-4 flex-wrap mb-5">
-        <h2 class="text-2xl font-bold text-slate-700">Find Us on Google Maps</h2>
-        <a href="https://maps.app.goo.gl/KjzbQ5QZbdt5qjsMA" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-blue-700 hover:underline">Open location in Google Maps <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>
+    <div class="ct-card lg:col-span-8 min-w-0">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
+        <div class="ct-tags" style="margin:0"><span class="ct-tag n">Map</span></div>
+        <a href="https://maps.app.goo.gl/KjzbQ5QZbdt5qjsMA" target="_blank" rel="noopener noreferrer" class="ct-btn y">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
       </div>
-      <div class="w-full overflow-hidden rounded-sm border border-slate-100 shadow-sm bg-white flex-1">
+      <h2 class="ct-title">Find Us on Google Maps</h2><div class="ct-bar"></div>
+      <div class="w-full overflow-hidden border border-slate-200 bg-white flex-1">
         <iframe title="Map showing Chemical Science Building, IISc Bangalore" src="https://www.google.com/maps?q=Chemical%20Science%20Building%2C%20IISc%20Bangalore%20560012&amp;output=embed" class="w-full h-[360px] lg:h-full min-h-[360px]" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
       </div>
     </div>
   </div>
 
-  
-<!-- Research opportunities -->
-  
-      <div class="flex items-center ml-1 mt-10 gap-3">
-        <h2 class="text-2xl font-bold text-slate-700">For Prospective Students</h2>
-        <div class="flex items-center gap-[3px]" aria-hidden="true">
-          <div class="w-[2px] h-[15px] bg-[#96ADC5]"></div>
-          <div class="h-[3px] w-[35px] bg-yellow-400"></div>
-        </div>
+  <h2 class="text-2xl font-extrabold text-navy-950 tracking-tight mt-12">For Prospective Students</h2>
+  <div style="height:3px;width:50px;background:#facc15;margin:8px 0 20px"></div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+    <article class="ct-card min-w-0">
+      <div class="ct-tags"><span class="ct-tag n">Graduate</span></div><span class="ct-num">01</span>
+      <h3 class="ct-title">Graduate Students</h3><div class="ct-bar"></div>
+      <div class="space-y-2 text-[14px] leading-6 text-slate-600">
+        <p>Students interested in pursuing their graduate studies with us should apply to the
+        <a href="https://admissions.iisc.ac.in/" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-yellow-600 underline transition-colors">Ph.D. program in chemistry</a>
+        at IISc Bangalore.</p>
+        <p>Prospective graduate students are encouraged to email D. P. Hari.</p>
       </div>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6 mt-5 items-stretch">
-  
- <article class="bg-white border border-slate-200 rounded-sm p-6 h-full min-w-0">
-      <h2 class="text-xl font-bold text-slate-600 mb-4">Graduate Students</h2>
-     <div class="space-y-2 text-[14px] leading-5 text-justify text-slate-500">
-    	<p>
-        Students interested in pursuing their graduate studies with us should apply to the
-        <a href="https://admissions.iisc.ac.in/"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="text-blue-700 hover:text-yellow-600 underline transition-colors">
-            Ph.D. program in chemistry
-        </a>
-        at IISc Bangalore.
-   	 </p>
-   	 <p>
-        Prospective graduate students are encouraged to email D. P. Hari.
-   	 </p>
-	</div>
-	</article>
-
-
-	<article class="bg-white border border-slate-200 rounded-sm p-6 h-full min-w-0">
-   	 <h2 class="text-xl font-bold text-slate-600 mb-4">
-        Postdoctoral Associates
-    	</h2>
-
-    	<div class="space-y-2 text-[14px] leading-5 text-justify text-slate-500">
-        <p>
-            Applications should be sent via email to D. P. Hari directly.
-            Please include in the application package a curriculum vitae,
-            2-3 representative publications and the contact information
-            of 2 professional references.
-        </p>
-   	 </div>
-	</article>
-
-
-
-
-	<article class="bg-white border border-slate-200 rounded-sm p-6 h-full min-w-0">
-  	  <h2 class="text-xl font-bold text-slate-600 mb-4">
-        BS & MS Students
-   	 </h2>
-
-   	 <div class="space-y-2 text-[14px] leading-5 text-justify text-slate-500">
-        <p>
-            Undergraduate students interested in research in organic chemistry,
-            catalysis, and electrochemistry are welcome, and please send a
-            curriculum vitae and current transcript to D. P. Hari.
-        </p>
-   	 </div>
-	</article>
-
-
-
+    </article>
+    <article class="ct-card min-w-0">
+      <div class="ct-tags"><span class="ct-tag n">Postdoc</span></div><span class="ct-num">02</span>
+      <h3 class="ct-title">Postdoctoral Associates</h3><div class="ct-bar"></div>
+      <div class="text-[14px] leading-6 text-slate-600"><p>Applications should be sent via email to D. P. Hari directly.
+      Please include in the application package a curriculum vitae,
+      2-3 representative publications and the contact information
+      of 2 professional references.</p></div>
+    </article>
+    <article class="ct-card min-w-0">
+      <div class="ct-tags"><span class="ct-tag n">BS &amp; MS</span></div><span class="ct-num">03</span>
+      <h3 class="ct-title">BS &amp; MS Students</h3><div class="ct-bar"></div>
+      <div class="text-[14px] leading-6 text-slate-600"><p>Undergraduate students interested in research in organic chemistry,
+      catalysis, and electrochemistry are welcome, and please send a
+      curriculum vitae and current transcript to D. P. Hari.</p></div>
+    </article>
   </div>
 </div>
+<style>
+.ct-card{position:relative;overflow:hidden;display:flex;flex-direction:column;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06);padding:22px;transition:transform .2s,box-shadow .2s}
+.ct-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.10)}
+.ct-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.ct-tag{background:#e2e8f0;color:#334155;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px}
+.ct-tag.n{background:#263A67;color:#fff}
+.ct-title{color:#263A67;font-size:20px;font-weight:700;line-height:1.3;margin:0}
+.ct-bar{width:50px;height:3px;background:#facc15;margin:8px 0 14px}
+.ct-btns{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.ct-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 14px;border:1px solid transparent;cursor:pointer;transition:background .2s}
+.ct-btn.y{background:#facc15;color:#0f1b34}.ct-btn.y:hover{background:#fde047}
+.ct-btn.n{background:#263A67;color:#fff}.ct-btn.n:hover{background:#1e2f55}
+.ct-btn.o{background:#fff;color:#263A67;border-color:#cbd5e1}.ct-btn.o:hover{background:#f1f5f9}
+.ct-wm{position:absolute;right:14px;bottom:8px;font-size:90px;color:#f1f5f9;pointer-events:none}
+.ct-num{position:absolute;right:16px;bottom:4px;font-size:64px;font-weight:800;color:#f1f5f9;line-height:1;pointer-events:none}
+.ct-card iframe{width:100%;height:360px;min-height:320px;border:0;display:block}
+@media(min-width:1024px){.ct-card iframe{height:100%}}
+</style>
+<script>
+document.getElementById("ct-copy").addEventListener("click",function(){
+  var t=document.getElementById("ct-address").innerText.replace(/\n+/g,", "), b=this;
+  var done=function(){var o=b.innerHTML;b.textContent="Copied!";setTimeout(function(){b.innerHTML=o},1500)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,done)}else{done()}
+});
+</script>
 </section>
 
 
