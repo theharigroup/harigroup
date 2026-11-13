@@ -621,8 +621,8 @@
 .area-card{position:relative;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06);margin-bottom:24px;overflow:hidden;padding:24px 26px;scroll-margin-top:90px;transition:box-shadow .2s}
 .area-card:hover{box-shadow:0 10px 24px rgba(15,23,42,.10)}
 .area-wm{position:absolute;bottom:-18px;right:20px;z-index:0;font-size:110px;font-weight:800;line-height:1;color:#f1f5f9;user-select:none;pointer-events:none}
-.area-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start}
-.area-card.alt .area-grid{grid-template-columns:1fr 1.15fr}
+.area-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);gap:28px;align-items:start}
+.area-card.alt .area-grid{grid-template-columns:minmax(0,3fr) minmax(0,7fr)}
 .area-card.alt .area-fig{order:-1}
 .area-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .area-tag{font-size:11px;font-weight:700;padding:3px 9px;background:#e2e8f0;color:#334155;letter-spacing:.03em}
