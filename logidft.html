@@ -16,7 +16,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="css/logidft.css?v=14" rel="stylesheet"/>
+<link href="css/logidft.css?v=15" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -94,6 +94,7 @@
 
             <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose or drop DFT log files">
                 <input type="file" id="fileInput" multiple accept=".log,.out,.txt,.output" class="visually-hidden">
+                <div class="lt-tags dz-tags"><span class="lt-tag n">Step 1</span><span class="lt-tag">Gaussian</span><span class="lt-tag">ORCA</span></div>
                 <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <h3>Drop your DFT calculation log files here</h3>
                 <p>Load each frequency log together with its single-point log (e.g. <code>name.log</code> + <code>name_sp.log</code>) — they are paired automatically and G = HF(sp) + thermal correction.</p>
@@ -103,6 +104,7 @@
             </div>
 
             <div class="panel options">
+                <div class="lt-tags"><span class="lt-tag n">Options</span></div>
                 <h3 class="panel-title"><i class="fa-solid fa-sliders"></i> Parsing &amp; Output Options</h3>
 
                 <div class="field">
@@ -150,30 +152,32 @@
 
         <!-- Sticky bar: file information (left, once files are loaded) + view tabs and Copy all SI text (right) -->
         <div id="stickyBar" class="sticky-bar no-print">
-            <div id="summaryBanner" class="summary hidden" aria-label="Summary">
-                <div class="stat"><span class="stat-label">Loaded Files</span><span id="statFileCount" class="stat-value text-accent">0</span></div>
-                <div class="stat"><span class="stat-label">TS Structures</span><span id="statTSCount" class="stat-value text-warn">0</span></div>
-                <div class="stat stat-wide"><span class="stat-label">Lowest-Energy Structure (G)</span><span id="statLowestG" class="stat-value stat-value-sm text-ok">--</span></div>
-                <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
-            </div>
             <nav class="tabs" role="tablist" aria-label="Views">
                 <button type="button" role="tab" class="tab full-only" data-action="tab" data-value="files" aria-selected="false"><i class="fa-solid fa-upload"></i> Upload &amp; Options</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="structures" aria-selected="true"><i class="fa-solid fa-cube"></i> Structures</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="table" aria-selected="false"><i class="fa-solid fa-table"></i> Energy Table</button>
                 <button type="button" role="tab" class="tab" data-action="tab" data-value="profile" aria-selected="false"><i class="fa-solid fa-chart-line"></i> Energy Profile</button>
+                <div class="search bar-search hidden" id="barSearch">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="search" id="filterInput" placeholder="Filter structures by name…" aria-label="Filter structures by name" autocomplete="off">
+</div>
                 <button type="button" class="btn btn-success sticky-only" id="stickyCopyAll" data-action="copy-all"><i class="fa-regular fa-copy"></i> Copy All SI Text</button>
                 <button type="button" class="btn icon-btn full-only" data-action="toggle-theme" aria-label="Toggle light / dark theme" title="Toggle light / dark theme"><i class="theme-icon fa-solid fa-moon"></i></button>
                 <button type="button" class="btn icon-btn full-only" data-action="toggle-full" aria-label="Exit full-screen mode" title="Exit full-screen mode"><i class="fa-solid fa-compress"></i></button>
             </nav>
         </div>
 
+        <!-- Minor summary line -->
+            <div id="summaryBanner" class="summary summary-minor hidden" aria-label="Summary">
+                <div class="stat"><span class="stat-label">Loaded Files</span><span id="statFileCount" class="stat-value text-accent">0</span></div>
+                <div class="stat"><span class="stat-label">TS Structures</span><span id="statTSCount" class="stat-value text-warn">0</span></div>
+                <div class="stat stat-wide"><span class="stat-label">Lowest-Energy Structure (G)</span><span id="statLowestG" class="stat-value stat-value-sm text-ok">--</span></div>
+                <div class="stat"><span class="stat-label">Warnings</span><span id="statWarnings" class="stat-value text-muted">0</span></div>
+            </div>
+
         <!-- ===== Structures tab ===== -->
         <section id="tab-structures" class="tab-panel" role="tabpanel">
             <div id="structuresToolbar" class="toolbar hidden no-print">
-                <div class="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="filterInput" placeholder="Filter Structures by Name…" aria-label="Filter structures by name" autocomplete="off">
-                </div>
                 <select id="sortSelect" data-change="sort" aria-label="Sort structures">
                     <option value="">Sort…</option>
                     <option value="name">By Name (A→Z)</option>
@@ -249,7 +253,7 @@
         <section id="tab-table" class="tab-panel hidden" role="tabpanel">
             <div class="panel" id="tablePanel">
                 <div class="toolbar toolbar-flush no-print">
-                    <h3 class="panel-title panel-title-flush"><i class="fa-solid fa-table"></i> Energies (Hartree) &amp; Relative Values</h3>
+                    <div class="table-head"><div class="lt-tags"><span class="lt-tag n">Energy Table</span><span class="lt-tag">Hartree</span></div><h3 class="panel-title panel-title-flush">Energies &amp; Relative Values</h3><div class="lt-bar"></div></div>
                     <div class="grow"></div>
                     <label class="table-ref" for="refStructureSelectTable">Reference Structure for ΔG
                         <select id="refStructureSelectTable" data-change="reference" aria-label="Reference structure for ΔG"></select>
@@ -287,7 +291,7 @@
 <script src="js/logidft/sample.js?v=3"></script>
 <script src="js/logidft/viewer.js?v=4"></script>
 <script src="js/logidft/profile.js?v=6"></script>
-<script src="js/logidft/ui.js?v=10"></script>
+<script src="js/logidft/ui.js?v=11"></script>
 <script src="js/logidft/app.js?v=3"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">

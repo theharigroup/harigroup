@@ -7,7 +7,7 @@
 <meta content="Hari Group, Department of Organic Chemistry, IISc Bangalore" name="description"/>
 <title>Hari Group | IISc Bangalore</title>
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=5" rel="stylesheet"/>
+<link href="css/style.css?v=6" rel="stylesheet"/>
 <link href="css/globe.css?v=1" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -286,6 +286,7 @@
        </style>
 
 
+<script src="js/news-card.js?v=1"></script>
 <script>
 
 
@@ -325,7 +326,8 @@
           const profiles = [
 		{
               section: "Postdoctoral Fellows",
-              title: "Congraluations Tushar!",
+              title: "Congratulations Tushar!",
+              tag: "Publication",
               image: "news/singha_acscat2026.png",
               date: "OCTOBER 2026",
               description: "We congratulate Tushar on his work, “Ring-Expansion/Cross-Coupling Cascade of Ketones via Radical Sorting”. This study enables ring expansion and functionalization of ketones, offering access to diverse molecular architectures and late-stage scaffold remodelling of drugs and natural products.",
@@ -335,6 +337,7 @@
             {
               section: "Postdoctoral Fellows",
               title: "Congratulations to DP!",
+              tag: "Award",
               image: "news/dp_alumni_award.JPG",
               date: "MARCH 2026",
               description: "We congratulate Dr. D. P. Hari on receiving the prestigious Dr. Srinivasa Rajagopalan Award by IISc Alumni Association. This recognition reflects his exceptional contributions and inspiring leadership – a proud moment for the group.",
@@ -345,6 +348,7 @@
           {
               section: "Postdoctoral Fellows",
               title: "Congratulations to Ganesh & Suparanak!",
+              tag: "Publication",
               image: "news/kadam_jacs2026.png",
               date: "DECEMBER 2025",
               description: "We congratulate Ganesh and Suparnak for their remarkable work on ring-expansion of ketones using [1.1.1]propellane to access spirocyclic ketones published in J. Am. Chem. Soc. A very nice collaboration with Pavel Mykhailiuk.",
@@ -377,111 +381,8 @@
  // ====================================================================================================================================
 	
 			
-// ====================================================================================================================================
-          // REUSABLE PROFILE CARD TEMPLATE
-          // Do not edit this section when adding profiles.
-          // ==========================================
-
-          function createProfileCard(person) {
-            return `
-              <div class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm">
-
- 			<p
-    	class="block w-fit mr-auto
-           text-[11px] font-bold text-slate-500
-           tracking-[0.08em]
-           mt-0 mb-[10px] text-left
-           bg-slate-0 px-2 py-1"
-		>
- 	   ${person.date}
-		</p>
-
-                <img
-                  class="w-70 h-70 rounded-[3px] mx-auto mb-4 border- border-amber-400 object-cover"
-                  src="${person.image}"
-                  alt="${person.title}"
-                />
-
-                <h3
-                  class="font-bold text-slate-700"
-                  style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 20px; text-align: left; width: 100%;"
-                >
-                  ${person.title}
-                </h3>
-
-                <div
-                  style="background-color: #facc15; width: 50px; height: 3px; margin-top: 8px;"
-                ></div>
-
-                <p
-                  class="text-[13px] text-slate-500 mt-3 text-justify"
-                  style="display: flex; align-items: center; gap: 6px;"
-                >
-                  ${person.description}
-                </p>
-
-                <div class="icon-links" style="margin-top: 10px;">
-
-                  ${person.weblink ? `
-    <a
-        href="${person.weblink}"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Visit website of ${person.title}"
-    >
-        <i class="fa-solid fa-globe"></i>
-    </a>
-` : ""}
-
-                  ${person.scholar ? `
-                    <a
-                      href="${person.scholar}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Google Scholar profile"
-                    >
-                      <i class="fa-brands fa-google-scholar"></i>
-                    </a>
-                  ` : ""}
-
-                  ${person.orcid ? `
-                    <a
-                      href="${person.orcid}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="ORCID profile"
-                    >
-                      <i class="fa-brands fa-orcid"></i>
-                    </a>
-                  ` : ""}
-
-                </div>
-
-              </div>
-            `;
-          }
-
-          // ==========================================
-          // AUTOMATICALLY DISPLAY PROFILES BY SECTION
-          // ==========================================
-
-          document.getElementById("postdoc-grid").innerHTML =
-            profiles
-              .filter(person => person.section === "Postdoctoral Fellows")
-              .map(createProfileCard)
-              .join("");
-
-          document.getElementById("graduate-grid").innerHTML =
-            profiles
-              .filter(person => person.section === "Graduate Students")
-              .map(createProfileCard)
-              .join("");
-
-          document.getElementById("master-grid").innerHTML =
-            profiles
-              .filter(person => person.section === "Master & Undergrad Students")
-              .map(createProfileCard)
-              .join("");
+// Cards are rendered by js/news-card.js (createNewsCard). Only the list above needs editing.
+          document.getElementById("postdoc-grid").innerHTML = profiles.map(createNewsCard).join("");
         </script>
 </div>
 </section>

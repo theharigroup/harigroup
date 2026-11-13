@@ -243,6 +243,7 @@
         const files = state.files;
         $('#summaryBanner').classList.toggle('hidden', files.length === 0);
         $('#structuresToolbar').classList.toggle('hidden', files.length === 0);
+        $('#barSearch').classList.toggle('hidden', files.length === 0);
         $('#statFileCount').textContent = files.length;
         $('#statTSCount').textContent = files.filter(f => f.imaginaryFreqCount > 0).length;
 
@@ -319,22 +320,24 @@
         const hasAtoms = file.atoms.length > 0;
         return `
         <article class="card" data-id="${file.id}">
+            <span class="index-badge" aria-hidden="true">#${index + 1}</span>
+            <div class="card-top">
+                <div class="chips">${chipsHTML(file)}<span class="dg-badge hidden" data-role="dg"></span></div>
+                <div class="card-actions">
+                    <button type="button" class="btn btn-accent" data-action="toggle-viewer" ${hasAtoms ? '' : 'disabled title="No coordinates found in this file"'}><i class="fa-solid fa-cube"></i> 3D View</button>
+                    <button type="button" class="btn btn-primary" data-action="copy-si"><i class="fa-solid fa-copy"></i> Copy Text</button>
+                    <button type="button" class="btn btn-outline" data-action="remove" title="Remove file" aria-label="Remove file"><i class="fa-solid fa-xmark"></i> Remove</button>
+                </div>
+            </div>
             <header class="card-head">
                 <div class="card-id">
-                    <span class="index-badge">#${index + 1}</span>
                     <div class="title-block">
                         <input type="text" class="title-input" value="${esc(file.title)}" data-change="title" aria-label="Structure name" title="Click to rename structure">
+                        <div class="lt-bar"></div>
                         <span class="file-name">${esc(file.fileName)}</span>
                     </div>
                 </div>
-                <div class="card-actions">
-                    <span class="dg-badge hidden" data-role="dg"></span>
-                    <button type="button" class="btn btn-accent" data-action="toggle-viewer" ${hasAtoms ? '' : 'disabled title="No coordinates found in this file"'}><i class="fa-solid fa-cube"></i> 3D View</button>
-                    <button type="button" class="btn btn-primary" data-action="copy-si"><i class="fa-solid fa-copy"></i> Copy Text</button>
-                    <button type="button" class="icon-btn" data-action="remove" title="Remove file" aria-label="Remove file"><i class="fa-solid fa-xmark"></i></button>
-                </div>
             </header>
-            <div class="chips">${chipsHTML(file)}</div>
             <div class="stage-row no-print">
                 <label>Role
                     <select data-change="role" aria-label="Role in the reaction profile">
@@ -697,6 +700,7 @@
         if (name === 'files' && !state.full) name = 'structures';
         state.settings.tab = name;
         $$('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.value === name)));
+        const sb = $('#stickyBar'); if (sb) sb.dataset.tab = name;
         ['structures', 'profile', 'table'].forEach(n => $('#tab-' + n).classList.toggle('hidden', n !== name));
         const app = $('.logidft-app');
         if (app) app.classList.toggle('show-files', state.full && name === 'files');

@@ -422,3 +422,72 @@ body.lt-full-open .page-view, body.lt-full-open main { transform: none !importan
 .logidft-app.is-full .sticky-bar { order: -1; }
 .logidft-app.is-full .main { padding: 0 16px 24px; }
 .logidft-app.is-full .sticky-bar { margin: 0 -16px 0; padding-left: 32px; padding-right: 32px; }
+
+/* ===== Publication-style redesign (tags, navy/yellow accents, single tab+filter bar) ===== */
+.logidft-app .lt-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.logidft-app .lt-tag { background: #e2e8f0; color: #334155; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; }
+.logidft-app .lt-tag.n { background: #263A67; color: #fff; }
+.logidft-app .lt-bar { width: 50px; height: 3px; background: #facc15; margin: 6px 0 8px; }
+.logidft-app .dropzone .dz-tags { position: absolute; top: 12px; left: 14px; }
+.logidft-app .options .lt-tags { margin-bottom: -4px; }
+.logidft-app .panel, .logidft-app .card, .logidft-app .dropzone { box-shadow: 0 1px 3px rgba(15, 23, 42, .06); }
+.logidft-app .panel-title i { color: #263A67; }
+.logidft-app[data-theme="dark"] .panel-title i { color: var(--accent-text); }
+.logidft-app .btn-primary { background: #facc15; border-color: #facc15; color: #0f1b34; font-weight: 700; }
+.logidft-app .btn-primary:hover { background: #fde047; border-color: #fde047; color: #0f1b34; }
+.logidft-app .btn-accent { background: #263A67; border-color: #263A67; color: #fff; font-weight: 600; }
+.logidft-app .btn-accent:hover { background: #1e2f55; color: #fff; }
+.logidft-app .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text-2); }
+.logidft-app .btn-outline:hover { background: var(--surface-2); color: var(--text); }
+
+/* Single slate-100 bar: tabs + filter */
+.logidft-app .sticky-bar { background: #f1f5f9; border: 1px solid #e2e8f0; justify-content: flex-start; padding: 8px 12px; }
+.logidft-app[data-theme="dark"] .sticky-bar { background: var(--surface-2); border-color: var(--border); }
+.logidft-app .sticky-bar .tabs { margin-left: 0; flex: 1 1 auto; gap: 6px; overflow-x: visible; flex-wrap: wrap; }
+.logidft-app .sticky-bar .tab { border: 1px solid #cbd5e1; background: #fff; color: #334155; padding: 8px 16px; font-weight: 600; }
+.logidft-app .sticky-bar .tab:hover { border-color: #263A67; color: #263A67; }
+.logidft-app .sticky-bar .tab[aria-selected="true"] { background: #263A67; border-color: #263A67; color: #fff; }
+.logidft-app[data-theme="dark"] .sticky-bar .tab { background: var(--surface); border-color: var(--border-strong); color: var(--text-2); }
+.logidft-app .sticky-bar .bar-search { margin-left: auto; flex: 0 1 280px; }
+.logidft-app .sticky-bar .bar-search input { background: #fff; border: 1px solid #cbd5e1; color: #1e293b; font-size: 13.5px; padding: 8px 12px 8px 32px; }
+.logidft-app .sticky-bar .bar-search.hidden,
+.logidft-app .sticky-bar:not([data-tab="structures"]) .bar-search { display: none; }
+.logidft-app .sticky-bar .sticky-only { margin-left: 4px; }
+
+/* Minor summary line */
+.logidft-app .summary-minor { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 0 4px; font-size: 12px; color: var(--muted); margin-top: -8px; }
+.logidft-app .summary-minor.hidden { display: none; }
+.logidft-app .summary-minor .stat { display: inline-flex; flex-direction: row; align-items: baseline; gap: 5px; padding: 0; border: 0; white-space: normal; }
+.logidft-app .summary-minor .stat-label { font-size: 12px; text-transform: none; letter-spacing: 0; }
+.logidft-app .summary-minor .stat-value, .logidft-app .summary-minor .stat-value-sm { font-size: 12px; font-weight: 700; padding: 0; line-height: 1.4; }
+.logidft-app .summary-minor .stat-label::after { content: ":"; }
+
+/* Structure cards */
+.logidft-app .card { position: relative; transition: transform .2s, box-shadow .2s; }
+.logidft-app .card:hover { box-shadow: 0 6px 18px rgba(15, 23, 42, .10); }
+.logidft-app .card-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 16px; padding: 14px 18px 0; position: relative; z-index: 1; }
+.logidft-app .card-top .chips { padding: 0; flex: 1 1 280px; min-width: 0; }
+.logidft-app .card-top .card-actions { margin-left: auto; }
+.logidft-app .chip { background: #e2e8f0; border: 0; color: #334155; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; }
+.logidft-app .chips .chip:first-child { background: #263A67; color: #fff; }
+.logidft-app .chip.chip-danger { background: var(--danger-soft); color: var(--danger-text); }
+.logidft-app .chip-mono, .logidft-app .chip-text { text-transform: none; }
+.logidft-app .dg-badge { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; font-size: 11px; }
+.logidft-app .card-head { background: transparent; border-bottom: 0; padding: 10px 18px 0; }
+.logidft-app input.title-input { color: #263A67; font-size: 18px; width: min(520px, 90%); }
+.logidft-app[data-theme="dark"] input.title-input { color: var(--text); }
+.logidft-app .card-body { margin-top: 12px; }
+.logidft-app .si-pane { background: transparent; padding-top: 6px; position: relative; z-index: 1; }
+.logidft-app .si-title { background: #e2e8f0; color: #263A67; border-color: #e2e8f0; font-size: 12.5px; text-align: left; }
+.logidft-app[data-theme="dark"] .si-title { background: var(--surface-3); color: var(--text); border-color: var(--border); }
+.logidft-app .si-text { border: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; background: #f8fafc; }
+.logidft-app[data-theme="dark"] .si-text { background: var(--code-bg); border-color: var(--border); }
+.logidft-app .index-badge { position: absolute; right: 18px; bottom: 6px; width: auto; height: auto; background: none; border: 0; color: #f1f5f9; font-size: 56px; font-weight: 800; line-height: 1; z-index: 0; pointer-events: none; }
+.logidft-app[data-theme="dark"] .index-badge { color: rgba(255, 255, 255, .05); }
+
+/* Energy table card */
+.logidft-app .table-head { margin-right: 12px; }
+.logidft-app .table-head .lt-tags { margin-bottom: 8px; }
+.logidft-app #tablePanel .toolbar-flush { align-items: flex-end; }
+.logidft-app table.data thead th { background: #263A67; color: #fff; border-bottom: 0; }
+.logidft-app[data-theme="dark"] table.data thead th { background: var(--surface-3); }
