@@ -42,7 +42,7 @@
         const skipped = items.filter(it => !plotted.includes(it)).map(it => it.label);
 
         const n = plotted.length;
-        if (n === 0) return { svg: '', skipped, plotted: 0 };
+        if (n === 0) return { svg: '', skipped, plotted: 0, edges: [], defaults: { minColor: pal.minimum, tsColor: pal.ts } };
 
         // ---- graph: parents of every stage, and the column (number of steps from the start) of each stage
         const idxByKey = new Map(plotted.map((it, i) => [it.key !== undefined ? it.key : it.label, i]));
@@ -88,9 +88,12 @@
         const decimals = Math.max(0, Math.min(4, -Math.floor(Math.log10(axis.step))));
         const fmtTick = t => t.toFixed(decimals);
 
-        const dotR = 6.5;
+        const dotR = Math.max(2, Math.min(20, opts.dotSize || 6.5));
+        const minColor = opts.minColor || pal.minimum, tsColor = opts.tsColor || pal.ts;
+        const showY = opts.showYAxis !== false, showX = opts.showXAxis !== false, showRef = opts.showRefLine !== false;
+        const eStyles = opts.edgeStyles || {};
         const grid = opts.gridLines !== false;
-        const dash = { solid: '', dotted: ' stroke-dasharray="0.1 6" stroke-linecap="round"', dashed: ' stroke-dasharray="8 5"' }[opts.lineStyle || 'solid'] || '';
+        const dashOf = st => ({ solid: '', dotted: ' stroke-dasharray="0.1 6" stroke-linecap="round"', dashed: ' stroke-dasharray="8 5"' }[st || 'solid'] || '');
         const cx = c => margin.left + slot * (c + 0.5);
 
         // dots that share a column and would overlap are spread sideways
@@ -108,35 +111,41 @@
         axis.ticks.forEach(t => {
             const yy = y(t).toFixed(1);
             if (grid) g += `<line x1="${margin.left}" y1="${yy}" x2="${W - margin.right}" y2="${yy}" stroke="${pal.grid}" stroke-width="1"/>`;
-            g += `<text x="${margin.left - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end" font-size="12" fill="${pal.muted}">${fmtTick(t)}</text>`;
+            if (showY) g += `<text x="${margin.left - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end" font-size="12" fill="${pal.muted}">${fmtTick(t)}</text>`;
         });
 
         // zero (reference) line
-        if (axis.min < 0 && axis.max > 0) {
+        if (showRef && axis.min < 0 && axis.max > 0) {
             g += `<line x1="${margin.left}" y1="${y(0).toFixed(1)}" x2="${W - margin.right}" y2="${y(0).toFixed(1)}" stroke="${pal.axis}" stroke-width="1" stroke-dasharray="5 4"/>`;
         }
 
         // axes
-        g += `<line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
-        g += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${W - margin.right}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
+        if (showY) g += `<line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
+        if (showX) g += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${W - margin.right}" y2="${margin.top + plotH}" stroke="${pal.axis}" stroke-width="1.5"/>`;
 
         // smooth connecting curves (flat tangent at each stage => rounded peaks and wells).
         // Main path = first connection of each parent/child; other branches are drawn grey underneath.
+        const keyOf = i => (plotted[i].key !== undefined ? plotted[i].key : plotted[i].label);
         const edgePath = (j, i) => {
             const x1 = px(j), x2 = px(i), k = (x2 - x1) * 0.5;
             const y1 = y(plotted[j].value), y2 = y(plotted[i].value);
             return `M${x1.toFixed(1)} ${y1.toFixed(1)} C${(x1 + k).toFixed(1)} ${y1.toFixed(1)} ${(x2 - k).toFixed(1)} ${y2.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
         };
-        const mainEdges = [], branchEdges = [];
+        const mainEdges = [], branchEdges = [], edgeList = [];
         parentsOf.forEach((ps, i) => ps.forEach((j, pos) => {
-            (childrenOf[j][0] === i && pos === 0 ? mainEdges : branchEdges).push(edgePath(j, i));
+            const isMain = childrenOf[j][0] === i && pos === 0;
+            const id = keyOf(j) + '>' + keyOf(i);
+            const st = eStyles[id] || {};
+            edgeList.push({ id: id, label: plotted[j].label + ' \u2192 ' + plotted[i].label, main: isMain, defColor: isMain ? pal.link : pal.branch });
+            const d = `<path d="${edgePath(j, i)}" fill="none" stroke="${esc(st.color || (isMain ? pal.link : pal.branch))}" stroke-width="${st.width || 2.2}"${dashOf(st.style || opts.lineStyle)}/>`;
+            (isMain ? mainEdges : branchEdges).push(d);
         }));
-        branchEdges.forEach(d => { g += `<path d="${d}" fill="none" stroke="${pal.branch}" stroke-width="2.2"${dash}/>`; });
-        mainEdges.forEach(d => { g += `<path d="${d}" fill="none" stroke="${pal.link}" stroke-width="2.2"${dash}/>`; });
+        branchEdges.forEach(d => { g += d; });
+        mainEdges.forEach(d => { g += d; });
 
         // dots (minima / transition states) and values
         plotted.forEach((it, i) => {
-            const color = it.isTS ? pal.ts : pal.minimum;
+            const color = it.isTS ? tsColor : minColor;
             const yy = y(it.value);
             const unitText = it.value.toFixed(opts.digits);
             g += `<g><title>${esc(it.label)}: ${esc(unitText)} ${esc(opts.unit)}${it.isTS ? ' (transition state)' : ''}</title>`;
@@ -151,7 +160,7 @@
         });
 
         // stage labels under the axis (one per column)
-        colLabels.forEach((txt, c) => {
+        if (showX) colLabels.forEach((txt, c) => {
             const lx = cx(c).toFixed(1);
             const ly = (margin.top + plotH + 20).toFixed(1);
             const label = esc(txt.length > 34 ? txt.slice(0, 33) + '…' : txt);
@@ -163,20 +172,20 @@
         });
 
         // x axis title
-        g += `<text x="${((margin.left + W - margin.right) / 2).toFixed(1)}" y="${(H - 10).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Reaction Coordinate</text>`;
+        if (showX) g += `<text x="${((margin.left + W - margin.right) / 2).toFixed(1)}" y="${(H - 10).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Reaction Coordinate</text>`;
 
         // y axis title
         const midY = margin.top + plotH / 2;
-        g += `<text transform="translate(18 ${midY.toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Relative ${esc(opts.symbol.replace(/^Δ/, ''))} (${esc(opts.unit)})</text>`;
+        if (showY) g += `<text transform="translate(18 ${midY.toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="13" font-weight="600" fill="${pal.fg}">Relative ${esc(opts.symbol.replace(/^Δ/, ''))} (${esc(opts.unit)})</text>`;
 
         // legend
         const lgx = W - margin.right - 200;
-        g += `<circle cx="${lgx + 6}" cy="18" r="5.5" fill="${pal.minimum}"/><text x="${lgx + 18}" y="22" font-size="12" fill="${pal.muted}">minimum</text>`;
-        g += `<circle cx="${lgx + 98}" cy="18" r="5.5" fill="${pal.ts}"/><text x="${lgx + 110}" y="22" font-size="12" fill="${pal.muted}">TS ‡ (imag. freq.)</text>`;
+        g += `<circle cx="${lgx + 6}" cy="18" r="5.5" fill="${minColor}"/><text x="${lgx + 18}" y="22" font-size="12" fill="${pal.muted}">minimum</text>`;
+        g += `<circle cx="${lgx + 98}" cy="18" r="5.5" fill="${tsColor}"/><text x="${lgx + 110}" y="22" font-size="12" fill="${pal.muted}">TS ‡ (imag. freq.)</text>`;
 
         const background = pal.bg === 'none' ? '' : `<rect width="${W}" height="${H}" fill="${pal.bg}"/>`;
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}" role="img" aria-label="Reaction energy profile">${background}${g}</svg>`;
-        return { svg, skipped, plotted: n };
+        return { svg, skipped, plotted: n, edges: edgeList, defaults: { minColor: pal.minimum, tsColor: pal.ts } };
     }
 
     /** Renders an SVG string to a PNG Blob (2x resolution). Resolves null on failure. */
