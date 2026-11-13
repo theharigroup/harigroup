@@ -78,8 +78,7 @@
 
 <!-- User Gadget 1: Invoice Manager -->
 <div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm hover:shadow-md cursor-pointer"
-    onclick="window.location.href='invoice.html'"
+    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm flex flex-col"
 >
     
 
@@ -107,18 +106,14 @@
         Automate billing cycles, track real-time payment statuses, and seamlessly reconcile invoices to eliminate manual errors.
     </p>
 
-    <div class="icon-links text-justify" style="margin-top: 10px;">
-        <a href="invoice.html" aria-label="Visit Invoice Manager">
-            <i class="fa-solid fa-globe"></i>
-        </a>
-    </div>
+    <a href="invoice.html" class="mt-auto self-start inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-white bg-[#263A67] hover:bg-[#1c2c4f] transition" aria-label="Open Invoice Manager" style="margin-top:auto">Sign in to open <i class="fa-solid fa-arrow-right text-xs"></i></a>
 
 </div>
 
 
 <!-- User Gadget 2: Chemical Inventory -->
 <div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm cursor-not-allowed select-none"
+    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm cursor-not-allowed select-none flex flex-col"
     aria-disabled="true"
     title="Coming soon"
 >
@@ -127,7 +122,7 @@
 <p class="text-[11px] text-slate-300 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
         BETA &bull; COMING SOON
     </p>
-    <div class="opacity-70 pointer-events-none">
+    <div class="opacity-80 pointer-events-none flex flex-col flex-1">
 
     <div class="viz viz-chem" role="img" aria-label="Animated chemical search with result">
 <div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">search.query</span></div>
@@ -150,11 +145,7 @@
         ChemInventory makes lab management simple, helps you organize your laboratory's chemical stock.
     </p>
 
-    <div class="icon-links text-justify" style="margin-top: 10px;">
-        <span aria-label="Chemical Inventory (coming soon)" class="cursor-not-allowed">
-            <i class="fa-solid fa-globe"></i>
-        </span>
-    </div>
+    <span class="mt-auto self-start inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-400 bg-slate-100 border border-slate-200 cursor-not-allowed" aria-disabled="true" style="margin-top:auto">Coming soon</span>
     </div>
 
 </div>
@@ -162,8 +153,7 @@
 
 <!-- User Gadget 3: LogiDFT -->
 <div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center hover:scale-[1.02] transition duration-300 shadow-sm hover:shadow-md cursor-pointer"
-    onclick="window.location.href='logidft.html'"
+    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm flex flex-col"
 >
 
 
@@ -192,11 +182,7 @@
         The DFT Log Parser &amp; SI Generator automates thermochemical data extraction, Supporting Information formatting, and 3D structure visualization.
     </p>
 
-    <div class="icon-links text-justify" style="margin-top: 10px;">
-        <a href="logidft.html" aria-label="Visit LogiDFT">
-            <i class="fa-solid fa-globe"></i>
-        </a>
-    </div>
+    <a href="logidft.html" class="mt-auto self-start inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-800 bg-yellow-400 hover:bg-yellow-500 transition" aria-label="Launch LogiDFT" style="margin-top:auto">Launch LogiDFT <i class="fa-solid fa-arrow-right text-xs"></i></a>
 
 </div>
 </div>

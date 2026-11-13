@@ -612,6 +612,41 @@
 
 
 
+
+/* Research area cards */
+.area-nav{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.area-nav a{background:#fff;border:1px solid #e2e8f0;padding:8px 14px;font-size:13px;font-weight:700;color:#334155;text-decoration:none}
+.area-nav a:hover{background:#f8fafc}
+.area-nav a b{color:#263A67;margin-right:6px}
+.area-card{position:relative;background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06);margin-bottom:24px;overflow:hidden;padding:24px 26px;scroll-margin-top:90px;transition:box-shadow .2s}
+.area-card:hover{box-shadow:0 10px 24px rgba(15,23,42,.10)}
+.area-wm{position:absolute;bottom:-18px;right:20px;z-index:0;font-size:110px;font-weight:800;line-height:1;color:#f1f5f9;user-select:none;pointer-events:none}
+.area-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start}
+.area-card.alt .area-grid{grid-template-columns:1fr 1.15fr}
+.area-card.alt .area-fig{order:-1}
+.area-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.area-tag{font-size:11px;font-weight:700;padding:3px 9px;background:#e2e8f0;color:#334155;letter-spacing:.03em}
+.area-tag.n{background:#263A67;color:#fff}
+.area-title{font-size:clamp(20px,2.6vw,24px);font-weight:700;color:#263A67;line-height:1.25;margin:0}
+.area-title::after{content:"";display:block;width:50px;height:3px;background:#facc15;margin:10px 0 14px}
+.area-desc{font-size:14.5px;line-height:1.55;color:#475569;margin:0 0 18px;text-align:justify}
+.area-sub{font-size:12px;letter-spacing:.08em;color:#64748b;margin:0 0 8px;text-transform:uppercase;font-weight:700}
+.area-pub{display:flex;gap:12px;padding:10px 0;border-top:1px solid #f1f5f9}
+.area-year{flex:none;font-size:11px;font-weight:700;color:#475569;background:#f1f5f9;padding:3px 8px;height:fit-content}
+.area-pub-title{font-size:13px;font-weight:700;color:#1e293b;line-height:1.35;text-decoration:none}
+.area-pub-title:hover{color:#263A67;text-decoration:underline}
+.area-pub-title i{font-size:10px;color:#94a3b8}
+.area-pub-au{font-size:12px;color:#64748b;margin-top:3px}
+.area-journal{font-size:11px;font-weight:700;color:#fff;background:#263A67;padding:1px 7px;margin-right:6px}
+.area-fig{position:relative;min-width:0}
+.area-fig img{width:100%;height:auto;display:block;cursor:zoom-in}
+.area-zoom{position:absolute;right:6px;bottom:6px;font-size:11px;background:rgba(38,58,103,.8);color:#fff;padding:2px 8px;opacity:0;transition:opacity .2s;pointer-events:none}
+.area-fig:hover .area-zoom{opacity:1}
+.area-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.75)}
+.area-modal[hidden]{display:none}
+.area-modal img{max-width:min(1100px,100%);max-height:90vh;background:#fff;padding:12px}
+.area-modal-close{position:absolute;top:10px;right:18px;border:0;background:none;color:#fff;font-size:32px;line-height:1;cursor:pointer}
+@media(max-width:800px){.area-grid,.area-card.alt .area-grid{grid-template-columns:1fr}.area-card.alt .area-fig{order:0}.area-wm{font-size:70px}}
 </style>
 
 
@@ -833,160 +868,66 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 <!-- Research Pillars -->
-<section class="py-16 bg-slate-100">
+<section class="py-12 bg-slate-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-
-      <!-- PILLAR 01 -->
-      <article class="research-pillar-card">
-        <div class="research-pillar-accent bg-yellow-500"></div>
-
-	<div class="p-6">
-  	  <span class="research-pillar-tag">RESEARCH AREA 01</span>
-
- 	   <!-- Image -->
-  	  <div class="research-pillar-image">
-    	    <img src="research/pillar1.png"
-             alt="Ring-Strain-Driven Reaction Discovery">
-    		</div>
-
-   	 <h3 class="research-pillar-title">
-        Ring-Strain-Driven Reaction Discovery
-   	 </h3>
-
-    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
-
-          <p class="research-pillar-description">
-            Ring strain drives reactivity by releasing strain energy,
-            enabling access to valuable scaffolds. We aim to exploit
-            strain-release strategies to design novel reactions that
-            expand the synthetic toolbox for constructing complex molecules.
-          </p>
-
-          <div class="research-publications">
-
-            <details class="research-publication-dropdown">
-              <summary>Representative Publications</summary>
-              <div class="research-publication-content">
-                <p><strong>Strain-Enabled Radical-Polar Crossover Annulation to Access Spiro-, Fused-, and Enantioenriched-Aza/Oxa-Bicyclo[3.1.1]Heptanes</strong><br>Bhismalochan Ghorai†; Buddhadeb Sahana†; Durga Prasad Hari<br><em>Angew. Chem. Int. Ed. 2025, 64, e202506747.</em></p>
-                <a href="https://doi.org/10.1002/anie.202506747" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-              <div class="research-publication-content">
-                <p><strong>Highly Stereoselective Synthesis of Polysubstituted Housanes and Spiro-Oxa-Housanes: Application and Mechanistic Insights</strong><br>Abdur R. S. Mondal; Nakul Abhay Bapat; Harshita Mishra; Durga Prasad Hari<br><em>Chem. Sci., 2025,16, 12350-12361.</em></p>
-                <a href="https://doi.org/10.1039/d5sc02288f" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-            </details>
-
-            </div>
+    <nav class="area-nav" aria-label="Research areas">
+      <a href="#area-1"><b>01</b>Ring-Strain-Driven Reaction Discovery</a>
+      <a href="#area-2"><b>02</b>Synthesis and Applications of New Carbenes</a>
+      <a href="#area-3"><b>03</b>Deconstructive Functionalization</a>
+    </nav>
+    <article class="area-card" id="area-1">
+      <span class="area-wm" aria-hidden="true">01</span>
+      <div class="area-grid">
+        <div class="area-text">
+          <div class="area-tags"><span class="area-tag n">RESEARCH AREA 01</span><span class="area-tag">Strain Release</span><span class="area-tag">Bicyclobutanes</span><span class="area-tag">Housanes</span><span class="area-tag">Spirocycles</span></div>
+          <h3 class="area-title">Ring-Strain-Driven Reaction Discovery</h3>
+          <p class="area-desc">Ring strain drives reactivity by releasing strain energy, enabling access to valuable scaffolds. We aim to exploit strain-release strategies to design novel reactions that expand the synthetic toolbox for constructing complex molecules.</p>
+          <h4 class="area-sub">Representative Publications</h4>
+          <div class="area-pub"><span class="area-year">2025</span><div><a class="area-pub-title" href="https://doi.org/10.1002/anie.202506747" target="_blank" rel="noopener noreferrer">Strain-Enabled Radical-Polar Crossover Annulation to Access Spiro-, Fused-, and Enantioenriched-Aza/Oxa-Bicyclo[3.1.1]heptanes <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">Angew. Chem. Int. Ed.</span>Ghorai†, Sahana†, Hari</div></div></div>
+          <div class="area-pub"><span class="area-year">2024</span><div><a class="area-pub-title" href="https://doi.org/10.1039/d3sc05700c" target="_blank" rel="noopener noreferrer">Strain-Enabled Radical Spirocyclization Cascades: Rapid Access to Spirocyclobutyl Lactones and Lactams <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">Chem. Sci.</span>Das, Pedada, Singha, Hari</div></div></div>
         </div>
-      </article>
-
-
-<!-- PILLAR 02 -->
-      <article class="research-pillar-card">
-        <div class="research-pillar-accent bg-yellow-500"></div>
-
-	<div class="p-6">
-  	  <span class="research-pillar-tag">RESEARCH AREA 02</span>
-
- 	   <!-- Image -->
-  	  <div class="research-pillar-image">
-    	    <img src="research/pillar2.png"
-             alt="Synthesis and Applications of New Carbenes">
-    		</div>
-
-   	 <h3 class="research-pillar-title">
-        Synthesis and Applications of New Carbenes
-   	 </h3>
-
-    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
-
-          <p class="research-pillar-description">
-            Diazo compounds are powerful carbene precursors in synthesis
-            and catalysis, yet few precursors are known. We aim to develop
-            new diazo reagents with versatile handles for use in late-stage
-            functionalization of complex, privileged structures.
-          </p>
-
-          <div class="research-publications">
-
-            <details class="research-publication-dropdown">
-              <summary>Representative Publications</summary>
-              <div class="research-publication-content">
-                <p><strong>Photoinduced C–Cl Bond Activation of Polychloroalkanes with Triplet Carbenes: Synthetic Applications and Mechanistic Studies</strong><br>Bina Das; Buddhadeb Sahana; Durga Prasad Hari<br><em>JACS Au. 2025, 5, 1, 291–301.</em></p>
-                <a href="https://doi.org/10.1021/jacsau.4c00970" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-              <div class="research-publication-content">
-                <p><strong>Photoinduced Temperature-Regulated Selective Carbene C–H Insertion for the Synthesis of Functionalized Spiro-β-Lactones and -Lactams</strong><br>Abdur R. S. Mondal; Bhismalochan Ghorai; Durga Prasad Hari<br><em>Org. Lett. 2023, 25, 27, 4974–4979 (Front Cover).</em></p>
-                <a href="https://doi.org/10.1021/acs.orglett.3c01549" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-            </details>
-
-            </div>
+        <div class="area-fig"><img src="research/pillar1.png" alt="Ring-Strain-Driven Reaction Discovery" loading="lazy"><span class="area-zoom">Click to enlarge</span></div>
+      </div>
+    </article>
+    <article class="area-card alt" id="area-2">
+      <span class="area-wm" aria-hidden="true">02</span>
+      <div class="area-grid">
+        <div class="area-text">
+          <div class="area-tags"><span class="area-tag n">RESEARCH AREA 02</span><span class="area-tag">Diazo Reagents</span><span class="area-tag">Photoinduced Carbenes</span><span class="area-tag">C–H Insertion</span></div>
+          <h3 class="area-title">Synthesis and Applications of New Carbenes</h3>
+          <p class="area-desc">Diazo compounds are powerful carbene precursors in synthesis and catalysis, yet few precursors are known. We aim to develop new diazo reagents with versatile handles for use in late-stage functionalization of complex, privileged structures.</p>
+          <h4 class="area-sub">Representative Publications</h4>
+          <div class="area-pub"><span class="area-year">2025</span><div><a class="area-pub-title" href="https://doi.org/10.1021/jacsau.4c00970" target="_blank" rel="noopener noreferrer">Photoinduced C–Cl Bond Activation of Polychloroalkanes with Triplet Carbenes: Synthetic Applications and Mechanistic Studies <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">JACS Au</span>Das, Sahana, Hari</div></div></div>
+          <div class="area-pub"><span class="area-year">2025</span><div><a class="area-pub-title" href="https://doi.org/10.1038/s41467-025-60805-2" target="_blank" rel="noopener noreferrer">[2,3]-Sigmatropic Rearrangement with [1.1.1]Propellane <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">Nat. Commun.</span>Midya, Ali, Hari</div></div></div>
         </div>
-      </article>
-
-
-
-<!-- PILLAR 03 -->
-      <article class="research-pillar-card">
-        <div class="research-pillar-accent bg-yellow-500"></div>
-
-	<div class="p-6">
-  	  <span class="research-pillar-tag">RESEARCH AREA 03</span>
-
- 	   <!-- Image -->
-  	  <div class="research-pillar-image">
-    	    <img src="research/pillar3.png"
-             alt=" Deconstructive Functionalization">
-    		</div>
-
-   	 <h3 class="research-pillar-title">
-         Deconstructive Functionalization
-   	 </h3>
-
-    	<div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 4px;"></div>
-
-          <p class="research-pillar-description">
-            While C–C and C–X bond-forming methods are central to synthesis,
-            they can fall short in accessing novel architectures. We are
-            developing deconstructive strategies to convert simple cyclic
-            compounds into richly functionalized acyclic molecules.
-          </p>
-
-          <div class="research-publications">
-
-            <details class="research-publication-dropdown">
-              <summary>Representative Publications</summary>
-              <div class="research-publication-content">
-                <p><strong>Deconstructive Functionalization of Cyclic Ketones via Electrochemical Interrupted Dowd-Beckwith Reaction</strong><br>Tushar Singha; Jyothirlatha Kasu; Durga Prasad Hari<br><em>Angew. Chem. Int. Ed. 2025, 64, e202505155.</em></p>
-                <a href="https://doi.org/10.1002/anie.202505155" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-              <div class="research-publication-content">
-                <p><strong>Ring-Expansion of Ketones with [1.1.1]Propellane</strong><br>Ganesh Arjun Kadam; Suparnak Midya; Vitalina Levchenko; Vadym Sham; Pavel K. Mykhailiuk; Durga Prasad Hari<br><em>J. Am. Chem. Soc. 2026, 148, 1, 388–399</em></p>
-                <a href="https://doi.org/10.1021/jacs.5c14022" target="_blank" rel="noopener noreferrer">
-                  View Publication ↗
-                </a>
-              </div>
-            </details>
-
-            </div>
+        <div class="area-fig"><img src="research/pillar2.png" alt="Synthesis and Applications of New Carbenes" loading="lazy"><span class="area-zoom">Click to enlarge</span></div>
+      </div>
+    </article>
+    <article class="area-card" id="area-3">
+      <span class="area-wm" aria-hidden="true">03</span>
+      <div class="area-grid">
+        <div class="area-text">
+          <div class="area-tags"><span class="area-tag n">RESEARCH AREA 03</span><span class="area-tag">Dowd–Beckwith</span><span class="area-tag">Ring Expansion</span><span class="area-tag">Electrochemistry</span></div>
+          <h3 class="area-title">Deconstructive Functionalization</h3>
+          <p class="area-desc">While C–C and C–X bond-forming methods are central to synthesis, they can fall short in accessing novel architectures. We are developing deconstructive strategies to convert simple cyclic compounds into richly functionalized acyclic molecules.</p>
+          <h4 class="area-sub">Representative Publications</h4>
+          <div class="area-pub"><span class="area-year">2025</span><div><a class="area-pub-title" href="https://doi.org/10.1002/anie.202505155" target="_blank" rel="noopener noreferrer">Deconstructive Functionalization of Cyclic Ketones via Electrochemical Interrupted Dowd–Beckwith Reaction <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">Angew. Chem. Int. Ed.</span>Singha, Kasu, Hari</div></div></div>
+          <div class="area-pub"><span class="area-year">2024</span><div><a class="area-pub-title" href="https://doi.org/10.1021/acscatal.4c03569" target="_blank" rel="noopener noreferrer">Rhodium(II)-Catalyzed Strain-Enabled Stereoselective Synthesis of Skipped Dienes <i class="fa-solid fa-arrow-up-right-from-square"></i></a><div class="area-pub-au"><span class="area-journal">ACS Catal.</span>Kadam, Singha, Rawat, Hari</div></div></div>
         </div>
-      </article>
-    </div>
+        <div class="area-fig"><img src="research/pillar3.png" alt="Deconstructive Functionalization" loading="lazy"><span class="area-zoom">Click to enlarge</span></div>
+      </div>
+    </article>
   </div>
 </section>
+<div class="area-modal" id="area-modal" hidden><button type="button" class="area-modal-close" aria-label="Close">&times;</button><img alt=""></div>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const m=document.getElementById('area-modal'),mi=m.querySelector('img');
+  document.querySelectorAll('.area-fig img').forEach(i=>i.addEventListener('click',()=>{mi.src=i.src;mi.alt=i.alt;m.hidden=false;}));
+  m.addEventListener('click',e=>{if(e.target!==mi)m.hidden=true;});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true;});
+});
+</script>
 
 
 

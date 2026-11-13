@@ -163,10 +163,25 @@
         setBusy(true, `Parsing ${list.length} file${list.length > 1 ? 's' : ''}…`);
         const added = [];
         const failed = [];
+        const rejected = [];
+        const duplicates = [];
+        const seen = new Set(state.logs.map(l => `${l.fileName}|${l.fileSize}`));
         for (const file of list) {
+            const key = `${file.name}|${file.size}`;
+            if (seen.has(key)) {
+                duplicates.push(file.name);
+                continue;
+            }
             try {
                 const text = await readFileText(file);
-                added.push(NS.parseDFTLog(file.name, text));
+                const parsed = NS.parseDFTLog(file.name, text);
+                if (parsed.program === 'Unknown') {
+                    rejected.push(file.name);
+                } else {
+                    parsed.fileSize = file.size;
+                    added.push(parsed);
+                    seen.add(key);
+                }
             } catch (err) {
                 console.error('Could not parse', file.name, err);
                 failed.push(file.name);
@@ -174,6 +189,11 @@
             await new Promise(r => setTimeout(r, 0)); // keep the page responsive between files
         }
         setBusy(false);
+
+        const notes = [];
+        if (rejected.length) notes.push(`Not a Gaussian or ORCA log, skipped: ${rejected.join(', ')}.`);
+        if (duplicates.length) notes.push(`Already loaded, skipped: ${duplicates.join(', ')}.`);
+        if (failed.length) notes.push(`Could not read: ${failed.join(', ')}.`);
 
         if (added.length) {
             closeAllViewers();
@@ -184,9 +204,10 @@
             const withWarnings = state.files.filter(f => f.warnings.length).length;
             let msg = `Processed ${added.length} log file(s) → ${state.files.length} structure(s), ${paired} with freq + sp paired.`;
             if (withWarnings) msg += ` ${withWarnings} with warnings.`;
-            showToast(msg, withWarnings ? 'info' : 'success');
+            showToast([msg].concat(notes).join(' '), (withWarnings || notes.length) ? 'info' : 'success');
+        } else if (notes.length) {
+            showToast(notes.join(' '), rejected.length || failed.length ? 'error' : 'info');
         }
-        if (failed.length) showToast(`Could not read: ${failed.join(', ')}`, 'error');
     }
 
     // ------------------------------------------------------------------ rendering
