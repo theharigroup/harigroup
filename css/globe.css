@@ -16,3 +16,5 @@
 .globe-modal-box a:hover{background:#eab308}
 .globe-modal-close{position:absolute;top:2px;right:10px;border:0;background:none;font-size:26px;line-height:1;color:#475569;cursor:pointer}
 @media (max-width:1023px){#hero-globe{margin-top:8px}#hero-globe .globe-wrap{width:min(100%,380px)}}
+
+@media (max-width:767px){#hero-globe{display:none}}
