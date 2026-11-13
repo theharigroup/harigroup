@@ -107,8 +107,8 @@
             const elements = Array.from(new Set(this.file.atoms.map(a => a.symbol)));
             elements.forEach(el => v.setStyle({ elem: el }, elementStyle(style, el)));
             if (this.state.hideH) v.setStyle({ elem: 'H' }, {});
-            // depth cue: atoms and bonds in the back fade towards the background (translucent look)
-            try { v.enableFog({ fogStart: 0.3, fogEnd: 1.5 }); } catch (e) { /* older 3Dmol builds */ }
+            // depth cue: atoms and bonds in the back fade towards the background, to roughly 70% opacity at the very back
+            try { v.enableFog({ fogStart: 0.3, fogEnd: 2.5 }); } catch (e) { /* older 3Dmol builds */ }
         }
 
         clearLabels() {
