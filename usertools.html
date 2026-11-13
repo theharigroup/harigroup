@@ -77,17 +77,10 @@
 
 
 <!-- User Gadget 1: Invoice Manager -->
-<div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm flex flex-col"
->
-    
-
-    <p class="text-[11px] text-red-800 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
-        PRIVATE
-    </p>
-
-
-    <div class="viz viz-inv" role="img" aria-label="Animated invoice with items, total and paid status">
+<div class="ut-card">
+    <div class="ut-top">
+        <span class="ut-tag">PRIVATE</span>
+        <div class="viz viz-inv" role="img" aria-label="Animated invoice with items, total and paid status">
 <div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">invoice_2048.json</span></div>
 <div class="inv-head"><span>INV-<b>2048</b></span><span class="pill" id="iv-pill">PENDING</span></div>
 <div class="inv-row"><span>Acetonitrile (HPLC) 4 L</span><em>₹ 12,400</em></div>
@@ -95,36 +88,21 @@
 <div class="inv-row"><span>Chloroform-d 100 g</span><em>₹ 27,600</em></div>
 <div class="inv-total"><span>TOTAL</span><strong id="iv-total">₹ 0</strong></div>
 </div>
-
-    <h3 class="font-bold text-slate-700 text-[18px] text-left">
-        Invoice Manager
-    </h3>
-
-    <div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 10px;"></div>
-
-    <p class="text-[13px] text-slate-500 mt-3 text-justify leading-relaxed">
-        Automate billing cycles, track real-time payment statuses, and seamlessly reconcile invoices to eliminate manual errors.
-    </p>
-
-    <div class="mt-auto pt-5 text-left"><a href="invoice.html" class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-white bg-[#263A67] hover:bg-[#1c2c4f] transition" aria-label="Open Invoice Manager">Sign in to open <i class="fa-solid fa-arrow-right text-xs"></i></a></div>
-
+    </div>
+    <div class="ut-body">
+        <h3 class="ut-name">Invoice Manager</h3>
+        <div class="ut-bar"></div>
+        <p class="ut-desc">Automate billing cycles, track real-time payment statuses, and seamlessly reconcile invoices to eliminate manual errors.</p>
+        <div class="mt-auto pt-5 text-left"><a href="invoice.html" class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-white bg-[#263A67] hover:bg-[#1c2c4f] transition" aria-label="Open Invoice Manager">Sign in to open <i class="fa-solid fa-arrow-right text-xs"></i></a></div>
+    </div>
 </div>
 
-
 <!-- User Gadget 2: Chemical Inventory -->
-<div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm cursor-not-allowed select-none flex flex-col"
-    aria-disabled="true"
-    title="Coming soon"
->
-
-
-<p class="text-[11px] text-slate-300 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
-        BETA &bull; COMING SOON
-    </p>
-    <div class="opacity-80 pointer-events-none flex flex-col flex-1">
-
-    <div class="viz viz-chem" role="img" aria-label="Animated chemical search with result">
+<div class="ut-card ut-card-off" aria-disabled="true" title="Coming soon">
+  <div class="ut-fade">
+    <div class="ut-top">
+        <span class="ut-tag ut-tag-beta">BETA &bull; COMING SOON</span>
+        <div class="viz viz-chem" role="img" aria-label="Animated chemical search with result">
 <div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">search.query</span></div>
 <div class="chem-search"><i class="fa-solid fa-magnifying-glass"></i><span id="cs-text"></span><span class="caret"></span></div>
 <div class="chem-res" id="cs-res">
@@ -134,34 +112,21 @@
 </div>
 <div class="chem-meta"><span>● in stock</span><span>barcode ▌▌▎▌▎▌▌▎</span></div>
 </div>
-
-    <h3 class="font-bold text-slate-700 text-[18px] text-left">
-        Chemical Inventory
-    </h3>
-
-    <div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 10px;"></div>
-
-    <p class="text-[13px] text-slate-500 mt-3 text-justify leading-relaxed">
-        ChemInventory makes lab management simple, helps you organize your laboratory's chemical stock.
-    </p>
-
-    <div class="mt-auto pt-5 text-left"><span class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-400 bg-slate-100 border border-slate-200 cursor-not-allowed" aria-disabled="true">Coming soon</span></div>
     </div>
-
+    <div class="ut-body">
+        <h3 class="ut-name">Chemical Inventory</h3>
+        <div class="ut-bar"></div>
+        <p class="ut-desc">ChemInventory makes lab management simple, helps you organize your laboratory's chemical stock.</p>
+        <div class="mt-auto pt-5 text-left"><span class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-400 bg-slate-100 border border-slate-200 cursor-not-allowed" aria-disabled="true">Coming soon</span></div>
+    </div>
+  </div>
 </div>
 
-
 <!-- User Gadget 3: LogiDFT -->
-<div
-    class="bg-white rounded-[2px] p-6 border border-slate-200 text-center shadow-sm flex flex-col"
->
-
-
-<p class="text-[11px] text-blue-500 mb-[15px] font-bold tracking-[0.08em] text-justify leading-relaxed">
-        PUBLIC
-    </p>
-
-    <div class="viz viz-dft" role="img" aria-label="Animated DFT log lines and energy profile">
+<div class="ut-card">
+    <div class="ut-top">
+        <span class="ut-tag">PUBLIC</span>
+        <div class="viz viz-dft" role="img" aria-label="Animated DFT log lines and energy profile">
 <div class="viz-bar"><i></i><i></i><i></i><span class="viz-file">ts1_freq.log</span></div>
 <div class="dft-log"><div><span class="k">E_elec</span> <span id="dl-1"></span></div><div><span class="k">Freq</span> <span id="dl-2"></span></div></div>
 <svg viewBox="0 0 300 96" width="100%" height="96" preserveAspectRatio="none" aria-hidden="true">
@@ -171,23 +136,32 @@
 <g class="dft-lbl" fill="#94a3b8" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="middle"><text x="40" y="84">SM</text><text x="140" y="12">TS</text><text x="204" y="70">INT</text><text x="262" y="94">P</text></g>
 </svg>
 </div>
-
-    <h3 class="font-bold text-slate-700 text-[18px] text-left">
-        LogiDFT
-    </h3>
-
-    <div style="background-color: #facc15; width: 50px; height: 3px; margin-top: 10px;"></div>
-
-    <p class="text-[13px] text-slate-500 mt-3 text-justify leading-relaxed">
-        The DFT Log Parser &amp; SI Generator automates thermochemical data extraction, Supporting Information formatting, and 3D structure visualization.
-    </p>
-
-    <div class="mt-auto pt-5 text-left"><a href="logidft.html" class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-800 bg-yellow-400 hover:bg-yellow-500 transition" aria-label="Launch LogiDFT">Launch LogiDFT <i class="fa-solid fa-arrow-right text-xs"></i></a></div>
-
+    </div>
+    <div class="ut-body">
+        <h3 class="ut-name">LogiDFT</h3>
+        <div class="ut-bar"></div>
+        <p class="ut-desc">The DFT Log Parser &amp; SI Generator automates thermochemical data extraction, Supporting Information formatting, and 3D structure visualization.</p>
+        <div class="mt-auto pt-5 text-left"><a href="logidft.html" class="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-bold text-slate-800 bg-yellow-400 hover:bg-yellow-500 transition" aria-label="Launch LogiDFT">Launch LogiDFT <i class="fa-solid fa-arrow-right text-xs"></i></a></div>
+    </div>
 </div>
+
 </div>
 </div>
 </section>
+<style>
+.ut-card{display:flex;flex-direction:column;background:#fff;border:1px solid #e2e8f0;border-radius:2px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .2s,box-shadow .2s;text-align:left}
+.ut-card:not(.ut-card-off):hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(15,23,42,.12)}
+.ut-card-off{cursor:not-allowed;user-select:none}
+.ut-fade{display:flex;flex-direction:column;flex:1;opacity:.8;pointer-events:none}
+.ut-top{position:relative}
+.ut-top .viz{margin-bottom:0;border-width:0 0 1px 0}
+.ut-tag{position:absolute;left:10px;bottom:10px;z-index:2;background:#263A67;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 9px}
+.ut-tag-beta{color:#cbd5e1}
+.ut-body{display:flex;flex-direction:column;flex:1;padding:16px 18px 18px}
+.ut-name{margin:0;font-size:18px;font-weight:700;color:#263A67}
+.ut-bar{width:50px;height:3px;background:#facc15;margin:8px 0 12px}
+.ut-desc{margin:0;font-size:13px;line-height:1.6;color:#475569;text-align:justify}
+</style>
 <style>
 /* Live-coded tool previews (replace static images) */
 .viz { height:224px; margin-bottom:16px; position:relative; overflow:hidden; text-align:left; color:#cbd5e1; font:500 11.5px/1.5 'JetBrains Mono',monospace;

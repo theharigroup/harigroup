@@ -7,7 +7,7 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const OMEGA = 0.3; // rad/s auto-rotation (half of the first mock-up)
 
-  const mobile = matchMedia('(max-width: 767px)');
+  const mobile = matchMedia('(max-width: 1023px)');
   let started = false;
   function init() {
     if (started) return;
@@ -23,7 +23,7 @@
       })
       .catch(err => { host.style.display = 'none'; console.warn('Globe disabled:', err.message); });
   }
-  // The globe is not shown (or even loaded) on phones.
+  // The globe is not shown (or even loaded) below the desktop layout.
   if (!mobile.matches) init();
   else mobile.addEventListener('change', e => { if (!e.matches) init(); });
 
