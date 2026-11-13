@@ -23,11 +23,17 @@
         showValues: true,
         gridLines: true,
         lineStyle: 'solid',     // 'solid' | 'dotted' | 'dashed'
+        showRefLine: true,
+        showYAxis: true,
+        showXAxis: true,
+        dotSize: 6.5,
+        minColor: '',           // '' = theme default
+        tsColor: '',
         theme: 'light',
         tab: 'structures',
         refId: ''                // session only (ids are random per load)
     };
-    const PERSISTED = ['coordFormat', 'energyFormat', 'unit', 'energyType', 'showValues', 'gridLines', 'lineStyle', 'theme', 'tab'];
+    const PERSISTED = ['coordFormat', 'energyFormat', 'unit', 'energyType', 'showValues', 'gridLines', 'lineStyle', 'showRefLine', 'showYAxis', 'showXAxis', 'dotSize', 'minColor', 'tsColor', 'theme', 'tab'];
     const VIEW_DEFAULTS = { style: 'ballstick', labels: 'none', hideH: false, bg: 'white', spin: false, measure: false };
     const MAX_OPEN_VIEWERS = 8; // browsers only allow ~16 WebGL contexts per page
 
@@ -38,6 +44,8 @@
         files: [],            // species built from the logs (freq + sp pairs); everything below renders these
         viewers: new Map(),   // file id -> MolViewer (insertion order = open order)
         settings: loadSettings(),
+        edgeStyles: {},          // pathway line styles, keyed 'fromKey>toKey' (session only)
+        edgeSig: '',
         toastTimer: null
     };
 
@@ -548,9 +556,44 @@
             digits: NS.UNITS[unit].digits,
             showValues: state.settings.showValues,
             gridLines: state.settings.gridLines !== false,
-            lineStyle: state.settings.lineStyle
+            lineStyle: state.settings.lineStyle,
+            showRefLine: state.settings.showRefLine !== false,
+            showYAxis: state.settings.showYAxis !== false,
+            showXAxis: state.settings.showXAxis !== false,
+            dotSize: Number(state.settings.dotSize) || 6.5,
+            minColor: state.settings.minColor || '',
+            tsColor: state.settings.tsColor || '',
+            edgeStyles: state.edgeStyles
         });
         return { type, profile, built };
+    }
+
+    const hex = c => (/^#[0-9a-f]{6}$/i.test(c) ? c : '#000000');
+
+    /** Appearance panel: reflects settings and (re)builds the per-pathway rows only when the set of lines changes. */
+    function renderProfileStyle(built) {
+        const s = state.settings;
+        $('#showRefLine').checked = s.showRefLine !== false;
+        $('#showYAxis').checked = s.showYAxis !== false;
+        $('#showXAxis').checked = s.showXAxis !== false;
+        $('#dotSize').value = s.dotSize;
+        $('#dotSizeVal').textContent = Number(s.dotSize).toFixed(1);
+        const act = document.activeElement;
+        if (act !== $('#minColor')) $('#minColor').value = hex(s.minColor || built.defaults.minColor);
+        if (act !== $('#tsColor')) $('#tsColor').value = hex(s.tsColor || built.defaults.tsColor);
+        const sig = built.edges.map(e => e.id).join('|') + '#' + state.settings.lineStyle;
+        if (sig === state.edgeSig) return;
+        state.edgeSig = sig;
+        const sty = ['solid', 'dashed', 'dotted'];
+        $('#pathwayList').innerHTML = built.edges.map(e => {
+            const st = state.edgeStyles[e.id] || {};
+            return `<div class="ps-edge" data-edge="${esc(e.id)}">
+                <span class="ps-name">${esc(e.label)}${e.main ? ' <em>(main)</em>' : ''}</span>
+                <input type="color" data-ps-edge="color" value="${hex(st.color || e.defColor)}" aria-label="Line colour">
+                <input type="number" data-ps-edge="width" min="0.5" max="8" step="0.5" value="${st.width || 2.2}" aria-label="Line width">
+                <select data-ps-edge="style" aria-label="Line type">${sty.map(v => `<option value="${v}"${(st.style || state.settings.lineStyle) === v ? ' selected' : ''}>${v[0].toUpperCase() + v.slice(1)}</option>`).join('')}</select>
+            </div>`;
+        }).join('') || '<p class="note">No lines yet.</p>';
     }
 
     function renderProfile() {
@@ -570,6 +613,7 @@
             return;
         }
         chart.innerHTML = built.svg;
+        renderProfileStyle(built);
 
         let text = `${esc(type.label)} = E(HF, sp) + thermal correction, relative to <strong>${esc(profile.ref.label)}</strong>. `
             + 'Every stage is balanced to the same atoms and electrons as the reference';
@@ -899,6 +943,10 @@
             state.parents[key] = g.parents[key].filter(k => k !== t.dataset.parent);
             renderProfile();
         },
+        'ps-reset': () => {
+            Object.assign(state.settings, { showRefLine: true, showYAxis: true, showXAxis: true, dotSize: 6.5, minColor: '', tsColor: '' });
+            state.edgeStyles = {}; state.edgeSig = ''; renderProfile(); saveSettings();
+        },
         'parents-reset': () => { state.parents = {}; renderProfile(); },
         'expand-all': () => {
             const withAtoms = state.files.filter(f => f.atoms.length);
@@ -1020,6 +1068,12 @@
             state.parents[key] = t.value === '__start' ? [] : (g.parents[key] || []).concat([t.value]);
             renderProfile();
         },
+        'ps-ref': t => { state.settings.showRefLine = t.checked; renderProfile(); saveSettings(); },
+        'ps-y': t => { state.settings.showYAxis = t.checked; renderProfile(); saveSettings(); },
+        'ps-x': t => { state.settings.showXAxis = t.checked; renderProfile(); saveSettings(); },
+        'ps-size': t => { state.settings.dotSize = Number(t.value); renderProfile(); saveSettings(); },
+        'ps-min': t => { state.settings.minColor = t.value; renderProfile(); saveSettings(); },
+        'ps-ts': t => { state.settings.tsColor = t.value; renderProfile(); saveSettings(); },
         'grid-lines': t => { state.settings.gridLines = t.checked; renderProfile(); saveSettings(); },
         'line-style': t => { state.settings.lineStyle = t.value; renderProfile(); saveSettings(); },
         'show-values': t => { state.settings.showValues = t.checked; renderProfile(); saveSettings(); },
@@ -1067,6 +1121,24 @@
         });
 
         $('#filterInput').addEventListener('input', applyFilter);
+
+        // live update while dragging the size slider / picking a colour
+        doc.addEventListener('input', e => {
+            const t = e.target.closest('[data-live]');
+            if (t) { const h = CHANGES[t.dataset.change]; if (h) h(t, null, e); }
+        });
+        // per-pathway line style rows (live)
+        const edgeInput = e => {
+            const t = e.target.closest('[data-ps-edge]');
+            if (!t) return;
+            const id = t.closest('[data-edge]').dataset.edge;
+            const st = state.edgeStyles[id] = state.edgeStyles[id] || {};
+            const k = t.dataset.psEdge;
+            st[k] = k === 'width' ? Math.max(0.5, Math.min(8, Number(t.value) || 2.2)) : t.value;
+            renderProfile();
+        };
+        doc.addEventListener('input', edgeInput);
+        doc.addEventListener('change', edgeInput);
 
         // --- drop zone (click, keyboard, drag & drop anywhere on the page) ---
         const dropzone = $('#dropzone');

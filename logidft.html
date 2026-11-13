@@ -16,7 +16,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="css/logidft.css?v=15" rel="stylesheet"/>
+<link href="css/logidft.css?v=16" rel="stylesheet"/>
 <script src="https://3dmol.org/build/3Dmol-min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="logidft">
@@ -231,6 +231,22 @@
                     <button type="button" class="btn" data-action="profile-svg"><i class="fa-solid fa-file-code"></i> Save SVG</button>
                     <button type="button" class="btn" data-action="profile-png"><i class="fa-solid fa-image"></i> Save PNG</button>
                 </div>
+                <div class="profile-style no-print" id="profileStyle">
+                    <div class="lt-tags"><span class="lt-tag n">Appearance</span></div>
+                    <div class="ps-row">
+                        <label class="check"><input type="checkbox" id="showRefLine" data-change="ps-ref" checked> Reference Line</label>
+                        <label class="check"><input type="checkbox" id="showYAxis" data-change="ps-y" checked> Y-axis</label>
+                        <label class="check"><input type="checkbox" id="showXAxis" data-change="ps-x" checked> X-axis</label>
+                        <label class="field-inline" for="dotSize">Ball Size <input type="range" id="dotSize" min="3" max="14" step="0.5" value="6.5" data-change="ps-size" data-live aria-label="Ball size"><span id="dotSizeVal" class="ps-val">6.5</span></label>
+                        <label class="field-inline" for="minColor">Minima <input type="color" id="minColor" data-change="ps-min" data-live aria-label="Colour of minima"></label>
+                        <label class="field-inline" for="tsColor">TS <input type="color" id="tsColor" data-change="ps-ts" data-live aria-label="Colour of transition states"></label>
+                        <button type="button" class="btn btn-sm" data-action="ps-reset"><i class="fa-solid fa-rotate-left"></i> Reset Appearance</button>
+                    </div>
+                    <details class="ps-paths" id="pathwayDetails">
+                        <summary>Pathway Lines (colour, width, type)</summary>
+                        <div id="pathwayList" class="ps-list"></div>
+                    </details>
+                </div>
                 <p id="profileNote" class="note"></p>
                 <div class="profile-layout">
                     <div id="profileChart" class="profile-chart"></div>
@@ -290,8 +306,8 @@
 <script src="js/logidft/species.js?v=3"></script>
 <script src="js/logidft/sample.js?v=3"></script>
 <script src="js/logidft/viewer.js?v=4"></script>
-<script src="js/logidft/profile.js?v=6"></script>
-<script src="js/logidft/ui.js?v=11"></script>
+<script src="js/logidft/profile.js?v=7"></script>
+<script src="js/logidft/ui.js?v=12"></script>
 <script src="js/logidft/app.js?v=3"></script>
 <hr style="border: none; border-top: 3px solid; border-image: linear-gradient(90deg, #2563eb, #10b981, #f59e0b, #ef4444, #10b981, #2563eb) 1; width: 100%; margin: 0;"/>
 <footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
