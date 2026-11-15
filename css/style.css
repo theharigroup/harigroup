@@ -131,5 +131,5 @@ footer.bg-navy-950::before{content:"";position:absolute;inset:0;pointer-events:n
 .news-title{color:#263A67;font-size:18px;font-weight:700;line-height:1.3;margin:0}
 .news-bar{width:50px;height:3px;background:#facc15;margin:8px 0 10px}
 .news-desc{color:#475569;font-size:13px;line-height:1.55;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.news-btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#facc15;color:#0f1b34;font-weight:700;font-size:13px;padding:6px 14px;transition:background .2s}
-.news-btn:hover{background:#fde047}
+.news-btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#263a67;color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:6px 14px;transition:background .2s}
+.news-btn:hover{background:#1c2c4f;color:#fff}
