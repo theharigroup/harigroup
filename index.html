@@ -18,7 +18,7 @@
 <meta name="twitter:description" content="Hari Group (Prof. D. P. Hari), Department of Organic Chemistry, IISc Bangalore: ring-strain-driven reactions, photochemistry, electrosynthesis and carbene chemistry for organic synthesis.">
 <meta name="twitter:image" content="https://harigroup.orgchem.iisc.ac.in/members/groupphoto.jpg">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=7" rel="stylesheet"/>
+<link href="css/style.css?v=8" rel="stylesheet"/>
 <link href="css/globe.css?v=1" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -347,7 +347,7 @@
        </style>
 
 
-<script src="js/news-card.js?v=1"></script>
+<script src="js/news-card.js?v=2"></script>
 <script>
 
 
@@ -381,69 +381,12 @@
 
 	
 
- // ====================================================================================================================================
- // ENTER GROUP NEWS HERE ONLY -------------DO NOT CHANGE OTHER SECTION
- // ====================================================================================================================================
-          const profiles = [
-		{
-              section: "Postdoctoral Fellows",
-              title: "Congratulations Tushar!",
-              tag: "Publication",
-              image: "news/singha_acscat2026.png",
-              date: "OCTOBER 2026",
-              description: "We congratulate Tushar on his work, “Ring-Expansion/Cross-Coupling Cascade of Ketones via Radical Sorting”. This study enables ring expansion and functionalization of ketones, offering access to diverse molecular architectures and late-stage scaffold remodelling of drugs and natural products.",
-              weblink: "https://doi.org/10.1021/acscatal.6c07222",
-              
-            },
-            {
-              section: "Postdoctoral Fellows",
-              title: "Congratulations to DP!",
-              tag: "Award",
-              image: "news/dp_alumni_award.JPG",
-              date: "MARCH 2026",
-              description: "We congratulate Dr. D. P. Hari on receiving the prestigious Dr. Srinivasa Rajagopalan Award by IISc Alumni Association. This recognition reflects his exceptional contributions and inspiring leadership – a proud moment for the group.",
-              weblink: "https://www.iiscalumni.com/newsroom/news/Post-event-report-Dr-Srinivasa-Rajagopalan-Award-Er-Avinash-Shirode-Yashokirti-Award-Ceremony-2026.dz",
-              
-            },
-
-          {
-              section: "Postdoctoral Fellows",
-              title: "Congratulations to Ganesh & Suparanak!",
-              tag: "Publication",
-              image: "news/kadam_jacs2026.png",
-              date: "DECEMBER 2025",
-              description: "We congratulate Ganesh and Suparnak for their remarkable work on ring-expansion of ketones using [1.1.1]propellane to access spirocyclic ketones published in J. Am. Chem. Soc. A very nice collaboration with Pavel Mykhailiuk.",
-              weblink: "https://doi.org/10.1021/jacs.5c14022",
-              
-            }
-
-			  
-            // Add more profiles below using the same format.
-          ];
-
-         
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
- // ====================================================================================================================================
- // DO NOT CHANGE ANYTHING BELOW OF THIS SECTION
- // ====================================================================================================================================
-	
-			
-// Cards are rendered by js/news-card.js (createNewsCard). Only the list above needs editing.
-          document.getElementById("postdoc-grid").innerHTML = profiles.map(createNewsCard).join("");
+// Group news is edited ONLY in news.html. The newest three items are shown here automatically.
+          loadLatestNews("news.html", 3).then(function (items) {
+            document.getElementById("postdoc-grid").innerHTML = items.map(createNewsCard).join("");
+          }).catch(function () {
+            document.getElementById("postdoc-grid").innerHTML = '<p class="text-slate-600 text-sm">Latest news is available on the <a href="news.html" class="text-blue-700 underline">News page</a>.</p>';
+          });
         </script>
 </div>
 </section>

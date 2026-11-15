@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="Latest news from the Hari Group at IISc Bangalore: new papers, awards and group updates.">
 <meta name="twitter:image" content="https://harigroup.orgchem.iisc.ac.in/members/groupphoto.jpg">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
-<link href="css/style.css?v=7" rel="stylesheet"/>
+<link href="css/style.css?v=8" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -92,11 +92,12 @@
 <p class="text-sm text-slate-500 hidden" id="news-empty">No news yet.</p>
 </div>
 <style>.icon-links{display:flex;gap:12px;margin-top:10px}.icon-links a{color:#696969;transition:color .2s}.icon-links a:hover{color:#facc15}</style>
-<script src="js/news-card.js?v=1"></script>
+<script src="js/news-card.js?v=2"></script>
 <script>
 // =====================================================================================
-// HOW TO ADD NEWS: copy one { ... } block below, paste it ABOVE the first block
-// (newest first), and edit title / date / image / description / weblink.
+// HOW TO ADD NEWS: copy one { ... } block below, paste it anywhere in the list
+// (the page sorts by date, newest first; the home page automatically shows the newest 3),
+// and edit title / date / image / description / weblink.
 // - image: path to a file inside the "news" folder (leave "" for no image)
 // - weblink: optional; leave "" to hide the "Read more" button
 // - tag: optional category label, e.g. "Publication", "Award"
@@ -137,7 +138,7 @@ const newsItems = [
 
 // ==== DO NOT EDIT BELOW =====
 const grid=document.getElementById("news-grid");
-grid.innerHTML=newsItems.map(createNewsCard).join("");
+grid.innerHTML=sortNewsByDate(newsItems).map(createNewsCard).join("");
 if(!newsItems.length) document.getElementById("news-empty").classList.remove("hidden");
 </script>
 </section>
