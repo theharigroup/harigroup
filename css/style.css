@@ -133,3 +133,10 @@ footer.bg-navy-950::before{content:"";position:absolute;inset:0;pointer-events:n
 .news-desc{color:#475569;font-size:13px;line-height:1.55;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .news-btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#263a67;color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:6px 14px;transition:background .2s}
 .news-btn:hover{background:#1c2c4f;color:#fff}
+
+/* Members dropdown (desktop nav) */
+.nav-dd{position:relative}
+.nav-dd-menu{display:none;position:absolute;left:0;top:100%;min-width:190px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 20px rgba(15,23,42,.10);padding:6px 0;z-index:60}
+.nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{display:block}
+.nav-dd-menu a{display:block;padding:9px 16px;font-size:14px;font-weight:600;color:#1e293b;text-decoration:none;transition:background .15s,color .15s}
+.nav-dd-menu a:hover,.nav-dd-menu a:focus{background:#f1f5f9;color:#a16207}
