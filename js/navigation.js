@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Active page in the menu
   const page = document.body.dataset.page || 'home';
   document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-  const navId = page === 'invoice' ? null : `nav-${page}`;
+  const navId = page === 'invoice' ? null : (page === 'alumni' ? 'nav-team' : `nav-${page}`);
   const activeNav = navId ? document.getElementById(navId) : null;
   if (activeNav) activeNav.classList.add('active');
 
