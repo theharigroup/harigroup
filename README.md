@@ -66,22 +66,6 @@ Chemora and the invoice portal use Supabase and need a private configuration (se
 - GitHub Pages for deployment
 - Supabase for the inventory and invoice apps
 
-## Development
-
-No build step is needed. Clone the repository and serve it with any static server:
-
-```bash
-git clone https://github.com/theharigroup/harigroup.git
-cd harigroup
-python3 -m http.server 8000
-```
-
-Open http://localhost:8000. Serve over HTTP rather than opening files directly, because the home page reads `news.html`.
-
-**Adding news:** edit only the `newsItems` list in `news.html`. The three newest items appear on the home page automatically.
-
-**Supabase apps:** copy `config.example.js` to `config.js` and fill in your project URL and public key.
-
 ## Project Structure
 
 ```
