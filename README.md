@@ -1,112 +1,113 @@
-# Hari Group | Organic Chemistry Research
+<div align="center">
 
-**Department of Organic Chemistry | Indian Institute of Science (IISc), Bengaluru, India**
+<a href="https://harigroup.orgchem.iisc.ac.in/">
+  <img src="harigroup_logo.png" alt="Hari Group logo" width="260">
+</a>
 
-**Principal Investigator:** Dr. Durga Prasad Hari
+<h1>Hari Group</h1>
 
-🌐 **Official Website: (https://harigroup.orgchem.iisc.ac.in/)**
+<h3>Organic Chemistry Research Group, Indian Institute of Science (IISc), Bengaluru</h3>
 
----
+[![Website](https://img.shields.io/badge/website-harigroup.orgchem.iisc.ac.in-263A67)](https://harigroup.orgchem.iisc.ac.in/)
+[![Hosted on](https://img.shields.io/badge/hosted%20on-GitHub%20Pages-1f6feb)](https://pages.github.com/)
+[![Built with](https://img.shields.io/badge/built%20with-HTML%20%7C%20CSS%20%7C%20JS-e34c26)](#technologies)
+[![Last commit](https://img.shields.io/github/last-commit/theharigroup/harigroup?color=facc15)](https://github.com/theharigroup/harigroup/commits/main)
 
-## About the Hari Group
+</div>
 
-The **Hari Group**, led by Dr. Durga Prasad Hari at the Indian Institute of Science (IISc), Bengaluru, focuses on the discovery and development of innovative synthetic methodologies in organic chemistry.
+Source code of the official website of the **Hari Group** (Principal Investigator: **Dr. Durga Prasad Hari**), Department of Organic Chemistry, IISc Bengaluru. The site presents our research, publications, members, facilities and a set of laboratory web tools.
 
-Our research aims to address fundamental challenges in chemical synthesis by developing efficient strategies for molecular construction, functionalization, and skeletal modification. We are particularly interested in harnessing reactive intermediates, ring strain, photochemistry, and electrochemistry to access structurally diverse and synthetically valuable molecules.
+## Live Website
 
-Through reaction discovery and mechanistic investigations, we seek to expand the synthetic toolbox for the preparation of complex molecular architectures relevant to medicinal chemistry, chemical biology, and materials science.
+**https://harigroup.orgchem.iisc.ac.in/**
 
-## Research Areas
+## About the Group
 
-### 1. Ring-Strain-Driven Reaction Discovery
+The Hari Group develops new synthetic methodologies in organic chemistry: efficient strategies for molecular construction, functionalization and skeletal modification, using reactive intermediates, ring strain, photochemistry and electrochemistry.
 
-Ring strain drives reactivity by releasing strain energy, enabling access to valuable scaffolds. We aim to exploit strain-release strategies to design novel reactions that expand the synthetic toolbox for constructing complex molecules.
+### Research Areas
 
-Our interests include strain-release functionalization, skeletal editing, ring-expansion reactions, and the synthesis of saturated, three-dimensional molecular architectures.
+- **Ring-strain-driven reaction discovery:** strain-release functionalization, skeletal editing, ring expansion and saturated three-dimensional scaffolds.
+- **Synthesis and applications of new carbenes:** new diazo reagents, carbene transfer and late-stage functionalization.
+- **Deconstructive functionalization:** photocatalytic and electrochemical C-C bond cleavage and radical-mediated skeletal modification.
 
-### 2. Synthesis and Applications of New Carbenes
+Full publication list: **[Publications](https://harigroup.orgchem.iisc.ac.in/publications.html)**
 
-Diazo compounds are powerful carbene precursors in synthesis and catalysis, yet few precursors are known. We aim to develop new diazo reagents with versatile handles for use in late-stage functionalization of complex, privileged structures.
-
-Our research explores new carbene precursors, carbene-transfer chemistry, and catalytic transformations involving reactive carbene intermediates.
-
-### 3. Deconstructive Functionalization
-
-While C-C and C-X bond-forming methods are central to synthesis, they can fall short in accessing novel architectures. We are developing deconstructive strategies to convert simple cyclic compounds into richly functionalized acyclic molecules.
-
-Our approaches include photocatalytic and electrochemical transformations, radical-mediated skeletal modification, and selective C-C bond cleavage.
-
-## Selected Publications
-
-Our research contributions have appeared in international peer-reviewed journals, including *Angewandte Chemie International Edition*, *Chemical Science*, *Organic Letters*, and *Chemistry - A European Journal*.
-
-Selected publications include:
-
-1. **Photocatalyzed Redox-Neutral Decarboxylative Dowd-Beckwith Reaction: An Efficient Approach to Medium-Sized Carbocyclic Compounds**  
-   *Chemical Science*, **2023**, *14*, 6930-6935.
-
-2. **Electrochemical Interrupted Dowd-Beckwith Reaction: Deconstructive Functionalization of Cyclic Ketones**  
-   *Angewandte Chemie International Edition*, **2025**, *64*, e202505155.
-
-3. **Strain-Release-Driven Synthesis of Spirocyclobutyl Oxindoles**  
-   *Organic Letters*, **2024**, *26*, 6396-6401.
-
-4. **Recent Advances in Dowd-Beckwith Ring-Expansion Chemistry**  
-   *Chemistry - A European Journal*, **2022**, *28*, e202202025.
-
-The publication descriptions above are abbreviated summaries; consult the journal records for exact article titles and author lists.
-
-For the complete and updated publication list, visit:
-
-**[Hari Group Publications](https://harigroup.orgchem.iisc.ac.in/publications.html)**
-
----
-
-## Website Overview
-
-This repository contains the source code for the official Hari Group research website.
-
-The website provides information about our research activities, publications, group members, facilities, and scientific resources.
-
-### Website Pages
+## Website Pages
 
 | Page | Description |
 |---|---|
-| `index.html` | Homepage, research highlights, and group updates |
+| `index.html` | Home page, research highlights and latest news |
 | `pi.html` | Principal investigator profile |
 | `research.html` | Research areas and methodologies |
-| `publications.html` | Searchable and filterable publication database |
-| `team.html` | Current group members and alumni |
-| `facilities.html` | Research facilities and instrumentation |
-| `usertools.html` | Research utilities and laboratory applications |
-| `inventory.html` | Chemical inventory management |
-| `invoice.html` | Invoice application |
-| `logidft.html` | Computational chemistry utility |
-| `contact.html` | Contact information and opportunities |
+| `publications.html` | Searchable and filterable publication list |
+| `team.html` / `alumni.html` | Current members and alumni |
+| `news.html` | All group news (single source for the home page news) |
+| `facilities.html` | Research facilities and instruments |
+| `usertools.html` | Laboratory and research tools |
+| `logidft.html` | **LogiDFT**: DFT log parser and SI generator |
+| `inventory.html` | **Chemora**: chemical inventory (sign-in required) |
+| `invoice.html` | Invoice management (sign-in required) |
+| `contact.html` | Contact details and opportunities |
+
+## Tools
+
+- **LogiDFT** parses DFT output logs, extracts thermochemical data, formats Supporting Information and shows 3D structures and reaction energy profiles.
+- **Chemora** is a chemical inventory with structure search and CSV import.
+- **Invoice portal** is the group's invoice management system.
+
+Chemora and the invoice portal use Supabase and need a private configuration (see below).
 
 ## Technologies
 
-The website is developed using:
-
-- HTML5, CSS3, and JavaScript
-- Tailwind CSS
-- Font Awesome and Lucide icons
-- Responsive layouts for desktop, tablet, and mobile
+- HTML5, CSS3 and vanilla JavaScript
+- Tailwind CSS, Font Awesome and Lucide icons
+- Responsive layout for desktop, tablet and mobile
 - GitHub Pages for deployment
-- Supabase integration for supported laboratory applications
+- Supabase for the inventory and invoice apps
 
+## Development
+
+No build step is needed. Clone the repository and serve it with any static server:
+
+```bash
+git clone https://github.com/theharigroup/harigroup.git
+cd harigroup
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000. Serve over HTTP rather than opening files directly, because the home page reads `news.html`.
+
+**Adding news:** edit only the `newsItems` list in `news.html`. The three newest items appear on the home page automatically.
+
+**Supabase apps:** copy `config.example.js` to `config.js` and fill in your project URL and public key.
+
+## Project Structure
+
+```
+harigroup/
+├── *.html            site pages
+├── css/              shared and LogiDFT styles
+├── js/               shared scripts, publications, news cards
+│   └── logidft/      LogiDFT parser, profile chart, viewer
+├── facilities/       instrument images
+├── members/ news/    member photos and news images
+├── backend/          supporting backend code
+├── docs/             user guides and demo files
+├── robots.txt        search engine rules
+└── sitemap.xml       sitemap for search engines
+```
 
 ## Contact
 
-**Hari Group**  
-Department of Organic Chemistry  
-Indian Institute of Science (IISc)  
-Bengaluru 560012, India
+**Hari Group**, Department of Organic Chemistry, Indian Institute of Science, Bengaluru 560012, India
 
-**Website:** (https://harigroup.orgchem.iisc.ac.in/)
-
-For research collaborations, academic inquiries, and prospective group membership, please visit the [Contact page](https://www.theharigroup.in/contact.html).
+For collaborations, enquiries and prospective membership, see the [Contact page](https://harigroup.orgchem.iisc.ac.in/contact.html).
 
 ---
 
+<div align="center">
+
 © 2026 Hari Group, Indian Institute of Science, Bengaluru. All rights reserved.
+
+</div>
