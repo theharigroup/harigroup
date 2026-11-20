@@ -11,11 +11,12 @@
 [![Website](https://img.shields.io/badge/website-harigroup.orgchem.iisc.ac.in-263A67)](https://harigroup.orgchem.iisc.ac.in/)
 [![Hosted on](https://img.shields.io/badge/hosted%20on-GitHub%20Pages-1f6feb)](https://pages.github.com/)
 [![Built with](https://img.shields.io/badge/built%20with-HTML%20%7C%20CSS%20%7C%20JS-e34c26)](#technologies)
+[![Developed by](https://img.shields.io/badge/developed%20by-Chemora%20Art-12a58a)](https://www.chemora.art/)
 [![Last commit](https://img.shields.io/github/last-commit/theharigroup/harigroup?color=facc15)](https://github.com/theharigroup/harigroup/commits/main)
 
 </div>
 
-Source code of the official website of the **Hari Group** (Principal Investigator: **Dr. Durga Prasad Hari**), Department of Organic Chemistry, IISc Bengaluru. The site presents our research, publications, members, facilities and a set of laboratory web tools.
+Source code of the official website of the **Hari Group** (Principal Investigator: **Dr. Durga Prasad Hari**), Department of Organic Chemistry, IISc Bengaluru. The site presents our research, publications, members, facilities and a set of laboratory web tools. The website and its tools are developed by [**Chemora Art**](https://www.chemora.art/), a software company that builds tools for research laboratories.
 
 ## Live Website
 
@@ -52,11 +53,21 @@ Full publication list: **[Publications](https://harigroup.orgchem.iisc.ac.in/pub
 
 ## Tools
 
+All tools on this site are developed by [Chemora Art](https://www.chemora.art/).
+
 - **LogiDFT** parses DFT output logs, extracts thermochemical data, formats Supporting Information and shows 3D structures and reaction energy profiles.
-- **Chemora** is a chemical inventory with structure search and CSV import.
+- **Chemora Inventory** is a chemical inventory with structure search and CSV import. It runs as the app at [app.chemora.art](https://app.chemora.art/); its source is in [Tushraa/chemorainventory](https://github.com/Tushraa/chemorainventory).
 - **Invoice portal** is the group's invoice management system.
 
-Chemora and the invoice portal use Supabase and need a private configuration (see below).
+Chemora Inventory and the invoice portal use Supabase and need a private configuration (see below).
+
+## Developed By
+
+This website was designed and developed by **[Chemora Art](https://www.chemora.art/)**, a software developer company that builds tools and software for research laboratories (chemical inventory, invoice management, analysis tools and laboratory websites).
+
+- Company website: [www.chemora.art](https://www.chemora.art/) ([source](https://github.com/Tushraa/chemora))
+- Chemora Inventory: [app.chemora.art](https://app.chemora.art/) ([source](https://github.com/Tushraa/chemorainventory))
+- Contact: [booking@chemora.art](mailto:booking@chemora.art)
 
 ## Technologies
 
@@ -93,5 +104,7 @@ For collaborations, enquiries and prospective membership, see the [Contact page]
 <div align="center">
 
 © 2026 Hari Group, Indian Institute of Science, Bengaluru. All rights reserved.
+
+Website developed by <a href="https://www.chemora.art/">Chemora Art</a>.
 
 </div>
