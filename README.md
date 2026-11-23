@@ -47,7 +47,6 @@ Full publication list: **[Publications](https://harigroup.orgchem.iisc.ac.in/pub
 | `facilities.html` | Research facilities and instruments |
 | `usertools.html` | Laboratory and research tools |
 | `logidft.html` | **LogiDFT**: DFT log parser and SI generator |
-| `inventory.html` | **Chemora**: chemical inventory (sign-in required) |
 | `invoice.html` | Invoice management (sign-in required) |
 | `contact.html` | Contact details and opportunities |
 
@@ -58,8 +57,6 @@ All tools on this site are developed by [Chemora Art](https://www.chemora.art/).
 - **LogiDFT** parses DFT output logs, extracts thermochemical data, formats Supporting Information and shows 3D structures and reaction energy profiles.
 - **Chemora Inventory** is a chemical inventory with structure search and CSV import. It runs as the app at [app.chemora.art](https://app.chemora.art/); its source is in [Tushraa/chemorainventory](https://github.com/Tushraa/chemorainventory).
 - **Invoice portal** is the group's invoice management system.
-
-Chemora Inventory and the invoice portal use Supabase and need a private configuration (see below).
 
 ## Developed By
 
@@ -75,7 +72,7 @@ This website was designed and developed by **[Chemora Art](https://www.chemora.a
 - Tailwind CSS, Font Awesome and Lucide icons
 - Responsive layout for desktop, tablet and mobile
 - GitHub Pages for deployment
-- Supabase for the inventory and invoice apps
+- Supabase for the invoice portal
 
 ## Project Structure
 
@@ -87,7 +84,6 @@ harigroup/
 │   └── logidft/      LogiDFT parser, profile chart, viewer
 ├── facilities/       instrument images
 ├── members/ news/    member photos and news images
-├── backend/          supporting backend code
 ├── docs/             user guides and demo files
 ├── robots.txt        search engine rules
 └── sitemap.xml       sitemap for search engines
