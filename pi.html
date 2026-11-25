@@ -192,10 +192,11 @@
 .pi-links a{display:inline-flex;color:#64748b;transition:color .2s,transform .2s}
 .pi-links a:hover{transform:translateY(-2px)}
 .pi-links a.o:hover{color:#A6CE39}.pi-links a.s:hover{color:#4285F4}.pi-links a.w:hover{color:#263A67}
-.pi-nav{display:flex;flex-wrap:wrap;gap:10px}
+.pi-nav{display:flex;flex-wrap:wrap;gap:10px;position:sticky;top:68px;z-index:40;background:#f8fafc;padding:12px 0}
+@media(max-width:640px){.pi-nav{flex-wrap:nowrap;overflow-x:auto;gap:8px}.pi-nav a{white-space:nowrap;flex:none}}
 .pi-nav a{background:#fff;border:1px solid #e2e8f0;padding:7px 13px;font-size:13px;font-weight:700;color:#334155;text-decoration:none}
 .pi-nav a:hover{background:#f1f5f9}
-.pi-section{scroll-margin-top:90px}
+.pi-section{scroll-margin-top:140px}
 .pi-h{margin:0;font-size:22px;font-weight:700;color:#263A67}
 .pi-hbar{width:50px;height:3px;background:#facc15;margin:8px 0 16px}
 .pi-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06);padding:22px 24px}
