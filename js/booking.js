@@ -197,7 +197,7 @@
     $('wk-name').textContent = inst.name;
     const a = dateStr(weekMs), z = dateStr(weekMs + 6 * DAY);
     $('wk-range').textContent = 'Week of ' + a.slice(8) + ' - ' + dmy(z).slice(0, 2) + ' ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][+z.slice(5, 7) - 1] + ' ' + z.slice(0, 4);
-    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Max in a row:</b> ' + inst.max_consecutive + '</span><span><b>Cancel:</b> any time before it starts</span>';
+    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Max in a row:</b> ' + inst.max_consecutive + '</span><span><b>Cancel:</b> any time</span>';
     let h = '<thead><tr><th>Date</th>' + SL.map(s => '<th>' + esc(s.label) + '</th>').join('') + '</tr></thead><tbody>';
     for (let d = 0; d < 7; d++) {
       const ms = weekMs + d * DAY, ds = dateStr(ms), dow = istDate(ms).getUTCDay(), isT = ds === todayS;
@@ -233,7 +233,7 @@
       const sm = Math.round((s - midnightMs(ds)) / MIN), em = sm + Math.round((e - s) / MIN);
       const started = s <= Date.now();
       return '<div class="bk-item"><b>' + esc(inst ? inst.name : 'Instrument') + '</b><span>' + dmy(ds) + ' (' + DAYN[dow] + ')<br>' + esc(slotLabel(sm, em)) + '</span><div class="row"><span class="bk-tag">' + (started ? 'In progress' : 'Confirmed') + '</span>' +
-        (started ? '' : '<button class="bk-btn line sm" type="button" data-cancel="' + esc(b.id) + '">Cancel</button>') + '</div></div>';
+        '<button class="bk-btn line sm" type="button" data-cancel="' + esc(b.id) + '">Cancel</button>' + '</div></div>';
     }).join('') : '<div class="bk-empty">You have no upcoming bookings. Click a free slot in the table to book.</div>';
     $('mine').querySelectorAll('[data-cancel]').forEach(b => b.addEventListener('click', () => cancelBooking(b.dataset.cancel)));
   }

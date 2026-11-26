@@ -167,6 +167,11 @@
 .fc-desc{color:#475569;font-size:13px;line-height:1.55;margin:0 0 14px}
 .fc-btn{text-decoration:none;margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#263A67;color:#fff;font-weight:700;font-size:13px;padding:7px 14px;transition:background .2s}
 .fc-btn:hover{background:#1c2c4f}
+.fc-actions{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;margin-top:auto}
+.fc-actions .fc-btn{margin-top:0;white-space:nowrap}
+.fc-book{background:#facc15!important;color:#1e293b!important}
+.fc-book:hover{background:#eab308!important}
+@media(max-width:480px){.fc-actions{gap:6px}.fc-actions .fc-btn{font-size:12px;padding:7px 10px;gap:6px}}
 </style>
 </section>
 </div>
@@ -242,8 +247,10 @@
       var n=card.querySelector('.fc-name'); if(!n) return; var k=n.textContent.trim().toLowerCase();
       var body=card.querySelector('.fc-body'); if(!names[k]||!body||body.querySelector('.fc-book')) return;
       var a=document.createElement('a'); a.className='fc-btn fc-book'; a.href='booking.html#inst='+encodeURIComponent(names[k]);
-      a.style.marginLeft='8px'; a.innerHTML='Book This Instrument <i class="fa-solid fa-calendar-check"></i>'; a.setAttribute('aria-label','Book '+n.textContent.trim());
-      body.appendChild(a);
+      a.innerHTML='Book <i class="fa-solid fa-calendar-check"></i>'; a.setAttribute('aria-label','Book '+n.textContent.trim());
+      var view=body.querySelector('.fc-btn'), row=document.createElement('div'); row.className='fc-actions';
+      if(view){body.insertBefore(row,view); row.appendChild(view);} else body.appendChild(row);
+      row.appendChild(a);
     });
   }).catch(function(){});
 })();
