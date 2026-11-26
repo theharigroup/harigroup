@@ -187,3 +187,23 @@ table.bk-m th,table.bk-m td{padding:10px;white-space:nowrap}
 .bk-login{margin:20px 12px 50px}.bk-login .lb,.bk-login .lh{padding:20px 16px}
 }
 .bk-field input{box-sizing:border-box}
+
+/* sign-in card: same look as the invoice portal login */
+.bk-page{min-height:calc(100vh - 68px - 209px)}
+.bk-login{max-width:448px;margin:32px auto 70px;border:1px solid #e2e8f0;box-shadow:0 20px 25px -5px rgba(15,23,42,.1),0 8px 10px -6px rgba(15,23,42,.1)}
+.bk-login .lh{background:#0a2342;color:#fff;text-align:center;padding:24px;border-bottom:1px solid #0c2d56}
+.bk-login .lh h2{font-size:20px;font-weight:700;color:#fff}
+.bk-login .lh p{font-size:12px;color:#cbd5e1;margin:4px 0 0;line-height:1.5}
+.bk-login .lb{padding:24px}
+.bk-lf{margin-bottom:16px}
+.bk-lf label{display:block;margin-bottom:4px;font-size:12px;font-weight:700;text-transform:uppercase;color:#334155}
+.bk-lf label span{color:#f43f5e}
+.bk-fi{position:relative}
+.bk-fi input{display:block;width:100%;box-sizing:border-box;height:44px;padding:0 12px 0 36px;border:1px solid #cbd5e1;border-radius:2px;font:14px 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;color:#1e293b;background:#fff}
+.bk-fi input:focus{outline:2px solid #6366f1;outline-offset:0;border-color:transparent}
+.bk-fi i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:#94a3b8;pointer-events:none}
+.bk-btn.blue{background:#2563eb;color:#fff;height:46px;font-size:14px;box-shadow:0 4px 6px -1px rgba(0,0,0,.15);margin-top:8px}
+.bk-btn.blue:hover{background:#1d4ed8}
+.bk-links.c{justify-content:center}
+.bk-links.c button{color:#64748b;font-weight:400}.bk-links.c button:hover{color:#1d4ed8}
+@media(max-width:700px){.bk-fi input{font-size:16px}.bk-login .lb,.bk-login .lh{padding:20px 16px}}
