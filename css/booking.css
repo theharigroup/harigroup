@@ -222,3 +222,7 @@ table.bk-m th,table.bk-m td{padding:10px;white-space:nowrap}
 .bk-links.c{margin-top:16px;font-size:12px}
 .bk-msg{border-radius:2px}
 @media(max-width:700px){.bk-hero{padding:64px 0}.bk-login{margin:32px 16px}.bk-fi input{font-size:16px}}
+
+/* lucide icons, same as invoice.html */
+.bk-fi svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8;pointer-events:none}
+.bk-btn.blue svg{width:16px;height:16px}
