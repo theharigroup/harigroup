@@ -31,29 +31,40 @@ async function api(path, opts = {}) {
 
 const existing = new Set((await api('booking_members?select=email')).map(x => x.email));
 const fresh = people.filter(p => !existing.has(p.email));
-if (!fresh.length) { console.log('Nobody new to add.'); process.exit(0); }
+if (!fresh.length && process.env.INVITE_ALL !== 'true') { console.log('Nobody new to add.'); process.exit(0); }
 
 const instruments = await api('booking_instruments?select=id&active=eq.true');
-await api('booking_members', { method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates,return=minimal' },
+if (fresh.length) await api('booking_members', { method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates,return=minimal' },
   body: JSON.stringify(fresh.map(p => ({ email: p.email, name: p.name, role: 'member', status: 'active' }))) });
 const access = fresh.flatMap(p => instruments.map(i => ({ email: p.email, instrument_id: i.id })));
 if (access.length) await api('booking_access', { method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates,return=minimal' }, body: JSON.stringify(access) });
-console.log('Added: ' + fresh.map(p => p.email).join(', '));
+console.log('Added: ' + (fresh.map(p => p.email).join(', ') || 'nobody'));
 
-// Welcome email, only to the people just added. Skipped when SEND_WELCOME is not "true" or Resend is not configured.
-const RESEND = process.env.RESEND_API_KEY, FROM = process.env.MAIL_FROM;
-if (process.env.SEND_WELCOME !== 'true') { console.log('Welcome emails off for this run.'); process.exit(0); }
-if (!RESEND || !FROM) { console.log('RESEND_API_KEY / MAIL_FROM not set: welcome emails skipped.'); process.exit(0); }
-const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const PAGE = 'https://harigroup.orgchem.iisc.ac.in/booking.html';
-for (const p of fresh) {
-  const html = `<div style="font-family:Arial,sans-serif;max-width:480px"><h2 style="color:#263A67">Welcome to Instrument Booking</h2>
-  <p>Hello ${esc(p.name)},</p>
-  <p>You have been added to the Hari Group instrument booking system and can book ElectraSyn 2.0, PhotoCube and the IKA RCT Screening System.</p>
-  <p><b>To start:</b> open the booking page, choose <b>First Time Here? Create Password</b>, use this email address (${esc(p.email)}), and confirm the email we send you.</p>
-  <p><a href="${PAGE}" style="display:inline-block;background:#263A67;color:#fff;padding:10px 18px;text-decoration:none;font-weight:bold">Open Instrument Booking</a></p>
-  <p style="color:#64748b;font-size:12px">Hari Group, IISc Bangalore</p></div>`;
-  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + RESEND, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM, to: [p.email], subject: 'Welcome to Hari Group Instrument Booking', html }) });
-  console.log('Welcome email', p.email, r.ok ? 'sent' : 'failed ' + r.status);
+// Emails a "set your password" invitation (this also creates the login account).
+// SEND_INVITES=true: invite the people just added.  INVITE_ALL=true: also invite every member who has no account yet.
+async function auth(path, opts = {}) {
+  return fetch(`${URL_}/auth/v1/${path}`, { ...opts, headers: { ...H, ...(opts.headers || {}) } });
 }
+const REDIRECT = encodeURIComponent('https://harigroup.orgchem.iisc.ac.in/booking.html');
+async function invite(email) {
+  const r = await auth(`invite?redirect_to=${REDIRECT}`, { method: 'POST', body: JSON.stringify({ email }) });
+  if (r.ok) return 'invited';
+  const t = await r.text();
+  if (r.status === 422 || /already|exists|registered/i.test(t)) return 'has an account already';
+  return `failed (${r.status})`;
+}
+if (process.env.SEND_INVITES !== 'true') { console.log('Invitations off for this run.'); process.exit(0); }
+let targets = fresh.map(p => p.email);
+if (process.env.INVITE_ALL === 'true') {
+  const have = new Set();
+  for (let page = 1; page < 50; page++) {
+    const r = await auth(`admin/users?page=${page}&per_page=200`);
+    if (!r.ok) { console.error('Could not list accounts:', r.status); break; }
+    const j = await r.json(); const us = j.users || [];
+    us.forEach(u => u.email && have.add(u.email.toLowerCase()));
+    if (us.length < 200) break;
+  }
+  const all = await api('booking_members?select=email&status=eq.active');
+  targets = [...new Set([...targets, ...all.map(x => x.email).filter(e => !have.has(e))])];
+}
+for (const e of targets) console.log('Invitation', e, await invite(e));
