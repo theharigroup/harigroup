@@ -6,6 +6,7 @@
   const CFG = window.BOOKING_CONFIG || {};
   const DAYN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const DAYFULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const FAIR_SLOTS = 2;   // more than this in a row is allowed, with a courtesy reminder
   const IDLE_MS = 30 * 60 * 1000;
   const MIN = 60000, DAY = 86400000, IST = 330 * MIN;
 
@@ -182,9 +183,9 @@
     if (!inst.days.includes(dow)) return { k: 'closed' };
     const b = weekBookings.find(x => x.s < e && x.e > s);
     if (b) {
-      if (b.kind === 'maintenance') return { k: 'mnt', label: b.note ? b.note : 'Maintenance' };
-      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note };
-      return { k: 'oth', label: who(b.member_name), note: b.note };
+      if (b.kind === 'maintenance') return { k: 'mnt', label: b.note ? b.note : 'Maintenance', bid: b.id };
+      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note, bid: b.id };
+      return { k: 'oth', label: who(b.member_name), note: b.note, bid: b.id };
     }
     if (e <= now) return { k: 'past' };
     if (s <= now) return { k: 'live' };
@@ -197,14 +198,17 @@
     $('wk-name').textContent = inst.name;
     const a = dateStr(weekMs), z = dateStr(weekMs + 6 * DAY);
     $('wk-range').textContent = 'Week of ' + a.slice(8) + ' - ' + dmy(z).slice(0, 2) + ' ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][+z.slice(5, 7) - 1] + ' ' + z.slice(0, 4);
-    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Max in a row:</b> ' + inst.max_consecutive + '</span><span><b>Cancel:</b> any time</span>';
+    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Slots in a row:</b> up to ' + inst.max_consecutive + '</span><span><b>Cancel:</b> any time</span>';
     let h = '<thead><tr><th>Date</th>' + SL.map(s => '<th>' + esc(s.label) + '</th>').join('') + '</tr></thead><tbody>';
     for (let d = 0; d < 7; d++) {
       const ms = weekMs + d * DAY, ds = dateStr(ms), dow = istDate(ms).getUTCDay(), isT = ds === todayS;
       h += '<tr><td class="t' + (isT ? ' today' : '') + '">' + dmy(ds) + '<small>' + DAYN[dow] + (isT ? ' · today' : '') + '</small></td>';
-      SL.forEach((sl, idx) => {
-        const s = midnightMs(ds) + sl.s * MIN, e = midnightMs(ds) + sl.e * MIN, st = stateOf(inst, dow, s, e, now);
-        const hrs = ((sl.e - sl.s) / 60) + ' h';
+      const stAt = i => stateOf(inst, dow, midnightMs(ds) + SL[i].s * MIN, midnightMs(ds) + SL[i].e * MIN, now);
+      for (let idx = 0; idx < SL.length; idx++) {
+        const sl = SL[idx], st = stAt(idx);
+        let span = 1;                                            // slots of one booking show as one merged cell
+        if (st.bid) while (idx + span < SL.length && stAt(idx + span).bid === st.bid) span++;
+        const hrs = ((SL[idx + span - 1].e - sl.s) / 60) + ' h';
         let c;
         if (st.k === 'free') c = '<button type="button" class="bk-slot free" data-ds="' + ds + '" data-i="' + idx + '" aria-label="Book ' + esc(dmy(ds) + ' ' + sl.label) + '"></button>';
         else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + '" title="' + esc(st.note || '') + '"><span>' + esc(st.label) + '<br><small>' + hrs + '</small></span></div>';
@@ -213,8 +217,9 @@
         else if (st.k === 'closed') c = '<div class="bk-slot closed">closed</div>';
         else if (st.k === 'later') c = '<div class="bk-slot later">not open yet</div>';
         else c = '<div class="bk-slot past"></div>';
-        h += '<td>' + c + '</td>';
-      });
+        h += '<td' + (span > 1 ? ' colspan="' + span + '"' : '') + '>' + c + '</td>';
+        idx += span - 1;
+      }
       h += '</tr>';
     }
     $('tbl').innerHTML = h + '</tbody>';
@@ -261,7 +266,7 @@
     $('d-date').textContent = dmy(ds) + ' (' + DAYFULL[dow] + ')';
     $('d-n').innerHTML = Array.from({ length: dlgState.maxN }, (_, k) => '<option value="' + (k + 1) + '">' + (k + 1) + ' slot' + (k ? 's' : '') + ' (' + (((SL[idx].e - SL[idx].s) * (k + 1)) / 60) + ' h)</option>').join('');
     $('d-n').disabled = SL[idx].night;
-    $('d-note').value = ''; say('d-msg', '');
+    $('d-note').value = ''; say('d-msg', ''); updateDialogSlot();
     $('d-mnt-w').hidden = me.role !== 'admin'; $('d-mnt').checked = false;
     updateDialogSlot();
     $('dlg').classList.add('on'); $('d-ok').disabled = false; $('d-ok').focus();
@@ -269,6 +274,7 @@
   function updateDialogSlot() {
     const { idx, SL } = dlgState, n = +$('d-n').value || 1;
     $('d-slot').innerHTML = '<option>' + esc(slotLabel(SL[idx].s, SL[idx + n - 1].e)) + '</option>';
+    $('d-warn').hidden = n <= FAIR_SLOTS;
   }
   $('d-n').addEventListener('change', updateDialogSlot);
   $('d-cancel').addEventListener('click', () => $('dlg').classList.remove('on'));
@@ -341,7 +347,7 @@
   }
   function buildInstFormStatic() {
     $('i-len').innerHTML = LEN_OPTS.map(([v, t]) => '<option value="' + v + '">' + t + '</option>').join('');
-    $('i-max').innerHTML = [1, 2, 3, 4, 6].map(v => '<option value="' + v + '">' + v + '</option>').join('');
+    $('i-max').innerHTML = [2, 3, 4, 6, 8, 12].map(v => '<option value="' + v + '">' + v + '</option>').join('');
     timeOpts($('i-st'), 0, 1380, 540); timeOpts($('i-en'), 15, 1440, 1260);
     $('i-days').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => '<button type="button" data-d="' + d + '">' + DAYN[d] + '</button>').join('');
     $('i-days').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { const d = +b.dataset.d; iDays = iDays.includes(d) ? iDays.filter(x => x !== d) : iDays.concat(d); syncInst(); }));
@@ -360,7 +366,7 @@
   function resetInstForm() {
     editingInst = null; formPhoto = undefined; iDays = [0, 1, 2, 3, 4, 5, 6]; iOv = false; iAct = true;
     $('i-title').textContent = 'Add New Instrument'; $('i-mode').textContent = 'NEW'; $('i-mode').className = 'bk-pill d';
-    fillFacilityPick(null); $('i-loc').value = 'Hari Group Lab'; $('i-len').value = '120'; $('i-ahead').value = '2'; $('i-max').value = '2';
+    fillFacilityPick(null); $('i-loc').value = 'Hari Group Lab'; $('i-len').value = '120'; $('i-ahead').value = '2'; $('i-max').value = '12';
     $('i-st').value = '540'; $('i-en').value = '1260'; $('i-who').value = 'all'; $('i-who-w').hidden = false; $('i-act-w').hidden = true;
     say('i-msg', '');
     syncInst();

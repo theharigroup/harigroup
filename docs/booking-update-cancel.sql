@@ -10,3 +10,7 @@ end $$;
 
 -- Lets the team-sync GitHub Action (service key) add new members and their access.
 grant select, insert, update on public.booking_members, public.booking_access, public.booking_instruments to service_role;
+
+-- Multiple-slot booking: allow up to 12 slots in a row (a courtesy reminder is shown in the page beyond two).
+alter table public.booking_instruments alter column max_consecutive set default 12;
+update public.booking_instruments set max_consecutive = 12;
