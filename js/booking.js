@@ -73,7 +73,7 @@
     $('v-out').hidden = false; $('acts').hidden = true;
     ['login', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
     $('lt').textContent = { login: 'Member Sign In', forgot: 'Forgot Password', newpw: 'Set New Password' }[mode];
-    $('ls').textContent = { login: 'Please sign in with your IISc email to book the group instruments. New members: use the link in your invitation email', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
+    $('ls').textContent = { login: 'Please sign in with your IISc email to book instruments', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
     say('msg', '');
   }
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => showOut(b.dataset.mode)));
