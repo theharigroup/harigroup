@@ -7,3 +7,6 @@ begin
   if d like '%already started cannot be cancelled%' then raise exception 'pattern not found'; end if;
   execute d;
 end $$;
+
+-- Lets the team-sync GitHub Action (service key) add new members and their access.
+grant select, insert, update on public.booking_members, public.booking_access, public.booking_instruments to service_role;
