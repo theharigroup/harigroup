@@ -13,6 +13,8 @@
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const pad = n => String(n).padStart(2, '0');
   const initials = n => (String(n || '?').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 3) || '?').toUpperCase();
+  const optList = i => (Array.isArray(i.options) ? i.options : []).filter(o => o && o.label && Array.isArray(o.choices) && o.choices.length);
+  const choiceText = b => Object.values((b && b.choices) || {}).join(' · ');
   const who = n => { const p = String(n || '').trim().split(/\s+/).filter(Boolean); return p.length ? p[0] + ' (' + initials(n) + ')' : ''; };
 
   // ---------- time helpers (IST) ----------
@@ -173,7 +175,7 @@
     const inst = curInst();
     if (!inst) { $('tbl').innerHTML = ''; $('wk-name').textContent = ''; $('wk-range').textContent = ''; $('rules').innerHTML = ''; await loadMine(); return; }
     const from = new Date(weekMs).toISOString(), to = new Date(weekMs + 7 * DAY).toISOString();
-    const r = await client.from('bookings').select('id,instrument_id,member_email,member_name,kind,starts_at,ends_at,note')
+    const r = await client.from('bookings').select('*')
       .eq('instrument_id', inst.id).is('cancelled_at', null).lt('starts_at', to).gt('ends_at', from);
     weekBookings = (r.data || []).map(b => ({ ...b, s: Date.parse(b.starts_at), e: Date.parse(b.ends_at) }));
     renderWeek(); await loadMine();
@@ -184,8 +186,8 @@
     const b = weekBookings.find(x => x.s < e && x.e > s);
     if (b) {
       if (b.kind === 'maintenance') return { k: 'mnt', label: b.note ? b.note : 'Maintenance', bid: b.id };
-      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note, bid: b.id };
-      return { k: 'oth', label: who(b.member_name), note: b.note, bid: b.id };
+      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note, bid: b.id, ch: choiceText(b) };
+      return { k: 'oth', label: who(b.member_name), note: b.note, bid: b.id, ch: choiceText(b) };
     }
     if (e <= now) return { k: 'past' };
     if (s <= now) return { k: 'live' };
@@ -211,7 +213,7 @@
         const hrs = ((SL[idx + span - 1].e - sl.s) / 60) + ' h';
         let c;
         if (st.k === 'free') c = '<button type="button" class="bk-slot free" data-ds="' + ds + '" data-i="' + idx + '" aria-label="Book ' + esc(dmy(ds) + ' ' + sl.label) + '"></button>';
-        else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + '" title="' + esc(st.note || '') + '"><span>' + esc(st.label) + '<br><small>' + hrs + '</small></span></div>';
+        else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + '" title="' + esc([st.ch, st.note].filter(Boolean).join(' | ')) + '"><span>' + esc(st.label) + '<br><small>' + hrs + (st.ch ? ' · ' + esc(st.ch) : '') + '</small></span></div>';
         else if (st.k === 'mnt') c = '<div class="bk-slot mnt">' + esc(st.label) + '</div>';
         else if (st.k === 'live') c = '<div class="bk-slot live">in progress</div>';
         else if (st.k === 'closed') c = '<div class="bk-slot closed">closed</div>';
@@ -230,14 +232,14 @@
   $('wk-now').addEventListener('click', () => { weekMs = mondayOf(Date.now()); refreshWeek(); });
 
   async function loadMine() {
-    const r = await client.from('bookings').select('id,instrument_id,starts_at,ends_at,note').eq('member_email', me.email).eq('kind', 'booking')
+    const r = await client.from('bookings').select('*').eq('member_email', me.email).eq('kind', 'booking')
       .is('cancelled_at', null).gt('ends_at', new Date().toISOString()).order('starts_at').limit(30);
     const rows = r.data || [];
     $('mine').innerHTML = rows.length ? rows.map(b => {
       const inst = instruments.find(i => i.id === b.instrument_id), s = Date.parse(b.starts_at), e = Date.parse(b.ends_at), ds = dateStr(s), dow = istDate(s).getUTCDay();
       const sm = Math.round((s - midnightMs(ds)) / MIN), em = sm + Math.round((e - s) / MIN);
       const started = s <= Date.now();
-      return '<div class="bk-item"><b>' + esc(inst ? inst.name : 'Instrument') + '</b><span>' + dmy(ds) + ' (' + DAYN[dow] + ')<br>' + esc(slotLabel(sm, em)) + '</span><div class="row"><span class="bk-tag">' + (started ? 'In progress' : 'Confirmed') + '</span>' +
+      return '<div class="bk-item"><b>' + esc(inst ? inst.name : 'Instrument') + '</b><span>' + dmy(ds) + ' (' + DAYN[dow] + ')<br>' + esc(slotLabel(sm, em)) + (choiceText(b) ? '<br>' + esc(choiceText(b)) : '') + '</span><div class="row"><span class="bk-tag">' + (started ? 'In progress' : 'Confirmed') + '</span>' +
         '<button class="bk-btn line sm" type="button" data-cancel="' + esc(b.id) + '">Cancel</button>' + '</div></div>';
     }).join('') : '<div class="bk-empty">You have no upcoming bookings. Click a free slot in the table to book.</div>';
     $('mine').querySelectorAll('[data-cancel]').forEach(b => b.addEventListener('click', () => cancelBooking(b.dataset.cancel)));
@@ -266,6 +268,7 @@
     $('d-date').textContent = dmy(ds) + ' (' + DAYFULL[dow] + ')';
     $('d-n').innerHTML = Array.from({ length: dlgState.maxN }, (_, k) => '<option value="' + (k + 1) + '">' + (k + 1) + ' slot' + (k ? 's' : '') + ' (' + (((SL[idx].e - SL[idx].s) * (k + 1)) / 60) + ' h)</option>').join('');
     $('d-n').disabled = SL[idx].night;
+    $('d-opts').innerHTML = optList(inst).map((o, k) => '<label class="bk-field">' + esc(o.label) + '<select data-opt="' + k + '" required><option value="">Choose...</option>' + o.choices.map(c => '<option>' + esc(c) + '</option>').join('') + '</select></label>').join('');
     $('d-note').value = ''; say('d-msg', ''); updateDialogSlot();
     $('d-mnt-w').hidden = me.role !== 'admin'; $('d-mnt').checked = false;
     updateDialogSlot();
@@ -283,9 +286,11 @@
   $('d-form').addEventListener('submit', async e => {
     e.preventDefault(); const { ds, idx, inst, SL } = dlgState, n = +$('d-n').value || 1;
     const s = midnightMs(ds) + SL[idx].s * MIN, en = midnightMs(ds) + SL[idx + n - 1].e * MIN;
-    const mnt = me.role === 'admin' && $('d-mnt').checked, note = $('d-note').value.trim().slice(0, 200);
+    const mnt = me.role === 'admin' && $('d-mnt').checked;
+    const choices = {}; if (!mnt) { const ol = optList(inst); for (let k = 0; k < ol.length; k++) { const v = ($('d-opts').querySelector('[data-opt="' + k + '"]') || {}).value; if (!v) return say('d-msg', 'Please choose ' + ol[k].label + '.'); choices[ol[k].label] = v; } }
+    const note = $('d-note').value.trim().slice(0, 200);
     $('d-ok').disabled = true; say('d-msg', '');
-    const r = await client.from('bookings').insert({ instrument_id: inst.id, kind: mnt ? 'maintenance' : 'booking', starts_at: new Date(s).toISOString(), ends_at: new Date(en).toISOString(), note: note || null });
+    const r = await client.from('bookings').insert({ instrument_id: inst.id, kind: mnt ? 'maintenance' : 'booking', starts_at: new Date(s).toISOString(), ends_at: new Date(en).toISOString(), note: note || null, ...(Object.keys(choices).length ? { choices } : {}) });
     if (r.error) {
       $('d-ok').disabled = false;
       say('d-msg', r.error.code === '23P01' ? 'Sorry, someone just took that slot. Please pick another one.' : errText(r.error));
@@ -308,6 +313,8 @@
   }
 
   // --- instruments ---
+  const parseOpts = t => { const out = []; for (const ln of t.split('\n').map(x => x.trim()).filter(Boolean)) { const m = ln.match(/^([^:]{1,40}):\s*(.+)$/); const ch = m ? m[2].split(',').map(x => x.trim()).filter(Boolean) : []; if (!ch.length) return null; out.push({ label: m[1].trim(), choices: ch }); } return out; };
+  const optsToText = i => optList(i).map(o => o.label + ': ' + o.choices.join(', ')).join('\n');
   async function loadFacilities() {
     if (facilities.length) return;
     try {
@@ -366,7 +373,7 @@
   function resetInstForm() {
     editingInst = null; formPhoto = undefined; iDays = [0, 1, 2, 3, 4, 5, 6]; iOv = false; iAct = true;
     $('i-title').textContent = 'Add New Instrument'; $('i-mode').textContent = 'NEW'; $('i-mode').className = 'bk-pill d';
-    fillFacilityPick(null); $('i-loc').value = 'Hari Group Lab'; $('i-len').value = '120'; $('i-ahead').value = '2'; $('i-max').value = '12';
+    $('i-opts').value = ''; fillFacilityPick(null); $('i-loc').value = 'Hari Group Lab'; $('i-len').value = '120'; $('i-ahead').value = '2'; $('i-max').value = '12';
     $('i-st').value = '540'; $('i-en').value = '1260'; $('i-who').value = 'all'; $('i-who-w').hidden = false; $('i-act-w').hidden = true;
     say('i-msg', '');
     syncInst();
@@ -375,7 +382,7 @@
     const i = instruments.find(x => x.id === id); if (!i) return;
     editingInst = id; formPhoto = undefined;
     $('i-title').textContent = 'Edit Instrument'; $('i-mode').textContent = 'EDITING'; $('i-mode').className = 'bk-pill';
-    fillFacilityPick(i.name); $('i-loc').value = i.location || '';
+    $('i-opts').value = optsToText(i); fillFacilityPick(i.name); $('i-loc').value = i.location || '';
     const known = LEN_OPTS.some(([v]) => v === i.slot_minutes);
     $('i-len').value = known ? String(i.slot_minutes) : '0'; $('i-custom').value = i.slot_minutes;
     $('i-ahead').value = String(i.book_ahead_days); if (![...$('i-ahead').options].some(o => +o.value === i.book_ahead_days)) $('i-ahead').insertAdjacentHTML('beforeend', '<option value="' + i.book_ahead_days + '">' + i.book_ahead_days + ' days ahead</option>'), $('i-ahead').value = String(i.book_ahead_days);
@@ -398,9 +405,12 @@
     if (en <= st) return say('i-msg', 'The last slot must end after the first slot starts.');
     if ((en - st) % slot !== 0) return say('i-msg', 'The hours must be a whole number of slots. Change the slot length or the times.');
     if (!iDays.length) return say('i-msg', 'Choose at least one day.');
+    const optsText = $('i-opts').value.trim(), optsParsed = parseOpts(optsText);
+    if (optsParsed === null) return say('i-msg', 'Booking choices: use one line per group, like  Vial Size: 4 mL, 30 mL');
     const row = { name, sub: fac.sub || null, photo_url: fac.photo, location: $('i-loc').value.trim() || null, slot_minutes: slot, day_start: st, day_end: en, overnight: iOv, days: iDays.slice().sort(), book_ahead_days: +$('i-ahead').value, max_consecutive: +$('i-max').value };
     $('i-save').disabled = true;
     let r;
+    if (optsText || (editingInst && (instruments.find(x => x.id === editingInst) || {}).options !== undefined)) row.options = optsParsed;
     if (editingInst) { row.active = iAct; r = await client.from('booking_instruments').update(row).eq('id', editingInst).select().single(); }
     else { row.sort_order = instruments.length + 1; r = await client.from('booking_instruments').insert(row).select().single(); }
     $('i-save').disabled = false;
@@ -482,14 +492,14 @@
   const csvCell = v => { let s = String(v == null ? '' : v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
   $('x-go').addEventListener('click', async () => {
     say('x-msg', ''); const from = $('x-from').value, to = $('x-to').value; if (!from || !to) return say('x-msg', 'Choose both dates.');
-    let q = client.from('bookings').select('instrument_id,member_name,member_email,kind,starts_at,ends_at,note,created_at,cancelled_at')
+    let q = client.from('bookings').select('*')
       .gte('starts_at', new Date(midnightMs(from)).toISOString()).lt('starts_at', new Date(midnightMs(to) + DAY).toISOString()).order('starts_at').limit(5000);
     if ($('x-inst').value) q = q.eq('instrument_id', $('x-inst').value);
     const r = await q; if (r.error) return say('x-msg', errText(r.error));
-    const head = ['Instrument', 'Member', 'Email', 'Type', 'Date', 'From', 'To', 'Note', 'Status'];
+    const head = ['Instrument', 'Member', 'Email', 'Type', 'Date', 'From', 'To', 'Options', 'Note', 'Status'];
     const lines = [head.map(csvCell).join(',')].concat((r.data || []).map(b => {
       const inst = instruments.find(i => i.id === b.instrument_id), s = Date.parse(b.starts_at), e = Date.parse(b.ends_at), ds = dateStr(s), sm = Math.round((s - midnightMs(ds)) / MIN);
-      return [inst ? inst.name : '', b.member_name, b.member_email, b.kind, dmy(ds), fmtMin(sm), fmtMin(sm + Math.round((e - s) / MIN)), b.note || '', b.cancelled_at ? 'Cancelled' : 'Confirmed'].map(csvCell).join(',');
+      return [inst ? inst.name : '', b.member_name, b.member_email, b.kind, dmy(ds), fmtMin(sm), fmtMin(sm + Math.round((e - s) / MIN)), choiceText(b), b.note || '', b.cancelled_at ? 'Cancelled' : 'Confirmed'].map(csvCell).join(',');
     }));
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' })); a.download = 'instrument-usage-' + from + '-to-' + to + '.csv'; a.click(); URL.revokeObjectURL(a.href);
     say('x-msg', (r.data || []).length + ' rows exported.', 'ok');

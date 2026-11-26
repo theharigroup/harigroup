@@ -152,6 +152,7 @@
 <div class="bk-prev" id="i-prev"></div>
 <h4>Rules</h4>
 <div class="bk-g2"><label class="bk-field">Max Consecutive Slots<select id="i-max"></select></label><label class="bk-field" id="i-who-w">Who Can Book<select id="i-who"><option value="all">All approved members</option><option value="none">Selected members only</option></select></label></div>
+<label class="bk-field">Booking Choices (optional)<textarea id="i-opts" rows="4" placeholder="Vial Size: 4 mL, 30 mL"></textarea></label><div class="bk-hint">One line per group, written as Label: choice, choice. Members must pick one from each group when booking.</div>
 <div class="bk-sw" id="i-act-w"><span>Instrument is active</span><button type="button" class="bk-tg on" id="i-act" aria-label="Active"></button></div>
 <div class="bk-act"><button class="bk-btn line" type="button" id="i-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="i-save">Save Instrument</button></div>
 </div></form>
@@ -196,6 +197,7 @@
 <div class="bk-sum"><div id="d-img"></div><div><b id="d-name"></b><span id="d-date"></span></div></div>
 <div class="bk-g2"><label class="bk-field">Slot<select id="d-slot" disabled></select></label><label class="bk-field">Consecutive Slots<select id="d-n"></select></label></div>
 <div class="bk-warn" id="d-warn" hidden><b>Please note:</b> booking more than two slots in a row is allowed only if nobody else is planning to use the next slot. Book the extra slots only when no one else needs them.</div>
+<div id="d-opts"></div>
 <label class="bk-field">Purpose (optional)<textarea id="d-note" maxlength="200" placeholder="e.g. electrochemical screening, 5 reactions"></textarea></label>
 <label class="bk-chk" id="d-mnt-w" hidden><input type="checkbox" id="d-mnt"> Block this slot for maintenance (admin)</label>
 <div class="bk-act"><button class="bk-btn line" type="button" id="d-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="d-ok">Confirm Booking</button></div>
@@ -254,6 +256,6 @@
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/booking-config.js"></script>
-<script src="js/booking.js?v=4"></script>
+<script src="js/booking.js?v=5"></script>
 </body>
 </html>
