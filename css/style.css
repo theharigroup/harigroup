@@ -140,3 +140,18 @@ footer.bg-navy-950::before{content:"";position:absolute;inset:0;pointer-events:n
 .nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{display:block}
 .nav-dd-menu a{display:block;padding:9px 16px;font-size:14px;font-weight:600;color:#1e293b;text-decoration:none;transition:background .15s,color .15s}
 .nav-dd-menu a:hover,.nav-dd-menu a:focus{background:#f1f5f9;color:#a16207}
+.nav-dd.open .nav-dd-menu{display:block}
+
+/* Tablet (768-1279px): the catalytic-cycle icon opens the header links on the right,
+   in the same place as the desktop menu, instead of a dropdown drawer. */
+@keyframes navIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@media (min-width:768px) and (max-width:1279px){
+  #mobile-menu{display:none !important}
+  #navbar nav{display:none}
+  #navbar.tab-open nav{display:flex;margin-left:auto;margin-right:8px;animation:navIn .28s ease-out}
+  #navbar nav .nav-link{padding:8px 9px;font-size:13px}
+  #navbar nav .btn-gold{margin-left:6px;padding:9px 14px;font-size:13px}
+}
+/* Narrower tablets: the open menu takes the logo's place so all links fit on one line */
+@media (min-width:768px) and (max-width:1023px){#navbar.tab-open a[aria-label="Hari Group home"]{display:none}}
+@media (min-width:768px) and (max-width:1279px) and (prefers-reduced-motion:reduce){#navbar.tab-open nav{animation:none}}

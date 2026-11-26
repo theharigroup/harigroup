@@ -13,7 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = mobileMenu.classList.toggle('hidden') === false;
       menuButton.setAttribute('aria-expanded', open);
       menuButton.classList.toggle('open', open);
+      const bar = document.getElementById('navbar');
+      if (bar) bar.classList.toggle('tab-open', open);   // tablet: header links slide in on the right
+      if (!open) document.querySelectorAll('.nav-dd.open').forEach(d => d.classList.remove('open'));
     });
+  }
+
+  // Tablet touch: first tap on "Members" opens its sub-menu (Alumni), second tap opens the page
+  const dd = document.querySelector('.nav-dd'), ddLink = document.getElementById('nav-team');
+  if (dd && ddLink) {
+    ddLink.addEventListener('click', e => {
+      if (matchMedia('(min-width:768px) and (max-width:1279px) and (hover:none)').matches && !dd.classList.contains('open')) {
+        e.preventDefault(); dd.classList.add('open');
+      }
+    });
+    document.addEventListener('click', e => { if (!dd.contains(e.target)) dd.classList.remove('open'); });
   }
 
   // Active page in the menu
