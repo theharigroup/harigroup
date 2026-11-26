@@ -35,7 +35,7 @@
 .bk-field{display:block;margin-bottom:14px;font-size:12px;font-weight:700;color:#475569}
 .bk-field input[type=text],.bk-field input[type=email],.bk-field input[type=password],.bk-field input[type=date],.bk-field input[type=number]{display:block;width:100%;height:42px;margin-top:6px;padding:0 12px;border:1px solid #cbd5e1;font:inherit;font-size:14px;background:#fff;color:#1e293b}
 .bk-field input:focus,.bk-field select:focus,.bk-field textarea:focus{outline:2px solid #facc15;border-color:#facc15}
-.bk-field select,.bk-field textarea{display:block;width:100%;margin-top:6px;padding:9px 10px;border:1px solid #cbd5e1;font:inherit;font-size:14px;background:#fff;color:#1e293b}
+.bk-field select,.bk-field textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:9px 10px;border:1px solid #cbd5e1;font:inherit;font-size:14px;background:#fff;color:#1e293b}
 .bk-field select{height:40px}.bk-field textarea{height:64px;resize:none}
 .bk-note{font-size:12px;color:#64748b;margin-top:12px;line-height:1.55}
 .bk-msg{display:none;margin:0 0 14px;padding:10px 12px;font-size:12.5px;line-height:1.5;border:1px solid}
