@@ -212,7 +212,7 @@
         else if (st.k === 'closed') c = '<div class="bk-slot closed">closed</div>';
         else if (st.k === 'later') c = '<div class="bk-slot later">not open yet</div>';
         else c = '<div class="bk-slot past"></div>';
-        h += '<td' + (span > 1 ? ' colspan="' + span + '"' : '') + '>' + c + '</td>';
+        h += '<td data-t="' + esc(span > 1 ? sl.label.split(/\s*[-\u2013]\s*/)[0] + ' \u2013 ' + SL[idx + span - 1].label.split(/\s*[-\u2013]\s*/).pop() : sl.label) + '"' + (span > 1 ? ' colspan="' + span + '" class="w"' : '') + '>' + c + '</td>';
         idx += span - 1;
       }
       h += '</tr>';

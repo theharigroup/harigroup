@@ -144,3 +144,46 @@ table.bk-m td small{display:block;color:#64748b;font-size:12px}
 
 .bk-slot.was{opacity:.8}
 .bk-slot small.nt{display:block;font-weight:500;opacity:.85;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---- phones: weekly table becomes one card per day, slots in a 2-column grid ---- */
+@media(max-width:700px){
+.bk-wrap,.bk-hero .bk-in{padding-left:14px;padding-right:14px}
+.bk-hero{padding:34px 0}.bk-hero h1{font-size:28px}
+.bk-acts{width:100%;justify-content:space-between}
+.bk-tabs{grid-template-columns:1fr;gap:10px;margin:16px 0 12px}
+.bk-tab img,.bk-tab .ph{width:64px;height:50px}
+.bk-top{padding:12px 14px}.bk-nav{width:100%}.bk-nav .bk-btn{flex:1;height:40px;padding:0 6px}
+.bk-rules{padding:10px 14px;flex-direction:column;gap:4px}
+.bk-legend{padding:12px 14px;gap:8px 14px}
+.bk-tbl table#tbl{min-width:0;display:block}
+#tbl thead{display:none}
+#tbl tbody{display:block}
+#tbl tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;padding:10px 12px 12px;border-top:6px solid #f1f5f9}
+#tbl td{display:block;height:auto;border:0;padding:0;min-width:0}
+#tbl td.t{grid-column:1/-1;padding:8px 10px;border-radius:0;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
+#tbl td.t small{display:inline;font-size:12px}
+#tbl td.w{grid-column:1/-1}
+#tbl td[data-t]::before{content:attr(data-t);display:block;font-size:11px;font-weight:700;color:#64748b;padding:0 1px 3px}
+#tbl .bk-slot{min-height:58px;border:1px solid #e2e8f0;font-size:12px}
+#tbl .bk-slot.free{color:#15803d;background:#f0fdf4;border:1px dashed #86efac}
+#tbl .bk-slot.free::before{content:"+ Book";font-size:13px;font-weight:700}
+#tbl .bk-slot.mine{border-color:#ca8a04}
+#tbl td:has(.bk-slot.past){display:none}
+#tbl .bk-slot.later,#tbl .bk-slot.closed,#tbl .bk-slot.live,#tbl .bk-slot.mnt{font-size:12px}
+.bk-item{padding:12px 14px}
+.bk-side h3{padding:12px 14px}
+.bk-admbar{overflow-x:auto;flex-wrap:nowrap}.bk-admbar button{white-space:nowrap;flex:none}
+.bk-adm{grid-template-columns:1fr}
+.bk-ph{padding:12px 14px}.bk-fm{padding:14px}
+.bk-ilist .it{flex-wrap:wrap;padding:12px 14px}.bk-ilist img,.bk-ilist .ph{width:64px;height:50px}
+.bk-srch{width:100%}
+table.bk-m th,table.bk-m td{padding:10px;white-space:nowrap}
+.bk-back{align-items:flex-end;padding:0}
+.bk-dlg{width:100%;max-height:92vh;padding:20px 16px 24px}
+.bk-field input,.bk-field select,.bk-field textarea,.bk-srch{font-size:16px!important}
+.bk-field select,.bk-field input[type=text],.bk-field input[type=email],.bk-field input[type=password],.bk-field input[type=date],.bk-field input[type=number]{height:46px}
+.bk-btn{height:44px}.bk-btn.sm{height:36px}
+.bk-act{flex-direction:column-reverse}.bk-act .bk-btn{width:100%}
+.bk-login{margin:20px 12px 50px}.bk-login .lb,.bk-login .lh{padding:20px 16px}
+}
+.bk-field input{box-sizing:border-box}
