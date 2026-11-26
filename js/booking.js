@@ -40,7 +40,7 @@
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
   let weekBookings = [], dlgState = null, idleTimer = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
-  let facilities = [];
+  let facilities = [], firstDone = false;
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
 
   // ---------- messages ----------
@@ -53,6 +53,7 @@
     if (CFG.url && CFG.anonKey && !window.supabase) $('cfg-warn').innerHTML = '<b>The sign-in service could not be loaded.</b><br>Check your internet connection and reload the page.';
     return;
   }
+  const FIRST_TIME = /type=(signup|invite)/.test(location.hash);   // arrived from the confirmation email
   client = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 
   client.auth.onAuthStateChange((event, s) => {
@@ -60,6 +61,7 @@
     if (event === 'PASSWORD_RECOVERY') { showOut('newpw'); return; }
     if (event === 'SIGNED_OUT') { me = null; showOut('login'); return; }
     if (event === 'SIGNED_IN' && view === 'out' && !$('f-newpw').hidden) return;
+    if (FIRST_TIME && s && !firstDone) { firstDone = true; showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); return; }
     if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') setTimeout(enter, 0);
   });
 
@@ -68,9 +70,9 @@
     view = 'out'; stopIdle();
     ['v-in', 'v-adm'].forEach(x => { $(x).hidden = true; });
     $('v-out').hidden = false; $('acts').hidden = true;
-    ['login', 'create', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
-    $('lt').textContent = { login: 'Member Sign In', create: 'Create Your Password', forgot: 'Forgot Password', newpw: 'Set New Password' }[mode];
-    $('ls').textContent = { login: 'Please sign in with your IISc email to book the group instruments', create: 'First time here? Choose a password for your approved email', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
+    ['login', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
+    $('lt').textContent = { login: 'Member Sign In', forgot: 'Forgot Password', newpw: 'Set New Password' }[mode];
+    $('ls').textContent = { login: 'Please sign in with your IISc email to book the group instruments. New members: use the link in your invitation email', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
     say('msg', '');
   }
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => showOut(b.dataset.mode)));
@@ -80,16 +82,6 @@
     const { error } = await client.auth.signInWithPassword({ email: $('l-email').value.trim().toLowerCase(), password: $('l-pass').value });
     btn.disabled = false; $('l-pass').value = '';
     if (error) say('msg', 'Invalid email or password.');                      // same text for every failure
-  });
-  $('f-create').addEventListener('submit', async e => {
-    e.preventDefault(); say('msg', '');
-    const p = $('c-pass').value;
-    if (p.length < 10) return say('msg', 'Use at least 10 characters for your password.');
-    if (p !== $('c-pass2').value) return say('msg', 'The two passwords do not match.');
-    const btn = $('c-btn'); btn.disabled = true;
-    await client.auth.signUp({ email: $('c-email').value.trim().toLowerCase(), password: p, options: { emailRedirectTo: location.origin + location.pathname } });
-    btn.disabled = false; $('c-pass').value = ''; $('c-pass2').value = '';
-    say('msg', 'If your email is approved, we have sent a confirmation link. Open it, then sign in.', 'ok');   // never reveals who is approved
   });
   $('f-forgot').addEventListener('submit', async e => {
     e.preventDefault(); const btn = $('f-btn'); btn.disabled = true;
@@ -436,11 +428,20 @@
     $('mem').innerHTML = rows.map(m => {
       const ids = allAccess.filter(a => a.email === m.email).map(a => a.instrument_id);
       const chips = m.role === 'admin' ? '<span class="bk-mini">All instruments</span>' : (ids.map(id => { const i = instruments.find(x => x.id === id); return i ? '<span class="bk-mini">' + esc(i.name) + '</span>' : ''; }).join('') || '<span style="color:#94a3b8">None</span>');
-      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-btn line sm" type="button" data-medit="' + esc(m.email) + '">Edit</button></td></tr>';
+      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-btn line sm" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password">Send Link</button> <button class="bk-btn line sm" type="button" data-medit="' + esc(m.email) + '">Edit</button></td></tr>';
     }).join('') || '<tr><td colspan="5" class="bk-empty">No members found.</td></tr>';
+    $('mem').querySelectorAll('[data-minv]').forEach(b => b.addEventListener('click', async () => { b.disabled = true; const r = await inviteMember(b.dataset.minv); b.disabled = false; say('m-msg', r.ok ? 'Password link sent to ' + b.dataset.minv + '.' : r.msg, r.ok ? 'ok' : 'err'); }));
     $('mem').querySelectorAll('[data-medit]').forEach(b => b.addEventListener('click', () => editMember(b.dataset.medit)));
   }
   $('m-q').addEventListener('input', renderMembers);
+  // Asks the booking-invite function to email a "set your password" link (new account) or a reset link (existing account).
+  async function inviteMember(email) {
+    try {
+      const r = await client.functions.invoke('booking-invite', { body: { email } });
+      if (r.error) { let m = 'The link could not be sent.'; try { const j = await r.error.context.json(); if (j && j.error) m = j.error; } catch (_) {} return { ok: false, msg: m }; }
+      return { ok: true };
+    } catch (_) { return { ok: false, msg: 'The link could not be sent.' }; }
+  }
   function memberInstBoxes(checked) {
     $('m-inst').innerHTML = instruments.map(i => '<label><input type="checkbox" value="' + esc(i.id) + '"' + (checked.includes(i.id) ? ' checked' : '') + '>' + esc(i.name) + '</label>').join('') || '<div class="bk-hint">Add an instrument first.</div>';
   }
@@ -471,8 +472,9 @@
     if (d.error) { $('m-save').disabled = false; return say('m-msg', errText(d.error)); }
     if (ids.length) { const a = await client.from('booking_access').insert(ids.map(id => ({ email, instrument_id: id }))); if (a.error) { $('m-save').disabled = false; return say('m-msg', errText(a.error)); } }
     $('m-save').disabled = false;
-    const wasNew = !editingMember; await loadMembers(); renderMembers(); resetMemberForm();
-    say('m-msg', wasNew ? 'Member approved. Ask them to choose "First Time Here? Create Password" on this page.' : 'Changes saved.', 'ok');
+    const wasNew = !editingMember; let note = 'Changes saved.';
+    if (wasNew && status === 'active') { const iv = await inviteMember(email); note = iv.ok ? 'Member added. An email with a link to set their password has been sent.' : 'Member added, but the email could not be sent (' + iv.msg + '). Use Send Link to try again.'; }
+    await loadMembers(); renderMembers(); resetMemberForm(); say('m-msg', note, 'ok');
   });
 
   // --- maintenance + export ---

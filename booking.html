@@ -86,18 +86,11 @@
 <label class="bk-field">IISc Email<input type="email" id="l-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
 <label class="bk-field">Password<input type="password" id="l-pass" autocomplete="current-password" required></label>
 <button class="bk-btn navy" type="submit" id="l-btn">Sign In</button>
-<div class="bk-links"><button type="button" data-mode="forgot">Forgot Password?</button><button type="button" data-mode="create">First Time Here? Create Password</button></div>
+<div class="bk-links"><button type="button" data-mode="forgot">Forgot Password?</button></div>
 <div class="bk-note">Only members approved by the group admin can sign in. Sessions end automatically after 30 minutes of inactivity.</div>
 </form>
 
-<form id="f-create" hidden autocomplete="on">
-<label class="bk-field">IISc Email<input type="email" id="c-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
-<label class="bk-field">New Password<input type="password" id="c-pass" minlength="10" autocomplete="new-password" required></label>
-<label class="bk-field">Confirm Password<input type="password" id="c-pass2" minlength="10" autocomplete="new-password" required></label>
-<button class="bk-btn navy" type="submit" id="c-btn">Create Password</button>
-<div class="bk-links"><button type="button" data-mode="login">Back to Sign In</button></div>
-<div class="bk-note">Use at least 10 characters. We email you a link to confirm your address. This works only after the admin has approved your email.</div>
-</form>
+
 
 <form id="f-forgot" hidden>
 <label class="bk-field">IISc Email<input type="email" id="f-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
@@ -256,6 +249,6 @@
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/booking-config.js"></script>
-<script src="js/booking.js?v=5"></script>
+<script src="js/booking.js?v=7"></script>
 </body>
 </html>
