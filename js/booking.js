@@ -165,12 +165,12 @@
 
   async function refreshWeek() {
     const inst = curInst();
-    if (!inst) { $('tbl').innerHTML = ''; $('wk-name').textContent = ''; $('wk-range').textContent = ''; $('rules').innerHTML = ''; await loadMine(); return; }
+    if (!inst) { $('tbl').innerHTML = ''; $('wk-name').textContent = ''; $('wk-range').textContent = ''; $('rules').innerHTML = ''; await loadMine(); await loadPast(); return; }
     const from = new Date(weekMs).toISOString(), to = new Date(weekMs + 7 * DAY).toISOString();
     const r = await client.from('bookings').select('*')
       .eq('instrument_id', inst.id).is('cancelled_at', null).lt('starts_at', to).gt('ends_at', from);
     weekBookings = (r.data || []).map(b => ({ ...b, s: Date.parse(b.starts_at), e: Date.parse(b.ends_at) }));
-    renderWeek(); await loadMine();
+    renderWeek(); await loadMine(); await loadPast();
   }
 
   function stateOf(inst, dow, s, e, now) {
@@ -178,8 +178,8 @@
     const b = weekBookings.find(x => x.s < e && x.e > s);
     if (b) {
       if (b.kind === 'maintenance') return { k: 'mnt', label: b.note ? b.note : 'Maintenance', bid: b.id };
-      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note, bid: b.id, ch: choiceText(b) };
-      return { k: 'oth', label: who(b.member_name), note: b.note, bid: b.id, ch: choiceText(b) };
+      if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note, was: b.e <= now, bid: b.id, ch: choiceText(b) };
+      return { k: 'oth', label: who(b.member_name), note: b.note, was: b.e <= now, bid: b.id, ch: choiceText(b) };
     }
     if (e <= now) return { k: 'past' };
     if (s <= now) return { k: 'live' };
@@ -205,7 +205,7 @@
         const hrs = ((SL[idx + span - 1].e - sl.s) / 60) + ' h';
         let c;
         if (st.k === 'free') c = '<button type="button" class="bk-slot free" data-ds="' + ds + '" data-i="' + idx + '" aria-label="Book ' + esc(dmy(ds) + ' ' + sl.label) + '"></button>';
-        else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + '" title="' + esc([st.ch, st.note].filter(Boolean).join(' | ')) + '"><span>' + esc(st.label) + '<br><small>' + hrs + (st.ch ? ' · ' + esc(st.ch) : '') + '</small></span></div>';
+        else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + (st.was ? ' was' : '') + '" title="' + esc([st.ch, st.note].filter(Boolean).join(' | ')) + '"><span>' + esc(st.label) + '<br><small>' + hrs + (st.ch ? ' · ' + esc(st.ch) : '') + '</small>' + (st.note ? '<br><small class="nt">' + esc(st.note) + '</small>' : '') + '</span></div>';
         else if (st.k === 'mnt') c = '<div class="bk-slot mnt">' + esc(st.label) + '</div>';
         else if (st.k === 'live') c = '<div class="bk-slot live">in progress</div>';
         else if (st.k === 'closed') c = '<div class="bk-slot closed">closed</div>';
@@ -235,6 +235,16 @@
         '<button class="bk-btn line sm" type="button" data-cancel="' + esc(b.id) + '">Cancel</button>' + '</div></div>';
     }).join('') : '<div class="bk-empty">You have no upcoming bookings. Click a free slot in the table to book.</div>';
     $('mine').querySelectorAll('[data-cancel]').forEach(b => b.addEventListener('click', () => cancelBooking(b.dataset.cancel)));
+  }
+  async function loadPast() {
+    const r = await client.from('bookings').select('*').eq('member_email', me.email).eq('kind', 'booking')
+      .is('cancelled_at', null).lte('ends_at', new Date().toISOString()).order('starts_at', { ascending: false }).limit(15);
+    const rows = r.data || [];
+    $('mine-past').innerHTML = rows.length ? rows.map(b => {
+      const inst = instruments.find(i => i.id === b.instrument_id), s = Date.parse(b.starts_at), e = Date.parse(b.ends_at), ds = dateStr(s), dow = istDate(s).getUTCDay();
+      const sm = Math.round((s - midnightMs(ds)) / MIN), em = sm + Math.round((e - s) / MIN);
+      return '<div class="bk-item"><b>' + esc(inst ? inst.name : 'Instrument') + '</b><span>' + dmy(ds) + ' (' + DAYN[dow] + ')<br>' + esc(slotLabel(sm, em)) + (choiceText(b) ? '<br>' + esc(choiceText(b)) : '') + (b.note ? '<br>' + esc(b.note) : '') + '</span></div>';
+    }).join('') : '<div class="bk-empty">No past bookings yet.</div>';
   }
   async function cancelBooking(id) {
     if (!confirm('Cancel this booking?')) return;

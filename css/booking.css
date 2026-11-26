@@ -141,3 +141,6 @@ table.bk-m td small{display:block;color:#64748b;font-size:12px}
 
 .bk-warn{background:#fffbeb;border:1px solid #fcd34d;border-left:3px solid #facc15;padding:9px 12px;margin:0 0 12px;font-size:12px;line-height:1.5;color:#78350f}
 .bk-slot.mine,.bk-slot.oth{min-height:48px}
+
+.bk-slot.was{opacity:.8}
+.bk-slot small.nt{display:block;font-weight:500;opacity:.85;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
