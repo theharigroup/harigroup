@@ -68,6 +68,7 @@
 
   // ---------- sign in / out ----------
   function showOut(mode) {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
     view = 'out'; stopIdle();
     ['v-in', 'v-adm'].forEach(x => { $(x).hidden = true; });
     $('v-out').hidden = false; $('acts').hidden = true;

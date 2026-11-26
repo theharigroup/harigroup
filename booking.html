@@ -9,13 +9,14 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
-<link href="css/booking.css?v=9" rel="stylesheet"/>
+<link href="css/booking.css?v=10" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="js/tailwind-config.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="usertools">
@@ -83,23 +84,23 @@
 <div class="bk-msg" id="msg" role="status" aria-live="polite"></div>
 
 <form id="f-login" autocomplete="on">
-<div class="bk-lf"><label for="l-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="l-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i class="fa-solid fa-envelope" aria-hidden="true"></i></div></div>
-<div class="bk-lf"><label for="l-pass">Password <span>*</span></label><div class="bk-fi"><input type="password" id="l-pass" placeholder="••••••••••••" autocomplete="current-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
-<button class="bk-btn blue" type="submit" id="l-btn"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Log In to Portal</button>
+<div class="bk-lf"><label for="l-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="l-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i data-lucide="user" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="l-pass">Password <span>*</span></label><div class="bk-fi"><input type="password" id="l-pass" placeholder="••••••••••••" autocomplete="current-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="l-btn"><i data-lucide="log-in" aria-hidden="true"></i> Log In to Portal</button>
 <div class="bk-links c"><button type="button" data-mode="forgot">Forgot password?</button></div>
 </form>
 
 
 
 <form id="f-forgot" hidden>
-<div class="bk-lf"><label for="f-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="f-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i class="fa-solid fa-envelope" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="f-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="f-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i data-lucide="user" aria-hidden="true"></i></div></div>
 <button class="bk-btn blue" type="submit" id="f-btn">Send Reset Link</button>
 <div class="bk-links c"><button type="button" data-mode="login">Back to Sign In</button></div>
 </form>
 
 <form id="f-newpw" hidden>
-<div class="bk-lf"><label for="n-pass">New Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass" minlength="10" autocomplete="new-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
-<div class="bk-lf"><label for="n-pass2">Confirm Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass2" minlength="10" autocomplete="new-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="n-pass">New Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass" minlength="10" autocomplete="new-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="n-pass2">Confirm Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass2" minlength="10" autocomplete="new-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
 <button class="bk-btn blue" type="submit" id="n-btn">Save New Password</button>
 </form>
 </div>
@@ -249,6 +250,6 @@
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/booking-config.js"></script>
-<script src="js/booking.js?v=13"></script>
+<script src="js/booking.js?v=14"></script>
 </body>
 </html>
