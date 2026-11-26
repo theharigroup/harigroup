@@ -40,7 +40,7 @@
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
   let weekBookings = [], dlgState = null, idleTimer = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
-  let facilities = [];
+  let facilities = [], firstDone = false;
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
 
   // ---------- messages ----------
@@ -53,6 +53,7 @@
     if (CFG.url && CFG.anonKey && !window.supabase) $('cfg-warn').innerHTML = '<b>The sign-in service could not be loaded.</b><br>Check your internet connection and reload the page.';
     return;
   }
+  const FIRST_TIME = /type=(signup|invite)/.test(location.hash);   // arrived from the confirmation email
   client = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 
   client.auth.onAuthStateChange((event, s) => {
@@ -60,6 +61,7 @@
     if (event === 'PASSWORD_RECOVERY') { showOut('newpw'); return; }
     if (event === 'SIGNED_OUT') { me = null; showOut('login'); return; }
     if (event === 'SIGNED_IN' && view === 'out' && !$('f-newpw').hidden) return;
+    if (FIRST_TIME && s && !firstDone) { firstDone = true; showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); return; }
     if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') setTimeout(enter, 0);
   });
 
@@ -83,13 +85,13 @@
   });
   $('f-create').addEventListener('submit', async e => {
     e.preventDefault(); say('msg', '');
-    const p = $('c-pass').value;
-    if (p.length < 10) return say('msg', 'Use at least 10 characters for your password.');
-    if (p !== $('c-pass2').value) return say('msg', 'The two passwords do not match.');
     const btn = $('c-btn'); btn.disabled = true;
-    await client.auth.signUp({ email: $('c-email').value.trim().toLowerCase(), password: p, options: { emailRedirectTo: location.origin + location.pathname } });
-    btn.disabled = false; $('c-pass').value = ''; $('c-pass2').value = '';
-    say('msg', 'If your email is approved, we have sent a confirmation link. Open it, then sign in.', 'ok');   // never reveals who is approved
+    // The account is created with a random password that nobody knows. The real password is chosen only after the
+    // owner opens the confirmation email, so someone who merely knows an approved email cannot set its password.
+    const rnd = crypto.getRandomValues(new Uint8Array(24)); const tmp = Array.from(rnd, x => x.toString(16).padStart(2, '0')).join('') + 'Aa1!';
+    await client.auth.signUp({ email: $('c-email').value.trim().toLowerCase(), password: tmp, options: { emailRedirectTo: location.origin + location.pathname } });
+    btn.disabled = false;
+    say('msg', 'If your email is approved, we have sent a confirmation link. Open it from that email to choose your password.', 'ok');   // never reveals who is approved
   });
   $('f-forgot').addEventListener('submit', async e => {
     e.preventDefault(); const btn = $('f-btn'); btn.disabled = true;
