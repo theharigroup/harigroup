@@ -230,5 +230,23 @@
 </footer>
 
 
+<script src="js/booking-config.js"></script>
+<script>
+/* Show a "Book This Instrument" link on cards of instruments that are set up in the booking system */
+(function(){
+  var c=window.BOOKING_CONFIG||{}; if(!c.url||!c.anonKey) return;
+  fetch(c.url.replace(/\/$/,'')+'/rest/v1/rpc/booking_public_instruments',{method:'POST',headers:{apikey:c.anonKey,'Content-Type':'application/json'},body:'{}'})
+   .then(function(r){return r.ok?r.json():[]}).then(function(rows){
+    var names={}; rows.forEach(function(x){names[x.name.toLowerCase()]=x.name});
+    document.querySelectorAll('.fc-card').forEach(function(card){
+      var n=card.querySelector('.fc-name'); if(!n) return; var k=n.textContent.trim().toLowerCase();
+      var body=card.querySelector('.fc-body'); if(!names[k]||!body||body.querySelector('.fc-book')) return;
+      var a=document.createElement('a'); a.className='fc-btn fc-book'; a.href='booking.html#inst='+encodeURIComponent(names[k]);
+      a.style.marginLeft='8px'; a.innerHTML='Book This Instrument <i class="fa-solid fa-calendar-check"></i>'; a.setAttribute('aria-label','Book '+n.textContent.trim());
+      body.appendChild(a);
+    });
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

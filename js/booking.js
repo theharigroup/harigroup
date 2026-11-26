@@ -11,7 +11,8 @@
 
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const pad = n => String(n).padStart(2, '0');
-  const initials = n => (String(n || '?').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2) || '?').toUpperCase();
+  const initials = n => (String(n || '?').trim().split(/\s+/).map(w => w[0]).join('').slice(0, 3) || '?').toUpperCase();
+  const who = n => { const p = String(n || '').trim().split(/\s+/).filter(Boolean); return p.length ? p[0] + ' (' + initials(n) + ')' : ''; };
 
   // ---------- time helpers (IST) ----------
   const istDate = ms => new Date(ms + IST);                          // read with getUTC*
@@ -36,6 +37,7 @@
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
   let weekBookings = [], dlgState = null, idleTimer = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
+  let facilities = [];
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
 
   // ---------- messages ----------
@@ -133,6 +135,8 @@
     const ra = await client.from('booking_access').select('instrument_id').eq('email', me.email);
     myAccess = new Set((ra.data || []).map(x => x.instrument_id));
     const bookable = bookableList();
+    const hm = decodeURIComponent((location.hash.match(/inst=([^&]+)/) || [])[1] || '').toLowerCase();
+    const hit = hm && bookable.find(i => i.name.toLowerCase() === hm); if (hit) { cur = hit.id; history.replaceState(null, '', location.pathname); }
     if (!cur || !bookable.some(i => i.id === cur)) cur = bookable[0] ? bookable[0].id : null;
   }
   const bookableList = () => instruments.filter(i => i.active && (me.role === 'admin' || myAccess.has(i.id)));
@@ -140,7 +144,7 @@
 
   // ---------- views ----------
   function chip() {
-    return '<div class="bk-chip"><div class="av">' + esc(initials(me.name)) + '</div><div class="txt" style="padding-right:4px"><div class="nm">' + esc(me.name) + '</div><div class="rl">' + (me.role === 'admin' ? 'Admin' : 'Member') + '</div></div>' +
+    return '<div class="bk-chip"><div class="av">' + esc(initials(me.name).slice(0, 2)) + '</div><div class="txt" style="padding-right:4px"><div class="nm">' + esc(me.name) + '</div><div class="rl">' + (me.role === 'admin' ? 'Admin' : 'Member') + '</div></div>' +
       '<button class="out" id="out" title="Sign out" aria-label="Sign out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button></div>';
   }
   function setView(v) {
@@ -180,7 +184,7 @@
     if (b) {
       if (b.kind === 'maintenance') return { k: 'mnt', label: b.note ? b.note : 'Maintenance' };
       if (b.member_email === me.email) return { k: 'mine', label: 'You', note: b.note };
-      return { k: 'oth', label: b.member_name, note: b.note };
+      return { k: 'oth', label: who(b.member_name), note: b.note };
     }
     if (e <= now) return { k: 'past' };
     if (s <= now) return { k: 'live' };
@@ -291,13 +295,38 @@
     pane = p;
     document.querySelectorAll('.bk-admbar button').forEach(b => b.classList.toggle('on', b.dataset.pane === p));
     document.querySelectorAll('[data-p]').forEach(x => { x.hidden = x.dataset.p !== p; });
-    if (p === 'inst') { await loadInstruments(); renderInstList(); if (editingInst === null) resetInstForm(); }
+    if (p === 'inst') { await Promise.all([loadInstruments(), loadFacilities()]); renderInstList(); if (editingInst === null) resetInstForm(); }
     if (p === 'mem') { await loadMembers(); renderMembers(); resetMemberForm(); }
     if (p === 'mnt') renderMaintenance();
     if (p === 'exp') initExport();
   }
 
   // --- instruments ---
+  async function loadFacilities() {
+    if (facilities.length) return;
+    try {
+      const html = await (await fetch('facilities.html', { cache: 'no-cache' })).text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      facilities = [...doc.querySelectorAll('.fc-card')].map(c => {
+        const img = c.querySelector('.fc-ph img');
+        return { name: (c.querySelector('.fc-name') || {}).textContent.trim(), sub: ((c.querySelector('.fc-tag') || {}).textContent || '').trim(), photo: img ? img.getAttribute('src') : null };
+      }).filter(x => x.name);
+    } catch (_) { facilities = []; }
+  }
+  function fillFacilityPick(selected) {
+    const taken = new Set(instruments.map(i => i.name));
+    const opts = selected ? [selected] : facilities.map(x => x.name).filter(n => !taken.has(n));
+    $('i-name').innerHTML = opts.length ? (selected ? '' : '<option value="">Choose An Instrument...</option>') + opts.map(n => '<option value="' + esc(n) + '">' + esc(n) + '</option>').join('')
+      : '<option value="">All Facilities Instruments Are Already Added</option>';
+    $('i-name').disabled = !!selected || !opts.length; if (selected) $('i-name').value = selected;
+    pickPhoto();
+  }
+  function pickPhoto() {
+    const f = facilities.find(x => x.name === $('i-name').value);
+    $('i-drop').querySelectorAll('img').forEach(x => x.remove());
+    if (f && f.photo) $('i-drop').insertAdjacentHTML('afterbegin', '<img src="' + esc(f.photo) + '" alt="">');
+    $('i-dtxt').textContent = 'Photo is taken from the Facilities page';
+  }
   const LEN_OPTS = [[30, '30 minutes'], [60, '1 hour'], [90, '1.5 hours'], [120, '2 hours'], [180, '3 hours'], [240, '4 hours'], [360, '6 hours'], [0, 'Custom...']];
   function timeOpts(sel, from, to, selected) {
     let h = ''; for (let m = from; m <= to; m += 15) h += '<option value="' + m + '"' + (m === selected ? ' selected' : '') + '>' + fmtMin(m === 1440 ? 0 : m) + (m === 1440 ? ' (midnight)' : '') + '</option>';
@@ -331,16 +360,16 @@
   function resetInstForm() {
     editingInst = null; formPhoto = undefined; iDays = [0, 1, 2, 3, 4, 5, 6]; iOv = false; iAct = true;
     $('i-title').textContent = 'Add New Instrument'; $('i-mode').textContent = 'NEW'; $('i-mode').className = 'bk-pill d';
-    $('i-name').value = ''; $('i-loc').value = ''; $('i-len').value = '120'; $('i-ahead').value = '14'; $('i-max').value = '2';
+    fillFacilityPick(null); $('i-loc').value = 'Hari Group Lab'; $('i-len').value = '120'; $('i-ahead').value = '2'; $('i-max').value = '2';
     $('i-st').value = '540'; $('i-en').value = '1260'; $('i-who').value = 'all'; $('i-who-w').hidden = false; $('i-act-w').hidden = true;
-    $('i-dtxt').textContent = 'Click to upload a photo (JPG or PNG)'; $('i-drop').querySelectorAll('img').forEach(x => x.remove()); say('i-msg', '');
+    say('i-msg', '');
     syncInst();
   }
   function editInst(id) {
     const i = instruments.find(x => x.id === id); if (!i) return;
     editingInst = id; formPhoto = undefined;
     $('i-title').textContent = 'Edit Instrument'; $('i-mode').textContent = 'EDITING'; $('i-mode').className = 'bk-pill';
-    $('i-name').value = i.name; $('i-loc').value = i.location || '';
+    fillFacilityPick(i.name); $('i-loc').value = i.location || '';
     const known = LEN_OPTS.some(([v]) => v === i.slot_minutes);
     $('i-len').value = known ? String(i.slot_minutes) : '0'; $('i-custom').value = i.slot_minutes;
     $('i-ahead').value = String(i.book_ahead_days); if (![...$('i-ahead').options].some(o => +o.value === i.book_ahead_days)) $('i-ahead').insertAdjacentHTML('beforeend', '<option value="' + i.book_ahead_days + '">' + i.book_ahead_days + ' days ahead</option>'), $('i-ahead').value = String(i.book_ahead_days);
@@ -350,39 +379,20 @@
     if (![...$('i-en').options].some(o => +o.value === i.day_end)) { $('i-en').insertAdjacentHTML('beforeend', '<option value="' + i.day_end + '">' + fmtMin(i.day_end) + '</option>'); $('i-en').value = String(i.day_end); }
     iDays = i.days.slice(); iOv = !!i.overnight; iAct = !!i.active;
     $('i-who-w').hidden = true; $('i-act-w').hidden = false;
-    $('i-drop').querySelectorAll('img').forEach(x => x.remove());
-    if (i.photo_url) $('i-drop').insertAdjacentHTML('afterbegin', '<img src="' + esc(i.photo_url) + '" alt="">');
-    $('i-dtxt').textContent = 'Click to replace the photo'; say('i-msg', '');
+    say('i-msg', '');
     syncInst(); $('i-form').scrollIntoView({ block: 'nearest' });
   }
   $('i-new').addEventListener('click', resetInstForm);
   $('i-cancel').addEventListener('click', resetInstForm);
-  $('i-file').addEventListener('change', async e => {
-    const f = e.target.files[0]; if (!f) return;
-    try {
-      const url = await shrinkImage(f, 640);
-      formPhoto = url;
-      $('i-drop').querySelectorAll('img').forEach(x => x.remove());
-      $('i-drop').insertAdjacentHTML('afterbegin', '<img src="' + url + '" alt="">'); $('i-dtxt').textContent = 'Photo ready. Click to replace.';
-    } catch (_) { say('i-msg', 'That image could not be read. Please choose a JPG or PNG.'); }
-  });
-  function shrinkImage(file, max) {
-    return new Promise((res, rej) => {
-      const img = new Image(), u = URL.createObjectURL(file);
-      img.onload = () => { const k = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.8)); };
-      img.onerror = () => { URL.revokeObjectURL(u); rej(new Error('bad image')); };
-      img.src = u;
-    });
-  }
+  $('i-name').addEventListener('change', pickPhoto);
   $('i-form').addEventListener('submit', async e => {
     e.preventDefault(); say('i-msg', '');
-    const name = $('i-name').value.trim(), slot = instLen(), st = +$('i-st').value, en = +$('i-en').value;
-    if (!name) return say('i-msg', 'Please enter the instrument name.');
+    const name = $('i-name').value.trim(), fac = facilities.find(x => x.name === name), slot = instLen(), st = +$('i-st').value, en = +$('i-en').value;
+    if (!name || !fac) return say('i-msg', 'Please choose an instrument from the Facilities page list.');
     if (en <= st) return say('i-msg', 'The last slot must end after the first slot starts.');
     if ((en - st) % slot !== 0) return say('i-msg', 'The hours must be a whole number of slots. Change the slot length or the times.');
     if (!iDays.length) return say('i-msg', 'Choose at least one day.');
-    const row = { name, location: $('i-loc').value.trim() || null, slot_minutes: slot, day_start: st, day_end: en, overnight: iOv, days: iDays.slice().sort(), book_ahead_days: +$('i-ahead').value, max_consecutive: +$('i-max').value };
-    if (formPhoto) row.photo_url = formPhoto;
+    const row = { name, sub: fac.sub || null, photo_url: fac.photo, location: $('i-loc').value.trim() || null, slot_minutes: slot, day_start: st, day_end: en, overnight: iOv, days: iDays.slice().sort(), book_ahead_days: +$('i-ahead').value, max_consecutive: +$('i-max').value };
     $('i-save').disabled = true;
     let r;
     if (editingInst) { row.active = iAct; r = await client.from('booking_instruments').update(row).eq('id', editingInst).select().single(); }

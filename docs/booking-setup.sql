@@ -36,7 +36,7 @@ create table if not exists public.booking_instruments (
   day_end         int  not null check (day_end between 1 and 1440),
   overnight       boolean not null default false,                         -- one extra slot from day_end to next day_start
   days            int[] not null default '{0,1,2,3,4,5,6}',                -- 0 = Sunday ... 6 = Saturday
-  book_ahead_days int  not null default 14 check (book_ahead_days between 1 and 90),
+  book_ahead_days int  not null default 2  check (book_ahead_days between 1 and 90),
   max_consecutive int  not null default 2  check (max_consecutive between 1 and 12),
   active          boolean not null default true,
   sort_order      int  not null default 0,
@@ -99,6 +99,9 @@ alter table public.booking_instruments enable row level security;
 alter table public.booking_access      enable row level security;
 alter table public.bookings            enable row level security;
 revoke all on public.booking_members, public.booking_instruments, public.booking_access, public.bookings from anon;
+-- signed-in users only; RLS policies below decide which rows. (No delete on bookings: cancel is a soft update.)
+grant select, insert, update, delete on public.booking_members, public.booking_instruments, public.booking_access to authenticated;
+grant select, insert, update on public.bookings to authenticated;
 
 -- members: a person reads only their own row; admins read and manage everyone
 drop policy if exists bm_read   on public.booking_members;
@@ -217,6 +220,14 @@ select * from (values
   ('IKA RCT Screening System',  'Stirrer / reaction screening','Hari Group lab', 'facilities/rct.jpeg',         60,  540, 1020, false, 3)
 ) v(name, sub, location, photo_url, slot_minutes, day_start, day_end, overnight, sort_order)
 where not exists (select 1 from public.booking_instruments);
+
+-- 8b) Public list of bookable instrument names (names only) so facilities.html can show "Book" links
+create or replace function public.booking_public_instruments()
+returns table(name text) language sql stable security definer set search_path = public as $$
+  select name from public.booking_instruments where active order by sort_order;
+$$;
+revoke all on function public.booking_public_instruments() from public;
+grant execute on function public.booking_public_instruments() to anon, authenticated;
 
 -- 9) FIRST ADMIN: replace the email and name, then run this line --------------------------
 -- insert into public.booking_members (email, name, role) values ('YOUR_EMAIL@iisc.ac.in', 'Your Name', 'admin');

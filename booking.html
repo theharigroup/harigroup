@@ -138,11 +138,11 @@
 <form class="bk-card" id="i-form"><div class="bk-ph"><h2 id="i-title">Add New Instrument</h2><span class="bk-pill d" id="i-mode">NEW</span></div>
 <div class="bk-fm">
 <div class="bk-msg" id="i-msg"></div>
-<label class="bk-field">Name<input type="text" id="i-name" maxlength="80" required></label>
-<label class="bk-drop" id="i-drop"><span id="i-dtxt">Click to upload a photo (JPG or PNG)</span><input type="file" id="i-file" accept="image/*" hidden></label>
+<label class="bk-field">Instrument (From Facilities Page)<select id="i-name" required></select></label>
+<div class="bk-drop" id="i-drop" style="cursor:default"><span id="i-dtxt">Photo is taken from the Facilities page</span></div>
 <label class="bk-field">Location<input type="text" id="i-loc" maxlength="80"></label>
 <h4>Slot Setup</h4>
-<div class="bk-g2"><label class="bk-field">Slot Length<select id="i-len"></select></label><label class="bk-field">Books Up To<select id="i-ahead"><option value="7">7 days ahead</option><option value="14" selected>14 days ahead</option><option value="30">30 days ahead</option><option value="60">60 days ahead</option></select></label></div>
+<div class="bk-g2"><label class="bk-field">Slot Length<select id="i-len"></select></label><label class="bk-field">Books Up To<select id="i-ahead"><option value="1">1 day ahead</option><option value="2" selected>2 days ahead</option><option value="3">3 days ahead</option><option value="7">7 days ahead</option><option value="14">14 days ahead</option></select></label></div>
 <label class="bk-field" id="i-custom-w" hidden>Custom Slot Length (minutes)<input type="number" id="i-custom" min="15" max="720" step="5" value="90"></label>
 <div class="bk-g2"><label class="bk-field">First Slot Starts<select id="i-st"></select></label><label class="bk-field">Last Slot Ends<select id="i-en"></select></label></div>
 <div class="bk-sw"><span>Add an overnight slot (last slot end to first slot start)</span><button type="button" class="bk-tg" id="i-ov" aria-label="Overnight slot"></button></div>
@@ -253,6 +253,6 @@
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/booking-config.js"></script>
-<script src="js/booking.js?v=1"></script>
+<script src="js/booking.js?v=2"></script>
 </body>
 </html>
