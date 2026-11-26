@@ -1,0 +1,20 @@
+name: Sync team to booking members
+on:
+  push:
+    branches: [main]
+    paths: [team.html]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Add new team members to the booking system
+        env:
+          SUPABASE_URL: https://crbbfatqtfyvdqeqairm.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.BOOKING_SUPABASE_SERVICE_KEY }}
+        run: node scripts/sync-booking-members.mjs

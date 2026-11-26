@@ -162,9 +162,7 @@ begin
     end if;
     if new.cancelled_at is not null and old.cancelled_at is null then
       new.cancelled_at := now();
-      if old.kind = 'booking' and old.starts_at <= now() and not public.bk_is_admin() then
-        raise exception 'A booking that has already started cannot be cancelled.';
-      end if;
+      -- the person who booked, and admins, may cancel even after it has started (RLS limits who can update)
     end if;
     return new;
   end if;
