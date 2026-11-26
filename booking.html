@@ -9,7 +9,7 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
-<link href="css/booking.css?v=5" rel="stylesheet"/>
+<link href="css/booking.css?v=6" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -83,25 +83,25 @@
 <div class="bk-msg" id="msg" role="status" aria-live="polite"></div>
 
 <form id="f-login" autocomplete="on">
-<label class="bk-field">IISc Email<input type="email" id="l-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
-<label class="bk-field">Password<input type="password" id="l-pass" autocomplete="current-password" required></label>
-<button class="bk-btn navy" type="submit" id="l-btn">Sign In</button>
-<div class="bk-links"><button type="button" data-mode="forgot">Forgot Password?</button></div>
+<div class="bk-lf"><label for="l-email">IISc Email <span>*</span></label><div class="bk-fi"><input type="email" id="l-email" placeholder="name@iisc.ac.in" autocomplete="username" required><i class="fa-solid fa-envelope" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="l-pass">Password <span>*</span></label><div class="bk-fi"><input type="password" id="l-pass" autocomplete="current-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="l-btn"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Log In to Portal</button>
+<div class="bk-links c"><button type="button" data-mode="forgot">Forgot Password?</button></div>
 <div class="bk-note">Only members approved by the group admin can sign in. Sessions end automatically after 30 minutes of inactivity.</div>
 </form>
 
 
 
 <form id="f-forgot" hidden>
-<label class="bk-field">IISc Email<input type="email" id="f-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
-<button class="bk-btn navy" type="submit" id="f-btn">Send Reset Link</button>
-<div class="bk-links"><button type="button" data-mode="login">Back to Sign In</button></div>
+<div class="bk-lf"><label for="f-email">IISc Email <span>*</span></label><div class="bk-fi"><input type="email" id="f-email" placeholder="name@iisc.ac.in" autocomplete="username" required><i class="fa-solid fa-envelope" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="f-btn">Send Reset Link</button>
+<div class="bk-links c"><button type="button" data-mode="login">Back to Sign In</button></div>
 </form>
 
 <form id="f-newpw" hidden>
-<label class="bk-field">New Password<input type="password" id="n-pass" minlength="10" autocomplete="new-password" required></label>
-<label class="bk-field">Confirm Password<input type="password" id="n-pass2" minlength="10" autocomplete="new-password" required></label>
-<button class="bk-btn navy" type="submit" id="n-btn">Save New Password</button>
+<div class="bk-lf"><label for="n-pass">New Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass" minlength="10" autocomplete="new-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="n-pass2">Confirm Password <span>*</span></label><div class="bk-fi"><input type="password" id="n-pass2" minlength="10" autocomplete="new-password" required><i class="fa-solid fa-lock" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="n-btn">Save New Password</button>
 </form>
 </div>
 </div>
