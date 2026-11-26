@@ -207,3 +207,18 @@ table.bk-m th,table.bk-m td{padding:10px;white-space:nowrap}
 .bk-links.c{justify-content:center}
 .bk-links.c button{color:#64748b;font-weight:400}.bk-links.c button:hover{color:#1d4ed8}
 @media(max-width:700px){.bk-fi input{font-size:16px}.bk-login .lb,.bk-login .lh{padding:20px 16px}}
+
+/* sign-in page: spacing, background and sizes copied from invoice.html */
+.bk-page:has(#v-out:not([hidden])){background:#f8fafc;min-height:0}
+.bk-hero{padding:80px 0}
+@media(max-width:639px){.bk-hero{padding:64px 0}}
+.bk-login{max-width:448px;margin:48px auto;border-radius:2px;overflow:hidden}
+.bk-login .lh{padding:24px}
+.bk-login .lb{padding:24px}
+.bk-lf{margin-bottom:16px}
+.bk-fi input{height:42px;border-radius:2px;font-size:14px}
+.bk-fi i{font-size:16px;left:12px}
+.bk-btn.blue{height:44px;border-radius:2px;margin-top:8px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.bk-links.c{margin-top:16px;font-size:12px}
+.bk-msg{border-radius:2px}
+@media(max-width:700px){.bk-hero{padding:64px 0}.bk-login{margin:32px 16px}.bk-fi input{font-size:16px}}
