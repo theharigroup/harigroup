@@ -177,7 +177,6 @@ begin
 
   if new.kind = 'maintenance' then return new; end if;        -- admins block any range
 
-  if new.starts_at < now() - interval '1 minute' then raise exception 'That slot has already started.'; end if;
   if new.starts_at > now() + make_interval(days => i.book_ahead_days) then
     raise exception 'You can book up to % days ahead.', i.book_ahead_days;
   end if;
@@ -188,6 +187,10 @@ begin
   em := extract(hour from le)::int * 60 + extract(minute from le)::int;
   dur := (extract(epoch from (new.ends_at - new.starts_at)) / 60)::int;
   night := 1440 - i.day_end + i.day_start;
+  -- a slot that has already started can still be booked until 30 minutes before it ends
+  if new.starts_at < now() and new.starts_at + make_interval(mins => case when i.overnight and sm = i.day_end and dur = night then night else i.slot_minutes end) < now() + interval '30 minutes' then
+    raise exception 'That slot is too far gone. A started slot can be booked only until 30 minutes before it ends.';
+  end if;
 
   if i.overnight and sm = i.day_end and dur = night then
     if not (extract(dow from ls)::int = any (i.days)) then raise exception 'This instrument is closed that day.'; end if;
