@@ -187,3 +187,12 @@ table.bk-m th,table.bk-m td{padding:10px;white-space:nowrap}
 .bk-login{margin:20px 12px 50px}.bk-login .lb,.bk-login .lh{padding:20px 16px}
 }
 .bk-field input{box-sizing:border-box}
+
+/* sign-in card uses the same look as the portal cards (white card, navy title, gold accent) */
+.bk-page{min-height:calc(100vh - 68px - 209px)}
+.bk-login{max-width:460px;margin:24px auto 70px;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06),0 10px 22px rgba(15,23,42,.08);position:relative}
+.bk-login .lh{background:#fff;color:#263a67;text-align:left;padding:16px 20px;border-bottom:1px solid #e2e8f0}
+.bk-login .lh h2{font-size:16px;font-weight:700;color:#263a67}
+.bk-login .lh p{font-size:12px;color:#64748b;line-height:1.5}
+.bk-login::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#facc15}
+.bk-login .lb{padding:20px}
