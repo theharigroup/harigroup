@@ -4,6 +4,11 @@ on:
     branches: [main]
     paths: [team.html]
   workflow_dispatch:
+    inputs:
+      send_welcome:
+        description: Send welcome emails to newly added people
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -17,4 +22,7 @@ jobs:
         env:
           SUPABASE_URL: https://crbbfatqtfyvdqeqairm.supabase.co
           SUPABASE_SERVICE_KEY: ${{ secrets.BOOKING_SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          SEND_WELCOME: ${{ github.event_name == 'push' || inputs.send_welcome }}
         run: node scripts/sync-booking-members.mjs

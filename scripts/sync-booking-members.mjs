@@ -39,3 +39,21 @@ await api('booking_members', { method: 'POST', headers: { Prefer: 'resolution=ig
 const access = fresh.flatMap(p => instruments.map(i => ({ email: p.email, instrument_id: i.id })));
 if (access.length) await api('booking_access', { method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates,return=minimal' }, body: JSON.stringify(access) });
 console.log('Added: ' + fresh.map(p => p.email).join(', '));
+
+// Welcome email, only to the people just added. Skipped when SEND_WELCOME is not "true" or Resend is not configured.
+const RESEND = process.env.RESEND_API_KEY, FROM = process.env.MAIL_FROM;
+if (process.env.SEND_WELCOME !== 'true') { console.log('Welcome emails off for this run.'); process.exit(0); }
+if (!RESEND || !FROM) { console.log('RESEND_API_KEY / MAIL_FROM not set: welcome emails skipped.'); process.exit(0); }
+const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const PAGE = 'https://harigroup.orgchem.iisc.ac.in/booking.html';
+for (const p of fresh) {
+  const html = `<div style="font-family:Arial,sans-serif;max-width:480px"><h2 style="color:#263A67">Welcome to Instrument Booking</h2>
+  <p>Hello ${esc(p.name)},</p>
+  <p>You have been added to the Hari Group instrument booking system and can book ElectraSyn 2.0, PhotoCube and the IKA RCT Screening System.</p>
+  <p><b>To start:</b> open the booking page, choose <b>First Time Here? Create Password</b>, use this email address (${esc(p.email)}), and confirm the email we send you.</p>
+  <p><a href="${PAGE}" style="display:inline-block;background:#263A67;color:#fff;padding:10px 18px;text-decoration:none;font-weight:bold">Open Instrument Booking</a></p>
+  <p style="color:#64748b;font-size:12px">Hari Group, IISc Bangalore</p></div>`;
+  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + RESEND, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: FROM, to: [p.email], subject: 'Welcome to Hari Group Instrument Booking', html }) });
+  console.log('Welcome email', p.email, r.ok ? 'sent' : 'failed ' + r.status);
+}
