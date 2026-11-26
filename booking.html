@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="h-full bg-slate-50" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Instrument Booking | Hari Group</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Internal Hari Group tool (login required).">
+<link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
+<link href="css/style.css?v=10" rel="stylesheet"/>
+<link href="css/booking.css?v=1" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="usertools">
+<div id="progress"></div>
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100" id="navbar">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-[68px]">
+<!-- Brand / Logo -->
+<a class="flex items-center group" href="index.html" aria-label="Hari Group home">
+<img alt="Hari Group Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" src="harigroup_logo.png"/>
+</a>
+
+<!-- Desktop Multi-Page Navigation Links -->
+<nav class="hidden xl:flex items-center gap-1">
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-home" href="index.html">Home</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-pi" href="pi.html">DP Hari</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-research" href="research.html">Research</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-publications" href="publications.html">Publications</a>
+<div class="nav-dd"><a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-team" href="team.html" aria-haspopup="true">Members <i class="fa-solid fa-chevron-down text-[9px] ml-0.5" aria-hidden="true"></i></a>
+<div class="nav-dd-menu" role="menu"><a role="menuitem" href="team.html">Current Members</a><a role="menuitem" href="alumni.html">Alumni</a></div></div>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-facilities" href="facilities.html">Facilities</a>
+<a class="nav-link px-3 py-2 text-sm font-semibold text-slate-800 hover:text-yellow-700 transition" id="nav-usertools" href="usertools.html">User Tools</a>
+<a class="btn-gold ml-3 px-5 py-2.5 text-sm flex items-center gap-2" id="nav-contact" href="contact.html"><span>Contact</span><i class="fa-solid fa-paper-plane text-xs"></i></a>
+</nav>
+
+<!-- Mobile menu toggle button -->
+<button aria-label="Toggle navigation" aria-expanded="false" class="xl:hidden p-1.5 text-slate-800 hover:text-yellow-700 bg-transparent transition" id="mobile-menu-btn">
+<svg id="menu-icon" class="cat-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="cat-ring"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M21.96 8.37 21.14 10.8 18.96 9.47Z" fill="currentColor" stroke-width="1"/><g transform="rotate(180 12 12)"><path d="M3.14 10.44A9 9 0 0 1 20.46 8.92"/><path d="M21.96 8.37 21.14 10.8 18.96 9.47Z" fill="currentColor" stroke-width="1"/></g></g><path d="M8.8 12h6.4"/><path class="cat-v" d="M12 8.8v6.4"/></svg>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Navigation -->
+<div class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur px-4 pt-3 pb-6 shadow-lg" id="mobile-menu">
+<a href="index.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Home</a>
+<a href="pi.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">DP Hari</a>
+<a href="research.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Research Focus</a>
+<a href="publications.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Publications</a>
+<a href="team.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Members</a>
+<a href="alumni.html" class="block pl-9 pr-4 py-3 font-medium text-slate-600 border-b border-slate-100">Alumni</a>
+<a href="facilities.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">Facilities</a>
+<a href="usertools.html" class="block px-4 py-3 font-medium text-slate-700 border-b border-slate-100">User Tools</a>
+<a href="contact.html" class="block px-4 py-3 font-medium text-slate-700">Contact Us</a>
+</div>
+</header>
+<main class="flex-grow bk-page">
+<section class="bk-hero hero-bg">
+<div class="absolute inset-0 grid-lines"></div>
+<canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+<div class="bk-in">
+<div>
+<div class="bk-crumb"><a href="index.html">Home</a><span>/</span><a href="usertools.html">User Tools</a><span>/</span><span>Instrument Booking</span></div>
+<h1>Instrument Booking <span class="grad-text">Portal</span></h1>
+</div>
+<div class="bk-acts" id="acts" hidden></div>
+</div>
+</section>
+
+<div class="bk-wrap">
+<div class="bk-warn" id="cfg-warn" hidden><b>Booking is not switched on yet.</b><br>The Supabase project URL and key have not been added to <code>js/booking-config.js</code>.</div>
+
+<!-- SIGNED OUT -->
+<div class="bk-login" id="v-out" hidden>
+<div class="lh"><h2 id="lt">Member Sign In</h2><p id="ls">Please sign in with your IISc email to book the group instruments</p></div>
+<div class="lb">
+<div class="bk-msg" id="msg" role="status" aria-live="polite"></div>
+
+<form id="f-login" autocomplete="on">
+<label class="bk-field">IISc Email<input type="email" id="l-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
+<label class="bk-field">Password<input type="password" id="l-pass" autocomplete="current-password" required></label>
+<button class="bk-btn navy" type="submit" id="l-btn">Sign In</button>
+<div class="bk-links"><button type="button" data-mode="forgot">Forgot Password?</button><button type="button" data-mode="create">First Time Here? Create Password</button></div>
+<div class="bk-note">Only members approved by the group admin can sign in. Sessions end automatically after 30 minutes of inactivity.</div>
+</form>
+
+<form id="f-create" hidden autocomplete="on">
+<label class="bk-field">IISc Email<input type="email" id="c-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
+<label class="bk-field">New Password<input type="password" id="c-pass" minlength="10" autocomplete="new-password" required></label>
+<label class="bk-field">Confirm Password<input type="password" id="c-pass2" minlength="10" autocomplete="new-password" required></label>
+<button class="bk-btn navy" type="submit" id="c-btn">Create Password</button>
+<div class="bk-links"><button type="button" data-mode="login">Back to Sign In</button></div>
+<div class="bk-note">Use at least 10 characters. We email you a link to confirm your address. This works only after the admin has approved your email.</div>
+</form>
+
+<form id="f-forgot" hidden>
+<label class="bk-field">IISc Email<input type="email" id="f-email" placeholder="name@iisc.ac.in" autocomplete="username" required></label>
+<button class="bk-btn navy" type="submit" id="f-btn">Send Reset Link</button>
+<div class="bk-links"><button type="button" data-mode="login">Back to Sign In</button></div>
+</form>
+
+<form id="f-newpw" hidden>
+<label class="bk-field">New Password<input type="password" id="n-pass" minlength="10" autocomplete="new-password" required></label>
+<label class="bk-field">Confirm Password<input type="password" id="n-pass2" minlength="10" autocomplete="new-password" required></label>
+<button class="bk-btn navy" type="submit" id="n-btn">Save New Password</button>
+</form>
+</div>
+</div>
+
+<!-- SIGNED IN -->
+<div id="v-in" hidden>
+<div class="bk-tabs" id="tabs"></div>
+<div class="bk-main">
+<div class="bk-card">
+<div class="bk-top"><div><h2 id="wk-name">&nbsp;</h2><div class="sub" id="wk-range">&nbsp;</div></div>
+<div class="bk-nav"><button class="bk-btn line sm" id="wk-prev" type="button">&lsaquo; Previous</button><button class="bk-btn line sm" id="wk-now" type="button">This Week</button><button class="bk-btn line sm" id="wk-next" type="button">Next &rsaquo;</button></div></div>
+<div class="bk-rules" id="rules"></div>
+<div class="bk-tbl"><table id="tbl" aria-label="Weekly booking table"></table></div>
+<div class="bk-legend"><span><i style="background:#fff"></i>Free</span><span><i style="background:#facc15"></i>Your booking</span><span><i style="background:#e2e8f0"></i>Booked by another member</span><span><i style="background:repeating-linear-gradient(135deg,#fee2e2 0 4px,#fecaca 4px 8px)"></i>Maintenance</span><span><i style="background:repeating-linear-gradient(135deg,#f8fafc 0 4px,#e2e8f0 4px 8px)"></i>Past</span></div>
+</div>
+<div class="bk-card bk-side"><h3>My Upcoming Bookings</h3><div id="mine"></div></div>
+</div>
+</div>
+
+<!-- ADMIN -->
+<div id="v-adm" hidden>
+<div class="bk-admbar"><span class="badge">ADMIN</span>
+<button type="button" data-pane="inst" class="on">Instruments</button><button type="button" data-pane="mem">Members</button><button type="button" data-pane="mnt">Maintenance Blocks</button><button type="button" data-pane="exp">Usage Export</button></div>
+
+<div class="bk-adm" data-p="inst">
+<div class="bk-card"><div class="bk-ph"><h2>Instruments</h2><button class="bk-btn navy sm" id="i-new" type="button">+ Add Instrument</button></div><div class="bk-ilist" id="ilist"></div></div>
+<form class="bk-card" id="i-form"><div class="bk-ph"><h2 id="i-title">Add New Instrument</h2><span class="bk-pill d" id="i-mode">NEW</span></div>
+<div class="bk-fm">
+<div class="bk-msg" id="i-msg"></div>
+<label class="bk-field">Instrument (From Facilities Page)<select id="i-name" required></select></label>
+<div class="bk-drop" id="i-drop" style="cursor:default"><span id="i-dtxt">Photo is taken from the Facilities page</span></div>
+<label class="bk-field">Location<input type="text" id="i-loc" maxlength="80"></label>
+<h4>Slot Setup</h4>
+<div class="bk-g2"><label class="bk-field">Slot Length<select id="i-len"></select></label><label class="bk-field">Books Up To<select id="i-ahead"><option value="1">1 day ahead</option><option value="2" selected>2 days ahead</option><option value="3">3 days ahead</option><option value="7">7 days ahead</option><option value="14">14 days ahead</option></select></label></div>
+<label class="bk-field" id="i-custom-w" hidden>Custom Slot Length (minutes)<input type="number" id="i-custom" min="15" max="720" step="5" value="90"></label>
+<div class="bk-g2"><label class="bk-field">First Slot Starts<select id="i-st"></select></label><label class="bk-field">Last Slot Ends<select id="i-en"></select></label></div>
+<div class="bk-sw"><span>Add an overnight slot (last slot end to first slot start)</span><button type="button" class="bk-tg" id="i-ov" aria-label="Overnight slot"></button></div>
+<div class="bk-hint">Days available</div>
+<div class="bk-days" id="i-days"></div>
+<div class="bk-hint">Preview of the slots members will see each day</div>
+<div class="bk-prev" id="i-prev"></div>
+<h4>Rules</h4>
+<div class="bk-g2"><label class="bk-field">Max Consecutive Slots<select id="i-max"></select></label><label class="bk-field" id="i-who-w">Who Can Book<select id="i-who"><option value="all">All approved members</option><option value="none">Selected members only</option></select></label></div>
+<div class="bk-sw" id="i-act-w"><span>Instrument is active</span><button type="button" class="bk-tg on" id="i-act" aria-label="Active"></button></div>
+<div class="bk-act"><button class="bk-btn line" type="button" id="i-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="i-save">Save Instrument</button></div>
+</div></form>
+</div>
+
+<div class="bk-adm" data-p="mem" hidden>
+<div class="bk-card"><div class="bk-ph"><h2 id="m-count">Members</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><input class="bk-srch" id="m-q" placeholder="Search name or email" aria-label="Search members"><button class="bk-btn navy sm" id="m-new" type="button">+ Add Member</button></div></div>
+<div class="bk-tbl"><table class="bk-m"><thead><tr><th>Member</th><th>Role</th><th>Can Book</th><th>Status</th><th></th></tr></thead><tbody id="mem"></tbody></table></div></div>
+<form class="bk-card" id="m-form"><div class="bk-ph"><h2 id="m-title">Add New Member</h2></div>
+<div class="bk-fm">
+<div class="bk-msg" id="m-msg"></div>
+<label class="bk-field">Full Name<input type="text" id="m-name" maxlength="80" required></label>
+<label class="bk-field">IISc Email<input type="email" id="m-email" required></label>
+<div class="bk-g2"><label class="bk-field">Role<select id="m-role"><option value="member">Member</option><option value="admin">Admin</option></select></label><label class="bk-field">Status<select id="m-status"><option value="active">Active</option><option value="disabled">Disabled</option></select></label></div>
+<h4>Instruments They May Book</h4>
+<div class="bk-cks" id="m-inst"></div>
+<div class="bk-hint">After you approve a member, ask them to open this page and choose <b>First Time Here? Create Password</b>. Disabling a member keeps their booking history.</div>
+<div class="bk-act"><button class="bk-btn line" type="button" id="m-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="m-save">Approve Member</button></div>
+</div></form>
+</div>
+
+<div class="bk-adm one" data-p="mnt" hidden>
+<div class="bk-card"><div class="bk-ph"><h2>Upcoming Maintenance Blocks</h2></div><div id="mnt"></div>
+<div class="bk-hint" style="padding:12px 18px;margin:0">To block a slot, go back to booking, click a free slot and tick "Block this slot for maintenance".</div></div>
+</div>
+
+<div class="bk-adm one" data-p="exp" hidden>
+<div class="bk-card"><div class="bk-ph"><h2>Usage Export</h2></div>
+<div class="bk-fm" style="max-width:520px"><div class="bk-msg" id="x-msg"></div>
+<div class="bk-g2"><label class="bk-field">From<input type="date" id="x-from"></label><label class="bk-field">To<input type="date" id="x-to"></label></div>
+<label class="bk-field">Instrument<select id="x-inst"></select></label>
+<div class="bk-act" style="justify-content:flex-start"><button class="bk-btn navy" type="button" id="x-go">Download CSV</button></div></div></div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- BOOKING DIALOG -->
+<div class="bk-back" id="dlg" role="dialog" aria-modal="true" aria-labelledby="d-title"><form class="bk-dlg" id="d-form">
+<h2 id="d-title">Book a Slot</h2><span style="font-size:12px;color:#64748b">Your booking is confirmed immediately and shown to other members.</span>
+<div class="bk-msg" id="d-msg" style="margin-top:12px"></div>
+<div class="bk-sum"><div id="d-img"></div><div><b id="d-name"></b><span id="d-date"></span></div></div>
+<div class="bk-g2"><label class="bk-field">Slot<select id="d-slot" disabled></select></label><label class="bk-field">Consecutive Slots<select id="d-n"></select></label></div>
+<label class="bk-field">Purpose (optional)<textarea id="d-note" maxlength="200" placeholder="e.g. electrochemical screening, 5 reactions"></textarea></label>
+<label class="bk-chk" id="d-mnt-w" hidden><input type="checkbox" id="d-mnt"> Block this slot for maintenance (admin)</label>
+<div class="bk-act"><button class="bk-btn line" type="button" id="d-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="d-ok">Confirm Booking</button></div>
+</form></div>
+<footer class="relative overflow-hidden bg-navy-950 text-slate-400 text-xs border-t border-slate-800 py-7 mt-auto">
+<!-- Background Connected Hexagons -->
+<svg class="absolute -right-10 bottom-1/10 -translate-y-1/2 w-64 h-64 opacity-15 pointer-events-none text-blue-400" fill="none" stroke="currentColor" stroke-width="1.2" viewbox="0 0 120 120">
+<polygon points="40,15 60,15 70,32.3 60,49.6 40,49.6 30,32.3"></polygon>
+<polygon points="70,32.3 90,32.3 100,49.6 90,66.9 70,66.9 60,49.6"></polygon>
+<polygon points="40,49.6 60,49.6 70,66.9 60,84.2 40,84.2 30,66.9"></polygon>
+<polygon points="10,32.3 30,32.3 40,49.6 30,66.9 10,66.9 0,49.6"></polygon>
+<circle cx="50" cy="32.3" r="11"></circle>
+<circle cx="80" cy="49.6" r="11"></circle>
+</svg>
+
+
+<!-- Footer Content -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<a href="https://iisc.ac.in/" target="_blank" rel="noopener noreferrer" aria-label="Indian Institute of Science"><img alt="IISc Logo" class="h-14 sm:h-16 w-auto opacity-70 object-contain transition-transform hover:scale-105" src="https://palanilab.in/wp-content/uploads/2024/06/IISC.png"/></a>
+</div>
+<div class="flex items-center gap-4 text-white-900">
+<span class="mr-3 font-medium">Follow us on:</span>
+<!-- Twitter / X -->
+<a class="hover:text-yellow-500 transition-colors" href="https://x.com/HariGroupIISc" rel="noopener noreferrer" target="_blank" title="Twitter / X">
+<i class="fa-brands fa-square-x-twitter text-xl hover:scale-105"></i>
+</a>
+<!-- LinkedIn -->
+<a class="hover:text-blue-500 transition-colors" href="https://www.linkedin.com/company/harigroupiisc/" rel="noopener noreferrer" target="_blank" title="LinkedIn">
+<i class="fa-brands fa-linkedin text-xl hover:scale-105"></i>
+</a>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex flex-col items-center gap-1">
+    <div>© <span id="year">2026</span> Hari Group. All Rights Reserved.</div>
+
+    <div class="flex items-center justify-center gap-2">
+        <span>Designed &amp; Developed by</span>
+
+        <a href="https://www.chemora.art"
+           target="_blank"
+           rel="noopener noreferrer">
+            <img
+                src="footer/chemora.png"
+                alt="Chemora"
+                class="h-[25px] w-auto object-contain hover:opacity-80 transition-opacity"
+            />
+        </a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script src="js/navigation.js?v=6"></script>
+<script src="js/hero.js?v=3"></script>
+<script src="js/booking-config.js"></script>
+<script src="js/booking.js?v=2"></script>
+</body>
+</html>
