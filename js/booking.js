@@ -6,6 +6,7 @@
   const CFG = window.BOOKING_CONFIG || {};
   const DAYN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const DAYFULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const LATE_MS = 30 * 60000;   // last minutes of a started slot that can no longer be booked
   const FAIR_SLOTS = 2;   // more than this in a row is allowed, with a courtesy reminder
   const IDLE_MS = 30 * 60 * 1000;
   const MIN = 60000, DAY = 86400000, IST = 330 * MIN;
@@ -182,7 +183,7 @@
       return { k: 'oth', label: who(b.member_name), note: b.note, was: b.e <= now, bid: b.id, ch: choiceText(b) };
     }
     if (e <= now) return { k: 'past' };
-    if (s <= now) return { k: 'live' };
+    if (s <= now && e - now < LATE_MS) return { k: 'live' };   // a started slot stays bookable until 30 minutes before it ends
     if (s > now + inst.book_ahead_days * DAY) return { k: 'later' };
     return { k: 'free' };
   }
@@ -192,7 +193,7 @@
     $('wk-name').textContent = inst.name;
     const a = dateStr(weekMs), z = dateStr(weekMs + 6 * DAY);
     $('wk-range').textContent = 'Week of ' + a.slice(8) + ' - ' + dmy(z).slice(0, 2) + ' ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][+z.slice(5, 7) - 1] + ' ' + z.slice(0, 4);
-    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Slots in a row:</b> up to ' + inst.max_consecutive + '</span><span><b>Cancel:</b> any time</span>';
+    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Slots in a row:</b> up to ' + inst.max_consecutive + '</span><span><b>Started slot:</b> bookable until 30 min before it ends</span><span><b>Cancel:</b> any time</span>';
     let h = '<thead><tr><th>Date</th>' + SL.map(s => '<th>' + esc(s.label) + '</th>').join('') + '</tr></thead><tbody>';
     for (let d = 0; d < 7; d++) {
       const ms = weekMs + d * DAY, ds = dateStr(ms), dow = istDate(ms).getUTCDay(), isT = ds === todayS;

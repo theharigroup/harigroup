@@ -37,3 +37,16 @@ end $$;
 
 update public.booking_instruments set options = '[{"label":"Light Source","choices":["UV (365 nm)","Violet (395 nm)","Blue (457 nm)","Cyan (500 nm)","Green (523 nm)","Amber (595 nm)","Red (623 nm)","White"]},{"label":"Vial Size","choices":["4 mL","30 mL"]}]'::jsonb
 where name = 'PhotoCube';
+
+-- Started slots stay bookable until 30 minutes before they end (replaces the old "already started" rule).
+do $$
+declare d text;
+begin
+  select pg_get_functiondef('public.bk_validate()'::regprocedure) into d;
+  if d like '%too far gone%' then return; end if;
+  d := replace(d, E'  if new.starts_at < now() - interval ''1 minute'' then raise exception ''That slot has already started.''; end if;\n', '');
+  if d like '%That slot has already started%' then raise exception 'pattern 1 not found'; end if;
+  d := replace(d, E'  night := 1440 - i.day_end + i.day_start;\n', E'  night := 1440 - i.day_end + i.day_start;\n  if new.starts_at < now() and new.starts_at + make_interval(mins => case when i.overnight and sm = i.day_end and dur = night then night else i.slot_minutes end) < now() + interval ''30 minutes'' then\n    raise exception ''That slot is too far gone. A started slot can be booked only until 30 minutes before it ends.'';\n  end if;\n');
+  if d not like '%too far gone%' then raise exception 'pattern 2 not found'; end if;
+  execute d;
+end $$;
