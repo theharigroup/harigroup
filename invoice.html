@@ -9,7 +9,7 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
-<link rel="stylesheet" href="css/booking.css?v=18">
+<link rel="stylesheet" href="css/booking.css?v=19">
 <style>body.adm-bg{background:#f1f5f9}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -146,11 +146,11 @@
 </div>
 <!-- ADMIN PANEL (Administrator only) - same look as the booking admin panel -->
 <div class="hidden !mt-3" id="admin-view">
-<div class="bk-admbar"><span class="badge">ADMIN</span><button type="button" class="on">Staff &amp; Access</button></div>
+<div class="bk-admbar"><span class="badge">ADMIN</span><button type="button" class="on">Members</button></div>
 <div class="bk-adm" style="padding-bottom:40px">
-<div class="bk-card"><div class="bk-ph"><h2 id="s-count">Staff</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><input class="bk-srch" id="s-q" placeholder="Search name or email" aria-label="Search staff"><button class="bk-btn navy sm" id="s-new" type="button">+ Add Staff</button></div></div>
-<div class="bk-tbl"><table class="bk-m"><thead><tr><th>Staff</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody id="s-rows"><tr><td colspan="4" class="bk-empty">Loading...</td></tr></tbody></table></div></div>
-<form class="bk-card" id="s-form"><div class="bk-ph"><h2 id="s-title">Add New Staff</h2></div>
+<div class="bk-card"><div class="bk-ph"><h2 id="s-count">Members</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><input class="bk-srch" id="s-q" placeholder="Search name or email" aria-label="Search members"><button class="bk-btn navy sm" id="s-new" type="button">+ Add Member</button></div></div>
+<div class="bk-tbl"><table class="bk-m"><thead><tr><th>Member</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody id="s-rows"><tr><td colspan="4" class="bk-empty">Loading...</td></tr></tbody></table></div></div>
+<form class="bk-card" id="s-form"><div class="bk-ph"><h2 id="s-title">Add New Member</h2></div>
 <div class="bk-fm">
 <div class="bk-msg" id="s-msg"></div>
 <label class="bk-field">Full Name<input type="text" id="s-name" maxlength="80" required></label>
@@ -158,7 +158,7 @@
 <div class="bk-g2"><label class="bk-field">Role<select id="s-role"></select></label><label class="bk-field">Status<select id="s-status"><option value="active">Active</option><option value="disabled">Disabled</option></select></label></div>
 <label class="bk-field">Title (optional)<input type="text" id="s-ttl" maxlength="80"></label>
 <div class="bk-hint">Adding a person emails them a link to set their password. Disabling a person blocks their access. Deleting a person removes them from this list and their login, but all invoices stay and remain visible (the creator name is kept on each invoice).</div>
-<div class="bk-act"><button class="bk-btn line" type="button" id="s-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="s-save">Save Staff</button></div>
+<div class="bk-act"><button class="bk-btn line" type="button" id="s-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="s-save">Save Member</button></div>
 </div></form>
 </div>
 </div>
@@ -375,7 +375,7 @@
                     const sel = document.getElementById('s-role');
                     if (sel && !sel.options.length) sel.innerHTML = STAFF_ROLES.map(r => `<option>${esc(r)}</option>`).join('');
                     const { data, error } = await supabaseClient.from('staff').select('*').order('name');
-                    if (error) { staffMsg('Could not load staff: ' + error.message); return; }
+                    if (error) { staffMsg('Could not load members: ' + error.message); return; }
                     staffRows = data || [];
                     renderStaff();
                 }
@@ -383,11 +383,11 @@
                 function renderStaff() {
                     const q = document.getElementById('s-q').value.trim().toLowerCase();
                     const rows = staffRows.filter(r => !q || r.name.toLowerCase().includes(q) || r.email.includes(q));
-                    document.getElementById('s-count').innerHTML = 'Staff <span style="font-weight:600;color:#64748b;font-size:13px">\u00b7 ' + staffRows.filter(r => r.active !== false).length + ' active</span>';
+                    document.getElementById('s-count').innerHTML = 'Members <span style="font-weight:600;color:#64748b;font-size:13px">\u00b7 ' + staffRows.filter(r => r.active !== false).length + ' active</span>';
                     document.getElementById('s-rows').innerHTML = rows.map(r => {
                         const on = r.active !== false;
                         return `<tr><td><b>${esc(r.name)}</b><small>${esc(r.email)}${r.title ? ' \u00b7 ' + esc(r.title) : ''}</small></td><td>${esc(r.role)}</td><td><span class="bk-pill${on ? '' : ' d'}">${on ? 'ACTIVE' : 'DISABLED'}</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-slink="${esc(r.email)}" title="Email a link to set or reset the password" aria-label="Send password link">${ICON_MAIL}</button><button class="bk-ib" type="button" data-sedit="${esc(r.email)}" title="Edit member" aria-label="Edit member">${ICON_EDIT}</button>${r.email === (currentUser && currentUser.username) ? '' : `<button class="bk-ib danger" type="button" data-sdel="${esc(r.email)}" title="Delete member" aria-label="Delete member">${ICON_TRASH}</button>`}</td></tr>`;
-                    }).join('') || '<tr><td colspan="4" class="bk-empty">No staff found.</td></tr>';
+                    }).join('') || '<tr><td colspan="4" class="bk-empty">No members found.</td></tr>';
                     const tb = document.getElementById('s-rows');
                     tb.querySelectorAll('[data-slink]').forEach(b => b.addEventListener('click', async () => {
                         b.disabled = true;
@@ -415,20 +415,20 @@
                 }
                 function resetStaffForm() {
                     editingStaff = null;
-                    document.getElementById('s-title').textContent = 'Add New Staff';
+                    document.getElementById('s-title').textContent = 'Add New Member';
                     ['s-name', 's-email', 's-ttl'].forEach(id => { document.getElementById(id).value = ''; });
                     document.getElementById('s-email').readOnly = false;
                     document.getElementById('s-role').selectedIndex = 0;
                     document.getElementById('s-status').value = 'active';
                     ['s-role', 's-status'].forEach(id => { document.getElementById(id).disabled = false; });
-                    document.getElementById('s-save').textContent = 'Save Staff';
+                    document.getElementById('s-save').textContent = 'Save Member';
                 }
                 function editStaff(email) {
                     const r = staffRows.find(x => x.email === email);
                     if (!r) return;
                     editingStaff = email;
                     staffMsg('');
-                    document.getElementById('s-title').textContent = 'Edit Staff';
+                    document.getElementById('s-title').textContent = 'Edit Member';
                     document.getElementById('s-name').value = r.name;
                     document.getElementById('s-email').value = r.email;
                     document.getElementById('s-email').readOnly = true;
@@ -471,7 +471,7 @@
                     }
                     row.email = document.getElementById('s-email').value.trim().toLowerCase();
                     const { error } = await supabaseClient.from('staff').insert(row);
-                    if (error) { btn.disabled = false; staffMsg(/duplicate|already/i.test(error.message) ? 'This email is already in the staff list.' : error.message); return; }
+                    if (error) { btn.disabled = false; staffMsg(/duplicate|already/i.test(error.message) ? 'This email is already in the member list.' : error.message); return; }
                     const res = row.active ? await invokeInvite(row.email) : { ok: true, skip: true };
                     btn.disabled = false;
                     resetStaffForm();
