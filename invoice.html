@@ -554,10 +554,10 @@
                     const email = (user.email || '').toLowerCase();
                     const { data, error } = await supabaseClient.from('staff').select('*').eq('email', email).maybeSingle();
                     if (error || !data || data.active === false) {
-                        await supabaseClient.auth.signOut();
+                        // stay signed in: the same login is shared with the booking portal, so do not sign out here
                         currentUser = null;
                         renderApp();
-                        showLoginError('Your account is not authorised for this portal. Please contact the administrator.');
+                        showLoginError('This account is not approved for the invoice portal. Please contact the administrator.');
                         return false;
                     }
                     const parts = (data.name || email).trim().split(/\s+/);
