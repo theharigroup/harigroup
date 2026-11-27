@@ -257,3 +257,8 @@ table.bk-m th:last-child,table.bk-m td:last-child{width:128px;white-space:nowrap
 .bk-slot.free:hover::after,.bk-slot.free:focus-visible::after{color:#a16207}
 /* desktop/tablet: the table already shows the time, so no time inside the blocks */
 @media(min-width:701px){.bk-slot[data-lb]::after,.bk-slot.free:hover::after,.bk-slot.free:focus-visible::after{content:none!important;display:none}}
+/* desktop/tablet: free slots use the same light green as on phones */
+@media(min-width:701px){
+.bk-slot.free{background:#f0fdf4;border:1px dashed #86efac}
+.bk-slot.free:hover,.bk-slot.free:focus-visible{color:#15803d;background:#dcfce7;border-color:#4ade80;box-shadow:inset 0 0 0 1px #4ade80}
+}
