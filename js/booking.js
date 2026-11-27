@@ -116,7 +116,8 @@
     const email = String(session.user.email || '').toLowerCase();
     const r = await client.from('booking_members').select('*').eq('email', email).maybeSingle();
     if (r.error || !r.data || r.data.status !== 'active') {
-      await client.auth.signOut(); showOut('login');
+      // stay signed in: the same login is shared with the invoice portal, so do not sign out here
+      showOut('login');
       return say('msg', 'This account is not approved for booking. Please ask the group admin.');
     }
     me = r.data;
@@ -449,7 +450,7 @@
   // Asks the booking-invite function to email a "set your password" link (new account) or a reset link (existing account).
   async function inviteMember(email) {
     try {
-      const r = await client.functions.invoke('booking-invite', { body: { email } });
+      const r = await client.functions.invoke('portal-invite', { body: { email, app: 'booking' } });
       if (r.error) { let m = 'The link could not be sent.'; try { const j = await r.error.context.json(); if (j && j.error) m = j.error; } catch (_) {} return { ok: false, msg: m }; }
       return { ok: true };
     } catch (_) { return { ok: false, msg: 'The link could not be sent.' }; }

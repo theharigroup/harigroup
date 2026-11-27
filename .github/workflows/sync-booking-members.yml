@@ -24,8 +24,8 @@ jobs:
         with: { node-version: 20 }
       - name: Add new team members to the booking system
         env:
-          SUPABASE_URL: https://crbbfatqtfyvdqeqairm.supabase.co
-          SUPABASE_SERVICE_KEY: ${{ secrets.BOOKING_SUPABASE_SERVICE_KEY }}
+          SUPABASE_URL: https://kknmrxopxnhirntmnwhb.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.PORTAL_SUPABASE_SERVICE_KEY }}
           SEND_INVITES: ${{ github.event_name == 'push' || inputs.send_invites || inputs.invite_all }}
           INVITE_ALL: ${{ inputs.invite_all }}
         run: node scripts/sync-booking-members.mjs
