@@ -2,8 +2,8 @@
 //   { email, app: "invoice" | "booking" }                      -> email a "set your password" link
 //   { email, app: "invoice" | "booking", action: "delete" }    -> remove the person from that portal
 // New person -> Supabase invitation (creates the account). Existing account -> password reset link.
-// invoice: caller must be an active Administrator in `staff`, target must be active staff.
-// booking: caller must be an active admin in `booking_members`, target must be an active booking member.
+// invoice: caller must be an active Administrator in staff, target must be active staff.
+// booking: caller must be an active admin in booking_members, target must be an active booking member.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const SITE = 'https://harigroup.orgchem.iisc.ac.in/';
