@@ -95,7 +95,7 @@
   });
   $('f-newpw').addEventListener('submit', async e => {
     e.preventDefault(); const p = $('n-pass').value;
-    if (p.length < 10) return say('msg', 'Use at least 10 characters for your password.');
+    if (p.length < 12) return say('msg', 'Use at least 12 characters for your password.');
     if (p !== $('n-pass2').value) return say('msg', 'The two passwords do not match.');
     const { error } = await client.auth.updateUser({ password: p });
     if (error) return say('msg', errText(error));

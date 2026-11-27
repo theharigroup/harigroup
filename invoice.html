@@ -111,10 +111,11 @@
 <div class="max-w-md mx-auto py-8" id="logged-out-view">
 <div class="bg-white rounded-sm shadow-xl border border-slate-200 overflow-hidden">
 <div class="bg-navy-900 text-white p-6 text-center border-b border-navy-800 relative">
-<h2 class="text-xl font-bold">Portal Access Required</h2>
-<p class="text-xs text-slate-300 mt-1">Please log in with your lab credentials to access the invoice system</p>
+<h2 class="text-xl font-bold" id="lo-title">Portal Access Required</h2>
+<p class="text-xs text-slate-300 mt-1" id="lo-sub">Please log in with your lab credentials to access the invoice system</p>
 </div>
 <form class="p-6 space-y-4" id="inline-login-form" onsubmit="handleLoginSubmit(event)">
+<div class="hidden bg-emerald-50 border border-emerald-200 text-emerald-700 p-3 rounded-sm text-xs font-semibold" id="login-notice"></div>
 <div class="hidden bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-sm text-xs font-semibold flex items-center gap-2" id="login-error">
 <i class="w-4 h-4 shrink-0" data-lucide="alert-circle"></i>
 <span id="login-error-text">Invalid username or password.</span>
@@ -140,7 +141,35 @@
 <button id="login-submit-btn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition flex items-center justify-center gap-2 mt-2" type="submit">
 <i class="w-4 h-4" data-lucide="log-in"></i> Log In to Portal
                             </button>
-<button type="button" onclick="handleForgotPassword()" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Forgot password?</button>
+<button type="button" onclick="setLoginMode('forgot')" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Forgot password?</button>
+</form>
+<form class="hidden p-6 space-y-4" id="inline-forgot-form" onsubmit="handleForgotSubmit(event)">
+<div>
+<label class="block text-xs font-bold uppercase text-slate-700 mb-1">Email <span class="text-rose-500">*</span></label>
+<div class="relative">
+<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="forgot-email" placeholder="e.g. yourname@iisc.ac.in" required type="email" autocomplete="username"/>
+<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="user"></i>
+</div>
+</div>
+<button class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition mt-2" type="submit" id="forgot-btn">Send Reset Link</button>
+<button type="button" onclick="setLoginMode('login')" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Back to Sign In</button>
+</form>
+<form class="hidden p-6 space-y-4" id="inline-newpw-form" onsubmit="handleNewPwSubmit(event)">
+<div>
+<label class="block text-xs font-bold uppercase text-slate-700 mb-1">New Password <span class="text-rose-500">*</span></label>
+<div class="relative">
+<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="newpw-1"  required type="password" autocomplete="new-password" minlength="12"/>
+<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold uppercase text-slate-700 mb-1">Confirm Password <span class="text-rose-500">*</span></label>
+<div class="relative">
+<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="newpw-2"  required type="password" autocomplete="new-password" minlength="12"/>
+<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
+</div>
+</div>
+<button class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition mt-2" type="submit" id="newpw-btn">Save New Password</button>
 </form>
 </div>
 </div>
@@ -576,9 +605,9 @@
                     supabaseClient.auth.onAuthStateChange((event, session) => {
                         // never await Supabase calls inside this callback; defer them
                         if (event === 'PASSWORD_RECOVERY') {
-                            setTimeout(() => document.getElementById('modal-reset').classList.remove('hidden'), 0);
+                            setTimeout(() => { pwPending = true; renderApp(); }, 0);
                         } else if (event === 'SIGNED_OUT') {
-                            setTimeout(() => { currentUser = null; invoices = []; stopIdleTimer(); renderApp(); }, 0);
+                            setTimeout(() => { currentUser = null; invoices = []; pwPending = false; stopIdleTimer(); setLoginMode('login'); renderApp(); }, 0);
                         }
                     });
                     const { data } = await supabaseClient.auth.getSession();
@@ -586,7 +615,7 @@
                         await loadProfile(data.session.user);
                         if (fromInvite && currentUser) {
                             history.replaceState(null, '', location.pathname + location.search);
-                            document.getElementById('modal-reset').classList.remove('hidden');
+                            pwPending = true; renderApp();
                         }
                     } else {
                         renderApp();
@@ -645,29 +674,52 @@
                     if (await loadProfile(data.user)) showToast(`Logged in as ${currentUser.name} (${currentUser.role})`);
                 }
 
-                async function handleForgotPassword() {
-                    const email = document.getElementById('login-username').value.trim().toLowerCase();
-                    if (!email) { showLoginError('Enter your email above first, then click "Forgot password".'); return; }
-                    await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
-                    showToast('If this email is registered, a password-reset link has been sent.');
+                // --- sign-in card modes (same screens and wording as the booking portal) ---
+                let pwPending = false;           // true while the person must still choose a new password
+                const LOGIN_MODES = {
+                    login:  ['Portal Access Required', 'Please log in with your lab credentials to access the invoice system', 'inline-login-form'],
+                    forgot: ['Forgot Password', 'We will email you a link to choose a new password', 'inline-forgot-form'],
+                    newpw:  ['Set New Password', 'Choose a new password for your account', 'inline-newpw-form']
+                };
+                function setLoginMode(mode) {
+                    const m = LOGIN_MODES[mode] || LOGIN_MODES.login;
+                    document.getElementById('lo-title').textContent = m[0];
+                    document.getElementById('lo-sub').textContent = m[1];
+                    Object.values(LOGIN_MODES).forEach(x => document.getElementById(x[2]).classList.toggle('hidden', x[2] !== m[2]));
+                    document.getElementById('login-error').classList.add('hidden');
+                    document.getElementById('login-notice').classList.add('hidden');
+                    if (mode === 'forgot') { const f = document.getElementById('forgot-email'); if (!f.value) f.value = document.getElementById('login-username').value.trim(); }
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+                function showLoginNotice(msg) {
+                    document.getElementById('login-error').classList.add('hidden');
+                    const n = document.getElementById('login-notice'); n.textContent = msg; n.classList.remove('hidden');
                 }
 
-                async function handleResetSubmit(e) {
+                async function handleForgotSubmit(e) {
                     e.preventDefault();
-                    const p1 = document.getElementById('reset-password-1').value;
-                    const p2 = document.getElementById('reset-password-2').value;
-                    const msg = document.getElementById('reset-error');
-                    if (p1.length < 12) { msg.innerText = 'Use at least 12 characters.'; return; }
-                    if (p1 !== p2) { msg.innerText = 'Passwords do not match.'; return; }
+                    const btn = document.getElementById('forgot-btn'); btn.disabled = true;
+                    const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+                    await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+                    btn.disabled = false;
+                    showLoginNotice('If that email has an account, a reset link is on its way.');
+                }
+
+                async function handleNewPwSubmit(e) {
+                    e.preventDefault();
+                    const p1 = document.getElementById('newpw-1').value, p2 = document.getElementById('newpw-2').value;
+                    if (p1.length < 12) { showLoginError('Use at least 12 characters for your password.'); return; }
+                    if (p1 !== p2) { showLoginError('The two passwords do not match.'); return; }
+                    const btn = document.getElementById('newpw-btn'); btn.disabled = true;
                     const { error } = await supabaseClient.auth.updateUser({ password: p1 });
-                    if (error) { msg.innerText = error.message; return; }
-                    msg.innerText = '';
-                    document.getElementById('modal-reset').classList.add('hidden');
-                    document.getElementById('reset-password-1').value = '';
-                    document.getElementById('reset-password-2').value = '';
-                    showToast('Password updated.');
+                    btn.disabled = false;
+                    if (error) { showLoginError(error.message); return; }
+                    document.getElementById('newpw-1').value = ''; document.getElementById('newpw-2').value = '';
+                    history.replaceState(null, '', location.pathname + location.search);
+                    pwPending = false;
+                    showToast('Password saved.');
                     const { data } = await supabaseClient.auth.getSession();
-                    if (data && data.session && !currentUser) await loadProfile(data.session.user);
+                    if (data && data.session && !currentUser) await loadProfile(data.session.user); else renderApp();
                 }
 
                 async function handleLogout(silent) {
@@ -709,7 +761,7 @@
                 }
 
                 // --- POPUPS: always fully visible, scroll inside on small screens ---
-                const MODAL_IDS = ['modal-add', 'modal-details', 'modal-send-office', 'modal-reject', 'modal-po', 'modal-reset'];
+                const MODAL_IDS = ['modal-add', 'modal-details', 'modal-send-office', 'modal-reject', 'modal-po'];
                 function setupModalBehaviour() {
                     const sync = () => document.body.classList.toggle('inv-modal-open',
                         MODAL_IDS.some(id => { const m = document.getElementById(id); return m && !m.classList.contains('hidden'); }));
@@ -717,11 +769,11 @@
                         const m = document.getElementById(id);
                         if (!m) return;
                         new MutationObserver(sync).observe(m, { attributes: true, attributeFilter: ['class'] });
-                        if (id !== 'modal-reset') m.addEventListener('mousedown', e => { if (e.target === m) m.classList.add('hidden'); });
+                        m.addEventListener('mousedown', e => { if (e.target === m) m.classList.add('hidden'); });
                     });
                     document.addEventListener('keydown', e => {
                         if (e.key !== 'Escape') return;
-                        MODAL_IDS.filter(id => id !== 'modal-reset').forEach(id => document.getElementById(id)?.classList.add('hidden'));
+                        MODAL_IDS.forEach(id => document.getElementById(id)?.classList.add('hidden'));
                     });
                 }
 
@@ -833,6 +885,15 @@
                     const loggedOutView = document.getElementById('logged-out-view');
                     const loggedInView = document.getElementById('logged-in-view');
                     const headerActions = document.getElementById('portal-header-actions');
+
+                    if (pwPending) {                       // arrived from a reset / invitation link: choose a password first
+                        adminOpen = false; syncAdminUi();
+                        if (loggedOutView) loggedOutView.classList.remove('hidden');
+                        if (loggedInView) loggedInView.classList.add('hidden');
+                        if (headerActions) headerActions.classList.add('hidden');
+                        setLoginMode('newpw');
+                        return;
+                    }
 
                     if (!currentUser) {
                         adminOpen = false; syncAdminUi();
@@ -1663,29 +1724,18 @@
 
 <style>
 /* Popups: always fully visible on every screen size; long ones scroll inside the screen */
-#modal-add,#modal-details,#modal-send-office,#modal-reject,#modal-po,#modal-reset{
+#modal-add,#modal-details,#modal-send-office,#modal-reject,#modal-po{
   position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   align-items:flex-start !important;justify-content:center;
   padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left)) !important;}
-#modal-add>div,#modal-details>div,#modal-send-office>div,#modal-reject>div,#modal-po>div,#modal-reset>div{margin:auto !important;max-width:100%;}
+#modal-add>div,#modal-details>div,#modal-send-office>div,#modal-reject>div,#modal-po>div{margin:auto !important;max-width:100%;}
 #modal-details table{min-width:420px}
 #modal-details .overflow-hidden:has(> table),#modal-details .overflow-hidden:has(table){overflow-x:auto !important}
 body.inv-modal-open{overflow:hidden}
 #toast{max-width:calc(100vw - 2rem)}
 /* Everything on this page uses 1px corners (circles stay only where drawn as avatars/dots) */
-#page-Invoice\ Management *,#toast,#modal-add *,#modal-details *,#modal-send-office *,#modal-reject *,#modal-po *,#modal-reset *{border-radius:1px !important}
+#page-Invoice\ Management *,#toast,#modal-add *,#modal-details *,#modal-send-office *,#modal-reject *,#modal-po *{border-radius:1px !important}
 </style>
-<div class="hidden fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" id="modal-reset">
-<div class="bg-white w-full max-w-md rounded-sm shadow-2xl border border-slate-200 overflow-hidden">
-<div class="bg-navy-900 text-white p-4"><h3 class="font-bold text-sm">Set a new password</h3></div>
-<form class="p-5 space-y-3" onsubmit="handleResetSubmit(event)">
-<p id="reset-error" class="text-xs text-rose-600 font-semibold"></p>
-<input id="reset-password-1" type="password" autocomplete="new-password" minlength="12" required placeholder="New password (12+ characters)" class="w-full px-3 py-2 border border-slate-300 rounded-sm text-sm"/>
-<input id="reset-password-2" type="password" autocomplete="new-password" minlength="12" required placeholder="Repeat new password" class="w-full px-3 py-2 border border-slate-300 rounded-sm text-sm"/>
-<button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm">Save password</button>
-</form>
-</div>
-</div>
 <div class="hidden fixed top-4 right-4 z-[110] bg-slate-900 text-white px-4 py-3 rounded-sm shadow-xl flex items-center gap-3 border border-slate-700 transition-all duration-300" id="toast">
 <i class="w-5 h-5 text-amber-400" data-lucide="sparkles"></i>
 <span class="text-sm font-medium" id="toast-message"></span>
