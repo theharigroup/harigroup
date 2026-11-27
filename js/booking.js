@@ -243,7 +243,7 @@
   }
   async function loadPast() {
     const r = await client.from('bookings').select('*').eq('member_email', me.email).eq('kind', 'booking')
-      .is('cancelled_at', null).lte('ends_at', new Date().toISOString()).order('starts_at', { ascending: false }).limit(15);
+      .is('cancelled_at', null).lte('ends_at', new Date().toISOString()).order('starts_at', { ascending: false }).limit(3);
     const rows = r.data || [];
     $('mine-past').innerHTML = rows.length ? rows.map(b => {
       const inst = instruments.find(i => i.id === b.instrument_id), s = Date.parse(b.starts_at), e = Date.parse(b.ends_at), ds = dateStr(s), dow = istDate(s).getUTCDay();
