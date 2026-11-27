@@ -206,6 +206,7 @@
         let span = 1;                                            // slots of one booking show as one merged cell
         if (st.bid) while (idx + span < SL.length && stAt(idx + span).bid === st.bid) span++;
         const hrs = ((SL[idx + span - 1].e - sl.s) / 60) + ' h';
+        const tl = span > 1 ? sl.label.split(/\s*[-\u2013]\s*/)[0] + ' \u2013 ' + SL[idx + span - 1].label.split(/\s*[-\u2013]\s*/).pop() : sl.label;
         let c;
         if (st.k === 'free') c = '<button type="button" class="bk-slot free" data-ds="' + ds + '" data-i="' + idx + '" aria-label="Book ' + esc(dmy(ds) + ' ' + sl.label) + '"></button>';
         else if (st.k === 'mine' || st.k === 'oth') c = '<div class="bk-slot ' + st.k + (st.was ? ' was' : '') + '" title="' + esc([st.ch, st.note].filter(Boolean).join(' | ')) + '"><span>' + esc(st.label) + '<br><small>' + hrs + (st.ch ? ' · ' + esc(st.ch) : '') + '</small>' + (st.note ? '<br><small class="nt">' + esc(st.note) + '</small>' : '') + '</span></div>';
@@ -214,7 +215,8 @@
         else if (st.k === 'closed') c = '<div class="bk-slot closed">closed</div>';
         else if (st.k === 'later') c = '<div class="bk-slot later">not open yet</div>';
         else c = '<div class="bk-slot past"></div>';
-        h += '<td data-t="' + esc(span > 1 ? sl.label.split(/\s*[-\u2013]\s*/)[0] + ' \u2013 ' + SL[idx + span - 1].label.split(/\s*[-\u2013]\s*/).pop() : sl.label) + '"' + (span > 1 ? ' colspan="' + span + '" class="w"' : '') + '>' + c + '</td>';
+        c = c.replace('class="bk-slot', 'data-lb="' + esc(tl) + '" class="bk-slot');
+        h += '<td data-t="' + esc(tl) + '"' + (span > 1 ? ' colspan="' + span + '" class="w"' : '') + '>' + c + '</td>';
         idx += span - 1;
       }
       h += '</tr>';
