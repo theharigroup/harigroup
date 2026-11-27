@@ -9,7 +9,7 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
-<link rel="stylesheet" href="css/booking.css?v=19">
+<link rel="stylesheet" href="css/booking.css?v=20">
 <style>body.adm-bg{background:#f1f5f9}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -108,72 +108,34 @@
 <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 space-y-6">
 
 <!-- INLINE LOGIN CARD (Displayed when user is LOGGED OUT) -->
-<div class="max-w-md mx-auto py-8" id="logged-out-view">
-<div class="bg-white rounded-sm shadow-xl border border-slate-200 overflow-hidden">
-<div class="bg-navy-900 text-white p-6 text-center border-b border-navy-800 relative">
-<h2 class="text-xl font-bold" id="lo-title">Portal Access Required</h2>
-<p class="text-xs text-slate-300 mt-1" id="lo-sub">Please log in with your lab credentials to access the invoice system</p>
-</div>
-<form class="p-6 space-y-4" id="inline-login-form" onsubmit="handleLoginSubmit(event)">
-<div class="hidden bg-emerald-50 border border-emerald-200 text-emerald-700 p-3 rounded-sm text-xs font-semibold" id="login-notice"></div>
-<div class="hidden bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-sm text-xs font-semibold flex items-center gap-2" id="login-error">
-<i class="w-4 h-4 shrink-0" data-lucide="alert-circle"></i>
-<span id="login-error-text">Invalid username or password.</span>
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-slate-700 mb-1">
-                                    Email <span class="text-rose-500">*</span>
-</label>
-<div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-username" placeholder="e.g. yourname@iisc.ac.in" required="" type="email" autocomplete="username"/>
-<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="user"></i>
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-slate-700 mb-1">
-                                    Password <span class="text-rose-500">*</span>
-</label>
-<div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="login-password" placeholder="••••••••••••" required="" type="password" autocomplete="current-password"/>
-<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
-</div>
-</div>
-<button id="login-submit-btn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition flex items-center justify-center gap-2 mt-2" type="submit">
-<i class="w-4 h-4" data-lucide="log-in"></i> Log In to Portal
-                            </button>
-<button type="button" onclick="setLoginMode('forgot')" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Forgot password?</button>
+<div id="logged-out-view">
+<div class="bk-login">
+<div class="lh"><h2 id="lo-title">Portal Access Required</h2><p id="lo-sub">Please log in with your lab credentials to access the invoice system</p></div>
+<div class="lb">
+<div class="bk-msg" id="msg" role="status" aria-live="polite"></div>
+
+<form id="inline-login-form" autocomplete="on" onsubmit="handleLoginSubmit(event)">
+<div class="bk-lf"><label for="login-username">Email <span>*</span></label><div class="bk-fi"><input type="email" id="login-username" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i data-lucide="user" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="login-password">Password <span>*</span></label><div class="bk-fi"><input type="password" id="login-password" placeholder="••••••••••••" autocomplete="current-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="login-submit-btn"><i data-lucide="log-in" aria-hidden="true"></i> Log In to Portal</button>
+<div class="bk-links c"><button type="button" onclick="setLoginMode('forgot')">Forgot password?</button></div>
 </form>
-<form class="hidden p-6 space-y-4" id="inline-forgot-form" onsubmit="handleForgotSubmit(event)">
-<div>
-<label class="block text-xs font-bold uppercase text-slate-700 mb-1">Email <span class="text-rose-500">*</span></label>
-<div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="forgot-email" placeholder="e.g. yourname@iisc.ac.in" required type="email" autocomplete="username"/>
-<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="user"></i>
-</div>
-</div>
-<button class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition mt-2" type="submit" id="forgot-btn">Send Reset Link</button>
-<button type="button" onclick="setLoginMode('login')" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Back to Sign In</button>
+
+<form id="inline-forgot-form" hidden onsubmit="handleForgotSubmit(event)">
+<div class="bk-lf"><label for="forgot-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="forgot-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i data-lucide="user" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="forgot-btn">Send Reset Link</button>
+<div class="bk-links c"><button type="button" onclick="setLoginMode('login')">Back to Sign In</button></div>
 </form>
-<form class="hidden p-6 space-y-4" id="inline-newpw-form" onsubmit="handleNewPwSubmit(event)">
-<div>
-<label class="block text-xs font-bold uppercase text-slate-700 mb-1">New Password <span class="text-rose-500">*</span></label>
-<div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="newpw-1"  required type="password" autocomplete="new-password" minlength="12"/>
-<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-slate-700 mb-1">Confirm Password <span class="text-rose-500">*</span></label>
-<div class="relative">
-<input class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="newpw-2"  required type="password" autocomplete="new-password" minlength="12"/>
-<i class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-lucide="lock"></i>
-</div>
-</div>
-<button class="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold rounded-sm text-sm shadow-md transition mt-2" type="submit" id="newpw-btn">Save New Password</button>
+
+<form id="inline-newpw-form" hidden onsubmit="handleNewPwSubmit(event)">
+<div class="bk-lf"><label for="newpw-1">New Password <span>*</span></label><div class="bk-fi"><input type="password" id="newpw-1" minlength="12" autocomplete="new-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
+<div class="bk-lf"><label for="newpw-2">Confirm Password <span>*</span></label><div class="bk-fi"><input type="password" id="newpw-2" minlength="12" autocomplete="new-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
+<button class="bk-btn blue" type="submit" id="newpw-btn">Save New Password</button>
 </form>
 </div>
 </div>
-<!-- ADMIN PANEL (Administrator only) - same look as the booking admin panel -->
+</div>
+
 <div class="hidden !mt-3" id="admin-view">
 <div class="bk-admbar"><span class="badge">ADMIN</span><button type="button" class="on">Members</button></div>
 <div class="bk-adm" style="padding-bottom:40px">
@@ -595,9 +557,9 @@
                 let failedLogins = 0;
                 let lockedUntil = 0;
 
+                function setMsg(text, kind) { const el = document.getElementById('msg'); el.className = 'bk-msg' + (text ? ' ' + (kind || 'err') : ''); el.textContent = text || ''; }
                 function showLoginError(msg) {
-                    document.getElementById('login-error-text').innerText = msg;
-                    document.getElementById('login-error').classList.remove('hidden');
+                    setMsg(msg, 'err');
                 }
 
                 async function initAuth() {
@@ -669,7 +631,7 @@
                         return;
                     }
                     failedLogins = 0;
-                    document.getElementById('login-error').classList.add('hidden');
+                    setMsg('');
                     document.getElementById('login-password').value = '';
                     if (await loadProfile(data.user)) showToast(`Logged in as ${currentUser.name} (${currentUser.role})`);
                 }
@@ -685,15 +647,13 @@
                     const m = LOGIN_MODES[mode] || LOGIN_MODES.login;
                     document.getElementById('lo-title').textContent = m[0];
                     document.getElementById('lo-sub').textContent = m[1];
-                    Object.values(LOGIN_MODES).forEach(x => document.getElementById(x[2]).classList.toggle('hidden', x[2] !== m[2]));
-                    document.getElementById('login-error').classList.add('hidden');
-                    document.getElementById('login-notice').classList.add('hidden');
+                    Object.values(LOGIN_MODES).forEach(x => { document.getElementById(x[2]).hidden = x[2] !== m[2]; });
+                    setMsg('');
                     if (mode === 'forgot') { const f = document.getElementById('forgot-email'); if (!f.value) f.value = document.getElementById('login-username').value.trim(); }
                     if (typeof lucide !== 'undefined') lucide.createIcons();
                 }
                 function showLoginNotice(msg) {
-                    document.getElementById('login-error').classList.add('hidden');
-                    const n = document.getElementById('login-notice'); n.textContent = msg; n.classList.remove('hidden');
+                    setMsg(msg, 'ok');
                 }
 
                 async function handleForgotSubmit(e) {
@@ -728,7 +688,7 @@
                     invoices = [];
                     stopIdleTimer();
                     ['login-username', 'login-password'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-                    document.getElementById('login-error').classList.add('hidden');
+                    setMsg('');
                     renderApp();
                     if (silent !== true) showToast('Logged out of session');
                 }
