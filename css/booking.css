@@ -246,3 +246,6 @@ table.bk-m th:last-child,table.bk-m td:last-child{width:128px;white-space:nowrap
 .bk-tab h3,.bk-ilist .it h3,.bk-cks label,.bk-chk,.bk-sum b{font-weight:700}
 .bk-field input,.bk-field select,.bk-field textarea{font-weight:400}
 .bk-field input::placeholder{font-weight:400}
+/* rules now sit under the table; entered/chosen text is normal weight everywhere */
+.bk-rules{border-bottom:0;border-top:1px solid #e2e8f0}
+.bk-field input[type],.bk-field input,.bk-field select,.bk-field textarea,.bk-field option,.bk-srch,.bk-fm input,.bk-fm select,.bk-fm textarea{font-weight:400!important}
