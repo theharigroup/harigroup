@@ -9,7 +9,7 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
-<link rel="stylesheet" href="css/booking.css?v=11">
+<link rel="stylesheet" href="css/booking.css?v=12">
 <style>body.adm-bg{background:#f1f5f9}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -379,14 +379,14 @@
                     staffRows = data || [];
                     renderStaff();
                 }
-                const ICON_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>', ICON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+                const ICON_TRASH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>', ICON_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>', ICON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
                 function renderStaff() {
                     const q = document.getElementById('s-q').value.trim().toLowerCase();
                     const rows = staffRows.filter(r => !q || r.name.toLowerCase().includes(q) || r.email.includes(q));
                     document.getElementById('s-count').innerHTML = 'Staff <span style="font-weight:600;color:#64748b;font-size:13px">\u00b7 ' + staffRows.filter(r => r.active !== false).length + ' active</span>';
                     document.getElementById('s-rows').innerHTML = rows.map(r => {
                         const on = r.active !== false;
-                        return `<tr><td><b>${esc(r.name)}</b><small>${esc(r.email)}${r.title ? ' \u00b7 ' + esc(r.title) : ''}</small></td><td>${esc(r.role)}</td><td><span class="bk-pill${on ? '' : ' d'}">${on ? 'ACTIVE' : 'DISABLED'}</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-slink="${esc(r.email)}" title="Email a link to set or reset the password" aria-label="Send password link">${ICON_MAIL}</button><button class="bk-ib" type="button" data-sedit="${esc(r.email)}" title="Edit member" aria-label="Edit member">${ICON_EDIT}</button></td></tr>`;
+                        return `<tr><td><b>${esc(r.name)}</b><small>${esc(r.email)}${r.title ? ' \u00b7 ' + esc(r.title) : ''}</small></td><td>${esc(r.role)}</td><td><span class="bk-pill${on ? '' : ' d'}">${on ? 'ACTIVE' : 'DISABLED'}</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-slink="${esc(r.email)}" title="Email a link to set or reset the password" aria-label="Send password link">${ICON_MAIL}</button><button class="bk-ib" type="button" data-sedit="${esc(r.email)}" title="Edit member" aria-label="Edit member">${ICON_EDIT}</button>${r.email === (currentUser && currentUser.username) ? '' : `<button class="bk-ib danger" type="button" data-sdel="${esc(r.email)}" title="Delete member" aria-label="Delete member">${ICON_TRASH}</button>`}</td></tr>`;
                     }).join('') || '<tr><td colspan="4" class="bk-empty">No staff found.</td></tr>';
                     const tb = document.getElementById('s-rows');
                     tb.querySelectorAll('[data-slink]').forEach(b => b.addEventListener('click', async () => {
@@ -395,6 +395,21 @@
                         b.disabled = false;
                         if (res.ok) staffMsg((res.sent === 'invite' ? 'Invitation emailed to ' : 'Password link emailed to ') + b.dataset.slink + '.', true);
                         else staffMsg(res.msg);
+                    }));
+                    tb.querySelectorAll('[data-sdel]').forEach(b => b.addEventListener('click', async () => {
+                        const em = b.dataset.sdel, r = staffRows.find(x => x.email === em);
+                        if (!confirm('Delete ' + (r ? r.name : em) + '?\n\nThey lose access to the invoice portal. Invoices they created stay. Their login is also removed unless they still have access to the booking portal.\n\nThis cannot be undone.')) return;
+                        b.disabled = true;
+                        const { data, error } = await supabaseClient.functions.invoke('portal-invite', { body: { email: em, app: 'invoice', action: 'delete' } });
+                        b.disabled = false;
+                        if (error || !data || !data.ok) {
+                            let msg = 'The member could not be deleted.';
+                            try { const j = error && error.context && await error.context.json(); if (j && j.error) msg = j.error; } catch (_) { /* keep default */ }
+                            staffMsg(msg); return;
+                        }
+                        resetStaffForm();
+                        staffMsg((r ? r.name : em) + ' was deleted.', true);
+                        loadStaff();
                     }));
                     tb.querySelectorAll('[data-sedit]').forEach(b => b.addEventListener('click', () => editStaff(b.dataset.sedit)));
                 }

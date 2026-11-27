@@ -434,7 +434,7 @@
     const [m, a] = await Promise.all([client.from('booking_members').select('*').order('name'), client.from('booking_access').select('email,instrument_id')]);
     allMembers = m.data || []; allAccess = a.data || [];
   }
-  const ICON_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>', ICON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+  const ICON_TRASH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>', ICON_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>', ICON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   function renderMembers() {
     const q = $('m-q').value.trim().toLowerCase();
     const rows = allMembers.filter(m => !q || m.name.toLowerCase().includes(q) || m.email.includes(q));
@@ -442,9 +442,18 @@
     $('mem').innerHTML = rows.map(m => {
       const ids = allAccess.filter(a => a.email === m.email).map(a => a.instrument_id);
       const chips = m.role === 'admin' ? '<span class="bk-mini">All instruments (admin)</span>' : (ids.map(id => { const i = instruments.find(x => x.id === id); return i ? '<span class="bk-mini">' + esc(i.name) + '</span>' : ''; }).join('') || '<span style="color:#94a3b8">None</span>');
-      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password" aria-label="Send password link">' + ICON_MAIL + '</button><button class="bk-ib" type="button" data-medit="' + esc(m.email) + '" title="Edit member" aria-label="Edit member">' + ICON_EDIT + '</button></td></tr>';
+      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password" aria-label="Send password link">' + ICON_MAIL + '</button><button class="bk-ib" type="button" data-medit="' + esc(m.email) + '" title="Edit member" aria-label="Edit member">' + ICON_EDIT + '</button>' + (m.email === me.email ? '' : '<button class="bk-ib danger" type="button" data-mdel="' + esc(m.email) + '" title="Delete member" aria-label="Delete member">' + ICON_TRASH + '</button>') + '</td></tr>';
     }).join('') || '<tr><td colspan="5" class="bk-empty">No members found.</td></tr>';
     $('mem').querySelectorAll('[data-minv]').forEach(b => b.addEventListener('click', async () => { b.disabled = true; const r = await inviteMember(b.dataset.minv); b.disabled = false; say('m-msg', r.ok ? 'Password link sent to ' + b.dataset.minv + '.' : r.msg, r.ok ? 'ok' : 'err'); }));
+    $('mem').querySelectorAll('[data-mdel]').forEach(b => b.addEventListener('click', async () => {
+      const em = b.dataset.mdel, mm = allMembers.find(x => x.email === em);
+      if (!confirm('Delete ' + (mm ? mm.name : em) + '?\n\nThey lose booking access and their upcoming bookings are cancelled. Past bookings stay in the history. Their login is also removed unless they still have access to the invoice portal.\n\nThis cannot be undone.')) return;
+      b.disabled = true;
+      const r = await deleteMember(em);
+      b.disabled = false;
+      if (!r.ok) return say('m-msg', r.msg);
+      await loadMembers(); renderMembers(); resetMemberForm(); say('m-msg', (mm ? mm.name : em) + ' was deleted.', 'ok');
+    }));
     $('mem').querySelectorAll('[data-medit]').forEach(b => b.addEventListener('click', () => editMember(b.dataset.medit)));
   }
   $('m-q').addEventListener('input', renderMembers);
@@ -455,6 +464,13 @@
       if (r.error) { let m = 'The link could not be sent.'; try { const j = await r.error.context.json(); if (j && j.error) m = j.error; } catch (_) {} return { ok: false, msg: m }; }
       return { ok: true };
     } catch (_) { return { ok: false, msg: 'The link could not be sent.' }; }
+  }
+  async function deleteMember(email) {
+    try {
+      const r = await client.functions.invoke('portal-invite', { body: { email, app: 'booking', action: 'delete' } });
+      if (r.error) { let m = 'The member could not be deleted.'; try { const x = await r.error.context.json(); if (x && x.error) m = x.error; } catch (_) {} return { ok: false, msg: m }; }
+      return { ok: true };
+    } catch (_) { return { ok: false, msg: 'The member could not be deleted.' }; }
   }
   function memberInstBoxes(checked) {
     const adm = $('m-role').value === 'admin';
