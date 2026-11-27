@@ -195,7 +195,7 @@
     $('wk-name').textContent = inst.name;
     const a = dateStr(weekMs), z = dateStr(weekMs + 6 * DAY);
     $('wk-range').textContent = 'Week of ' + a.slice(8) + ' - ' + dmy(z).slice(0, 2) + ' ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][+z.slice(5, 7) - 1] + ' ' + z.slice(0, 4);
-    $('rules').innerHTML = '<span><b>Slots:</b> ' + lenText(inst) + '</span><span><b>Hours:</b> ' + esc(hoursText(inst)) + '</span><span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Slots in a row:</b> up to ' + inst.max_consecutive + '</span><span><b>Started slot:</b> bookable until 30 min before it ends</span><span><b>Cancel:</b> any time</span>';
+    $('rules').innerHTML = '<span><b>Book up to:</b> ' + inst.book_ahead_days + ' days ahead</span><span><b>Slots in a row:</b> up to ' + inst.max_consecutive + '</span><span><b>Started slot:</b> bookable until 30 min before it ends</span><span><b>Cancel:</b> any time</span>';
     let h = '<thead><tr><th>Date</th>' + SL.map(s => '<th>' + esc(s.label) + '</th>').join('') + '</tr></thead><tbody>';
     for (let d = 0; d < 7; d++) {
       const ms = weekMs + d * DAY, ds = dateStr(ms), dow = istDate(ms).getUTCDay(), isT = ds === todayS;
