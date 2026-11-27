@@ -461,8 +461,9 @@
                         return;
                     }
                     row.email = document.getElementById('s-email').value.trim().toLowerCase();
+                    if ((staffRows || []).some(r => String(r.email).toLowerCase() === row.email)) { btn.disabled = false; staffMsg('This email is already in the member list. Use the pencil icon in the table to edit them.'); return; }
                     const { error } = await supabaseClient.from('staff').insert(row);
-                    if (error) { btn.disabled = false; staffMsg(/duplicate|already/i.test(error.message) ? 'This email is already in the member list.' : error.message); return; }
+                    if (error) { btn.disabled = false; staffMsg(error.code === '23505' || /duplicate|already/i.test(error.message) ? 'This email is already in the member list. Use the pencil icon in the table to edit them.' : error.message); return; }
                     const res = row.active ? await invokeInvite(row.email) : { ok: true, skip: true };
                     btn.disabled = false;
                     resetStaffForm();

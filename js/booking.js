@@ -502,9 +502,12 @@
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return say('m-msg', 'Please enter a valid email address.');
     if (!name) return say('m-msg', 'Please enter the full name.');
     if (email === me.email && (role !== 'admin' || status !== 'active')) return say('m-msg', 'You cannot remove your own admin access or disable yourself.');
+    if (!editingMember && allMembers.some(m => m.email === email)) return say('m-msg', 'This email is already a member. Use the pencil icon in the table to edit them.');
     $('m-save').disabled = true;
-    const r = await client.from('booking_members').upsert({ email, name, role, status });
-    if (r.error) { $('m-save').disabled = false; return say('m-msg', errText(r.error)); }
+    const r = editingMember
+      ? await client.from('booking_members').update({ name, role, status }).eq('email', editingMember)
+      : await client.from('booking_members').insert({ email, name, role, status });
+    if (r.error) { $('m-save').disabled = false; return say('m-msg', r.error.code === '23505' || /duplicate|already/i.test(r.error.message || '') ? 'This email is already a member. Use the pencil icon in the table to edit them.' : errText(r.error)); }
     const ids = role === 'admin' ? instruments.map(i => i.id) : [...$('m-inst').querySelectorAll('input:checked')].map(x => x.value);
     const d = await client.from('booking_access').delete().eq('email', email);
     if (d.error) { $('m-save').disabled = false; return say('m-msg', errText(d.error)); }
