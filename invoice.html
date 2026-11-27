@@ -9,6 +9,8 @@
 <meta name="description" content="Internal Hari Group tool (login required).">
 <link href="https://cdn-icons-png.flaticon.com/512/9183/9183391.png" rel="icon"/>
 <link href="css/style.css?v=10" rel="stylesheet"/>
+<link rel="stylesheet" href="css/booking.css?v=10">
+<style>body.adm-bg{background:#f1f5f9}</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -142,24 +144,22 @@
 </form>
 </div>
 </div>
-<!-- ADMIN PANEL (Administrator only) -->
-<div class="hidden space-y-4 !mt-3" id="admin-view">
-<div class="bg-white rounded-sm border border-slate-200 shadow-sm overflow-hidden">
-<div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2">
-<div><h2 class="text-base font-bold text-slate-900">Staff &amp; Access</h2><p class="text-xs text-slate-500">Add staff, set their role, switch them on or off, and email a set-password link.</p></div>
-</div>
-<form class="p-4 grid grid-cols-1 md:grid-cols-5 gap-3 border-b border-slate-200 bg-slate-50" id="adm-add-form" onsubmit="adminAddStaff(event)">
-<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm" id="adm-name" placeholder="Full name" required maxlength="80">
-<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono" id="adm-email" type="email" placeholder="email@iisc.ac.in" required>
-<select class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm bg-white" id="adm-role" required></select>
-<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm" id="adm-title" placeholder="Title (optional)" maxlength="80">
-<button class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm px-4 py-2.5 flex items-center justify-center gap-2" id="adm-add-btn" type="submit"><i class="w-4 h-4" data-lucide="user-plus"></i> Add &amp; Send Link</button>
-</form>
-<div class="hidden mx-4 mt-3 bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-sm text-xs font-semibold" id="adm-error"></div>
-<div class="overflow-x-auto"><table class="w-full text-sm">
-<thead class="bg-slate-50 text-xs uppercase text-slate-600"><tr><th class="text-left px-4 py-2">Name</th><th class="text-left px-4 py-2">Email</th><th class="text-left px-4 py-2">Role</th><th class="text-left px-4 py-2">Title</th><th class="text-left px-4 py-2">Active</th><th class="px-4 py-2"></th></tr></thead>
-<tbody id="adm-rows"><tr><td class="px-4 py-4 text-slate-500" colspan="6">Loading...</td></tr></tbody>
-</table></div>
+<!-- ADMIN PANEL (Administrator only) - same look as the booking admin panel -->
+<div class="hidden !mt-3" id="admin-view">
+<div class="bk-admbar"><span class="badge">ADMIN</span><button type="button" class="on">Staff &amp; Access</button></div>
+<div class="bk-adm" style="padding-bottom:40px">
+<div class="bk-card"><div class="bk-ph"><h2 id="s-count">Staff</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><input class="bk-srch" id="s-q" placeholder="Search name or email" aria-label="Search staff"><button class="bk-btn navy sm" id="s-new" type="button">+ Add Staff</button></div></div>
+<div class="bk-tbl"><table class="bk-m"><thead><tr><th>Staff</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody id="s-rows"><tr><td colspan="4" class="bk-empty">Loading...</td></tr></tbody></table></div></div>
+<form class="bk-card" id="s-form"><div class="bk-ph"><h2 id="s-title">Add New Staff</h2></div>
+<div class="bk-fm">
+<div class="bk-msg" id="s-msg"></div>
+<label class="bk-field">Full Name<input type="text" id="s-name" maxlength="80" required></label>
+<label class="bk-field">IISc Email<input type="email" id="s-email" required></label>
+<div class="bk-g2"><label class="bk-field">Role<select id="s-role"></select></label><label class="bk-field">Status<select id="s-status"><option value="active">Active</option><option value="disabled">Disabled</option></select></label></div>
+<label class="bk-field">Title (optional)<input type="text" id="s-ttl" maxlength="80"></label>
+<div class="bk-hint">Adding a person emails them a link to set their password. Disabling a person blocks their access but keeps their invoices.</div>
+<div class="bk-act"><button class="bk-btn line" type="button" id="s-cancel">Cancel</button><button class="bk-btn gold" type="submit" id="s-save">Save Staff</button></div>
+</div></form>
 </div>
 </div>
 <!-- PORTAL DASHBOARD CONTENT (Displayed when user is LOGGED IN) -->
@@ -348,6 +348,7 @@
                 const STAFF_ROLES = ['Solvent Manager', 'Chemical Manager', 'Glassware Manager', 'Lab Receiver', 'Lab Accountant', 'Office Staff', 'Administrator'];
                 let adminOpen = false;
                 let staffRows = [];
+                let editingStaff = null;
 
                 function syncAdminUi() {
                     const isAdmin = !!currentUser && currentUser.role === 'Administrator';
@@ -358,90 +359,116 @@
                     if (lab) lab.innerText = adminOpen ? 'Invoices' : 'Admin';
                     const v = document.getElementById('admin-view');
                     if (v) v.classList.toggle('hidden', !(isAdmin && adminOpen));
+                    document.body.classList.toggle('adm-bg', isAdmin && adminOpen);
                 }
                 function toggleAdmin() {
                     adminOpen = !adminOpen;
                     renderApp();
                     if (adminOpen) loadStaff();
                 }
-                function adminErr(msg) {
-                    const el = document.getElementById('adm-error');
-                    el.innerText = msg || '';
-                    el.classList.toggle('hidden', !msg);
+                function staffMsg(msg, ok) {
+                    const el = document.getElementById('s-msg');
+                    el.className = 'bk-msg' + (msg ? (ok ? ' ok' : ' err') : '');
+                    el.textContent = msg || '';
                 }
                 async function loadStaff() {
-                    adminErr('');
-                    const sel = document.getElementById('adm-role');
+                    const sel = document.getElementById('s-role');
                     if (sel && !sel.options.length) sel.innerHTML = STAFF_ROLES.map(r => `<option>${esc(r)}</option>`).join('');
                     const { data, error } = await supabaseClient.from('staff').select('*').order('name');
-                    if (error) { adminErr('Could not load staff: ' + error.message); return; }
+                    if (error) { staffMsg('Could not load staff: ' + error.message); return; }
                     staffRows = data || [];
-                    document.getElementById('adm-rows').innerHTML = staffRows.map((r, i) => {
-                        const me = currentUser && r.email === currentUser.username;
-                        const dis = me ? 'disabled title="You cannot change your own role or switch yourself off"' : '';
-                        return `<tr class="border-t border-slate-100 ${r.active === false ? 'opacity-60' : ''}">
-                            <td class="px-4 py-2"><input class="w-44 px-2 py-1.5 border border-slate-200 rounded-sm text-sm" id="adm-n-${i}" value="${esc(r.name)}" maxlength="80"></td>
-                            <td class="px-4 py-2 font-mono text-xs text-slate-700">${esc(r.email)}</td>
-                            <td class="px-4 py-2"><select class="px-2 py-1.5 border border-slate-200 rounded-sm text-sm bg-white" id="adm-r-${i}" ${dis}>${STAFF_ROLES.map(x => `<option ${x === r.role ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></td>
-                            <td class="px-4 py-2"><input class="w-44 px-2 py-1.5 border border-slate-200 rounded-sm text-sm" id="adm-t-${i}" value="${esc(r.title || '')}" maxlength="80"></td>
-                            <td class="px-4 py-2"><input type="checkbox" id="adm-a-${i}" ${r.active !== false ? 'checked' : ''} ${dis}></td>
-                            <td class="px-4 py-2 whitespace-nowrap text-right">
-                                <button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-sm" onclick="adminSaveStaff(${i})">Save</button>
-                                <button class="px-3 py-1.5 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-sm" onclick="adminSendLink(${i})">Send Link</button>
-                            </td></tr>`;
-                    }).join('') || '<tr><td class="px-4 py-4 text-slate-500" colspan="6">No staff yet.</td></tr>';
-                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                    renderStaff();
                 }
-                async function adminSaveStaff(i) {
-                    adminErr('');
-                    const r = staffRows[i];
-                    const patch = {
-                        name: document.getElementById('adm-n-' + i).value.trim(),
-                        role: document.getElementById('adm-r-' + i).value,
-                        title: document.getElementById('adm-t-' + i).value.trim() || null,
-                        active: document.getElementById('adm-a-' + i).checked
-                    };
-                    if (!patch.name) { adminErr('Name cannot be empty.'); return; }
-                    const { error } = await supabaseClient.from('staff').update(patch).eq('email', r.email);
-                    if (error) { adminErr(error.message); return; }
-                    showToast('Saved ' + patch.name);
-                    loadStaff();
+                function renderStaff() {
+                    const q = document.getElementById('s-q').value.trim().toLowerCase();
+                    const rows = staffRows.filter(r => !q || r.name.toLowerCase().includes(q) || r.email.includes(q));
+                    document.getElementById('s-count').innerHTML = 'Staff <span style="font-weight:600;color:#64748b;font-size:13px">\u00b7 ' + staffRows.filter(r => r.active !== false).length + ' active</span>';
+                    document.getElementById('s-rows').innerHTML = rows.map(r => {
+                        const on = r.active !== false;
+                        return `<tr><td><b>${esc(r.name)}</b><small>${esc(r.email)}${r.title ? ' \u00b7 ' + esc(r.title) : ''}</small></td><td>${esc(r.role)}</td><td><span class="bk-pill${on ? '' : ' d'}">${on ? 'ACTIVE' : 'DISABLED'}</span></td><td style="text-align:right"><button class="bk-btn line sm" type="button" data-slink="${esc(r.email)}" title="Email a link to set or reset the password">Send Link</button> <button class="bk-btn line sm" type="button" data-sedit="${esc(r.email)}">Edit</button></td></tr>`;
+                    }).join('') || '<tr><td colspan="4" class="bk-empty">No staff found.</td></tr>';
+                    const tb = document.getElementById('s-rows');
+                    tb.querySelectorAll('[data-slink]').forEach(b => b.addEventListener('click', async () => {
+                        b.disabled = true;
+                        const res = await invokeInvite(b.dataset.slink);
+                        b.disabled = false;
+                        if (res.ok) staffMsg((res.sent === 'invite' ? 'Invitation emailed to ' : 'Password link emailed to ') + b.dataset.slink + '.', true);
+                        else staffMsg(res.msg);
+                    }));
+                    tb.querySelectorAll('[data-sedit]').forEach(b => b.addEventListener('click', () => editStaff(b.dataset.sedit)));
+                }
+                function resetStaffForm() {
+                    editingStaff = null;
+                    document.getElementById('s-title').textContent = 'Add New Staff';
+                    ['s-name', 's-email', 's-ttl'].forEach(id => { document.getElementById(id).value = ''; });
+                    document.getElementById('s-email').readOnly = false;
+                    document.getElementById('s-role').selectedIndex = 0;
+                    document.getElementById('s-status').value = 'active';
+                    ['s-role', 's-status'].forEach(id => { document.getElementById(id).disabled = false; });
+                    document.getElementById('s-save').textContent = 'Save Staff';
+                }
+                function editStaff(email) {
+                    const r = staffRows.find(x => x.email === email);
+                    if (!r) return;
+                    editingStaff = email;
+                    staffMsg('');
+                    document.getElementById('s-title').textContent = 'Edit Staff';
+                    document.getElementById('s-name').value = r.name;
+                    document.getElementById('s-email').value = r.email;
+                    document.getElementById('s-email').readOnly = true;
+                    document.getElementById('s-role').value = r.role;
+                    document.getElementById('s-status').value = r.active !== false ? 'active' : 'disabled';
+                    document.getElementById('s-ttl').value = r.title || '';
+                    const me = currentUser && r.email === currentUser.username;
+                    ['s-role', 's-status'].forEach(id => { document.getElementById(id).disabled = !!me; });
+                    document.getElementById('s-save').textContent = 'Save Changes';
+                    document.getElementById('s-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
                 async function invokeInvite(email) {
                     const { data, error } = await supabaseClient.functions.invoke('portal-invite', { body: { email, app: 'invoice' } });
                     if (!error && data && data.ok) return { ok: true, sent: data.sent };
-                    let msg = 'Could not send the link.';
+                    let msg = 'The link could not be sent.';
                     try { const j = error && error.context && await error.context.json(); if (j && j.error) msg = j.error; } catch (_) { /* keep default */ }
                     return { ok: false, msg };
                 }
-                async function adminSendLink(i) {
-                    adminErr('');
-                    const r = staffRows[i];
-                    const res = await invokeInvite(r.email);
-                    if (res.ok) showToast(res.sent === 'invite' ? 'Invitation emailed to ' + r.email : 'Password link emailed to ' + r.email);
-                    else adminErr(res.msg);
-                }
-                async function adminAddStaff(e) {
+                async function saveStaff(e) {
                     e.preventDefault();
-                    adminErr('');
-                    const btn = document.getElementById('adm-add-btn');
+                    staffMsg('');
+                    const btn = document.getElementById('s-save');
                     const row = {
-                        email: document.getElementById('adm-email').value.trim().toLowerCase(),
-                        name: document.getElementById('adm-name').value.trim(),
-                        role: document.getElementById('adm-role').value,
-                        title: document.getElementById('adm-title').value.trim() || null,
-                        active: true
+                        name: document.getElementById('s-name').value.trim(),
+                        role: document.getElementById('s-role').value,
+                        title: document.getElementById('s-ttl').value.trim() || null,
+                        active: document.getElementById('s-status').value === 'active'
                     };
                     btn.disabled = true;
+                    if (editingStaff) {
+                        const patch = { name: row.name, title: row.title };
+                        if (!document.getElementById('s-role').disabled) { patch.role = row.role; patch.active = row.active; }
+                        const { error } = await supabaseClient.from('staff').update(patch).eq('email', editingStaff);
+                        btn.disabled = false;
+                        if (error) { staffMsg(error.message); return; }
+                        resetStaffForm();
+                        staffMsg('Saved.', true);
+                        loadStaff();
+                        return;
+                    }
+                    row.email = document.getElementById('s-email').value.trim().toLowerCase();
                     const { error } = await supabaseClient.from('staff').insert(row);
-                    if (error) { adminErr(/duplicate|already/i.test(error.message) ? 'This email is already in the staff list.' : error.message); btn.disabled = false; return; }
-                    const res = await invokeInvite(row.email);
+                    if (error) { btn.disabled = false; staffMsg(/duplicate|already/i.test(error.message) ? 'This email is already in the staff list.' : error.message); return; }
+                    const res = row.active ? await invokeInvite(row.email) : { ok: true, skip: true };
                     btn.disabled = false;
-                    document.getElementById('adm-add-form').reset();
-                    if (res.ok) showToast('Added ' + row.name + ' and emailed a link');
-                    else adminErr('Added ' + row.name + ', but the email failed: ' + res.msg + ' (use Send Link to retry).');
+                    resetStaffForm();
+                    if (res.ok) staffMsg('Added ' + row.name + (res.skip ? '.' : ' and emailed a link.'), true);
+                    else staffMsg('Added ' + row.name + ', but the email failed: ' + res.msg + ' (use Send Link to retry).');
                     loadStaff();
                 }
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('s-q').addEventListener('input', renderStaff);
+                    document.getElementById('s-new').addEventListener('click', () => { staffMsg(''); resetStaffForm(); document.getElementById('s-name').focus(); });
+                    document.getElementById('s-cancel').addEventListener('click', () => { staffMsg(''); resetStaffForm(); });
+                    document.getElementById('s-form').addEventListener('submit', saveStaff);
+                });
 
                 // --- SAFETY HELPERS ---
                 // All user-entered text is escaped before it is placed into innerHTML (prevents script injection).
