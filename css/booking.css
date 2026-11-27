@@ -255,3 +255,5 @@ table.bk-m th:last-child,table.bk-m td:last-child{width:128px;white-space:nowrap
 .bk-slot[data-lb]:not(.past)::after{content:attr(data-lb);display:block;font-size:10px;font-weight:600;opacity:.8}
 .bk-slot.free::after{color:#94a3b8;opacity:1}
 .bk-slot.free:hover::after,.bk-slot.free:focus-visible::after{color:#a16207}
+/* desktop/tablet: the table already shows the time, so no time inside the blocks */
+@media(min-width:701px){.bk-slot[data-lb]::after,.bk-slot.free:hover::after,.bk-slot.free:focus-visible::after{content:none!important;display:none}}
