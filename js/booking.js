@@ -23,7 +23,7 @@
   const dateStr = ms => { const d = istDate(ms); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); };
   const dmy = ds => ds.slice(8, 10) + '-' + ds.slice(5, 7) + '-' + ds.slice(0, 4);
   const midnightMs = ds => Date.parse(ds + 'T00:00:00+05:30');
-  const fmtMin = m => { m = ((m % 1440) + 1440) % 1440; const h = Math.floor(m / 60), mm = m % 60; return ((h + 11) % 12 + 1) + (mm ? '.' + pad(mm) : '') + ' ' + (h >= 12 ? 'PM' : 'AM'); };
+  const fmtMin = m => { m = ((m % 1440) + 1440) % 1440; const h = Math.floor(m / 60), mm = m % 60; return ((h + 11) % 12 + 1) + (mm ? ':' + pad(mm) : '') + ' ' + (h >= 12 ? 'PM' : 'AM'); };
   const slotLabel = (a, b) => fmtMin(a) + ' - ' + fmtMin(b);
   const mondayOf = ms => { const d = istDate(ms), dow = d.getUTCDay(); return ms - ((dow + 6) % 7) * DAY - ((d.getUTCHours() * 60 + d.getUTCMinutes()) * MIN) - d.getUTCSeconds() * 1000 - d.getUTCMilliseconds(); };
 
