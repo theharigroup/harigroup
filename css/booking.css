@@ -241,3 +241,8 @@ table.bk-m th:last-child,table.bk-m td:last-child{width:128px;white-space:nowrap
 .bk-ib svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .bk-ib.danger:hover{background:#fef2f2;color:#b91c1c;border-color:#fca5a5}
 .bk-main>*,.bk-card{min-width:0}
+/* weights: titles + instrument names bold, typed/chosen values normal */
+.bk-ph h2,.bk-adm h2,.bk-top h2,.bk-side h3{font-weight:700}
+.bk-tab h3,.bk-ilist .it h3,.bk-cks label,.bk-chk,.bk-sum b{font-weight:700}
+.bk-field input,.bk-field select,.bk-field textarea{font-weight:400}
+.bk-field input::placeholder{font-weight:400}
