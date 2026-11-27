@@ -163,8 +163,8 @@ table.bk-m td small{display:block;color:#64748b;font-size:12px}
 #tbl td.t{grid-column:1/-1;padding:8px 10px;border-radius:0;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
 #tbl td.t small{display:inline;font-size:12px}
 #tbl td.w{grid-column:1/-1}
-#tbl td[data-t]::before{content:attr(data-t);display:block;font-size:11px;font-weight:700;color:#64748b;padding:0 1px 3px}
-#tbl .bk-slot{min-height:58px;border:1px solid #e2e8f0;font-size:12px}
+#tbl .bk-slot{min-height:64px;border:1px solid #e2e8f0;font-size:12px;flex-direction:column;gap:3px}
+#tbl .bk-slot[data-lb]::after{content:attr(data-lb);display:block;font-size:11px;font-weight:600;opacity:.85}
 #tbl .bk-slot.free{color:#15803d;background:#f0fdf4;border:1px dashed #86efac}
 #tbl .bk-slot.free::before{content:"+ Book";font-size:13px;font-weight:700}
 #tbl .bk-slot.mine{border-color:#ca8a04}
@@ -249,3 +249,9 @@ table.bk-m th:last-child,table.bk-m td:last-child{width:128px;white-space:nowrap
 /* rules now sit under the table; entered/chosen text is normal weight everywhere */
 .bk-rules{border-bottom:0;border-top:1px solid #e2e8f0}
 .bk-field input[type],.bk-field input,.bk-field select,.bk-field textarea,.bk-field option,.bk-srch,.bk-fm input,.bk-fm select,.bk-fm textarea{font-weight:400!important}
+
+/* time of the slot sits inside the block, under the label (all screen sizes) */
+.bk-slot[data-lb]:not(.past){flex-direction:column;gap:2px;line-height:1.25}
+.bk-slot[data-lb]:not(.past)::after{content:attr(data-lb);display:block;font-size:10px;font-weight:600;opacity:.8}
+.bk-slot.free::after{color:#94a3b8;opacity:1}
+.bk-slot.free:hover::after,.bk-slot.free:focus-visible::after{color:#a16207}
