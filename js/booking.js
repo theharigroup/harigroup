@@ -62,6 +62,8 @@
     if (event === 'PASSWORD_RECOVERY') { showOut('newpw'); return; }
     if (event === 'SIGNED_OUT') { me = null; showOut('login'); return; }
     if (event === 'SIGNED_IN' && view === 'out' && !$('f-newpw').hidden) return;
+    // coming back to the browser tab makes Supabase re-fire SIGNED_IN: keep whatever screen (e.g. admin) is open
+    if (event === 'SIGNED_IN' && me && s && String(s.user.email || '').toLowerCase() === me.email) return;
     if (FIRST_TIME && s && !firstDone) { firstDone = true; showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); return; }
     if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') setTimeout(enter, 0);
   });
