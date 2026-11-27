@@ -79,6 +79,9 @@
 </div>
 <!-- Header Actions (Visible when Logged In) -->
 <div class="hidden flex items-center gap-3" id="portal-header-actions">
+<button class="hidden bg-white/10 hover:bg-white/20 border border-white/30 text-white px-4 py-3 rounded-sm font-semibold text-sm flex items-center gap-2 transition" id="admin-toggle-btn" onclick="toggleAdmin()">
+<i class="w-4 h-4" data-lucide="shield-check"></i> <span id="admin-toggle-label">Admin</span>
+</button>
 <!-- Add Invoice Button -->
 <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-3 rounded-sm font-semibold text-sm shadow-md flex items-center gap-2 transition transform active:scale-95" onclick="openAddModal()">
 <i class="w-4 h-4" data-lucide="plus-circle"></i> Add Invoice
@@ -137,6 +140,26 @@
                             </button>
 <button type="button" onclick="handleForgotPassword()" class="w-full text-center text-xs text-slate-500 hover:text-blue-700 underline">Forgot password?</button>
 </form>
+</div>
+</div>
+<!-- ADMIN PANEL (Administrator only) -->
+<div class="hidden space-y-4 !mt-3" id="admin-view">
+<div class="bg-white rounded-sm border border-slate-200 shadow-sm overflow-hidden">
+<div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2">
+<div><h2 class="text-base font-bold text-slate-900">Staff &amp; Access</h2><p class="text-xs text-slate-500">Add staff, set their role, switch them on or off, and email a set-password link.</p></div>
+</div>
+<form class="p-4 grid grid-cols-1 md:grid-cols-5 gap-3 border-b border-slate-200 bg-slate-50" id="adm-add-form" onsubmit="adminAddStaff(event)">
+<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm" id="adm-name" placeholder="Full name" required maxlength="80">
+<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm font-mono" id="adm-email" type="email" placeholder="email@iisc.ac.in" required>
+<select class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm bg-white" id="adm-role" required></select>
+<input class="px-3 py-2.5 border border-slate-300 rounded-sm text-sm" id="adm-title" placeholder="Title (optional)" maxlength="80">
+<button class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-sm text-sm px-4 py-2.5 flex items-center justify-center gap-2" id="adm-add-btn" type="submit"><i class="w-4 h-4" data-lucide="user-plus"></i> Add &amp; Send Link</button>
+</form>
+<div class="hidden mx-4 mt-3 bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-sm text-xs font-semibold" id="adm-error"></div>
+<div class="overflow-x-auto"><table class="w-full text-sm">
+<thead class="bg-slate-50 text-xs uppercase text-slate-600"><tr><th class="text-left px-4 py-2">Name</th><th class="text-left px-4 py-2">Email</th><th class="text-left px-4 py-2">Role</th><th class="text-left px-4 py-2">Title</th><th class="text-left px-4 py-2">Active</th><th class="px-4 py-2"></th></tr></thead>
+<tbody id="adm-rows"><tr><td class="px-4 py-4 text-slate-500" colspan="6">Loading...</td></tr></tbody>
+</table></div>
 </div>
 </div>
 <!-- PORTAL DASHBOARD CONTENT (Displayed when user is LOGGED IN) -->
@@ -320,6 +343,106 @@
                 let selectedInvoice = null;
                 let formItems = [{ name: '', quantity: 1, unitPrice: 0 }];
 
+
+                // --- ADMIN PANEL (Administrator only; the database enforces this too) ---
+                const STAFF_ROLES = ['Solvent Manager', 'Chemical Manager', 'Glassware Manager', 'Lab Receiver', 'Lab Accountant', 'Office Staff', 'Administrator'];
+                let adminOpen = false;
+                let staffRows = [];
+
+                function syncAdminUi() {
+                    const isAdmin = !!currentUser && currentUser.role === 'Administrator';
+                    const btn = document.getElementById('admin-toggle-btn');
+                    if (btn) btn.classList.toggle('hidden', !isAdmin);
+                    if (!isAdmin) adminOpen = false;
+                    const lab = document.getElementById('admin-toggle-label');
+                    if (lab) lab.innerText = adminOpen ? 'Invoices' : 'Admin';
+                    const v = document.getElementById('admin-view');
+                    if (v) v.classList.toggle('hidden', !(isAdmin && adminOpen));
+                }
+                function toggleAdmin() {
+                    adminOpen = !adminOpen;
+                    renderApp();
+                    if (adminOpen) loadStaff();
+                }
+                function adminErr(msg) {
+                    const el = document.getElementById('adm-error');
+                    el.innerText = msg || '';
+                    el.classList.toggle('hidden', !msg);
+                }
+                async function loadStaff() {
+                    adminErr('');
+                    const sel = document.getElementById('adm-role');
+                    if (sel && !sel.options.length) sel.innerHTML = STAFF_ROLES.map(r => `<option>${esc(r)}</option>`).join('');
+                    const { data, error } = await supabaseClient.from('staff').select('*').order('name');
+                    if (error) { adminErr('Could not load staff: ' + error.message); return; }
+                    staffRows = data || [];
+                    document.getElementById('adm-rows').innerHTML = staffRows.map((r, i) => {
+                        const me = currentUser && r.email === currentUser.username;
+                        const dis = me ? 'disabled title="You cannot change your own role or switch yourself off"' : '';
+                        return `<tr class="border-t border-slate-100 ${r.active === false ? 'opacity-60' : ''}">
+                            <td class="px-4 py-2"><input class="w-44 px-2 py-1.5 border border-slate-200 rounded-sm text-sm" id="adm-n-${i}" value="${esc(r.name)}" maxlength="80"></td>
+                            <td class="px-4 py-2 font-mono text-xs text-slate-700">${esc(r.email)}</td>
+                            <td class="px-4 py-2"><select class="px-2 py-1.5 border border-slate-200 rounded-sm text-sm bg-white" id="adm-r-${i}" ${dis}>${STAFF_ROLES.map(x => `<option ${x === r.role ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></td>
+                            <td class="px-4 py-2"><input class="w-44 px-2 py-1.5 border border-slate-200 rounded-sm text-sm" id="adm-t-${i}" value="${esc(r.title || '')}" maxlength="80"></td>
+                            <td class="px-4 py-2"><input type="checkbox" id="adm-a-${i}" ${r.active !== false ? 'checked' : ''} ${dis}></td>
+                            <td class="px-4 py-2 whitespace-nowrap text-right">
+                                <button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-sm" onclick="adminSaveStaff(${i})">Save</button>
+                                <button class="px-3 py-1.5 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-sm" onclick="adminSendLink(${i})">Send Link</button>
+                            </td></tr>`;
+                    }).join('') || '<tr><td class="px-4 py-4 text-slate-500" colspan="6">No staff yet.</td></tr>';
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+                async function adminSaveStaff(i) {
+                    adminErr('');
+                    const r = staffRows[i];
+                    const patch = {
+                        name: document.getElementById('adm-n-' + i).value.trim(),
+                        role: document.getElementById('adm-r-' + i).value,
+                        title: document.getElementById('adm-t-' + i).value.trim() || null,
+                        active: document.getElementById('adm-a-' + i).checked
+                    };
+                    if (!patch.name) { adminErr('Name cannot be empty.'); return; }
+                    const { error } = await supabaseClient.from('staff').update(patch).eq('email', r.email);
+                    if (error) { adminErr(error.message); return; }
+                    showToast('Saved ' + patch.name);
+                    loadStaff();
+                }
+                async function invokeInvite(email) {
+                    const { data, error } = await supabaseClient.functions.invoke('portal-invite', { body: { email, app: 'invoice' } });
+                    if (!error && data && data.ok) return { ok: true, sent: data.sent };
+                    let msg = 'Could not send the link.';
+                    try { const j = error && error.context && await error.context.json(); if (j && j.error) msg = j.error; } catch (_) { /* keep default */ }
+                    return { ok: false, msg };
+                }
+                async function adminSendLink(i) {
+                    adminErr('');
+                    const r = staffRows[i];
+                    const res = await invokeInvite(r.email);
+                    if (res.ok) showToast(res.sent === 'invite' ? 'Invitation emailed to ' + r.email : 'Password link emailed to ' + r.email);
+                    else adminErr(res.msg);
+                }
+                async function adminAddStaff(e) {
+                    e.preventDefault();
+                    adminErr('');
+                    const btn = document.getElementById('adm-add-btn');
+                    const row = {
+                        email: document.getElementById('adm-email').value.trim().toLowerCase(),
+                        name: document.getElementById('adm-name').value.trim(),
+                        role: document.getElementById('adm-role').value,
+                        title: document.getElementById('adm-title').value.trim() || null,
+                        active: true
+                    };
+                    btn.disabled = true;
+                    const { error } = await supabaseClient.from('staff').insert(row);
+                    if (error) { adminErr(/duplicate|already/i.test(error.message) ? 'This email is already in the staff list.' : error.message); btn.disabled = false; return; }
+                    const res = await invokeInvite(row.email);
+                    btn.disabled = false;
+                    document.getElementById('adm-add-form').reset();
+                    if (res.ok) showToast('Added ' + row.name + ' and emailed a link');
+                    else adminErr('Added ' + row.name + ', but the email failed: ' + res.msg + ' (use Send Link to retry).');
+                    loadStaff();
+                }
+
                 // --- SAFETY HELPERS ---
                 // All user-entered text is escaped before it is placed into innerHTML (prevents script injection).
                 function esc(v) {
@@ -406,6 +529,7 @@
                 }
 
                 async function initAuth() {
+                    const fromInvite = /type=(invite|signup)/.test(location.hash);
                     supabaseClient.auth.onAuthStateChange((event, session) => {
                         // never await Supabase calls inside this callback; defer them
                         if (event === 'PASSWORD_RECOVERY') {
@@ -417,6 +541,10 @@
                     const { data } = await supabaseClient.auth.getSession();
                     if (data && data.session) {
                         await loadProfile(data.session.user);
+                        if (fromInvite && currentUser) {
+                            history.replaceState(null, '', location.pathname + location.search);
+                            document.getElementById('modal-reset').classList.remove('hidden');
+                        }
                     } else {
                         renderApp();
                     }
@@ -425,7 +553,7 @@
                 async function loadProfile(user) {
                     const email = (user.email || '').toLowerCase();
                     const { data, error } = await supabaseClient.from('staff').select('*').eq('email', email).maybeSingle();
-                    if (error || !data) {
+                    if (error || !data || data.active === false) {
                         await supabaseClient.auth.signOut();
                         currentUser = null;
                         renderApp();
@@ -664,6 +792,7 @@
                     const headerActions = document.getElementById('portal-header-actions');
 
                     if (!currentUser) {
+                        adminOpen = false; syncAdminUi();
                         if (loggedOutView) loggedOutView.classList.remove('hidden');
                         if (loggedInView) loggedInView.classList.add('hidden');
                         if (headerActions) headerActions.classList.add('hidden');
@@ -674,6 +803,8 @@
                     if (loggedOutView) loggedOutView.classList.add('hidden');
                     if (loggedInView) loggedInView.classList.remove('hidden');
                     if (headerActions) headerActions.classList.remove('hidden');
+                    syncAdminUi();
+                    if (adminOpen && currentUser.role === 'Administrator') { loggedInView.classList.add('hidden'); if (typeof lucide !== 'undefined') lucide.createIcons(); return; }
 
                     const filtered = getFilteredInvoices();
                     const isFiltered = filtersActive();
