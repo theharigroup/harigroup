@@ -434,6 +434,7 @@
     const [m, a] = await Promise.all([client.from('booking_members').select('*').order('name'), client.from('booking_access').select('email,instrument_id')]);
     allMembers = m.data || []; allAccess = a.data || [];
   }
+  const ICON_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>', ICON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   function renderMembers() {
     const q = $('m-q').value.trim().toLowerCase();
     const rows = allMembers.filter(m => !q || m.name.toLowerCase().includes(q) || m.email.includes(q));
@@ -441,7 +442,7 @@
     $('mem').innerHTML = rows.map(m => {
       const ids = allAccess.filter(a => a.email === m.email).map(a => a.instrument_id);
       const chips = m.role === 'admin' ? '<span class="bk-mini">All instruments (admin)</span>' : (ids.map(id => { const i = instruments.find(x => x.id === id); return i ? '<span class="bk-mini">' + esc(i.name) + '</span>' : ''; }).join('') || '<span style="color:#94a3b8">None</span>');
-      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-btn line sm" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password">Send Link</button> <button class="bk-btn line sm" type="button" data-medit="' + esc(m.email) + '">Edit</button></td></tr>';
+      return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-ib" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password" aria-label="Send password link">' + ICON_MAIL + '</button><button class="bk-ib" type="button" data-medit="' + esc(m.email) + '" title="Edit member" aria-label="Edit member">' + ICON_EDIT + '</button></td></tr>';
     }).join('') || '<tr><td colspan="5" class="bk-empty">No members found.</td></tr>';
     $('mem').querySelectorAll('[data-minv]').forEach(b => b.addEventListener('click', async () => { b.disabled = true; const r = await inviteMember(b.dataset.minv); b.disabled = false; say('m-msg', r.ok ? 'Password link sent to ' + b.dataset.minv + '.' : r.msg, r.ok ? 'ok' : 'err'); }));
     $('mem').querySelectorAll('[data-medit]').forEach(b => b.addEventListener('click', () => editMember(b.dataset.medit)));
