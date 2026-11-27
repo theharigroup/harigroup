@@ -440,7 +440,7 @@
     $('m-count').innerHTML = 'Members <span style="font-weight:600;color:#64748b;font-size:13px">· ' + allMembers.filter(m => m.status === 'active').length + ' active</span>';
     $('mem').innerHTML = rows.map(m => {
       const ids = allAccess.filter(a => a.email === m.email).map(a => a.instrument_id);
-      const chips = m.role === 'admin' ? '<span class="bk-mini">All instruments</span>' : (ids.map(id => { const i = instruments.find(x => x.id === id); return i ? '<span class="bk-mini">' + esc(i.name) + '</span>' : ''; }).join('') || '<span style="color:#94a3b8">None</span>');
+      const chips = m.role === 'admin' ? '<span class="bk-mini">All instruments (admin)</span>' : (ids.map(id => { const i = instruments.find(x => x.id === id); return i ? '<span class="bk-mini">' + esc(i.name) + '</span>' : ''; }).join('') || '<span style="color:#94a3b8">None</span>');
       return '<tr><td><b>' + esc(m.name) + '</b><small>' + esc(m.email) + '</small></td><td>' + (m.role === 'admin' ? 'Admin' : 'Member') + '</td><td>' + chips + '</td><td><span class="bk-pill' + (m.status === 'active' ? '' : ' d') + '">' + m.status.toUpperCase() + '</span></td><td style="text-align:right"><button class="bk-btn line sm" type="button" data-minv="' + esc(m.email) + '" title="Email a link to set or reset the password">Send Link</button> <button class="bk-btn line sm" type="button" data-medit="' + esc(m.email) + '">Edit</button></td></tr>';
     }).join('') || '<tr><td colspan="5" class="bk-empty">No members found.</td></tr>';
     $('mem').querySelectorAll('[data-minv]').forEach(b => b.addEventListener('click', async () => { b.disabled = true; const r = await inviteMember(b.dataset.minv); b.disabled = false; say('m-msg', r.ok ? 'Password link sent to ' + b.dataset.minv + '.' : r.msg, r.ok ? 'ok' : 'err'); }));
@@ -456,8 +456,12 @@
     } catch (_) { return { ok: false, msg: 'The link could not be sent.' }; }
   }
   function memberInstBoxes(checked) {
-    $('m-inst').innerHTML = instruments.map(i => '<label><input type="checkbox" value="' + esc(i.id) + '"' + (checked.includes(i.id) ? ' checked' : '') + '>' + esc(i.name) + '</label>').join('') || '<div class="bk-hint">Add an instrument first.</div>';
+    const adm = $('m-role').value === 'admin';
+    $('m-inst').innerHTML = instruments.map(i => '<label><input type="checkbox" value="' + esc(i.id) + '"' + (adm || checked.includes(i.id) ? ' checked' : '') + (adm ? ' disabled' : '') + '>' + esc(i.name) + '</label>').join('') || '<div class="bk-hint">Add an instrument first.</div>';
+    $('m-inst-note').hidden = !adm;
   }
+  // changing the role re-draws the boxes: an admin can always book every instrument, so those boxes are locked
+  $('m-role').addEventListener('change', () => memberInstBoxes([...$('m-inst').querySelectorAll('input:checked')].map(x => x.value)));
   function resetMemberForm() {
     editingMember = null; $('m-title').textContent = 'Add New Member'; $('m-name').value = ''; $('m-email').value = ''; $('m-email').readOnly = false;
     $('m-role').value = 'member'; $('m-status').value = 'active'; $('m-save').textContent = 'Approve Member'; memberInstBoxes([]); say('m-msg', '');
@@ -480,7 +484,7 @@
     $('m-save').disabled = true;
     const r = await client.from('booking_members').upsert({ email, name, role, status });
     if (r.error) { $('m-save').disabled = false; return say('m-msg', errText(r.error)); }
-    const ids = [...$('m-inst').querySelectorAll('input:checked')].map(x => x.value);
+    const ids = role === 'admin' ? instruments.map(i => i.id) : [...$('m-inst').querySelectorAll('input:checked')].map(x => x.value);
     const d = await client.from('booking_access').delete().eq('email', email);
     if (d.error) { $('m-save').disabled = false; return say('m-msg', errText(d.error)); }
     if (ids.length) { const a = await client.from('booking_access').insert(ids.map(id => ({ email, instrument_id: id }))); if (a.error) { $('m-save').disabled = false; return say('m-msg', errText(a.error)); } }
