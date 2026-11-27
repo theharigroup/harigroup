@@ -19,6 +19,13 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="manifest" href="manifest-invoice.webmanifest">
+<meta name="theme-color" content="#0a2342">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Invoices">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="invoice">
 <div id="progress"></div>
@@ -119,6 +126,7 @@
 <div class="bk-lf"><label for="login-password">Password <span>*</span></label><div class="bk-fi"><input type="password" id="login-password" placeholder="••••••••••••" autocomplete="current-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
 <button class="bk-btn blue" type="submit" id="login-submit-btn"><i data-lucide="log-in" aria-hidden="true"></i> Log In to Portal</button>
 <div class="bk-links c"><button type="button" onclick="setLoginMode('forgot')">Forgot password?</button></div>
+<div class="bk-links c" id="pwa-row" hidden><button type="button" onclick="installApp()">Install this portal on your phone</button></div>
 </form>
 
 <form id="inline-forgot-form" hidden onsubmit="handleForgotSubmit(event)">
@@ -532,6 +540,7 @@
                             officeReceived: row.office_received_by ? { by: row.office_received_by, timestamp: formatDate(row.office_received_at) } : null,
                             completed: row.completed_by ? { by: row.completed_by, timestamp: formatDate(row.completed_at), poNumber: row.po_number } : null,
                             notes: row.notes,
+                            attachments: Array.isArray(row.attachments) ? row.attachments : [],
                             rejectionReason: row.rejection_reason,
                             comments: row.comments || [],
                             items: (row.invoice_items || []).map(item => ({
@@ -1234,6 +1243,71 @@
                     showToast(`Purchase Order ${poNum} attached & Payment Processed!`);
                 }
 
+                // --- INVOICE PHOTOS (private storage bucket "invoice-files", shrunk in the browser) ---
+                const ATT_BUCKET = 'invoice-files', ATT_MAX = 5;
+                let formFiles = [];   // new photos picked in the form: { blob, url }
+                let keepAtt = [];     // already saved photos kept while editing: storage paths
+                const attUrlCache = {};
+                async function attSignedUrl(path) {
+                    if (attUrlCache[path]) return attUrlCache[path];
+                    const { data } = await supabaseClient.storage.from(ATT_BUCKET).createSignedUrl(path, 3600);
+                    return (attUrlCache[path] = data ? data.signedUrl : '');
+                }
+                async function shrinkImage(file) {
+                    const bmp = await createImageBitmap(file);
+                    const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+                    const c = document.createElement('canvas');
+                    c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+                    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+                    return await new Promise((ok, no) => c.toBlob(b => b ? ok(b) : no(new Error('image')), 'image/jpeg', 0.8));
+                }
+                async function onPickImages(input) {
+                    const files = [...input.files]; input.value = '';
+                    for (const f of files) {
+                        if (keepAtt.length + formFiles.length >= ATT_MAX) { showToast('You can attach up to ' + ATT_MAX + ' photos.'); break; }
+                        if (!/^image\//.test(f.type)) { showToast('Only photos can be attached.'); continue; }
+                        try { const blob = await shrinkImage(f); formFiles.push({ blob, url: URL.createObjectURL(blob) }); }
+                        catch (e) { showToast('Could not read that photo. Try another one.'); }
+                    }
+                    renderAttachForm();
+                }
+                function removeFormPhoto(kind, idx) {
+                    if (kind === 'new') { URL.revokeObjectURL(formFiles[idx].url); formFiles.splice(idx, 1); } else keepAtt.splice(idx, 1);
+                    renderAttachForm();
+                }
+                async function renderAttachForm() {
+                    const box = document.getElementById('att-thumbs'); if (!box) return;
+                    const tile = (src, kind, i) => `<div class="relative w-20 h-20 border border-slate-300 rounded-sm overflow-hidden bg-slate-100"><img src="${src}" class="w-full h-full object-cover" alt="Invoice photo"><button type="button" onclick="removeFormPhoto('${kind}',${i})" class="absolute top-0 right-0 bg-slate-900/80 text-white w-5 h-5 text-xs leading-5 text-center" aria-label="Remove photo">&times;</button></div>`;
+                    const old = await Promise.all(keepAtt.map(attSignedUrl));
+                    box.innerHTML = old.map((u, i) => tile(u, 'old', i)).join('') + formFiles.map((f, i) => tile(f.url, 'new', i)).join('');
+                }
+                function resetAttachForm(existing) {
+                    formFiles.forEach(f => URL.revokeObjectURL(f.url));
+                    formFiles = []; keepAtt = [...(existing || [])]; renderAttachForm();
+                }
+                async function uploadNewPhotos(invId) {
+                    const done = [];
+                    try {
+                        for (let i = 0; i < formFiles.length; i++) {
+                            const path = invId + '/' + Date.now() + '-' + i + '.jpg';
+                            const { error } = await supabaseClient.storage.from(ATT_BUCKET).upload(path, formFiles[i].blob, { contentType: 'image/jpeg' });
+                            if (error) throw error;
+                            done.push(path);
+                        }
+                    } catch (e) { if (done.length) await supabaseClient.storage.from(ATT_BUCKET).remove(done); throw e; }
+                    return done;
+                }
+                async function renderDetailPhotos(inv) {
+                    const wrap = document.getElementById('detail-att-wrap'), box = document.getElementById('detail-att');
+                    const list = inv.attachments || [];
+                    wrap.classList.toggle('hidden', !list.length);
+                    box.innerHTML = '';
+                    if (!list.length) return;
+                    const urls = await Promise.all(list.map(attSignedUrl));
+                    if (selectedInvoice !== inv) return;
+                    box.innerHTML = urls.map(u => `<a href="${u}" target="_blank" rel="noopener" class="block w-24 h-24 border border-slate-300 rounded-sm overflow-hidden bg-slate-100"><img src="${u}" class="w-full h-full object-cover" alt="Invoice photo"></a>`).join('');
+                }
+
                 function openAddModal() {
                     if (!currentUser) return;
 
@@ -1250,6 +1324,7 @@
                     document.getElementById('input-vendor').value = '';
                     document.getElementById('input-invoice-number').value = '';
                     document.getElementById('input-notes').value = '';
+                    resetAttachForm([]);
                     document.getElementById('input-invoice-date').value = new Date().toISOString().split('T')[0];
 
                     renderFormItems();
@@ -1278,6 +1353,7 @@
                     document.getElementById('input-invoice-number').value = inv.invoiceNumber;
                     document.getElementById('input-invoice-date').value = inv.invoiceDate;
                     document.getElementById('input-notes').value = inv.notes || '';
+                    resetAttachForm(inv.attachments);
 
                     formItems = inv.items.map(i => ({ name: i.name, quantity: i.quantity, unitPrice: i.unitPrice }));
                     renderFormItems();
@@ -1304,6 +1380,7 @@
                     if (!confirm('Are you sure you want to delete this invoice? This action cannot be undone.')) return;
 
                     const { error } = await supabaseClient.from('invoices').delete().eq('id', invId);
+                    if (!error && inv.attachments && inv.attachments.length) supabaseClient.storage.from(ATT_BUCKET).remove(inv.attachments);
 
                     if (error) {
                         console.error('Supabase delete error:', error);
@@ -1445,6 +1522,7 @@
                             const isResubmitting = existingInv.status === 'REJECTED';
 
                             // 1) insert the new item rows first, 2) update the invoice, 3) only then remove the old rows
+                            const newPaths = await uploadNewPhotos(editId);
                             const oldIds = existingInv.items.map(i => i.id).filter(Boolean);
                             const { error: insErr } = await supabaseClient.from('invoice_items').insert(
                                 cleanItems.map(i => ({ invoice_id: editId, item_name: i.name, quantity: i.quantity, unit_price: i.unitPrice })));
@@ -1453,11 +1531,14 @@
                             const { error: invErr } = await supabaseClient.from('invoices').update({
                                 vendor: vendorVal, invoice_number: invNumVal, invoice_date: invDateVal,
                                 total_price: calculatedTotal, notes: notesVal,
+                                attachments: [...keepAtt, ...newPaths],
                                 status: isResubmitting ? 'SUBMITTED' : existingInv.status,
                                 rejection_reason: isResubmitting ? null : existingInv.rejectionReason
                             }).eq('id', editId);
-                            if (invErr) throw invErr;
+                            if (invErr) { if (newPaths.length) await supabaseClient.storage.from(ATT_BUCKET).remove(newPaths); throw invErr; }
 
+                            const dropped = (existingInv.attachments || []).filter(x => !keepAtt.includes(x));
+                            if (dropped.length) supabaseClient.storage.from(ATT_BUCKET).remove(dropped);
                             if (oldIds.length) await supabaseClient.from('invoice_items').delete().in('id', oldIds);
                             showToast(`Invoice ${invNumVal} updated!`);
                         } else {
@@ -1467,17 +1548,20 @@
                                 invId = `INV-${now.getFullYear()}-${rnd}`;
                             } while (invoices.some(i => i.id === invId));
 
+                            const newPaths = await uploadNewPhotos(invId);
                             const { error: invErr } = await supabaseClient.from('invoices').insert({
+                                attachments: newPaths,
                                 id: invId, vendor: vendorVal, invoice_number: invNumVal, invoice_date: invDateVal,
                                 grant_code: 'UNASSIGNED', total_price: calculatedTotal, status: 'SUBMITTED',
                                 created_by: `${currentUser.name} (${currentUser.role})`, notes: notesVal
                             });
-                            if (invErr) throw invErr;
+                            if (invErr) { if (newPaths.length) await supabaseClient.storage.from(ATT_BUCKET).remove(newPaths); throw invErr; }
 
                             const { error: itemsErr } = await supabaseClient.from('invoice_items').insert(
                                 cleanItems.map(i => ({ invoice_id: invId, item_name: i.name, quantity: i.quantity, unit_price: i.unitPrice })));
                             if (itemsErr) {
                                 await supabaseClient.from('invoices').delete().eq('id', invId); // roll back the half-saved invoice
+                                if (newPaths.length) await supabaseClient.storage.from(ATT_BUCKET).remove(newPaths);
                                 throw itemsErr;
                             }
                             showToast(`Invoice ${invNumVal} recorded and sent to Accountant!`);
@@ -1521,6 +1605,7 @@
                         rejBanner.classList.add('hidden');
                     }
 
+                    renderDetailPhotos(selectedInvoice);
                     document.getElementById('detail-items-table').innerHTML = selectedInvoice.items.map(item => `
                         <tr>
                             <td class="py-2 px-3 font-medium text-slate-800">${esc(item.name)}</td>
@@ -1764,6 +1849,17 @@ body.inv-modal-open{overflow:hidden}
                     </label>
 <textarea class="w-full px-3 py-2 border border-slate-300 rounded-sm text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" id="input-notes" placeholder="e.g. Received package intact. Reagents stored in -20C freezer #2." rows="2"></textarea>
 </div>
+<div>
+<label class="block text-xs font-bold uppercase text-slate-600 mb-1">Invoice Photo <span class="normal-case font-normal text-slate-400">(optional, up to 5)</span></label>
+<div class="flex flex-wrap gap-2" id="att-thumbs"></div>
+<div class="flex flex-wrap gap-2 mt-2">
+<button class="px-3 py-2 border border-slate-300 hover:bg-slate-50 rounded-sm text-xs font-semibold text-slate-700 flex items-center gap-1.5" onclick="document.getElementById('att-cam').click()" type="button"><i class="w-4 h-4" data-lucide="camera"></i> Take Photo</button>
+<button class="px-3 py-2 border border-slate-300 hover:bg-slate-50 rounded-sm text-xs font-semibold text-slate-700 flex items-center gap-1.5" onclick="document.getElementById('att-gal').click()" type="button"><i class="w-4 h-4" data-lucide="image"></i> Choose from Gallery</button>
+</div>
+<input accept="image/*" capture="environment" class="hidden" id="att-cam" onchange="onPickImages(this)" type="file"/>
+<input accept="image/*" class="hidden" id="att-gal" multiple onchange="onPickImages(this)" type="file"/>
+<p class="text-[11px] text-slate-400 mt-1">Photos are shrunk automatically before upload.</p>
+</div>
 <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
 <button class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-sm text-sm font-semibold" onclick="closeAddModal()" type="button">
                         Cancel
@@ -1899,6 +1995,11 @@ body.inv-modal-open{overflow:hidden}
                     </div>
 <div class="text-rose-800 italic" id="detail-rejection-reason"></div>
 </div>
+<!-- Invoice photos -->
+<div class="hidden" id="detail-att-wrap">
+<h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Invoice Photos</h4>
+<div class="flex flex-wrap gap-2" id="detail-att"></div>
+</div>
 <!-- Items Table -->
 <div>
 <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Consumables Line Items</h4>
@@ -2010,5 +2111,10 @@ body.inv-modal-open{overflow:hidden}
 </footer>
 
 
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+var __pwa; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); __pwa = e; var r = document.getElementById('pwa-row'); if (r) r.hidden = false; });
+function installApp() { if (!__pwa) return; __pwa.prompt(); __pwa = null; var r = document.getElementById('pwa-row'); if (r) r.hidden = true; }
+</script>
 </body>
 </html>
