@@ -11,9 +11,14 @@ const SITE = 'https://harigroup.orgchem.iisc.ac.in/';
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 const when = (iso: string) => new Date(iso).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
 const row = (k: string, v: string) => '<tr><td style="padding:4px 14px 4px 0;color:#64748b">' + k + '</td><td><b>' + v + '</b></td></tr>';
+const LOGO = SITE + 'harigroup_logo.png';
 const shell = (title: string, body: string) =>
-  '<div style="font-family:Arial,sans-serif;max-width:520px;color:#1e293b"><h2 style="color:#263A67;margin:0 0 12px">' + title + '</h2>' + body +
-  '<p style="color:#94a3b8;font-size:12px;margin-top:24px">Hari Group, IISc Bangalore. This is an automatic message.</p></div>';
+  '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#e2e8f0;padding:24px 12px"><tr><td align="center">' +
+  '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border:1px solid #e2e8f0;font-family:Arial,Helvetica,sans-serif;color:#1e293b">' +
+  '<tr><td style="background:#f1f5f9;padding:16px 24px;border-bottom:3px solid #facc15"><img src="' + LOGO + '" alt="Hari Group" height="48" style="display:block;height:48px;width:auto;border:0"></td></tr>' +
+  '<tr><td style="padding:24px"><h2 style="color:#263A67;margin:0 0 14px;font-size:20px">' + title + '</h2>' + body + '</td></tr>' +
+  '<tr><td style="background:#f1f5f9;padding:14px 24px;color:#64748b;font-size:12px;line-height:1.5">Hari Group, Department of Organic Chemistry, IISc Bangalore<br>This is an automatic message, please do not reply.</td></tr>' +
+  '</table></td></tr></table>';
 
 const mailer = () => nodemailer.createTransport({
   host: 'smtp.gmail.com', port: 465, secure: true,
