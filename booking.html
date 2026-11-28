@@ -18,13 +18,13 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@1.83.0/dist/umd/lucide.min.js" integrity="sha384-+q43d76peVxg8ebEnx/s7wsDPz11/ytrwuJnAfNJMS9asISEDqda+U1CHt9/BpVI" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2" integrity="sha384-7i/4BYWz4Mn+lJfg2HWfEPfZQ7tmFKF3CTSKlXBpxWjNlLjcg+T6smpHG4gLmU1u" crossorigin="anonymous"></script>
-<link rel="manifest" href="manifest-booking.webmanifest">
+<link rel="manifest" href="pwa/booking.webmanifest">
 <meta name="theme-color" content="#0a2342">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Booking">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="pwa/icons/apple-touch-icon.png">
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location; } catch (e) {} }</script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="usertools">
@@ -262,11 +262,11 @@
 </div>
 </div>
 </footer>
-<script src="js/idle-logout.js?v=1"></script>
+<script src="js/portal/idle-logout.js?v=2"></script>
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
-<script src="js/booking-config.js?v=2"></script>
-<script src="js/booking.js?v=29"></script>
+<script src="js/portal/booking-config.js?v=3"></script>
+<script src="js/portal/booking.js?v=30"></script>
 <script>
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
 var __pwa; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); __pwa = e; var r = document.getElementById('pwa-row'); if (r) r.hidden = false; });
