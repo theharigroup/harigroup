@@ -17,6 +17,5 @@ Nobody can create an account unless their email is on one of the two lists (`por
 3. Authentication > URL Configuration: Site URL `https://harigroup.orgchem.iisc.ac.in`; Redirect URLs: add
    `.../invoice.html` and `.../booking.html`.
 4. Authentication > SMTP Settings: your sender (Gmail app password, smtp.gmail.com, 465).
-5. GitHub > Settings > Secrets > Actions: `PORTAL_SUPABASE_SERVICE_KEY` = this project's service_role key.
-6. Merge the PRs (admin panel first, then the cutover). Run "Sync team to booking members" once with invite_all.
-7. Invite the booking admin: Authentication > Users > Invite user > the booking admin's email.
+5. Merge the PRs (admin panel first, then the cutover). Add members from the admin panel.
+6. Invite the booking admin: Authentication > Users > Invite user > the booking admin's email.

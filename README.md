@@ -93,7 +93,6 @@ harigroup/
 ├── downloads/              LogiDFT user guide and demo files
 ├── footer/                 footer logos
 ├── supabase/functions/     Edge Functions (portal-invite, portal-notify)
-├── scripts/                team-to-booking-members sync (run by .github/workflows)
 ├── _docs/                  setup SQL and notes (not published: underscore folders are skipped by GitHub Pages)
 ├── CNAME  robots.txt  sitemap.xml
 └── google*.html  BingSiteAuth.xml   search-engine ownership files (must stay in the root)
