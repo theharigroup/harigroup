@@ -8,7 +8,6 @@
   const DAYFULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const LATE_MS = 30 * 60000;   // last minutes of a started slot that can no longer be booked
   const FAIR_SLOTS = 2;   // more than this in a row is allowed, with a courtesy reminder
-  const IDLE_MS = 30 * 60 * 1000;
   const MIN = 60000, DAY = 86400000, IST = 330 * MIN;
 
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -39,7 +38,7 @@
   // ---------- state ----------
   let client = null, session = null, me = null;
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
-  let weekBookings = [], dlgState = null, idleTimer = null, view = 'out', pane = 'inst';
+  let weekBookings = [], dlgState = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
   let facilities = [], firstDone = false;
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
@@ -71,7 +70,7 @@
   // ---------- sign in / out ----------
   function showOut(mode) {
     if (typeof lucide !== 'undefined') lucide.createIcons();
-    view = 'out'; stopIdle();
+    view = 'out'; HariIdle.stop();
     ['v-in', 'v-adm'].forEach(x => { $(x).hidden = true; });
     $('v-out').hidden = false; $('acts').hidden = true;
     ['login', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
@@ -105,11 +104,8 @@
   });
   async function signOut(msg) { await client.auth.signOut(); me = null; showOut('login'); if (msg) say('msg', msg, 'ok'); }
 
-  // idle timeout
-  function bumpIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(() => signOut('You were signed out after 30 minutes of inactivity.'), IDLE_MS); }
-  function startIdle() { ['click', 'keydown', 'pointerdown', 'scroll'].forEach(ev => addEventListener(ev, bumpIdle, { passive: true })); bumpIdle(); }
-  function stopIdle() { clearTimeout(idleTimer); }
-  let idleOn = false;
+  // idle timeout: shared 15 minute clock, see js/idle-logout.js
+  function startIdle() { HariIdle.start(() => signOut('You were signed out after 15 minutes of inactivity.')); }
 
   // ---------- after sign-in ----------
   async function enter() {
@@ -123,7 +119,7 @@
       return say('msg', 'This account is not approved for booking. Please ask the group admin.');
     }
     me = r.data;
-    if (!idleOn) { idleOn = true; startIdle(); } else bumpIdle();
+    startIdle();
     await loadInstruments();
     $('v-out').hidden = true;
     setView('in');

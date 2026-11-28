@@ -19,6 +19,7 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/idle-logout.js?v=1"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="invoice">
 <div id="progress"></div>
@@ -553,8 +554,6 @@
                 // --- AUTHENTICATION (Supabase Auth) ---
                 // Passwords are never stored in this page. Login goes to Supabase Auth; the user's role comes from
                 // the protected `staff` table, and the database (RLS) enforces who may read or change invoices.
-                const IDLE_LIMIT_MS = 30 * 60 * 1000;
-                let idleTimer = null;
                 let failedLogins = 0;
                 let lockedUntil = 0;
 
@@ -694,24 +693,11 @@
                     if (silent !== true) showToast('Logged out of session');
                 }
 
-                // automatic sign-out after 30 minutes of inactivity
+                // automatic sign-out after 15 minutes of inactivity (shared clock, see js/idle-logout.js)
                 function startIdleTimer() {
-                    stopIdleTimer();
-                    const reset = () => {
-                        clearTimeout(idleTimer);
-                        idleTimer = setTimeout(async () => { await handleLogout(true); showLoginError('You were signed out after 30 minutes of inactivity.'); }, IDLE_LIMIT_MS);
-                    };
-                    ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.addEventListener(ev, reset, { passive: true }));
-                    window.__idleReset = reset;
-                    reset();
+                    HariIdle.start(async () => { await handleLogout(true); showLoginError('You were signed out after 15 minutes of inactivity.'); });
                 }
-                function stopIdleTimer() {
-                    clearTimeout(idleTimer);
-                    if (window.__idleReset) {
-                        ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.removeEventListener(ev, window.__idleReset));
-                        window.__idleReset = null;
-                    }
-                }
+                function stopIdleTimer() { HariIdle.stop(); }
 
                 function updateUserUi() {
                     if (!currentUser) return;
