@@ -78,17 +78,28 @@ This website was designed and developed by **[Chemora Art](https://www.chemora.a
 
 ```
 harigroup/
-├── *.html            site pages
-├── css/              shared and LogiDFT styles
-├── js/               shared scripts, publications, news cards
-│   └── logidft/      LogiDFT parser, profile chart, viewer
-├── facilities/       instrument images
-├── members/ news/    member photos and news images
-├── _docs/            setup SQL and notes (not published on the site)
-├── downloads/        LogiDFT user guide and demo files
-├── robots.txt        search engine rules
-└── sitemap.xml       sitemap for search engines
+├── *.html                  site pages (index, pi, team, alumni, research, publications, news,
+│                           facilities, usertools, logidft, contact) and the two portals
+│                           (booking.html, invoice.html, login required)
+├── css/                    shared styles, portal styles (booking.css), LogiDFT, publications
+├── js/                     shared scripts (navigation, hero, globe, publications, news cards)
+│   ├── portal/             booking and invoice portal scripts, inactivity sign-out, Supabase config
+│   └── logidft/            LogiDFT parser, profile chart, viewer
+├── pwa/                    installable-app files for the portals (manifests, icons, offline page)
+├── sw.js                   service worker (must stay in the site root)
+├── members/ news/          member photos and news images
+├── research/ facilities/   research and instrument images
+├── publication_abstract/   graphical abstracts      paper/  downloadable paper
+├── downloads/              LogiDFT user guide and demo files
+├── footer/                 footer logos
+├── supabase/functions/     Edge Functions (portal-invite, portal-notify)
+├── scripts/                team-to-booking-members sync (run by .github/workflows)
+├── _docs/                  setup SQL and notes (not published: underscore folders are skipped by GitHub Pages)
+├── CNAME  robots.txt  sitemap.xml
+└── google*.html  BingSiteAuth.xml   search-engine ownership files (must stay in the root)
 ```
+
+Images: keep them web-sized (members about 800 px, others at most 1600 px). Large originals slow the site down.
 
 ## Contact
 
