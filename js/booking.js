@@ -53,7 +53,12 @@
     if (CFG.url && CFG.anonKey && !window.supabase) $('cfg-warn').innerHTML = '<b>The sign-in service could not be loaded.</b><br>Check your internet connection and reload the page.';
     return;
   }
-  const FIRST_TIME = /type=(signup|invite|recovery)/.test(location.hash);   // arrived from an invitation / reset email
+  // New email links look like  booking.html?token_hash=...&type=invite|recovery  and are only used up when the person presses Continue
+  // (a mail scanner that merely opens the link cannot use it up).
+  const QS = new URLSearchParams(location.search);
+  const LINK = QS.get('token_hash') && /^(invite|recovery|signup|magiclink|email)$/.test(QS.get('type') || '') ? { token_hash: QS.get('token_hash'), type: QS.get('type') } : null;
+  if (LINK) history.replaceState(null, '', location.pathname);
+  const FIRST_TIME = !!LINK || /type=(signup|invite|recovery)/.test(location.hash);   // arrived from an invitation / reset email
   const LINK_ERR = /error_code=|error=access_denied/.test(location.hash + location.search);   // expired or already used link
   let pwPending = FIRST_TIME;      // true until the person has chosen a password: never open the app before that
   client = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -78,9 +83,9 @@
     view = 'out'; HariIdle.stop();
     ['v-in', 'v-adm'].forEach(x => { $(x).hidden = true; });
     $('v-out').hidden = false; $('acts').hidden = true;
-    ['login', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
-    $('lt').textContent = { login: 'Portal Access Required', forgot: 'Forgot Password', newpw: 'Set New Password' }[mode];
-    $('ls').textContent = { login: 'Please log in with your lab credentials to access the instrument booking system', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
+    ['login', 'forgot', 'newpw', 'confirm'].forEach(m => { $('f-' + m).hidden = m !== mode; });
+    $('lt').textContent = { login: 'Portal Access Required', forgot: 'Forgot Password', newpw: 'Set New Password', confirm: 'Set Your Password' }[mode];
+    $('ls').textContent = { login: 'Please log in with your lab credentials to access the instrument booking system', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account', confirm: 'Press Continue to choose your password' }[mode];
     say('msg', '');
   }
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => showOut(b.dataset.mode)));
@@ -93,9 +98,16 @@
   });
   $('f-forgot').addEventListener('submit', async e => {
     e.preventDefault(); const btn = $('f-btn'); btn.disabled = true;
-    await client.auth.resetPasswordForEmail($('f-email').value.trim().toLowerCase(), { redirectTo: location.origin + location.pathname });
+    await client.auth.resetPasswordForEmail($('f-email').value.trim().toLowerCase(), { redirectTo: location.origin + '/booking.html' });
     btn.disabled = false;
     say('msg', 'If that email has an account, a reset link is on its way.', 'ok');
+  });
+  $('f-confirm').addEventListener('submit', async e => {
+    e.preventDefault(); const btn = $('c-btn'); btn.disabled = true; say('msg', '');
+    const { error } = await client.auth.verifyOtp({ token_hash: LINK.token_hash, type: LINK.type });
+    btn.disabled = false;
+    if (error) { pwPending = false; showOut('login'); return say('msg', 'This link has expired or was already used. Use "Forgot password" below to get a new one.'); }
+    pwPending = true; showOut('newpw');            // signed in by the link: now choose the password
   });
   $('f-newpw').addEventListener('submit', async e => {
     e.preventDefault(); const p = $('n-pass').value;
@@ -556,6 +568,6 @@
   addEventListener('focus', () => { if (view === 'in' && me) refreshWeek(); });
 
   buildInstFormStatic(); resetInstForm();
-  showOut('login');
+  showOut(LINK ? 'confirm' : 'login');
   if (LINK_ERR) { pwPending = false; say('msg', 'This link has expired or was already used. Use "Forgot password" below to get a new one.'); history.replaceState(null, '', location.pathname); }
 })();
