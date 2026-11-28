@@ -26,6 +26,7 @@
 <meta name="apple-mobile-web-app-title" content="Invoices">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="js/idle-logout.js?v=1"></script>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="invoice">
 <div id="progress"></div>
@@ -133,6 +134,10 @@
 <div class="bk-lf"><label for="forgot-email">Email <span>*</span></label><div class="bk-fi"><input type="email" id="forgot-email" placeholder="e.g. yourname@iisc.ac.in" autocomplete="username" required><i data-lucide="user" aria-hidden="true"></i></div></div>
 <button class="bk-btn blue" type="submit" id="forgot-btn">Send Reset Link</button>
 <div class="bk-links c"><button type="button" onclick="setLoginMode('login')">Back to Sign In</button></div>
+</form>
+
+<form id="inline-confirm-form" hidden onsubmit="handleConfirmSubmit(event)">
+<button class="bk-btn blue" type="submit" id="confirm-btn">Continue</button>
 </form>
 
 <form id="inline-newpw-form" hidden onsubmit="handleNewPwSubmit(event)">
@@ -562,8 +567,6 @@
                 // --- AUTHENTICATION (Supabase Auth) ---
                 // Passwords are never stored in this page. Login goes to Supabase Auth; the user's role comes from
                 // the protected `staff` table, and the database (RLS) enforces who may read or change invoices.
-                const IDLE_LIMIT_MS = 30 * 60 * 1000;
-                let idleTimer = null;
                 let failedLogins = 0;
                 let lockedUntil = 0;
 
@@ -573,7 +576,8 @@
                 }
 
                 async function initAuth() {
-                    const fromInvite = /type=(invite|signup)/.test(location.hash);
+                    const fromInvite = /type=(invite|signup|recovery)/.test(location.hash);
+                    const linkErr = /error_code=|error=access_denied/.test(location.hash + location.search);
                     supabaseClient.auth.onAuthStateChange((event, session) => {
                         // never await Supabase calls inside this callback; defer them
                         if (event === 'PASSWORD_RECOVERY') {
@@ -582,6 +586,7 @@
                             setTimeout(() => { currentUser = null; invoices = []; pwPending = false; stopIdleTimer(); setLoginMode('login'); renderApp(); }, 0);
                         }
                     });
+                    if (LINK) { confirming = true; renderApp(); return; }   // email link: wait for the Continue button
                     const { data } = await supabaseClient.auth.getSession();
                     if (data && data.session) {
                         await loadProfile(data.session.user);
@@ -591,6 +596,7 @@
                         }
                     } else {
                         renderApp();
+                        if (linkErr) { history.replaceState(null, '', location.pathname + location.search); showLoginError('This link has expired or was already used. Use "Forgot password" below to get a new one.'); }
                     }
                 }
 
@@ -647,11 +653,13 @@
                 }
 
                 // --- sign-in card modes (same screens and wording as the booking portal) ---
+                let confirming = false;          // true while an email link waits for the Continue button
                 let pwPending = false;           // true while the person must still choose a new password
                 const LOGIN_MODES = {
                     login:  ['Portal Access Required', 'Please log in with your lab credentials to access the invoice system', 'inline-login-form'],
                     forgot: ['Forgot Password', 'We will email you a link to choose a new password', 'inline-forgot-form'],
-                    newpw:  ['Set New Password', 'Choose a new password for your account', 'inline-newpw-form']
+                    newpw:  ['Set New Password', 'Choose a new password for your account', 'inline-newpw-form'],
+                    confirm: ['Set Your Password', 'Press Continue to choose your password', 'inline-confirm-form']
                 };
                 function setLoginMode(mode) {
                     const m = LOGIN_MODES[mode] || LOGIN_MODES.login;
@@ -666,11 +674,24 @@
                     setMsg(msg, 'ok');
                 }
 
+                // New email links look like  invoice.html?token_hash=...&type=invite|recovery  and are only used up when the person presses Continue
+                const QS = new URLSearchParams(location.search);
+                const LINK = QS.get('token_hash') && /^(invite|recovery|signup|magiclink|email)$/.test(QS.get('type') || '') ? { token_hash: QS.get('token_hash'), type: QS.get('type') } : null;
+                if (LINK) history.replaceState(null, '', location.pathname);
+                async function handleConfirmSubmit(e) {
+                    e.preventDefault();
+                    const btn = document.getElementById('confirm-btn'); btn.disabled = true; setMsg('');
+                    const { data, error } = await supabaseClient.auth.verifyOtp({ token_hash: LINK.token_hash, type: LINK.type });
+                    btn.disabled = false;
+                    if (error || !data || !data.session) { confirming = false; pwPending = false; renderApp(); setLoginMode('login'); showLoginError('This link has expired or was already used. Use "Forgot password" below to get a new one.'); return; }
+                    confirming = false; currentUser = null; invoices = []; pwPending = true; renderApp();      // signed in by the link: now choose the password
+                }
+
                 async function handleForgotSubmit(e) {
                     e.preventDefault();
                     const btn = document.getElementById('forgot-btn'); btn.disabled = true;
                     const email = document.getElementById('forgot-email').value.trim().toLowerCase();
-                    await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+                    await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/invoice.html' });
                     btn.disabled = false;
                     showLoginNotice('If that email has an account, a reset link is on its way.');
                 }
@@ -703,24 +724,11 @@
                     if (silent !== true) showToast('Logged out of session');
                 }
 
-                // automatic sign-out after 30 minutes of inactivity
+                // automatic sign-out after 15 minutes of inactivity (shared clock, see js/idle-logout.js)
                 function startIdleTimer() {
-                    stopIdleTimer();
-                    const reset = () => {
-                        clearTimeout(idleTimer);
-                        idleTimer = setTimeout(async () => { await handleLogout(true); showLoginError('You were signed out after 30 minutes of inactivity.'); }, IDLE_LIMIT_MS);
-                    };
-                    ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.addEventListener(ev, reset, { passive: true }));
-                    window.__idleReset = reset;
-                    reset();
+                    HariIdle.start(async () => { await handleLogout(true); showLoginError('You were signed out after 15 minutes of inactivity.'); });
                 }
-                function stopIdleTimer() {
-                    clearTimeout(idleTimer);
-                    if (window.__idleReset) {
-                        ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => window.removeEventListener(ev, window.__idleReset));
-                        window.__idleReset = null;
-                    }
-                }
+                function stopIdleTimer() { HariIdle.stop(); }
 
                 function updateUserUi() {
                     if (!currentUser) return;
@@ -855,6 +863,15 @@
                     const loggedOutView = document.getElementById('logged-out-view');
                     const loggedInView = document.getElementById('logged-in-view');
                     const headerActions = document.getElementById('portal-header-actions');
+
+                    if (confirming) {
+                        adminOpen = false; syncAdminUi();
+                        if (loggedOutView) loggedOutView.classList.remove('hidden');
+                        if (loggedInView) loggedInView.classList.add('hidden');
+                        if (headerActions) headerActions.classList.add('hidden');
+                        setLoginMode('confirm');
+                        return;
+                    }
 
                     if (pwPending) {                       // arrived from a reset / invitation link: choose a password first
                         adminOpen = false; syncAdminUi();

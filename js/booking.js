@@ -8,7 +8,6 @@
   const DAYFULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const LATE_MS = 30 * 60000;   // last minutes of a started slot that can no longer be booked
   const FAIR_SLOTS = 2;   // more than this in a row is allowed, with a courtesy reminder
-  const IDLE_MS = 30 * 60 * 1000;
   const MIN = 60000, DAY = 86400000, IST = 330 * MIN;
 
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -39,9 +38,9 @@
   // ---------- state ----------
   let client = null, session = null, me = null;
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
-  let weekBookings = [], dlgState = null, idleTimer = null, view = 'out', pane = 'inst';
+  let weekBookings = [], dlgState = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
-  let facilities = [], firstDone = false;
+  let facilities = [];
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
 
   // ---------- messages ----------
@@ -54,29 +53,39 @@
     if (CFG.url && CFG.anonKey && !window.supabase) $('cfg-warn').innerHTML = '<b>The sign-in service could not be loaded.</b><br>Check your internet connection and reload the page.';
     return;
   }
-  const FIRST_TIME = /type=(signup|invite)/.test(location.hash);   // arrived from the confirmation email
+  // New email links look like  booking.html?token_hash=...&type=invite|recovery  and are only used up when the person presses Continue
+  // (a mail scanner that merely opens the link cannot use it up).
+  const QS = new URLSearchParams(location.search);
+  const LINK = QS.get('token_hash') && /^(invite|recovery|signup|magiclink|email)$/.test(QS.get('type') || '') ? { token_hash: QS.get('token_hash'), type: QS.get('type') } : null;
+  if (LINK) history.replaceState(null, '', location.pathname);
+  const FIRST_TIME = !!LINK || /type=(signup|invite|recovery)/.test(location.hash);   // arrived from an invitation / reset email
+  const LINK_ERR = /error_code=|error=access_denied/.test(location.hash + location.search);   // expired or already used link
+  let pwPending = FIRST_TIME;      // true until the person has chosen a password: never open the app before that
   client = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 
   client.auth.onAuthStateChange((event, s) => {
     session = s;
-    if (event === 'PASSWORD_RECOVERY') { showOut('newpw'); return; }
+    if (event === 'PASSWORD_RECOVERY') { pwPending = true; showOut('newpw'); return; }
     if (event === 'SIGNED_OUT') { me = null; showOut('login'); return; }
     if (event === 'SIGNED_IN' && view === 'out' && !$('f-newpw').hidden) return;
     // coming back to the browser tab makes Supabase re-fire SIGNED_IN: keep whatever screen (e.g. admin) is open
     if (event === 'SIGNED_IN' && me && s && String(s.user.email || '').toLowerCase() === me.email) return;
-    if (FIRST_TIME && s && !firstDone) { firstDone = true; showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); return; }
+    if (pwPending && s) {            // invitation / reset link: show the "set password" form, whatever event arrives first
+      if ($('f-newpw').hidden || view !== 'out') { showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); }
+      return;
+    }
     if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') setTimeout(enter, 0);
   });
 
   // ---------- sign in / out ----------
   function showOut(mode) {
     if (typeof lucide !== 'undefined') lucide.createIcons();
-    view = 'out'; stopIdle();
+    view = 'out'; HariIdle.stop();
     ['v-in', 'v-adm'].forEach(x => { $(x).hidden = true; });
     $('v-out').hidden = false; $('acts').hidden = true;
-    ['login', 'forgot', 'newpw'].forEach(m => { $('f-' + m).hidden = m !== mode; });
-    $('lt').textContent = { login: 'Portal Access Required', forgot: 'Forgot Password', newpw: 'Set New Password' }[mode];
-    $('ls').textContent = { login: 'Please log in with your lab credentials to access the instrument booking system', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account' }[mode];
+    ['login', 'forgot', 'newpw', 'confirm'].forEach(m => { $('f-' + m).hidden = m !== mode; });
+    $('lt').textContent = { login: 'Portal Access Required', forgot: 'Forgot Password', newpw: 'Set New Password', confirm: 'Set Your Password' }[mode];
+    $('ls').textContent = { login: 'Please log in with your lab credentials to access the instrument booking system', forgot: 'We will email you a link to choose a new password', newpw: 'Choose a new password for your account', confirm: 'Press Continue to choose your password' }[mode];
     say('msg', '');
   }
   document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => showOut(b.dataset.mode)));
@@ -89,9 +98,16 @@
   });
   $('f-forgot').addEventListener('submit', async e => {
     e.preventDefault(); const btn = $('f-btn'); btn.disabled = true;
-    await client.auth.resetPasswordForEmail($('f-email').value.trim().toLowerCase(), { redirectTo: location.origin + location.pathname });
+    await client.auth.resetPasswordForEmail($('f-email').value.trim().toLowerCase(), { redirectTo: location.origin + '/booking.html' });
     btn.disabled = false;
     say('msg', 'If that email has an account, a reset link is on its way.', 'ok');
+  });
+  $('f-confirm').addEventListener('submit', async e => {
+    e.preventDefault(); const btn = $('c-btn'); btn.disabled = true; say('msg', '');
+    const { error } = await client.auth.verifyOtp({ token_hash: LINK.token_hash, type: LINK.type });
+    btn.disabled = false;
+    if (error) { pwPending = false; showOut('login'); return say('msg', 'This link has expired or was already used. Use "Forgot password" below to get a new one.'); }
+    pwPending = true; showOut('newpw');            // signed in by the link: now choose the password
   });
   $('f-newpw').addEventListener('submit', async e => {
     e.preventDefault(); const p = $('n-pass').value;
@@ -101,20 +117,19 @@
     if (error) return say('msg', errText(error));
     $('n-pass').value = ''; $('n-pass2').value = '';
     history.replaceState(null, '', location.pathname);
+    pwPending = false;
     say('msg', 'Password saved.', 'ok'); setTimeout(enter, 600);
   });
   async function signOut(msg) { await client.auth.signOut(); me = null; showOut('login'); if (msg) say('msg', msg, 'ok'); }
 
-  // idle timeout
-  function bumpIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(() => signOut('You were signed out after 30 minutes of inactivity.'), IDLE_MS); }
-  function startIdle() { ['click', 'keydown', 'pointerdown', 'scroll'].forEach(ev => addEventListener(ev, bumpIdle, { passive: true })); bumpIdle(); }
-  function stopIdle() { clearTimeout(idleTimer); }
-  let idleOn = false;
+  // idle timeout: shared 15 minute clock, see js/idle-logout.js
+  function startIdle() { HariIdle.start(() => signOut('You were signed out after 15 minutes of inactivity.')); }
 
   // ---------- after sign-in ----------
   async function enter() {
+    if (pwPending) return;
     const { data } = await client.auth.getSession(); session = data.session;
-    if (!session) return showOut('login');
+    if (!session) { if (view !== 'out') showOut('login'); return; }
     const email = String(session.user.email || '').toLowerCase();
     const r = await client.from('booking_members').select('*').eq('email', email).maybeSingle();
     if (r.error || !r.data || r.data.status !== 'active') {
@@ -123,7 +138,7 @@
       return say('msg', 'This account is not approved for booking. Please ask the group admin.');
     }
     me = r.data;
-    if (!idleOn) { idleOn = true; startIdle(); } else bumpIdle();
+    startIdle();
     await loadInstruments();
     $('v-out').hidden = true;
     setView('in');
@@ -553,5 +568,6 @@
   addEventListener('focus', () => { if (view === 'in' && me) refreshWeek(); });
 
   buildInstFormStatic(); resetInstForm();
-  showOut('login');
+  showOut(LINK ? 'confirm' : 'login');
+  if (LINK_ERR) { pwPending = false; say('msg', 'This link has expired or was already used. Use "Forgot password" below to get a new one.'); history.replaceState(null, '', location.pathname); }
 })();
