@@ -4,8 +4,8 @@
 <tr><td style="padding:24px">
 <h2 style="color:#263A67;margin:0 0 14px;font-size:20px">Reset your password</h2>
 <p style="margin:0 0 18px;line-height:1.6">We received a request to reset the password for your Hari Group portal account.</p>
-<p style="margin:0 0 22px"><a href="{{ .ConfirmationURL }}" style="background:#263A67;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 22px;display:inline-block">Choose a new password</a></p>
-<p style="margin:0;color:#64748b;font-size:12px;line-height:1.6">If the button does not work, copy this link into your browser:<br><span style="word-break:break-all">{{ .ConfirmationURL }}</span><br><br>If you did not ask for this, you can ignore this email. Your password will not change.</p>
+<p style="margin:0 0 22px"><a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&amp;type=recovery" style="background:#263A67;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 22px;display:inline-block">Choose a new password</a></p>
+<p style="margin:0;color:#64748b;font-size:12px;line-height:1.6">If the button does not work, copy this link into your browser:<br><span style="word-break:break-all">{{ .RedirectTo }}?token_hash={{ .TokenHash }}&amp;type=recovery</span><br><br>If you did not ask for this, you can ignore this email. Your password will not change.</p>
 </td></tr>
 <tr><td style="background:#f1f5f9;padding:14px 24px;color:#64748b;font-size:12px;line-height:1.5">Hari Group, Department of Organic Chemistry, IISc Bangalore<br>This is an automatic message, please do not reply.</td></tr>
 </table></td></tr></table>
