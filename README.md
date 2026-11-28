@@ -84,7 +84,8 @@ harigroup/
 │   └── logidft/      LogiDFT parser, profile chart, viewer
 ├── facilities/       instrument images
 ├── members/ news/    member photos and news images
-├── docs/             user guides and demo files
+├── _docs/            setup SQL and notes (not published on the site)
+├── downloads/        LogiDFT user guide and demo files
 ├── robots.txt        search engine rules
 └── sitemap.xml       sitemap for search engines
 ```

@@ -19,14 +19,9 @@ create table if not exists public.staff (
   title text
 );
 
+-- First administrator only. Everyone else is added later from the portal's Members panel.
 insert into public.staff (email, name, role, title) values
-  ('bibhasbiswal@iisc.ac.in',  'Bibhas Ranjan',   'Solvent Manager',   'Lab Consumable Receiver'),
-  ('anupamdutta@iisc.ac.in',   'Anupam Dutta',    'Chemical Manager',  'Lab Consumable Receiver'),
-  ('rwishanyadas@iisc.ac.in',  'Rwishanya Das',   'Chemical Manager',  'Lab Consumable Receiver'),
-  ('athmananda@iisc.ac.in',    'Athmanand Anchi', 'Glassware Manager', 'Lab Consumable Receiver'),
-  ('binadas@iisc.ac.in',       'Bina Das',        'Lab Accountant',    'Financial Manager'),
-  ('oc.office@iisc.ac.in',     'Office Staff',    'Office Staff',      'University Finance Admin'),
-  ('tushraas@iisc.ac.in',      'Tushar Singha',   'Administrator',     'Administrator')
+  ('YOUR_EMAIL@iisc.ac.in', 'Your Name', 'Administrator', 'Administrator')
 on conflict (email) do update set name = excluded.name, role = excluded.role, title = excluded.title;
 
 -- 2) Helper: role of the signed-in user (null when not staff) ------------------------

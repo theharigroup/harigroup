@@ -318,7 +318,7 @@
 <script>
                 // --- SUPABASE INITIALIZATION ---
                 // The anon key is public by design. Data is protected by Supabase Auth + Row Level Security
-                // (see docs/invoice-security.sql) -- NOT by anything in this file.
+                // (see _docs/invoice-security.sql) -- NOT by anything in this file.
                 const SUPABASE_URL = 'https://kknmrxopxnhirntmnwhb.supabase.co';
                 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrbm1yeG9weG5oaXJudG1ud2hiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzIzNTMsImV4cCI6MjEwMzg0ODM1M30.XU-WKnn--on-UKwaSWAVMNG3mZCCO4QOenobrEXKf2s';
                 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
