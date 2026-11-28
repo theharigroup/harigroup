@@ -1,4 +1,4 @@
-/* Instrument booking portal. Talks to Supabase; every rule is enforced by the database (docs/booking-setup.sql).
+/* Instrument booking portal. Talks to Supabase; every rule is enforced by the database (_docs/booking-setup.sql).
    The page only shows and requests things. Times are Indian Standard Time (no daylight saving). */
 (function () {
   'use strict';

@@ -1,7 +1,7 @@
 // Edge Function "portal-notify": sends the portal e-mails through Gmail SMTP.
 //   booking  -> the person who booked gets "confirmed" / "cancelled" (nobody else)
 //   invoice  -> every active Lab Accountant gets "new invoice submitted" (also when a rejected invoice is re-submitted)
-// Called only by the database triggers in docs/portal-notify.sql (header x-webhook-secret).
+// Called only by the database triggers in _docs/portal-notify.sql (header x-webhook-secret).
 // Deploy with "Verify JWT" OFF (the secret header protects it).
 // Secrets: GMAIL_USER, GMAIL_APP_PASSWORD, WEBHOOK_SECRET   (SUPABASE_URL / SERVICE_ROLE_KEY are automatic)
 import { createClient } from 'npm:@supabase/supabase-js@2';

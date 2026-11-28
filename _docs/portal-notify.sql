@@ -8,7 +8,7 @@ create or replace function public.portal_notify() returns trigger
 language plpgsql security definer set search_path = public, extensions as $$
 declare k text := tg_argv[0];
 begin
-  if (k = 'booking' and new.kind = 'booking') or k = 'invoice' then
+  if (k = 'booking' and to_jsonb(new) ->> 'kind' = 'booking') or k = 'invoice' then
     perform net.http_post(
       url     := 'https://kknmrxopxnhirntmnwhb.supabase.co/functions/v1/portal-notify',
       headers := jsonb_build_object('Content-Type','application/json','x-webhook-secret','REPLACE_WITH_WEBHOOK_SECRET'),
