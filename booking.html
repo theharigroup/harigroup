@@ -18,6 +18,13 @@
 <script src="js/tailwind-config.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="manifest" href="manifest-booking.webmanifest">
+<meta name="theme-color" content="#0a2342">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Booking">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-300 selection:text-navy-900" data-page="usertools">
 <div id="progress"></div>
@@ -88,6 +95,7 @@
 <div class="bk-lf"><label for="l-pass">Password <span>*</span></label><div class="bk-fi"><input type="password" id="l-pass" placeholder="••••••••••••" autocomplete="current-password" required><i data-lucide="lock" aria-hidden="true"></i></div></div>
 <button class="bk-btn blue" type="submit" id="l-btn"><i data-lucide="log-in" aria-hidden="true"></i> Log In to Portal</button>
 <div class="bk-links c"><button type="button" data-mode="forgot">Forgot password?</button></div>
+<div class="bk-links c" id="pwa-row" hidden><button type="button" onclick="installApp()">Install this portal on your phone</button></div>
 </form>
 
 
@@ -257,6 +265,11 @@
 <script src="js/navigation.js?v=6"></script>
 <script src="js/hero.js?v=3"></script>
 <script src="js/booking-config.js?v=2"></script>
-<script src="js/booking.js?v=28"></script>
+<script src="js/booking.js?v=29"></script>
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+var __pwa; window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); __pwa = e; var r = document.getElementById('pwa-row'); if (r) r.hidden = false; });
+function installApp() { if (!__pwa) return; __pwa.prompt(); __pwa = null; var r = document.getElementById('pwa-row'); if (r) r.hidden = true; }
+</script>
 </body>
 </html>
