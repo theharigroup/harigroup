@@ -40,7 +40,7 @@
   let instruments = [], myAccess = new Set(), cur = null, weekMs = mondayOf(Date.now());
   let weekBookings = [], dlgState = null, view = 'out', pane = 'inst';
   let allMembers = [], allAccess = [], editingInst = null, editingMember = null, formPhoto = undefined;
-  let facilities = [], firstDone = false;
+  let facilities = [];
   let iDays = [0, 1, 2, 3, 4, 5, 6], iOv = false, iAct = true;
 
   // ---------- messages ----------
@@ -53,17 +53,22 @@
     if (CFG.url && CFG.anonKey && !window.supabase) $('cfg-warn').innerHTML = '<b>The sign-in service could not be loaded.</b><br>Check your internet connection and reload the page.';
     return;
   }
-  const FIRST_TIME = /type=(signup|invite)/.test(location.hash);   // arrived from the confirmation email
+  const FIRST_TIME = /type=(signup|invite|recovery)/.test(location.hash);   // arrived from an invitation / reset email
+  const LINK_ERR = /error_code=|error=access_denied/.test(location.hash + location.search);   // expired or already used link
+  let pwPending = FIRST_TIME;      // true until the person has chosen a password: never open the app before that
   client = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 
   client.auth.onAuthStateChange((event, s) => {
     session = s;
-    if (event === 'PASSWORD_RECOVERY') { showOut('newpw'); return; }
+    if (event === 'PASSWORD_RECOVERY') { pwPending = true; showOut('newpw'); return; }
     if (event === 'SIGNED_OUT') { me = null; showOut('login'); return; }
     if (event === 'SIGNED_IN' && view === 'out' && !$('f-newpw').hidden) return;
     // coming back to the browser tab makes Supabase re-fire SIGNED_IN: keep whatever screen (e.g. admin) is open
     if (event === 'SIGNED_IN' && me && s && String(s.user.email || '').toLowerCase() === me.email) return;
-    if (FIRST_TIME && s && !firstDone) { firstDone = true; showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); return; }
+    if (pwPending && s) {            // invitation / reset link: show the "set password" form, whatever event arrives first
+      if ($('f-newpw').hidden || view !== 'out') { showOut('newpw'); say('msg', 'Email confirmed. Please choose your password to finish.', 'ok'); }
+      return;
+    }
     if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') setTimeout(enter, 0);
   });
 
@@ -100,6 +105,7 @@
     if (error) return say('msg', errText(error));
     $('n-pass').value = ''; $('n-pass2').value = '';
     history.replaceState(null, '', location.pathname);
+    pwPending = false;
     say('msg', 'Password saved.', 'ok'); setTimeout(enter, 600);
   });
   async function signOut(msg) { await client.auth.signOut(); me = null; showOut('login'); if (msg) say('msg', msg, 'ok'); }
@@ -109,8 +115,9 @@
 
   // ---------- after sign-in ----------
   async function enter() {
+    if (pwPending) return;
     const { data } = await client.auth.getSession(); session = data.session;
-    if (!session) return showOut('login');
+    if (!session) { if (view !== 'out') showOut('login'); return; }
     const email = String(session.user.email || '').toLowerCase();
     const r = await client.from('booking_members').select('*').eq('email', email).maybeSingle();
     if (r.error || !r.data || r.data.status !== 'active') {
@@ -550,4 +557,5 @@
 
   buildInstFormStatic(); resetInstForm();
   showOut('login');
+  if (LINK_ERR) { pwPending = false; say('msg', 'This link has expired or was already used. Use "Forgot password" below to get a new one.'); history.replaceState(null, '', location.pathname); }
 })();

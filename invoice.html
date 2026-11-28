@@ -563,7 +563,8 @@
                 }
 
                 async function initAuth() {
-                    const fromInvite = /type=(invite|signup)/.test(location.hash);
+                    const fromInvite = /type=(invite|signup|recovery)/.test(location.hash);
+                    const linkErr = /error_code=|error=access_denied/.test(location.hash + location.search);
                     supabaseClient.auth.onAuthStateChange((event, session) => {
                         // never await Supabase calls inside this callback; defer them
                         if (event === 'PASSWORD_RECOVERY') {
@@ -581,6 +582,7 @@
                         }
                     } else {
                         renderApp();
+                        if (linkErr) { history.replaceState(null, '', location.pathname + location.search); showLoginError('This link has expired or was already used. Use "Forgot password" below to get a new one.'); }
                     }
                 }
 
