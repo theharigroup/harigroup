@@ -75,3 +75,8 @@ create policy items_write on public.invoice_items for all to authenticated
 
 -- 4) The anonymous (logged-out) key gets nothing ---------------------------------------
 revoke all on public.staff, public.invoices, public.invoice_items from anon;
+
+-- Security audit 2026-11-28: remove the old "open to everyone" test policies. With them present, ANY signed-in
+-- person (even one on no staff list) could read and change every invoice. Safe to run again.
+drop policy if exists "Allow anon read/write invoices" on public.invoices;
+drop policy if exists "Allow anon read/write invoice_items" on public.invoice_items;
