@@ -22,7 +22,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
+      - name: Check the service key secret is set
+        id: key
+        env:
+          K: ${{ secrets.PORTAL_SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -z "$K" ]; then
+            echo "::warning::Secret PORTAL_SUPABASE_SERVICE_KEY is not set (repo Settings > Secrets and variables > Actions). Skipping sync."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Add new team members to the booking system
+        if: steps.key.outputs.ok == 'true'
         env:
           SUPABASE_URL: https://kknmrxopxnhirntmnwhb.supabase.co
           SUPABASE_SERVICE_KEY: ${{ secrets.PORTAL_SUPABASE_SERVICE_KEY }}
